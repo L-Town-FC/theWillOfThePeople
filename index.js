@@ -33,35 +33,36 @@ bot.on('message', message =>{
 bot.on('message', message =>{
     
     let args = message.content.substring(PREFIX.length).split(" ");
-    
-    switch(args[0]){
-        case 'ping':
-            bot.commands.get('ping').execute(message,args);
-        break;
-        case 'pug':
-            bot.commands.get('pug').execute(message,args); 
-        break;
-        case 'simmerdown':
-            bot.commands.get('simmerdown').execute(message,args);    
-        break;
-        case '21':
-            bot.commands.get('21').execute(message,args);
-        break;
-        case 'flip':
-            bot.commands.get('flip').execute(message,args);
-        break;
-        case 'council':
-            bot.commands.get('council').execute(message,args);
-        break;
-        case 'assblast':
-            bot.commands.get('assblast').execute(message,args);
-        break;
-        case 'bank':
-            bot.commands.get('bank').execute(message,args);
-        break;
-        case 'help':
-            bot.commands.get('help').execute(message);
-        break;
+    if (message.content.startsWith("!") == true){
+        switch(args[0]){
+            case 'ping':
+                bot.commands.get('ping').execute(message,args);
+            break;
+            case 'pug':
+                bot.commands.get('pug').execute(message,args); 
+            break;
+            case 'simmerdown':
+                bot.commands.get('simmerdown').execute(message,args);    
+            break;
+            case '21':
+                bot.commands.get('21').execute(message,args);
+            break;
+            case 'flip':
+                bot.commands.get('flip').execute(message,args);
+            break;
+            case 'council':
+                bot.commands.get('council').execute(message,args);
+            break;
+            case 'assblast':
+                bot.commands.get('assblast').execute(message,args);
+            break;
+            case 'bank':
+                bot.commands.get('bank').execute(message,args);
+            break;
+            case 'help':
+                bot.commands.get('help').execute(message);
+            break;
+        }
     }
 
 })
