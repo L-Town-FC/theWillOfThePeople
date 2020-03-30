@@ -1,0 +1,10 @@
+version: '3'
+services: 
+    bot:
+        container_name: discord-bot
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        image: atmollohan/bot
+        environment: 
+            - BOTTOKEN

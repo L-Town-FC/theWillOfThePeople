@@ -1,0 +1,5 @@
+!assblast standings: Lists the current standings for the assblast league
+
+!assblast clear: Clears the assblast standings
+
+!assblast place 1st 2nd 3rd: Write the names in order of placement after "!assblast place"

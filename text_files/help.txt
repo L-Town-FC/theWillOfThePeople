@@ -1,0 +1,13 @@
+!pug: Posts a random pug picture
+
+!simmerdown: Displays how many times specified user has said "simmer down"
+
+!21: Plays Blackjack
+
+!flip: Flips a coin
+
+!council: Gets input from the council
+
+!assblast: Displays and updates assblast standings
+
+!bank: Displays how many good boy points the specified user has

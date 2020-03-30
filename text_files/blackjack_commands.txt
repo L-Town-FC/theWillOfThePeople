@@ -1,0 +1,9 @@
+!21 deal "bet": Starts game of blackjack with specified bet
+
+!21 hit: Gives player additional card
+
+!21 stay: Makes player stay
+
+!21 hands: Resends dealer and player hands
+
+!21 doubledown: Doubles bet for one more card
