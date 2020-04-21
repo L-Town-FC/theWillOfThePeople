@@ -1,7 +1,7 @@
 module.exports = {
     name: '21',
     description: 'plays black jack',
-    execute(message,args){
+    execute(message,args,total_money){
         const fs = require('fs');
         const Discord = require('discord.js');
         const suit = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
@@ -22,7 +22,7 @@ module.exports = {
             case 'deal':
                 if (typeof(player_hand_value) == 'undefined'){
                     //if no hands exist then a hand may be started
-                    if(typeof(bet) == 'string' && parseFloat(bet) > 0){
+                    if(typeof(bet) == 'string' && parseFloat(bet) > 25 && parseFloat(bet) < parseFloat(total_money)){
                         //if no bet is made then hand cant be started
                         bet2 = bet;
                         //hold bet value so it can't be overwritten until new deal
@@ -83,7 +83,7 @@ module.exports = {
                             bet2 = parseFloat(bet2) * 1.5;
                         }
                     }else{
-                        message.channel.send('Please place a valid bet');
+                        message.channel.send('Please place a valid bet greater than 10 gbp');
                     }
                 }else{
                     message.channel.send('Hand is already ongoing');

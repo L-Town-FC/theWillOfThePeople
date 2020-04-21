@@ -30,7 +30,9 @@ module.exports = {
                                     "Raccoon looking ass", "You guys listen to that new Tom A", "Flat-ass-havin-ass-bitch","I bet you listened to the last episode of Delivering opinions", "Get that dick out of your mouth you cheeky cunt",
                                     "Simmer down", "I wouldn't fuck your feet if you begged me to", "You're proof that god is dead", "You aren't the sharpest tool in the shed, are ya?", "Komi-san doesn't like you",
                                     "Gamers don't stand with you", "You're a fucking cocksucka", "Justin Ratte beat you in a fight", "I can't stand to look at you", "This loser failed No Nut November on day 1",
-                                    "Give your balls a tug ya titfucker", "I'd like to slap the shit out of you"]
+                                    "Give your balls a tug ya titfucker", "I'd like to slap the shit out of you", "You've got small tits and a flat ass", "You're actually pretty cool.... Sike, you suck", "I find your tastes shallow and pedantic",
+                                    "Lol. Try again", "You're hair is so yellow", "I've had enough of your tomfoolery", "Its time to put a stop to your malarkey", "Get a load of this guy", "You make Jacob look literate",
+                                    "I broke up with my ex girl. Here's the number.\nSIKE. Thats the wrong number"]
                     message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
                     name_count = 1;
                 }

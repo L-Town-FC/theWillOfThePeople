@@ -3,6 +3,7 @@ const bot = new Discord.Client();
 const token = process.env.BOTTOKEN;
 const PREFIX = "!";
 
+
 const fs = require('fs');
 bot.commands = new Discord.Collection();
 
@@ -26,6 +27,7 @@ bot.on('ready', () => {
 bot.on('message', message =>{
     bot.commands.get('simmerdowncount').execute(message);
     bot.commands.get('alex_insults').execute(message);
+    bot.commands.get('more_money').execute(message);
     //commands that parse all messages
 })
 
@@ -45,7 +47,7 @@ bot.on('message', message =>{
                 bot.commands.get('simmerdown').execute(message,args);    
             break;
             case '21':
-                bot.commands.get('21').execute(message,args);
+                bot.commands.get('21').execute(message,args,total_money(message.author.discriminator));
             break;
             case 'flip':
                 bot.commands.get('flip').execute(message,args);
@@ -68,3 +70,29 @@ bot.on('message', message =>{
 })
 
 bot.login(token);
+
+
+function total_money(person) {
+    var total_money = "";
+    var user_money = [];
+    var array = [];
+    var holdings = fs.readFileSync('./text_files/currency.txt','utf8');
+    var user_and_currency = holdings.split(",");
+    for (i = 0; i < user_and_currency.length; i++) {
+        user_money[i] = user_and_currency[i].split(" ");
+    }
+    //breaks .txt into individual person/money pairs
+
+    for (i = 0; i < user_money.length; i++) {
+        array[i] = {discrim: user_money[i][0],
+                    name: user_money[i][1],
+                    money: user_money[i][2]}
+    }
+
+    for (i = 0; i < array.length; i++){
+        if (array[i].discrim == person){
+            total_money = array[i].money;
+            return total_money
+        }
+    }
+}
