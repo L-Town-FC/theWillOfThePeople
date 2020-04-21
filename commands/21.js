@@ -15,6 +15,7 @@ module.exports = {
         var blackjack = false;
         var bet = args[2];
         var gambler = message.author.discriminator;
+        var min_bet = 25;
         card = [];
         dummycard = [];
 
@@ -22,7 +23,7 @@ module.exports = {
             case 'deal':
                 if (typeof(player_hand_value) == 'undefined'){
                     //if no hands exist then a hand may be started
-                    if(typeof(bet) == 'string' && parseFloat(bet) > 25 && parseFloat(bet) < parseFloat(total_money)){
+                    if(typeof(bet) == 'string' && parseFloat(bet) > min_bet && parseFloat(bet) < parseFloat(total_money)){
                         //if no bet is made then hand cant be started
                         bet2 = bet;
                         //hold bet value so it can't be overwritten until new deal
@@ -83,7 +84,7 @@ module.exports = {
                             bet2 = parseFloat(bet2) * 1.5;
                         }
                     }else{
-                        message.channel.send('Please place a valid bet greater than 10 gbp');
+                        message.channel.send(`Please place a valid bet greater than ${min_bet} gbp`);
                     }
                 }else{
                     message.channel.send('Hand is already ongoing');

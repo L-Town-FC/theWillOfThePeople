@@ -9,9 +9,10 @@ module.exports = {
         if (message.author === bot.user){
             //Screens out bot's messages
         }else{
-            var counter = fs.readFileSync('./text_files/insult_counter.txt','utf8');
-            name_count = parseInt(counter);
-            if (message.author.discriminator == 4682 ){
+            var insulted_counter= fs.readFileSync('./text_files/insult_counter.txt','utf8');
+            var insult_counter_pair = insulted_counter.split(" ");
+            var name_count = parseInt(insult_counter_pair[1]);
+            if (insult_counter_pair[0] == message.author.discriminator){
                 //checks if author or message mathces the intended target
                 if (parseInt(name_count) <= 3){
                     name_count = name_count + 1;
@@ -39,7 +40,7 @@ module.exports = {
                 //Checks when the last time the command was ran and runs command if its been too long since last execution
             }
         }
-        fs.writeFileSync('./text_files/insult_counter.txt', name_count);
+        fs.writeFileSync('./text_files/insult_counter.txt', insult_counter_pair[0] + " " + name_count);
     }
 
 }
