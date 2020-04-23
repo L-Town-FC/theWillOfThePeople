@@ -11,3 +11,7 @@
 !assblast: Displays and updates assblast standings
 
 !bank: Displays how many good boy points the specified user has
+
+!insults: Allows you to see who is currently being insulted or to change who is being insulted for 2500 gbp
+
+!delete: Deletes previous messages at a cost of 1000 gbp per message

@@ -83,6 +83,8 @@ module.exports = {
                             blackjack = true;
                             bet2 = parseFloat(bet2) * 1.5;
                         }
+                    }else if(bet > total_money){
+                        message.channel.send("You don't that many gpbs");
                     }else{
                         message.channel.send(`Please place a valid bet greater than ${min_bet} gbp`);
                     }
@@ -150,36 +152,41 @@ module.exports = {
                 }else if(player_hand.length > 2){
                     message.channel.send("You can't double down after you have already hit once");
                 }else{
-                    bet2 = parseFloat(bet2) * 2;
-                    i = card.length + 1;
-                    card[i] = suit[Math.floor(Math.random()*suit.length)];
-                    player_hand_value.push(card[i]);
-                    if (card[i] == 10){
-                        dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
-                    }else if (card[i] == 11){
-                        dummycard[i] = 'A';
+                    if(total_money >= 2 * bet){
+                        bet2 = parseFloat(bet2) * 2;
                     }else{
-                        dummycard[i] = card[i];
+                        bet2 = total_money;
+                        message.channel.send(`You didn't have enough for a full double down so you double downed for less. You're new bet is ${total_money}`)
                     }
-                    //generates a new card for the player. If the card is a 10 it turns it into either a 10, J, Q, or King
-                    //If the card is an 11 it converts it into an ace. Otherwise the card doesn't change
-                    
-                    player_hand.push(dummycard[i]);
-                    message.channel.send(`Player's hand: ${player_hand.join()}`);
-                    //adds card to players hand and send message with contents of hand to player
-
-
-                    if (sum(player_hand_value) > 21){
-                        if (player_hand_value.indexOf(11) !== -1){
-                            player_hand_value[player_hand_value.indexOf(11)] = 1;
+                    i = card.length + 1;
+                        card[i] = suit[Math.floor(Math.random()*suit.length)];
+                        player_hand_value.push(card[i]);
+                        if (card[i] == 10){
+                            dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
+                        }else if (card[i] == 11){
+                            dummycard[i] = 'A';
                         }else{
-                            message.channel.send('Player busts');
-                            isPlayerbust = true;
+                            dummycard[i] = card[i];
                         }
-                    }
-                    //checks if player is above 21. If they have an ace its value becomes 1 
-                    //If they don't have an ace they busted
-                    isStay = true;
+                        //generates a new card for the player. If the card is a 10 it turns it into either a 10, J, Q, or King
+                        //If the card is an 11 it converts it into an ace. Otherwise the card doesn't change
+                        
+                        player_hand.push(dummycard[i]);
+                        message.channel.send(`Player's hand: ${player_hand.join()}`);
+                        //adds card to players hand and send message with contents of hand to player
+
+
+                        if (sum(player_hand_value) > 21){
+                            if (player_hand_value.indexOf(11) !== -1){
+                                player_hand_value[player_hand_value.indexOf(11)] = 1;
+                            }else{
+                                message.channel.send('Player busts');
+                                isPlayerbust = true;
+                            }
+                        }
+                        //checks if player is above 21. If they have an ace its value becomes 1 
+                        //If they don't have an ace they busted
+                        isStay = true;
                 }
             break;
 

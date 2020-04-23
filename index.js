@@ -64,7 +64,9 @@ bot.on('message', message =>{
             case 'insults':
                 bot.commands.get('insults').execute(message,args,total_money(message.author.discriminator));
             break;
-
+            case 'delete':
+                bot.commands.get('delete').execute(message,args,total_money(message.author.discriminator));
+            break;
             case 'help':
                 bot.commands.get('help').execute(message);
             break;

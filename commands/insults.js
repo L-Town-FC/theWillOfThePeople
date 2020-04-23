@@ -9,8 +9,7 @@ module.exports = {
         var array = [];
         var discrim_name_money = [];
         var names = [];
-        var price = 100;
-
+        var price = 2500;
 
         for (i = 0; i < groups.length; i++) {
             discrim_name_money[i] = groups[i].split(" ");
