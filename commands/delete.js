@@ -11,7 +11,8 @@ module.exports = {
             var total_cost = cost * num;
             if (total_money >= total_cost){
                 purchase(cost, message.author.discriminator);
-                message.channel.bulkDelete(num);
+                message.channel.bulkDelete(parseInt(num) + 1);
+                message.channel.send(`${num} message has been deleted`);
             }else{
                 message.channel.send(`This command costs ${total_cost} gbps`)
             }
@@ -19,8 +20,9 @@ module.exports = {
             var num = args[1];
             var total_cost = cost * num;
             if (total_money >= total_cost){
-                purchase(cost, message.author.discriminator);
-                message.channel.bulkDelete(num);
+                purchase(total_cost, message.author.discriminator);
+                message.channel.bulkDelete(parseInt(num) + 1);
+                message.channel.send(`${num} message has been deleted`);
             }else{
                 message.channel.send(`This command costs ${total_cost} gbps`)
             }

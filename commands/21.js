@@ -23,7 +23,7 @@ module.exports = {
             case 'deal':
                 if (typeof(player_hand_value) == 'undefined'){
                     //if no hands exist then a hand may be started
-                    if(typeof(bet) == 'string' && parseFloat(bet) > min_bet && parseFloat(bet) < parseFloat(total_money)){
+                    if(typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) < parseFloat(total_money)){
                         //if no bet is made then hand cant be started
                         bet2 = bet;
                         //hold bet value so it can't be overwritten until new deal
@@ -86,7 +86,7 @@ module.exports = {
                     }else if(bet > total_money){
                         message.channel.send("You don't that many gpbs");
                     }else{
-                        message.channel.send(`Please place a valid bet greater than ${min_bet} gbp`);
+                        message.channel.send(`Please place a valid bet of ${min_bet} or greater gbp`);
                     }
                 }else{
                     message.channel.send('Hand is already ongoing');
