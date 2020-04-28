@@ -70,6 +70,9 @@ bot.on('message', message =>{
             case 'guessgame':
                 bot.commands.get('guessgame').execute(message,args,total_money(message.author.discriminator));
             break;
+            case 'transfer':
+                bot.commands.get('transfer').execute(message,args,total_money(message.author.discriminator));
+            break;
             case 'help':
                 bot.commands.get('help').execute(message);
             break;
