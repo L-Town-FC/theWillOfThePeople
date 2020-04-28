@@ -22,6 +22,7 @@ module.exports = {
                 }else if (typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) < parseFloat(total_money)){
                     message.channel.send("Your bet is accepted. Please guess the number between 0 and 100. You have 3 guesses");
                     first_guess(person, bet);
+                    purchase(bet, message.author.discriminator);
                 }else{
                     message.channel.send(`Please place a valid bet of ${min_bet} gbp or greater`)
                 }
@@ -46,6 +47,7 @@ module.exports = {
                 fs.writeFileSync('./text_files/guessgame.txt', `0 0 0 0`);
             }else{
                 message.channel.send(`You win ${10 * parseInt(bet2)} gbp`);
+                purchase(-10 * parseInt(bet2), message.author.discriminator);
                 fs.writeFileSync('./text_files/guessgame.txt', `0 0 0 0`);
             }
         }
@@ -142,5 +144,41 @@ function first_guess(player, bet){
 
     var updated_status = `1 ${magic_number} ${player} ${bet}`
     fs.writeFileSync('./text_files/guessgame.txt', updated_status);
+}
 
+function purchase(bet_value, player) {
+    const fs = require('fs');
+    const Discord = require('discord.js');
+    var user_and_currency = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
+    var user_money = [];
+    var array = [];
+    var final_array = [];
+
+    for (i = 0; i < user_and_currency.length; i++) {
+        user_money[i] = user_and_currency[i].split(" ");
+    }
+    //breaks .txt into individual person/money pairs
+
+
+    for (i = 0; i < user_money.length; i++) {
+        array[i] = {discrim: user_money[i][0],
+                    name: user_money[i][1],
+                    money: user_money[i][2]}
+    }
+    //turns each pair into an object array
+
+    for (i = 0; i < array.length; i++) {
+        if (array[i].discrim === player){
+            array[i].money = String(parseFloat(array[i].money) - parseFloat(bet_value));
+        }
+    }
+    //compares the current players name to all other server names to see where to attribute bet to
+    
+
+    for (j = 0; j < array.length; j++) {
+        final_array[j] = array[j].discrim + " " + array[j].name + " " + array[j].money;
+    }
+    //converts object array back into normal array that can be easily written into a text file
+
+    fs.writeFileSync('./text_files/currency.txt', final_array);
 }
