@@ -9,6 +9,11 @@ module.exports = {
         .addField('List of Commands', help_commands);
         message.channel.send(help_embed);
                 //creates embed from text file that contains all commands
+        
+        /*        
+        const attachment = new Discord.Attachment('./text_files/help.txt');
+        message.channel.send(attachment)
+        */
     }
 
 }

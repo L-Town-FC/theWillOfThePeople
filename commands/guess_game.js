@@ -37,8 +37,18 @@ module.exports = {
             case 'status':
                 if (is_Ongoing()[0] == false){
                     message.channel.send('Noone is currently playing')
+                }else{
+                    message.channel.send(`${is_Ongoing()[1]} is currently playing and is on guess number ${is_Ongoing[0]}`)
                 }
             break;
+            case 'help':
+                var guessgame_commands = fs.readFileSync('./text_files/guessgame_commands.txt','utf8');
+                const help_embed = new Discord.RichEmbed()
+                .addField('List of Commands', guessgame_commands);
+                message.channel.send(help_embed);
+            break;
+            default:
+                message.channel.send('Use the command !guessgame help for a lsit of commands');
         }
 
         if(is_Ongoing()[2] >= 4 || result == true){

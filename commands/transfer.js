@@ -25,15 +25,14 @@ module.exports = {
 
         if(names.includes(recipient) !== true){
             message.channel.send("That recipient doesn't exist");
-        }else if(parseInt(amount) >! 0){
-            message.channel.send("You must send a valid amount of greater than 0");
+            message.channel.send("The format is !transfer [Person you want to transfer to] [amount to transfer]")
+        }else if(amount <= 0 || isNaN(amount) == true){
+            message.channel.send("You must send a valid amount of greater than 0 gbp");
+            message.channel.send("The format is !transfer [Person you want to transfer to] [amount to transfer]");
+        }else{
+            give_money(initiator, recipient, amount);
         }
-
-        give_money(initiator, recipient, amount);
-
-        
     }
-
 }
 
 function give_money(initiator, recipient, amount) {

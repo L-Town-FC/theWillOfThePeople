@@ -3,7 +3,6 @@ const bot = new Discord.Client();
 const token = process.env.BOTTOKEN;
 const PREFIX = "!";
 
-
 const fs = require('fs');
 bot.commands = new Discord.Collection();
 
@@ -73,9 +72,14 @@ bot.on('message', message =>{
             case 'transfer':
                 bot.commands.get('transfer').execute(message,args,total_money(message.author.discriminator));
             break;
+            case 'kumiko':
+                bot.commands.get('kumiko').execute(message,args,total_money(message.author.discriminator));
+            break;
             case 'help':
                 bot.commands.get('help').execute(message);
             break;
+            default:
+                message.channel.send('Use command !help for a list of commands');
         }
     }
 

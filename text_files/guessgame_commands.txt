@@ -1,0 +1,5 @@
+!guessgame bet "bet amount": Starts game with specified bet
+
+!guessgame guess "guess number": Use 1 of your guesses to try and guess the correct number
+
+!guessgame status: Names if anyone is playing and what guess they are on

@@ -34,7 +34,6 @@ module.exports = {
                 }
 
                 //converts array pieces into original text format
-                console.log(sorted_standings_array);
                 
                 const embed = new Discord.RichEmbed()
                 .addField('Standings', sorted_standings_array);
@@ -62,9 +61,7 @@ module.exports = {
                 for (i = 2; i < args.length; i++) {
                     names[i-2] = String(args[i]).toLowerCase();
                 }
-            
-                console.log(just_names);
-                console.log(names);
+        
 
                 for (i = 0; i < scores.length; i++) {
                     array[i] = {name: scores[i][0],
