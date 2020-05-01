@@ -33,9 +33,11 @@ module.exports = {
                                     "Gamers don't stand with you", "You're a fucking cocksucka", "Justin Ratte beat you in a fight", "I can't stand to look at you", "This loser failed No Nut November on day 1",
                                     "Give your balls a tug ya titfucker", "I'd like to slap the shit out of you", "You've got small tits and a flat ass", "You're actually pretty cool.... Sike, you suck", "I find your tastes shallow and pedantic",
                                     "Lol. Try again", "You're hair is so yellow", "I've had enough of your tomfoolery", "Its time to put a stop to your malarkey", "Get a load of this guy", "You make Jacob look literate",
-                                    "I broke up with my ex girl. Here's the number.\nSIKE. Thats the wrong number"]
+                                    "I broke up with my ex girl. Here's the number.\nSIKE. Thats the wrong number", "You uncultured swine","Hahaha you stupid fuckin bitch", "You probably still pay for PornHub Premium", "You smell like asparagus pee", 
+                                    "Have at thee you wretched beast", "Fucking knob"]
                     message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
                     name_count = 1;
+                    
                 }
                 //Checks when the last time the command was ran and runs command if its been too long since last execution
             }
