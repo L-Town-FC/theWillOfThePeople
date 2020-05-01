@@ -39,7 +39,8 @@ module.exports = {
                 // Send result
                 message.channel.send( urls[Math.floor(Math.random() * urls.length)]);
             });
-            if(message.channel.name == 'test'){
+            
+            if(message.channel.name == `people’s-pugilism`){
                 total_money(message.author.discriminator);
             }
         }
@@ -69,7 +70,6 @@ function total_money(person) {
     for (i = 0; i < array.length; i++){
         if (array[i].discrim == person){
             array[i].money = parseFloat(array[i].money) + 5;
-            console.log("success");
         }
     }
 

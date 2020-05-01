@@ -34,7 +34,7 @@ module.exports = {
             }
             //Checks if given name is someone in the server and responds with number of times they have said simmer down if they exist
         }else{
-            message.channel.send('Invalid name');
+            message.channel.send('Please specify a valid name after !simmerdown');
         }
     }
 }

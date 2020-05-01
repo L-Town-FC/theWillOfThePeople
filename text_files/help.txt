@@ -18,6 +18,6 @@
 
 !guessgame: Try to guess a number between 1 and 100 with 3 guesses. Guess correctly to get a 10x payout
 
-!kumiko: Posts a picture of Kumiko from the critically acclaimed show Hibike Euphonium
+!kumiko: Posts a picture of Kumiko from the critically acclaimed show Hibike Euphonium for 25 gbp a picture
 
 !transfer: Allows a person to transfer some of their gbp to another person

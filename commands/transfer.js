@@ -31,6 +31,7 @@ module.exports = {
             message.channel.send("The format is !transfer [Person you want to transfer to] [amount to transfer]");
         }else{
             give_money(initiator, recipient, amount);
+            message.channel.send(`You have successfully transferred ${amount} gbp to ${recipient}`);
         }
     }
 }
