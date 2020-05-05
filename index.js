@@ -38,7 +38,6 @@ bot.on('message', message =>{
         switch(args[0]){
             case 'ping':
                 bot.commands.get('ping').execute(message,args);
-                console.log(args)
             break;
             case 'pug':
                 bot.commands.get('pug').execute(message,args); 

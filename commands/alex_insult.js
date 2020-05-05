@@ -37,9 +37,11 @@ module.exports = {
                                     "Have at thee you wretched beast", "Fucking knob", "NEEEEEERRRRRDDDDDD", "You're worse than Ian with airpods", "ur gay lol", "Get a load of this simp","You're pound for pound a worse person than Andrew", 
                                     "I'll lick Colin up and down", "Oooooooooohhhh, looks like we got a badass here", "Nice toes, mind if I suck'em", "I hate you as much as Zaid loves slice of life anime",
                                     "Say one more thing and I'll come over there and kiss you right on the lips", "Your moves are weak", "Smooth moves exlax", "You're weaker than Andrew's immune system", "Zaid really needs to stop watching so much twitch. Don't you think?",
-                                    "I'm commin for that ass", "Alex is a fiend for filipino boipussi"]
+                                    "I'm commin for that ass", "Alex is a fiend for filipino boipussi", "You're so 2000-late", "Derek is a chick", "Nice cock bro", "What are you doing stepbro", "It was not my penis, but my penis hole", "I did not have sexual relations with Derek Mollohans",
+                                    "Do you kiss your father with that mouth?", "Fucking Alexander", "God dang it Bobby", "I bet you still wear a training bra"]
                     message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
                     name_count = 1;
+                    console.log(insults.length);
                     
                 }
                 //Checks when the last time the command was ran and runs command if its been too long since last execution
