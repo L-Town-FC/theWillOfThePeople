@@ -14,7 +14,7 @@ module.exports = {
             var name_count = parseInt(insult_counter_pair[1]);
             if (insult_counter_pair[0] == message.author.discriminator){
                 //checks if author or message mathces the intended target
-                if (parseInt(name_count) <= 3){
+                if (parseInt(name_count) <= 7){
                     name_count = name_count + 1;
                 }else{
                     var insults = ['Fuck You', 'You Fucking Troglodyte', 'Fuckin Doo Doo Brains',"You are so repulsive that even Zaid won't suck your toes",
