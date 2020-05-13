@@ -10,24 +10,47 @@ module.exports = {
         var command = args[1];
         var amount = args[2];
         var price = 5;
+        var money_spent = price * parseInt(amount);
+        var lottery_stats = fs.readFileSync('./text_files/lottery_stats.txt','utf8').split(",");
 
         switch(command){
             case 'buy':
                 if(amount <= 0){
                     message.channel.send("Please choose a number of tickets greater than 0")
                 }else if(isNaN(amount) == true){
-                    purchase(price, message.author.discriminator);
-                    attempt(1, message.author.discriminator, price)
+                    
+                    if(price < total_money){
+                        purchase(price, message.author.discriminator);
+                        if(attempt(1, message.author.discriminator, price) == true){
+                        message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} tries to win. Your prize is ${lottery_stats[1]}`)
+                        purchase(-1 * lottery_stats[1], message.author.discriminator);
+                        fs.writeFileSync('./text_files/lottery_stats.txt', "0,10000");
+                        }else{
+                            message.channel.send("Sorry. Try again");
+                        }
+                    }else{
+                        message.channel.send(`You need at least ${price} gbp for this command`)
+                    }
+
                 }else if(parseInt(amount) !== parseFloat(amount)){
                     message.channel.send("Please choose a whole number for the amount of tickets");
                 }else{
-                    purchase(amount*price, message.author.discriminator);
-                    attempt(amount, message.author.discriminator, price);
+                    if(money_spent < total_money){
+                        purchase(amount*price, message.author.discriminator);
+                        if(attempt(amount, message.author.discriminator, money_spent) == true){
+                            message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} to win. Your prize is ${lottery_stats[1]} gbp`)
+                            purchase(-1 * lottery_stats[1], message.author.discriminator);
+                            fs.writeFileSync('./text_files/lottery_stats.txt', "0,10000");
+                        }else{
+                            message.channel.send("Sorry. Try again");
+                        }
+                    }else{
+                        message.channel.send(`You need at least ${money_spent} to buy ${amount} tickets`);
+                    }
                 }
             break;
 
             case 'stats':
-                var lottery_stats = fs.readFileSync('./text_files/lottery_stats.txt','utf8').split(" ");
                 var num_of_guesses = lottery_stats[0];
                 var total_pot = lottery_stats[1];
                 message.channel.send(`The pot is currently at ${total_pot} gbp. ${num_of_guesses} guesses have been made.`)
@@ -47,15 +70,15 @@ module.exports = {
 
 }
 
-function attempt(amount, player, price){
+function attempt(amount, player, money_spent){
     const fs = require('fs');
     const Discord = require('discord.js');
-    var lottery_stats = fs.readFileSync('./text_files/lottery_stats.txt','utf8').split(" ");
+    var lottery_stats = fs.readFileSync('./text_files/lottery_stats.txt','utf8').split(",");
     var tickets = [];
-    var remaining_numbers = 50000 - parseInt(lottery_stats[0]);
+    var max_guesses = 50000
+    var remaining_numbers = parseInt(max_guesses) - parseInt(lottery_stats[0]);
 
     for(i = 0; i < amount; i++){
-        console.log(i);
         tickets[i] = Math.ceil(Math.random()*remaining_numbers);
         var duplicate = true;
         while(duplicate == true){
@@ -64,18 +87,20 @@ function attempt(amount, player, price){
             }else{
                 duplicate = false;
                 tickets[i] = Math.ceil(Math.random()*remaining_numbers);
-                console.log(find_duplicate_in_array(tickets));
-                console.log(tickets)
             }
         }
     }
 
     if(tickets.includes(1) == true){
-        message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} to win. Your prize is ${lottery_stats[1]}`)
+        lottery_stats[0] = parseInt(lottery_stats[0]) + parseInt(amount);
+        lottery_stats[1] = parseInt(lottery_stats[1]) + parseInt(money_spent);
+        fs.writeFileSync('./text_files/lottery_stats.txt', lottery_stats);
+        return true
     }else{
         lottery_stats[0] = parseInt(lottery_stats[0]) + parseInt(amount);
-        lottery_stats[1] = parseInt(lottery_stats[1]) + (amount * price);
+        lottery_stats[1] = parseInt(lottery_stats[1]) + parseInt(money_spent);
         fs.writeFileSync('./text_files/lottery_stats.txt', lottery_stats);
+        return false
     }
 
 
@@ -97,8 +122,8 @@ function attempt(amount, player, price){
         }
 
         return result;
-
-    }    
+    }
+    
 }
 
 
@@ -115,27 +140,21 @@ function purchase(bet_value, player) {
         user_money[i] = user_and_currency[i].split(" ");
     }
     //breaks .txt into individual person/money pairs
-
-
     for (i = 0; i < user_money.length; i++) {
         array[i] = {discrim: user_money[i][0],
                     name: user_money[i][1],
                     money: user_money[i][2]}
     }
     //turns each pair into an object array
-
     for (i = 0; i < array.length; i++) {
         if (array[i].discrim === player){
             array[i].money = String(parseFloat(array[i].money) - parseFloat(bet_value));
         }
     }
     //compares the current players name to all other server names to see where to attribute bet to
-    
-
     for (j = 0; j < array.length; j++) {
         final_array[j] = array[j].discrim + " " + array[j].name + " " + array[j].money;
     }
     //converts object array back into normal array that can be easily written into a text file
-
     fs.writeFileSync('./text_files/currency.txt', final_array);
 }
