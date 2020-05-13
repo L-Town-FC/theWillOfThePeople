@@ -41,8 +41,6 @@ module.exports = {
                                     "Do you kiss your father with that mouth?", "Fucking Alexander", "God dang it Bobby", "I bet you still wear a training bra"]
                     message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
                     name_count = 1;
-                    console.log(insults.length);
-                    
                 }
                 //Checks when the last time the command was ran and runs command if its been too long since last execution
             }

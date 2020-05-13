@@ -152,7 +152,7 @@ module.exports = {
                 }else if(player_hand.length > 2){
                     message.channel.send("You can't double down after you have already hit once");
                 }else{
-                    if(total_money >= 2 * bet){
+                    if(parseFloat(total_money) >= 2 * parseFloat(bet2)){
                         bet2 = parseFloat(bet2) * 2;
                     }else{
                         bet2 = total_money;
@@ -188,10 +188,6 @@ module.exports = {
                         //If they don't have an ace they busted
                         isStay = true;
                 }
-            break;
-
-            case 'split':
-                message.channel.send('split');
             break;
 
             case 'stay':

@@ -20,15 +20,17 @@ module.exports = {
         }
 
         for (i = 0; i < full_list_split.length; i++){
-            names[i] = full_list_split[i][1];
+            names[i] = full_list_split[i][1].toLowerCase();
         }
 
-        if(names.includes(recipient) !== true){
+        if(names.includes(recipient.toLowerCase()) !== true){
             message.channel.send("That recipient doesn't exist");
             message.channel.send("The format is !transfer [Person you want to transfer to] [amount to transfer]")
         }else if(amount <= 0 || isNaN(amount) == true){
             message.channel.send("You must send a valid amount of greater than 0 gbp");
             message.channel.send("The format is !transfer [Person you want to transfer to] [amount to transfer]");
+        }else if(amount > total_money){
+            message.channel.send("You are trying to transfer more gbp than you currently have");
         }else{
             give_money(initiator, recipient, amount);
             message.channel.send(`You have successfully transferred ${amount} gbp to ${recipient}`);

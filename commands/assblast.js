@@ -45,10 +45,12 @@ module.exports = {
 
             break;
 
-            case 'place':
+            case 'points':
+                var name = args[2];
+                var points = args[3];
                 var standings = fs.readFileSync('./text_files/standings.txt','utf8');
                 var player_and_scores = standings.split(",");
-
+                var final_array = [];
 
                 for (i = 0; i < player_and_scores.length; i++) {
                     scores[i] = player_and_scores[i].split(" ");
@@ -57,42 +59,33 @@ module.exports = {
                 for (i = 0; i < scores.length; i++) {
                     just_names[i] = String(scores[i][0]).toLowerCase();
                 }
-
-                for (i = 2; i < args.length; i++) {
-                    names[i-2] = String(args[i]).toLowerCase();
-                }
         
-
                 for (i = 0; i < scores.length; i++) {
                     array[i] = {name: scores[i][0],
                                 score: scores[i][1]}
                 }
 
-                if(just_names.includes(names[0]) === true && just_names.includes(names[1]) === true && just_names.includes(names[2]) === true){
-                    for (i = 0; i < array.length; i++) {
-                        if(array[i].name.toLowerCase() === names[0]){
-                            array[i].score = String(parseInt(array[i].score) + 4);
+                if(just_names.includes(name.toLowerCase()) == true){
+                    if(points == 0 || isNaN(points) == true){
+                        message.channel.send("Please include a valid # of points")
+                    }else{
+                        for(i = 0; i < array.length; i++){
+                            if(array[i].name.toLowerCase() == name.toLowerCase()){
+                                array[i].score = parseInt(array[i].score) + parseInt(points);
+                            }
                         }
-                        else if(array[i].name.toLowerCase() === names[1]){
-                            array[i].score = String(parseInt(array[i].score) + 2);
+                        for (j = 0; j < array.length; j++) {
+                            final_array[j] = array[j].name + " " + array[j].score;
                         }
-                        else if(array[i].name.toLowerCase() === names[2]){
-                            array[i].score = String(parseInt(array[i].score) + 1);
-                        }
-                        //checks if each given name location in the message to assign points to the standings
-
+                        fs.writeFileSync('./text_files/standings.txt', final_array);
+                        message.channel.send("Standings have been updated");
                     }
-                    message.channel.send("Standings have been updated"); 
                 }else{
-                    message.channel.send('Please Give 3 Valid Names');
-                }
-                for (j = 0; j < array.length; j++) {
-                    sorted_standings_array[j] = array[j].name + " " + array[j].score;
-                    //joins info together to make it possible to rewrite text file
+                    message.channel.send("Please give a valid name");
                 }
 
-                fs.writeFileSync('./text_files/standings.txt', sorted_standings_array);
 
+                
             break;
 
             case 'clear':
