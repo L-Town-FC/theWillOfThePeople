@@ -75,6 +75,9 @@ bot.on('message', message =>{
             case 'kumiko':
                 bot.commands.get('kumiko').execute(message,args,total_money(message.author.discriminator));
             break;
+            case 'lottery':
+                bot.commands.get('lottery').execute(message,args, total_money(message.author.discriminator))
+            break;
             case 'help':
                 bot.commands.get('help').execute(message);
             break;
