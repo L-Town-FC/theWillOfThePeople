@@ -26,7 +26,7 @@ module.exports = {
                         purchase(-1 * lottery_stats[1], message.author.discriminator);
                         fs.writeFileSync('./text_files/lottery_stats.txt', "0,10000");
                         }else{
-                            message.channel.send("Sorry. Try again");
+                            message.channel.send("Sorry. Better luck next time");
                         }
                     }else{
                         message.channel.send(`You need at least ${price} gbp for this command`)

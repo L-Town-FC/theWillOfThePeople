@@ -1,0 +1,3 @@
+!herald buy [Number of Sets]: Allows you to rent a herald who will say all of your messages for you. Each set consists of 10 messages and costs 5000 gbp per set. If no number is specified, it defaults to 1
+
+!herald stats: Shows you who currently is using the herald and how many uses they have left

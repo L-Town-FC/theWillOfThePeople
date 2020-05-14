@@ -25,9 +25,9 @@ bot.on('ready', () => {
 
 bot.on('message', message =>{
     bot.commands.get('simmerdowncount').execute(message);
+    bot.commands.get('herald_counter').execute(message);
     bot.commands.get('alex_insults').execute(message);
     bot.commands.get('more_money').execute(message);
-    //commands that parse all messages
 })
 
 
@@ -77,6 +77,9 @@ bot.on('message', message =>{
             break;
             case 'lottery':
                 bot.commands.get('lottery').execute(message,args, total_money(message.author.discriminator))
+            break;
+            case 'herald':
+                bot.commands.get('herald').execute(message,args, total_money(message.author.discriminator))
             break;
             case 'help':
                 bot.commands.get('help').execute(message);
