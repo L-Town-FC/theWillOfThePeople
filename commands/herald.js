@@ -15,8 +15,10 @@ module.exports = {
 
         switch(command){
             case 'buy':
-                if(amount <= 0){
-                    message.channel.send("Please choose a whole number of greater than 0")
+                if(herald_stats[0] != 0){
+                    message.channel.send(`${name(message.author.discriminator)} is already employing the herald. You will have to wait until they run out of uses`)
+                }else if(amount <= 0){
+                    message.channel.send('Please choose a whole number greater than 0');
                 }else if(isNaN(amount) == true){
                     
                     if(price < total_money){

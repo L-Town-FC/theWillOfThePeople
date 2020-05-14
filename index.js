@@ -22,12 +22,14 @@ bot.on('ready', () => {
     console.log('This bot is online')
 })
 
+var test ="";
 
 bot.on('message', message =>{
     bot.commands.get('simmerdowncount').execute(message);
-    bot.commands.get('herald_counter').execute(message);
+    bot.commands.get('herald_counter').execute(message,test);
     bot.commands.get('alex_insults').execute(message);
     bot.commands.get('more_money').execute(message);
+    //console.log(message)
 })
 
 
