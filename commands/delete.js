@@ -14,7 +14,7 @@ module.exports = {
                 message.channel.bulkDelete(parseInt(num) + 1);
                 message.channel.send(`${num} message has been deleted`);
             }else{
-                message.channel.send(`This command costs ${total_cost} gbps`)
+                message.channel.send(`This command costs ${total_cost} gbp`)
             }
         }else if(parseInt(args[1]) > 0){
             var num = args[1];
@@ -24,7 +24,7 @@ module.exports = {
                 message.channel.bulkDelete(parseInt(num) + 1);
                 message.channel.send(`${num} message has been deleted`);
             }else{
-                message.channel.send(`This command costs ${total_cost} gbps`)
+                message.channel.send(`This command costs ${total_cost} gbp`)
             }
         }else{
             message.channel.send("Use the commmand as the following: \n \n!delete #_of_messages_to_delete \n \nIf no number is specified it is assumed to be one")

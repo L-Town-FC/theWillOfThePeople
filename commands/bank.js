@@ -29,7 +29,7 @@ module.exports = {
         if (typeof(args[1]) == 'undefined' ){
             for (i = 0; i < array.length; i++) {
                 if (array[i].discrim === user){
-                    message.channel.send(`${array[i].name} has ${array[i].money} good boy points`);
+                    message.channel.send(`${array[i].name} has ${array[i].money} gbp`);
                     console.log('Success');
                 }
             }
@@ -38,7 +38,7 @@ module.exports = {
         }else if (names.includes(given_name) === true){
             for (i = 0; i < array.length; i++) {
                 if (String(given_name).toLowerCase() == String(array[i].name).toLowerCase()){
-                    message.channel.send(`${array[i].name} has ${array[i].money} good boy points`);
+                    message.channel.send(`${array[i].name} has ${array[i].money} gbp`);
                 }
             }
         }else{

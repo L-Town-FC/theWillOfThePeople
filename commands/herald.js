@@ -18,24 +18,24 @@ module.exports = {
                 if(herald_stats[0] != 0){
                     message.channel.send(`${name(message.author.discriminator)} is already employing the herald. You will have to wait until they run out of uses`)
                 }else if(amount <= 0){
-                    message.channel.send('Please choose a whole number greater than 0');
+                    message.channel.send('Please choose a whole number greater than 0 for the number of sets');
                 }else if(isNaN(amount) == true){
                     
                     if(price < total_money){
                         purchase(price, message.author.discriminator)
                         fs.writeFileSync('./text_files/herald_counter.txt', `10,${message.author.discriminator}`)
-                        message.channel.send(`You have successfully rented the Herald for ${min_uses}`)
+                        message.channel.send(`You have successfully rented the Herald for ${min_uses} uses`)
                     }else{
                         message.channel.send(`You need at least ${price} gbp for this command`)
                     }
 
                 }else if(parseInt(amount) !== parseFloat(amount)){
-                    message.channel.send("Please choose a whole number greater than 0");
+                    message.channel.send("Please choose a whole number greater than 0 for the number of sets");
                 }else{
                     if(money_spent < total_money){
                         purchase(amount*price, message.author.discriminator);
                         fs.writeFileSync('./text_files/herald_counter.txt', `${min_uses*amount},${message.author.discriminator}`)
-                        message.channel.send(`You have successfully rented the Herald for ${min_uses*amount}`)
+                        message.channel.send(`You have successfully rented the Herald for ${min_uses*amount} uses`)
                     }else{
                         message.channel.send(`You need at least ${money_spent} to buy ${amount} sets of uses`);
                     }
