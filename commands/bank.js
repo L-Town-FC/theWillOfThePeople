@@ -30,7 +30,6 @@ module.exports = {
             for (i = 0; i < array.length; i++) {
                 if (array[i].discrim === user){
                     message.channel.send(`${array[i].name} has ${array[i].money} gbp`);
-                    console.log('Success');
                 }
             }
             

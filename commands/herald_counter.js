@@ -9,6 +9,7 @@ module.exports = {
         const fs = require('fs');
         const Discord = require('discord.js');
         var counter_discrim = fs.readFileSync('./text_files/herald_counter.txt','utf8').split(",");
+        var description = message.cleanContent;
 
         if(message.author.discriminator == counter_discrim[1]){
             if(message.content.startsWith("!") == false){
@@ -16,7 +17,7 @@ module.exports = {
                     message.channel.bulkDelete(1);
                     const message_embed = new Discord.RichEmbed()
                     .setTitle(`Important Decree from His Excellency ${name(message.author.discriminator)}`)
-                    .setDescription(message.cleanContent)
+                    .setDescription(description)
                     .setAuthor("------------------------------------------------------------",message.author.displayAvatarURL)
                     .setFooter("By the Suprme Leader's grace. May he help us live our most fulfilled lives");
                     message.channel.send(`Hear ye, hear ye. Would'st thou all gather round for a message that our beloved ${name(message.author.discriminator)} hath decided you should know and is as follows`)

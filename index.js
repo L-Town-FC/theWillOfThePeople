@@ -83,6 +83,9 @@ bot.on('message', message =>{
             case 'herald':
                 bot.commands.get('herald').execute(message,args, total_money(message.author.discriminator))
             break;
+            case 'names':
+                bot.commands.get('names').execute(message,args, total_money(message.author.discriminator))
+            break;
             case 'help':
                 bot.commands.get('help').execute(message);
             break;

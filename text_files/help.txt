@@ -10,7 +10,7 @@
 
 !assblast: Displays and updates assblast standings
 
-!bank: Displays how many good boy points the specified user has
+!bank: Displays how many gbp the specified user has
 
 !insults: Allows you to see who is currently being insulted or to change who is being insulted for 2500 gbp
 
@@ -18,8 +18,10 @@
 
 !guessgame: Try to guess a number between 1 and 100 with 3 guesses. Guess correctly to get a 10x payout
 
-!kumiko: Posts a picture of Kumiko from the critically acclaimed show Hibike Euphonium for 25 gbp a picture
+!kumiko: Posts a picture of Kumiko from the critically acclaimed show "Sound! Euphonium" for 25 gbp a picture
 
 !transfer: Allows a person to transfer some of their gbp to another person
 
-!herald: Allows you to request a herald who speaks on your behalf. Costs 5000 gbp per set of 10 uses
+!herald: Allows you to request a herald who speaks on your behalf. Costs 1000 gbp per set of 2 uses
+
+!names: Lists the names of the people on the server

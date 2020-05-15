@@ -8,10 +8,10 @@ module.exports = {
 
         var command = args[1];
         var amount = args[2];
-        var price = 5000;
+        var price = 1000;
         var money_spent = price * parseInt(amount);
         var herald_stats = fs.readFileSync('./text_files/herald_counter.txt','utf8').split(",");
-        var min_uses = 10;
+        var min_uses = 2;
 
         switch(command){
             case 'buy':
@@ -23,7 +23,7 @@ module.exports = {
                     
                     if(price < total_money){
                         purchase(price, message.author.discriminator)
-                        fs.writeFileSync('./text_files/herald_counter.txt', `10,${message.author.discriminator}`)
+                        fs.writeFileSync('./text_files/herald_counter.txt', `${min_uses},${message.author.discriminator}`)
                         message.channel.send(`You have successfully rented the Herald for ${min_uses} uses`)
                     }else{
                         message.channel.send(`You need at least ${price} gbp for this command`)
@@ -37,7 +37,7 @@ module.exports = {
                         fs.writeFileSync('./text_files/herald_counter.txt', `${min_uses*amount},${message.author.discriminator}`)
                         message.channel.send(`You have successfully rented the Herald for ${min_uses*amount} uses`)
                     }else{
-                        message.channel.send(`You need at least ${money_spent} to buy ${amount} sets of uses`);
+                        message.channel.send(`You need at least ${money_spent} gbp to buy ${amount} sets of uses`);
                     }
                 }
             break;
