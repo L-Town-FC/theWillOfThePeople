@@ -14,7 +14,7 @@ module.exports = {
             var name_count = parseInt(insult_counter_pair[1]);
             if (insult_counter_pair[0] == message.author.discriminator){
                 //checks if author or message mathces the intended target
-                if (parseInt(name_count) <= 7){
+                if (parseInt(name_count) <= 5){
                     name_count = name_count + 1;
                 }else{
                     var insults = ['Fuck You', 'You Fucking Troglodyte', 'Fuckin Doo Doo Brains',"You are so repulsive that even Zaid won't suck your toes",
@@ -38,7 +38,7 @@ module.exports = {
                                     "I'll lick Colin up and down", "Oooooooooohhhh, looks like we got a badass here", "Nice toes, mind if I suck'em", "I hate you as much as Zaid loves slice of life anime",
                                     "Say one more thing and I'll come over there and kiss you right on the lips", "Your moves are weak", "Smooth moves exlax", "You're weaker than Andrew's immune system", "Zaid really needs to stop watching so much twitch. Don't you think?",
                                     "I'm commin for that ass", "Alex is a fiend for filipino boipussi", "You're so 2000-late", "Derek is a chick", "Nice cock bro", "What are you doing stepbro", "It was not my penis, but my penis hole", "I did not have sexual relations with Derek Mollohans",
-                                    "Do you kiss your father with that mouth?", "Fucking Alexander", "God dang it Bobby", "I bet you still wear a training bra"]
+                                    "Do you kiss your father with that mouth?", "Fucking Alexander", "God dang it Bobby", "I bet you still wear a training bra", "I have been dealing with depression for a while. So I'd like to thank you for your post because its finally given me the courage to kill myself"]
                     message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
                     name_count = 1;
                 }
