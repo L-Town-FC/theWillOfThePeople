@@ -9,25 +9,29 @@ module.exports = {
         var array = [];
         var just_names = [];
 
-        for (i = 0; i < user_and_currency.length; i++) {
-            user_money[i] = user_and_currency[i].split(" ");
-        }
-        //breaks .txt into individual person/money pairs
-        for (i = 0; i < user_money.length; i++) {
-            array[i] = {discrim: user_money[i][0],
-                        name: user_money[i][1],
-                        money: user_money[i][2]}
-        }
-        //turns each pair into an object array
+        try{
+            for (i = 0; i < user_and_currency.length; i++) {
+                user_money[i] = user_and_currency[i].split(" ");
+            }
+            //breaks .txt into individual person/money pairs
+            for (i = 0; i < user_money.length; i++) {
+                array[i] = {discrim: user_money[i][0],
+                            name: user_money[i][1],
+                            money: user_money[i][2]}
+            }
+            //turns each pair into an object array
 
-        for (i = 0; i < array.length; i++) {
-            just_names[i] = array[i].name;
-        }
+            for (i = 0; i < array.length; i++) {
+                just_names[i] = array[i].name;
+            }
 
-        const message_embed = new Discord.RichEmbed()
-            .setTitle("List of all names on Server")
-            .setDescription(just_names)
-        message.channel.send(message_embed)
+            const message_embed = new Discord.RichEmbed()
+                .setTitle("List of all names on Server")
+                .setDescription(just_names)
+            message.channel.send(message_embed)
+        }catch(err){
+            console.log(err)
+                    message.channel.send("Error Occured in Names.js");
+        }
     }
-
 }
