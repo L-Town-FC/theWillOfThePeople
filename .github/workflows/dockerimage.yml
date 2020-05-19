@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and push Docker images
+        uses: docker/build-push-action@v1.1.0
+        with:
+          # Docker repository to tag the image with
+          repository: atmollohan/bot
+          # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
+          tags: 1.0.0    
