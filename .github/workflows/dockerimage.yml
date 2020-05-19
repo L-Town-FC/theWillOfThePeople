@@ -17,6 +17,8 @@ jobs:
       - name: Build and push Docker images
         uses: docker/build-push-action@v1.1.0
         with:
+          username: ${{ secrets.docker_username }}
+          password: ${{ secrets.docker_password }}
           # Docker repository to tag the image with
           repository: atmollohan/bot
           # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
