@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
       - name: Build and push Docker images
         uses: docker/build-push-action@v1.1.0
         with:
@@ -20,5 +21,3 @@ jobs:
           repository: atmollohan/bot
           # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
           tags: 1.0.0
-          path: ..
-          dockerfile: ../Dockerfile  
