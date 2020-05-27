@@ -3,6 +3,7 @@ module.exports = {
     description: 'says currency amount',
     execute(message,args){
         const fs = require('fs');
+        const Discord = require('discord.js');
         var groups = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
         var array = [];
         var discrim_name_money = [];
@@ -34,6 +35,15 @@ module.exports = {
                         message.channel.send(`${array[i].name} has ${array[i].money} gbp`);
                     }
                 }
+            }else if(given_name === "all"){
+                var everyone = [];
+                for(i = 0; i < array.length; i++){
+                    everyone[i] = `${array[i].name}: ${array[i].money}`
+                }
+                const message_embed = new Discord.RichEmbed()
+                .setTitle("List of all bank accounts on Server")
+                .setDescription(everyone)
+                message.channel.send(message_embed)
             }else{
                 message.channel.send('Please Use a Valid Name');
             }

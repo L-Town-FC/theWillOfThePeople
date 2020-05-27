@@ -8,7 +8,7 @@ module.exports = {
 
         var command = args[1];
         var amount = args[2];
-        var price = 1000;
+        var price = 500;
         var money_spent = price * parseInt(amount);
         var herald_stats = fs.readFileSync('./text_files/herald_counter.txt','utf8').split(",");
         var min_uses = 2;

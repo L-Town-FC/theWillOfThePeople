@@ -85,8 +85,26 @@ bot.on('message', message =>{
                 case 'names':
                     bot.commands.get('names').execute(message,args, total_money(message.author.discriminator))
                 break;
+                case 'currency':
+                    bot.commands.get('currency').execute(message,args)
+                break;
+                case 'roles':
+                    bot.commands.get('roles').execute(message)
+                break;
+                case 'changelog':
+                    bot.commands.get('changelog').execute(message)
+                break;
+                case 'reserves':
+                    bot.commands.get('reserves').execute(message,args)
+                break;
+                case 'new21':
+                    bot.commands.get('new21').execute(message,args,total_money(message.author.discriminator))
+                break
                 case 'help':
                     bot.commands.get('help').execute(message);
+                break;
+                case 'take':
+                    bot.commands.get('take').execute(message,args);
                 break;
                 default:
                     message.channel.send('Use command !help for a list of commands');

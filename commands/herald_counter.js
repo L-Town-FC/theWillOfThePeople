@@ -20,7 +20,7 @@ module.exports = {
                     .setDescription(description)
                     .setAuthor("------------------------------------------------------------",message.author.displayAvatarURL)
                     .setFooter("By the Suprme Leader's grace. May he help us live our most fulfilled lives");
-                    message.channel.send(`Hear ye, hear ye. Would'st thou all gather round for a message that our beloved ${name(message.author.discriminator)} hath decided you should know and is as follows`)
+                    message.channel.send(` @everyone Hear ye, hear ye. Would'st thou all gather round for a message that our beloved ${name(message.author.discriminator)} hath decided you should know and is as follows`)
                     message.channel.send(message_embed);
                     counter_discrim[0] = parseInt(counter_discrim[0]) - 1
                     if (counter_discrim[0] == 0){

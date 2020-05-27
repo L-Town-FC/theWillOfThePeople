@@ -2,10 +2,12 @@ module.exports = {
     name: 'kumiko',
     description: 'randomly generates kumiko pic',
     execute(message,args ,money){
-        const Discord = require('discord.js');
+        const {Discord, Attachment} = require('discord.js');
         const cheerio = require('cheerio');
         const request = require('request');
         const fs = require('fs');
+        var dio_odds = 30;
+        var dio = Math.floor(Math.random()*dio_odds);
 
         try{
 
@@ -34,6 +36,9 @@ module.exports = {
                 //message.channel.send( urls[Math.floor(Math.random() * urls.length)]);
                 if(money < 25){
                     message.channel.send("It costs 25 gbp to use this command")
+                }else if(dio == 2){
+                    var dio_image = new Attachment('dio.jpg')
+                    message.channel.send(dio_image)
                 }else{
                     message.channel.send( urls[Math.floor(Math.random() * urls.length)]);
                     total_money(message.author.discriminator); 
@@ -70,7 +75,6 @@ function total_money(person) {
         for (i = 0; i < array.length; i++){
             if (array[i].discrim == person){
                 array[i].money = parseFloat(array[i].money) - 25;
-                console.log("success");
             }
         }
 

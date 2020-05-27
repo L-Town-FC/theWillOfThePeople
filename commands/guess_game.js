@@ -13,6 +13,7 @@ module.exports = {
         var magic_number = fs.readFileSync('./text_files/guessgame.txt','utf8').split(" ")[1];
         var bet2 = fs.readFileSync('./text_files/guessgame.txt','utf8').split(" ")[3];
         var result = false;
+        var num_of_guesses = fs.readFileSync('./text_files/guessgame.txt','utf8').split(" ")[0];
 
 
         switch(args[1]){
@@ -51,7 +52,7 @@ module.exports = {
                     if (is_Ongoing()[0] == false){
                         message.channel.send('Noone is currently playing')
                     }else{
-                        message.channel.send(`${is_Ongoing()[1]} is currently playing and is on guess number ${is_Ongoing[0]}`)
+                        message.channel.send(`${is_Ongoing()[1]} is currently playing and is on guess number ${num_of_guesses}`)
                     }
                 }catch(err){
                     console.log(err)
@@ -72,7 +73,7 @@ module.exports = {
 
             break;
             default:
-                message.channel.send('Use the command !guessgame help for a lsit of commands');
+                message.channel.send('Use the command !guessgame help for a list of commands');
         }
         try{
             if(is_Ongoing()[2] >= 4 || result == true){

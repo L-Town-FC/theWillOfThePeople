@@ -35,13 +35,6 @@ module.exports = {
                                 //generates cards for dealer and player
                             }
 
-                            //card[0] = 10;
-                            //card[1] = 11;
-                            //card[2] = 10;
-                            //card[3] = 11;
-                            //dummy cards that can be used for testing
-
-
                             player_hand_value = [card[0], card[1]];
                             dealer_hand_value = [card[2], card[3]];
                             //actual value of cards. Used for calculations
