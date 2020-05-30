@@ -39,7 +39,7 @@ module.exports = {
                                         "Don't you think you should quit while you are ahead","You're kinda thicc tho","Girl you're thicker than a bowl of oatmeal","Cause you're a wetard","Not gonna lie, thats kinda gay","UWU what's this *nuzzles you",
                                         "You're not even worth my time",'Stop giving me those "Fuck me" eyes','RRRRRRREEEEEEEEEEEE', "The crazy part about that is that I don't care", "Get Nae-Naed","Please stop it Daddy","You're a fucking degenerate", "Look at this loser jerking off to 3D girls",
                                         "This game will make you cum in 5 minutes","Me hoy me noy","You're the type of guy to always get picked last in kickball","Lick my butthole","OBAMAGATE","You are somehow managing to be more annoying than Kareem",
-                                        "You look better with the lights off","Wow that post was shit","The Chinese Fireball, Ooooooohhhh", "Your shoe is untied", "It would make everyone feel better if you just deleted this post"]
+                                        "You look better with the lights off","Wow that post was shit","The Chinese Fireball, Ooooooohhhh", "Your shoe is untied", "It would make everyone feel better if you just deleted this post","Beep Boop","ALex is better at games than you are at life","For that, you'll walk the plank"]
                         message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
                         name_count = 1;
                     //Checks when the last time the command was ran and runs command if its been too long since last execution
