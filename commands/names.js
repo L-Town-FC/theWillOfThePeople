@@ -4,26 +4,16 @@ module.exports = {
     execute(message,args){
         const fs = require('fs');
         const Discord = require('discord.js');
-        var user_and_currency = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
-        var user_money = [];
-        var array = [];
+        const master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
         var just_names = [];
+        var counter = 0
 
         try{
-            for (i = 0; i < user_and_currency.length; i++) {
-                user_money[i] = user_and_currency[i].split(" ");
-            }
-            //breaks .txt into individual person/money pairs
-            for (i = 0; i < user_money.length; i++) {
-                array[i] = {discrim: user_money[i][0],
-                            name: user_money[i][1],
-                            money: user_money[i][2]}
+            for(i in master){
+                just_names[counter] = master[i].name
+                counter = counter + 1
             }
             //turns each pair into an object array
-
-            for (i = 0; i < array.length; i++) {
-                just_names[i] = array[i].name;
-            }
 
             const message_embed = new Discord.RichEmbed()
                 .setTitle("List of all names on Server")

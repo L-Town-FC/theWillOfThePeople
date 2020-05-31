@@ -107,6 +107,9 @@ bot.on('message', message =>{
                 case 'take':
                     bot.commands.get('take').execute(message,args);
                 break;
+                case 'test':
+                    bot.commands.get('test').execute(message,args);
+                break;
                 default:
                     message.channel.send('Use command !help for a list of commands');
             }
