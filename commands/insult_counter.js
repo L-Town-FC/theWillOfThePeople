@@ -4,14 +4,14 @@ module.exports = {
     execute(message){
         try{
             var fs = require('fs');
-            var insulted_counter= fs.readFileSync('./text_files/insult_counter.txt','utf8');
-            var insult_counter_pair = insulted_counter.split(" ");
-            var name_count = parseInt(insult_counter_pair[1]);
+            var insulted_counter= fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
+            var name_count = parseInt(insulted_counter[1]);
             if (message.content.startsWith("!") == false){
-                if (insult_counter_pair[0] == message.author.discriminator){
+                if (insulted_counter[0] == message.author.id){
                     //checks if author or message mathces the intended target
                     if (parseInt(name_count) <= 7){
                         name_count = name_count + 1;
+                        insulted_counter[1] = name_count;
                     }else{
                         var insults = ['Fuck You', 'You Fucking Troglodyte', 'Fuckin Doo Doo Brains',"You are so repulsive that even Zaid won't suck your toes",
                                         'You dumb fucking cretin, you fucking fool, absolute fucking buffoon, you bumbling idiot. Fuck you', 'Go Fuck Yourself', 'Fucking Pussy Nerd Virgin',
@@ -41,12 +41,13 @@ module.exports = {
                                         "This game will make you cum in 5 minutes","Me hoy me noy","You're the type of guy to always get picked last in kickball","Lick my butthole","OBAMAGATE","You are somehow managing to be more annoying than Kareem",
                                         "You look better with the lights off","Wow that post was shit","The Chinese Fireball, Ooooooohhhh", "Your shoe is untied", "It would make everyone feel better if you just deleted this post","Beep Boop","ALex is better at games than you are at life","For that, you'll walk the plank"]
                         message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
-                        name_count = 1;
+                        insulted_counter[1] = 1;
+                        fs.writeFileSync('./text_files/insult_counter.txt', insulted_counter)
                     //Checks when the last time the command was ran and runs command if its been too long since last execution
                     }
                 }
             }
-            fs.writeFileSync('./text_files/insult_counter.txt', insult_counter_pair[0] + " " + name_count);
+            fs.writeFileSync('./text_files/insult_counter.txt', insulted_counter);
         }catch(err){
             console.log(err)
             message.channel.send("Error Occured in Insult_counter.js");

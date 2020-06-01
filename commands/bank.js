@@ -4,48 +4,39 @@ module.exports = {
     execute(message,args){
         const fs = require('fs');
         const Discord = require('discord.js');
-        var groups = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
-        var array = [];
-        var discrim_name_money = [];
-        var user = message.author.discriminator;
-        var names = [];
-        var given_name = String(args[1]).toLowerCase();
+        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var user = message.author.id;
+        var name = args[1];
+        var success = false;
         
         try{
-            for (i = 0; i < groups.length; i++) {
-                discrim_name_money[i] = groups[i].split(" ");
-            }
-            for (i = 0; i < discrim_name_money.length; i++) {
-                array[i] = {discrim: discrim_name_money[i][0],
-                            name: discrim_name_money[i][1],
-                            money: discrim_name_money[i][2]}
-            }
-            for (i = 0; i < array.length; i++) {
-                names[i] = String(array[i].name).toLowerCase();
-            }
-            if (typeof(args[1]) == 'undefined' ){
-                for (i = 0; i < array.length; i++) {
-                    if (array[i].discrim === user){
-                        message.channel.send(`${array[i].name} has ${array[i].money} gbp`);
+            if(typeof(name) == 'undefined'){
+                for(i in master){
+                    if(user == i){
+                        message.channel.send(`${master[i].name} has ${master[i].gbp} gbp`);
                     }
                 }
-            }else if (names.includes(given_name) === true){
-                for (i = 0; i < array.length; i++) {
-                    if (String(given_name).toLowerCase() == String(array[i].name).toLowerCase()){
-                        message.channel.send(`${array[i].name} has ${array[i].money} gbp`);
-                    }
-                }
-            }else if(given_name === "all"){
+            }else if(name.toLowerCase() == 'all'){
                 var everyone = [];
-                for(i = 0; i < array.length; i++){
-                    everyone[i] = `${array[i].name}: ${array[i].money}`
+                var counter = 0
+                for(i in master){
+                    everyone[counter] = `${master[i].name}: ${master[i].gbp}`;
+                    counter = counter + 1;
                 }
                 const message_embed = new Discord.RichEmbed()
                 .setTitle("List of all bank accounts on Server")
                 .setDescription(everyone)
                 message.channel.send(message_embed)
             }else{
-                message.channel.send('Please Use a Valid Name');
+                for(i in master){
+                    if(master[i].name.toLowerCase() === name.toLowerCase()){
+                        message.channel.send(`${master[i].name} has ${master[i].gbp} gbp`);
+                        success = true
+                    }
+                }
+                if(success == false){
+                    message.channel.send("Please use a valid name")
+                }
             }
         }catch(err){
             console.log(err)

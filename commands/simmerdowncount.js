@@ -6,7 +6,7 @@ module.exports = {
         var said_down = 0
         const Discord = require('discord.js');
         const bot = new Discord.Client();
-        var user = message.author.discriminator;
+        var user = message.author.id;
         try{
             //Variables that hold the location of simmer/down in the sentence
             if (message.author === bot.user){
@@ -26,7 +26,7 @@ module.exports = {
                         //checks if down is used and marks its location
                     }
                     if (said_simmer - said_down == -1){
-                        counter(user);
+                        counter(user, message);
                         said_simmer = -2;
                         said_down = 0;
 
@@ -42,42 +42,21 @@ module.exports = {
     }
 }
 
-function counter(person) {
+function counter(person, message) {
     try{
         const fs = require('fs');
-        var main = fs.readFileSync('./text_files/simmer_down.txt','utf8');
-        var name_count = main.split(",");
-        var discrim_name_simmer = [];
-        var array = [];
-        var final_array = [];
-
-
-        for (i = 0; i < name_count.length; i++) {
-            discrim_name_simmer[i] = name_count[i].split(" ");
-        }
-        //breaks .txt into individual person/money pairs
-
-        for (i = 0; i < discrim_name_simmer.length; i++) {
-            array[i] = {discrim: discrim_name_simmer[i][0],
-                        name: discrim_name_simmer[i][1],
-                        count: discrim_name_simmer[i][2]}
-        }
-        //turns each pair into an object array
-
-        for (i = 0; i < array.length; i++) {
-            if(array[i].discrim === person){
-                array[i].count = parseInt(array[i].count) + 1;
+        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        
+        for(i in master){
+            if(person == i){
+                master[i].simmerdown = parseInt(master[i].simmerdown) + 1
             }
         }
-        //assigns just the names in the object array to another array that can be used to cross reference the current players name
-
-
-        for (j = 0; j < array.length; j++) {
-            final_array[j] = array[j].discrim + " " + array[j].name + " " + array[j].count;
-        }
-        //converts object array back into normal array that can be easily written into a text file
-
-        fs.writeFileSync('./text_files/simmer_down.txt', final_array);
+        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Simmerdowncount.js Counter");

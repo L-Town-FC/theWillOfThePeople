@@ -9,7 +9,8 @@ module.exports = {
 
         var recipient = args[1];
         var amount = args[2];
-        var initiator = message.author.discriminator;
+        var initiator = message.author.id;
+        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
 
         var full_list = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
         var full_list_split = [];
@@ -57,34 +58,24 @@ function give_money(initiator, recipient, amount) {
         var array = [];
         var holdings = fs.readFileSync('./text_files/currency.txt','utf8');
         var user_and_currency = holdings.split(",");
-        for (i = 0; i < user_and_currency.length; i++) {
-            user_money[i] = user_and_currency[i].split(" ");
-        }
-        //breaks .txt into individual person/money pairs
+        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
 
-        for (i = 0; i < user_money.length; i++) {
-            array[i] = {discrim: user_money[i][0],
-                        name: user_money[i][1],
-                        money: user_money[i][2]}
-        }
-
-        for (i = 0; i < array.length; i++){
-            if (array[i].name.toLowerCase() === String(recipient).toLowerCase()){
-                array[i].money = parseInt(array[i].money) + parseInt(amount);
-                for (i = 0; i< array.length; i++){
-                    if (array[i].discrim == initiator){
-                        array[i].money = parseInt(array[i].money) - parseInt(amount);
+        for(i in master){
+            if(initiator == i){
+                for(j in master){
+                    if(master[j].name.toLowerCase() == recipient.toLowerCase()){
+                        master[j].gbp = parseFloat(master[j].gbp) + parseFloat(amount)
+                        master[i].gbp = parseFloat(master[i].gbp) - parseFloat(amount)
                     }
                 }
             }
         }
 
-        for (j = 0; j < array.length; j++) {
-            final_array[j] = array[j].discrim + " " + array[j].name + " " + array[j].money;
-        }
-        //converts object array back into normal array that can be easily written into a text file
-
-        fs.writeFileSync('./text_files/currency.txt', final_array);
+        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Transfer.js Give_Money");

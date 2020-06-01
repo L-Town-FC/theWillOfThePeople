@@ -1,14 +1,13 @@
 module.exports = {
-    name: 'guessgame',
+    name: 'gg',
     description: 'guess the correct number within three tries and get 10x payout',
     execute(message, args, total_money){
-        const cheerio = require('cheerio');
-        const request = require('request');
         const Discord = require('discord.js');
         const fs = require('fs');
         const min_bet = 5;
+        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
         var bet = args[2];
-        var person = message.author.discriminator;
+        var person = message.author.id;
         var guess = args[2];
         var magic_number = fs.readFileSync('./text_files/guessgame.txt','utf8').split(" ")[1];
         var bet2 = fs.readFileSync('./text_files/guessgame.txt','utf8').split(" ")[3];
@@ -20,11 +19,13 @@ module.exports = {
             case 'bet':
                 try{
                     if (is_Ongoing()[0] == true){
-                        message.channel.send(`${is_Ongoing()[1]} is currently playing and is on guess ${is_Ongoing()[2]}`)
-                    }else if (typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) < parseFloat(total_money)){
+                        message.channel.send(`${master[is_Ongoing()[1]].name} is currently playing and is on guess ${is_Ongoing()[2]}`)
+                    }else if (typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) <= parseFloat(total_money)){
                         message.channel.send("Your bet is accepted. Please guess the number between 0 and 100. You have 3 guesses");
                         first_guess(person, bet);
-                        purchase(bet, message.author.discriminator);
+                        purchase(bet, message.author.id);
+                    }else if(parseFloat(total_money) < parseFloat(bet)){
+                        message.channel.send("You don't have enough gbp for that bet")
                     }else{
                         message.channel.send(`Please place a valid bet of ${min_bet} gbp or greater`)
                     }
@@ -52,7 +53,7 @@ module.exports = {
                     if (is_Ongoing()[0] == false){
                         message.channel.send('Noone is currently playing')
                     }else{
-                        message.channel.send(`${is_Ongoing()[1]} is currently playing and is on guess number ${num_of_guesses}`)
+                        message.channel.send(`${master[is_Ongoing()[1]].name} is currently playing and is on guess number ${num_of_guesses}`)
                     }
                 }catch(err){
                     console.log(err)
@@ -81,9 +82,10 @@ module.exports = {
                     message.channel.send(`You are out of guesses. You lose. The correct number was ${magic_number}`);
                     fs.writeFileSync('./text_files/guessgame.txt', `0 0 0 0`);
                 }else{
-                    message.channel.send(`You win ${10 * parseInt(bet2)} gbp`);
-                    purchase(-10 * parseInt(bet2), message.author.discriminator);
+                    message.channel.send(`You win ${10 * parseFloat(bet2)} gbp`);
+                    purchase((-10 * parseFloat(bet2)), message.author.id);
                     fs.writeFileSync('./text_files/guessgame.txt', `0 0 0 0`);
+                    
                 }
             }
         }catch(err){
@@ -98,28 +100,15 @@ module.exports = {
 function is_Ongoing() {
     try{
         const fs = require('fs');
-        const Discord = require('discord.js');
         var number = fs.readFileSync('./text_files/guessgame.txt','utf8').split(" ");
-        var user_and_currency = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
-        var user_money = [];
-        var array = [];
+        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
         var player = number[2];
         var name = "";
         var guess_number = number[0];
 
-        for (i = 0; i < user_and_currency.length; i++) {
-            user_money[i] = user_and_currency[i].split(" ");
-        }
-
-        for (i = 0; i < user_money.length; i++) {
-            array[i] = {discrim: user_money[i][0],
-                        name: user_money[i][1],
-                        money: user_money[i][2]}
-        }
-
-        for (i = 0; i < array.length; i++) {
-            if(array[i].discrim == player){
-                name = array[i].name;
+        for (i in master) {
+            if(i == player){
+                name = player
             }
         }
 
@@ -201,39 +190,23 @@ function first_guess(player, bet){
 function purchase(bet_value, player) {
     try{
         const fs = require('fs');
-        const Discord = require('discord.js');
-        var user_and_currency = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
-        var user_money = [];
-        var array = [];
-        var final_array = [];
-
-        for (i = 0; i < user_and_currency.length; i++) {
-            user_money[i] = user_and_currency[i].split(" ");
-        }
-        //breaks .txt into individual person/money pairs
-
-
-        for (i = 0; i < user_money.length; i++) {
-            array[i] = {discrim: user_money[i][0],
-                        name: user_money[i][1],
-                        money: user_money[i][2]}
-        }
-        //turns each pair into an object array
-
-        for (i = 0; i < array.length; i++) {
-            if (array[i].discrim === player){
-                array[i].money = String(parseFloat(array[i].money) - parseFloat(bet_value));
+        master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        for(i in master){
+            if(player == i){
+                if((master[i].gbp) == 'NaN'){
+                    console.log("Here")
+                    master[i].gbp = 0
+                }
+                master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
             }
         }
-        //compares the current players name to all other server names to see where to attribute bet to
-        
 
-        for (j = 0; j < array.length; j++) {
-            final_array[j] = array[j].discrim + " " + array[j].name + " " + array[j].money;
-        }
-        //converts object array back into normal array that can be easily written into a text file
+        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
 
-        fs.writeFileSync('./text_files/currency.txt', final_array);
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in guessgame.js Purchase");
