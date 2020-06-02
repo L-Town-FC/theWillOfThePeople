@@ -27,6 +27,7 @@ bot.on('message', message =>{
     bot.commands.get('simmerdowncount').execute(message);
     bot.commands.get('herald_counter').execute(message);
     bot.commands.get('insult_counter').execute(message);
+    bot.commands.get('boo_trigger').execute(message);
     bot.commands.get('more_money').execute(message);
     //console.log(message)
 })
@@ -104,8 +105,11 @@ bot.on('message', message =>{
                 case 'help':
                     bot.commands.get('help').execute(message);
                 break;
-                case 'take':
-                    bot.commands.get('take').execute(message,args);
+                case 'set':
+                    bot.commands.get('set').execute(message,args);
+                break;
+                case 'boo':
+                    bot.commands.get('boo').execute(message,args,total_money(message.author.id));
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message,args);

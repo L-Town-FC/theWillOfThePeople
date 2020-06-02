@@ -45,6 +45,6 @@ function purchase(bet_value, player, message) {
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in delete.js");
+        message.channel.send("Error Occured in Kumiko.js");
     }
 }

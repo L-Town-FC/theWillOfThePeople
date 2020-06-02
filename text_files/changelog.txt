@@ -1,6 +1,6 @@
 Bug/Bug Fixes:
--!kumiko works again
--!pug works again
+-!kumiko sends pics again
+-!pug sends pics again
 
 New Features/Updates:
 -Minimum bet for blackjack was lowered to 10 gbp
@@ -8,6 +8,8 @@ New Features/Updates:
 -You can now split in blackjack
 -!guessgame has changed to !gg
 -Only 4gbp from each lottery ticket goes towards the pot
+-!Boo makes bot react to every message the specified user sends with :booo:
+
 
 
 
