@@ -1,22 +1,13 @@
 Bug/Bug Fixes:
--!transfer no longer wrongfully says that you are trying to transfer more than you have
--!guessgame status no properly says how what guess the player is on
--!Added !lottery to help.txt
--Fixed general spelling errors
+-!kumiko works again
+-!pug works again
 
 New Features/Updates:
--!roles shows you the electable roles
--!changelog shows you what changed in the newest update
--Easter egg that has a small chance of showing up when using !kumiko
--!herald now only costs 500 gbp per set of uses
--!herald now @s everyone
--GBP is now rounded to the nearest hundredth in the bank
--Users no longer get gbp from command messages
--!bank all shows all users banks
--Insults are no only triggered by non-command messages
--It not takes 8 messages to trigger an insult
--Added more Insults
--!pug no longer gives additional gbp
+-Minimum bet for blackjack was lowered to 10 gbp
+-You can now surrender in blackjack
+-You can now split in blackjack
+-!guessgame has changed to !gg
+-Only 4gbp from each lottery ticket goes towards the pot
 
 
 

@@ -6,44 +6,18 @@ module.exports = {
         const cheerio = require('cheerio');
         const request = require('request');
         const fs = require('fs');
-        var dio_odds = 30;
-        var dio = Math.floor(Math.random()*dio_odds);
+        var max_kumikos= 60
+        var kumiko = Math.ceil(Math.random()*max_kumikos);
+        var price = 10
 
         try{
-
-            var options = {
-                url: "http://results.dogpile.com/serp?qc=images&q=" + "kumiko sound euphonium",
-                method: "GET",
-                headers: {
-                    "Accept": "text/html",
-                    "User-Agent": "Chrome"
-                }
-            };
-         
-            request(options, function(error, response, responseBody) {
-                if (error) {
-                    return;
-                }
-                $ = cheerio.load(responseBody);
-                var links = $(".image a.link");
-                var urls = new Array(links.length).fill(0).map((v, i) => links.eq(i).attr("href"));
-                console.log(urls);
-                if (!urls.length) {
-                    return;
-                }
-         
-                // Send result
-                //message.channel.send( urls[Math.floor(Math.random() * urls.length)]);
-                if(money < 25){
-                    message.channel.send("It costs 25 gbp to use this command")
-                }else if(dio == 2){
-                    var dio_image = new Attachment('dio.jpg')
-                    message.channel.send(dio_image)
-                }else{
-                    message.channel.send( urls[Math.floor(Math.random() * urls.length)]);
-                    total_money(message.author.discriminator); 
-                }
-            });
+            if(money < price){
+                message.channel.send(`It costs ${price} gbp to use this command`)
+            }else{
+                var kumiko_image = new Attachment('./kumiko_pics/kumiko'+ kumiko +'.jpg')
+                message.channel.send(kumiko_image)
+                purchase(price, message.author.id, message) 
+            }
         }catch(err){
             console.log(err)
             message.channel.send("Error Occured in Kumiko.js");
@@ -52,40 +26,25 @@ module.exports = {
         }
 }
 
-function total_money(person) {
+function purchase(bet_value, player, message) {
     try{
         const fs = require('fs');
-        var final_array = [];
-        var user_money = [];
-        var array = [];
-        var holdings = fs.readFileSync('./text_files/currency.txt','utf8');
-        var user_and_currency = holdings.split(",");
-        
-        for (i = 0; i < user_and_currency.length; i++) {
-            user_money[i] = user_and_currency[i].split(" ");
-        }
-        //breaks .txt into individual person/money pairs
+        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
 
-        for (i = 0; i < user_money.length; i++) {
-            array[i] = {discrim: user_money[i][0],
-                        name: user_money[i][1],
-                        money: user_money[i][2]}
-        }
-
-        for (i = 0; i < array.length; i++){
-            if (array[i].discrim == person){
-                array[i].money = parseFloat(array[i].money) - 25;
+        for(i in master){
+            if(player == i){
+                master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
             }
         }
 
-        for (j = 0; j < array.length; j++) {
-            final_array[j] = array[j].discrim + " " + array[j].name + " " + array[j].money;
-        }
-        //converts object array back into normal array that can be easily written into a text file
+        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
 
-        fs.writeFileSync('./text_files/currency.txt', final_array);
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Kumiko.js Total_Money");
+        message.channel.send("Error Occured in delete.js");
     }
 }

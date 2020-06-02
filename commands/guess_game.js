@@ -194,7 +194,6 @@ function purchase(bet_value, player) {
         for(i in master){
             if(player == i){
                 if((master[i].gbp) == 'NaN'){
-                    console.log("Here")
                     master[i].gbp = 0
                 }
                 master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)

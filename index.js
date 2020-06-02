@@ -78,10 +78,10 @@ bot.on('message', message =>{
                     bot.commands.get('kumiko').execute(message,args,total_money(message.author.id));//
                 break;
                 case 'lottery':
-                    bot.commands.get('lottery').execute(message,args, total_money(message.author.id))//
+                    bot.commands.get('lottery').execute(message,args, total_money(message.author.id))
                 break;
                 case 'herald':
-                    bot.commands.get('herald').execute(message,args, total_money(message.author.id))//
+                    bot.commands.get('herald').execute(message,args, total_money(message.author.id))
                 break;
                 case 'names':
                     bot.commands.get('names').execute(message,args)
