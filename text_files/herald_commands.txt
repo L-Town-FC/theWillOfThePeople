@@ -1,5 +1,7 @@
-!herald buy [Number of Sets]: Allows you to rent a herald who will say all of your messages for you. Each set consists of 2 messages and costs 500 gbp per set. If no number is specified, it defaults to 1
+!herald buy [Number of Sets]: Allows you to rent a herald who will say specified messages for you. Each use costs 250 gbp to rent If no number is specified, it defaults to 1
 
 !herald stats: Shows you who currently is using the herald and how many uses they have left
+
+!herald say [message]: Makes the herald say your message
 
 Note: The herald doesn't trigger when images or commands are sent

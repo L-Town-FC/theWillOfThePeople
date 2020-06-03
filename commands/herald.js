@@ -8,10 +8,12 @@ module.exports = {
 
         var command = args[1];
         var amount = args[2];
-        var price = 500;
+        var price = 250;
         var money_spent = price * parseInt(amount);
         var herald_stats = fs.readFileSync('./text_files/herald_counter.txt','utf8').split(",");
-        var min_uses = 2;
+        var min_uses = 1;
+        var counter_discrim = fs.readFileSync('./text_files/herald_counter.txt','utf8').split(",");
+        var description = message.cleanContent.split("!herald say");
 
         switch(command){
             case 'buy':
@@ -21,7 +23,6 @@ module.exports = {
                     }else if(amount <= 0){
                         message.channel.send('Please choose a whole number greater than 0 for the number of sets');
                     }else if(isNaN(amount) == true){
-                        
                         if(price < total_money){
                             purchase(price, message.author.id)
                             fs.writeFileSync('./text_files/herald_counter.txt', `${min_uses},${message.author.id}`)
@@ -58,6 +59,31 @@ module.exports = {
                 }catch(err){
                     console.log(err)
                     message.channel.send("Error Occured in Herald.js Stats");
+                }
+            break;
+
+            case 'say':
+                if(message.author.id == herald_stats[1]){
+                    if(message.attachments.array().length == 0){                
+                        message.channel.bulkDelete(1);
+                        const message_embed = new Discord.RichEmbed()
+                        .setTitle(`Important Decree from His Excellency ${name(message.author.id)}`)
+                        .setDescription(description)
+                        .setAuthor("-----------------------------------------------------------",message.author.displayAvatarURL)
+                        .setFooter("By the Suprme Leader's grace. May he help us live our most fulfilled lives");
+                        message.channel.send(` @everyone Hear ye, hear ye. Would'st thou all gather round for a message that our beloved ${name(message.author.id)} hath decided you should know and is as follows:`)
+                        message.channel.send(message_embed);
+                        counter_discrim[0] = parseInt(counter_discrim[0]) - 1
+                        if (counter_discrim[0] == 0){
+                            fs.writeFileSync('./text_files/herald_counter.txt', "0,0")
+                        }else{
+                            fs.writeFileSync('./text_files/herald_counter.txt', counter_discrim)
+                        }
+                    }else{
+                        message.channel.send("You can't have any attachments when you use the herald")
+                    }
+                }else{
+                    message.channel.send("You aren't employing the herald")
                 }
             break;
             

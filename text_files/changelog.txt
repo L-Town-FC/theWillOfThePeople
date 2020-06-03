@@ -3,12 +3,22 @@ Bug/Bug Fixes:
 -!pug sends pics again
 
 New Features/Updates:
--Minimum bet for blackjack was lowered to 10 gbp
--You can now surrender in blackjack
--You can now split in blackjack
+-!steal Allows you to steal from other people. You steal between 15-25% of whatever you pay from specified person
+-Min bet for !21 was lowered to 10 gbp
+-You can now surrender and spplit in !21
 -!guessgame has changed to !gg
 -Only 4gbp from each lottery ticket goes towards the pot
 -!Boo makes bot react to every message the specified user sends with :booo:
+-gbp per message is now progressive based on how much gbp you have:
+    -3 per message if less than 200
+    -2 per message if less than 350
+    -1.5 per message if less than 500
+    -1 per message if less than 750
+    -0.5 per message if less than 1000
+    -0.25 per message for anything more than 1000
+-!insults now costs 1500 gbp to encourage it moving more
+-!herald now only triggers when the person using it uses the "!herald say" command followed by their message
+
 
 
 

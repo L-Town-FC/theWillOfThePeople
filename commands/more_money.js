@@ -24,7 +24,19 @@ module.exports = {
                 if(message.content.startsWith("!") == false){
                     for(i in master){
                         if(person == i){
-                            master[i].gbp = Math.round((parseFloat(master[i].gbp) + 1) * 100)/100
+                            if(master[i].gbp < 200){
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 3) * 100)/100
+                            }else if(master[i].gbp < 350){
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 2) * 100)/100
+                            }else if(master[i].gbp < 500){
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 1.5) * 100)/100
+                            }else if(master[i].gbp < 750){
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 1) * 100)/100
+                            }else if(master[i].gbp < 1000){
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 0.5) * 100)/100
+                            }else{
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 0.25) * 100)/100
+                            }
                         }
                     }
                     fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
