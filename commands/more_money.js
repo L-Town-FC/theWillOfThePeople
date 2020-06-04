@@ -19,14 +19,16 @@ module.exports = {
             }
 
 
-
+            
             if(message.author.discriminator !== '9509' && message.author.discriminator !== '0250'){
                 if(message.content.startsWith("!") == false){
                     for(i in master){
                         if(person == i){
-                            if(master[i].gbp < 200){
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 3) * 100)/100
-                            }else if(master[i].gbp < 350){
+                            if(message.channel.type === 'dm'){
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 0.25) * 100)/100
+                            }else if(master[i].gbp < 0){
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 5) * 100)/100
+                            }else if(master[i].gbp < 250){
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 2) * 100)/100
                             }else if(master[i].gbp < 500){
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 1.5) * 100)/100

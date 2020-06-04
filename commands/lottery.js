@@ -89,7 +89,7 @@ function attempt(amount, money_spent){
         const Discord = require('discord.js');
         var lottery_stats = fs.readFileSync('./text_files/lottery_stats.txt','utf8').split(",");
         var tickets = [];
-        var max_guesses = 50000
+        var max_guesses = 10000
         var remaining_numbers = parseInt(max_guesses) - parseInt(lottery_stats[0]);
 
         for(i = 0; i < amount; i++){
