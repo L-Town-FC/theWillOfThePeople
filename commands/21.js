@@ -1,6 +1,6 @@
 module.exports = {
     name: '21',
-    description: 'plays black jack',
+    description: 'A better blackjack',
     execute(message,args,total_money){
         const fs = require('fs');
         const Discord = require('discord.js');
@@ -8,38 +8,194 @@ module.exports = {
         //list of possible cards. Have multiple tens to account for J, Q, and K. 11 is for A
         const tens = ['10','J','Q','K']
         //used to convert 10s into other cards
-        var isStay = false;
-        var isPlayerbust = false;
-        var isDealerbust = false;
-        var gameongoing = false;
-        var blackjack = false;
-        var bet = args[2];
-        var gambler = message.author.discriminator;
-        var min_bet = 25;
-        card = [];
-        dummycard = [];
+        var new_bet = args[2];
+        var min_bet = 15;
+        var command = args[1];
+        master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
 
-
-        switch (String(args[1]).toLowerCase()){
+        if(typeof(master_list) == 'undefined'){
+            master_list = []; 
+            var counter = 0
+            for (i in master){
+                master_list[counter] = {
+                    name: master[i].name,
+                    id: i,
+                    player_hand1: [],
+                    player_dummy_hand1: [],
+                    player_hand2: [],
+                    player_dummy_hand2: [],
+                    dealer_hand: [],
+                    dealer_dummy_hand: [],
+                    bet: "",
+                    gameStatus: 0,
+                    isStay: [false, true],
+                    blackjack: false,
+                    isSplit: false
+                }
+                counter = counter + 1
+            }
+        }
+        for(i = 0; i < master_list.length; i++){
+            if(master_list[i].id == message.author.id){
+                player = i;
+            }
+        }
+        
+        switch (String(command).toLowerCase()){
             case 'deal':
                 try{
-                    if (typeof(player_hand_value) == 'undefined'){
-                        //if no hands exist then a hand may be started
-                        if(typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) < parseFloat(total_money)){
-                            //if no bet is made then hand cant be started
-                            bet2 = bet;
-                            //hold bet value so it can't be overwritten until new deal
-                            var i;
-                            for (i = 0; i < 4; i++) {
+                    if (typeof(new_bet) == 'undefined'){
+                        message.channel.send("Please specify the amount of gbp you want to bet")
+                    }else if(parseFloat(new_bet) > parseFloat(total_money)){
+                        message.channel.send("You don't have enough gbp for that bet");
+                    }else if(parseFloat(new_bet) < parseFloat(min_bet)){
+                        message.channel.send(`You must bet at least ${min_bet} gbp`)
+                    }else if(isNaN(parseFloat(new_bet)-1) == true){   
+                        message.channel.send("Please use a number for your bet")
+                    }else if(master_list[player].gameStatus !== 0){
+                        message.channel.send("You are already playing a game")
+                    }else{
+                        master_list[player].bet = [parseFloat(new_bet), 0]
+                        master_list[player].gameStatus = 1;
+                        var card = [];
+                        var dummycard = [];
+                        for (i = 0; i < 4; i++) {
+                            card[i] = suit[Math.floor(Math.random()*suit.length)];
+                            //generates cards for dealer and player
+                        }
+
+                        // Test Cards
+                        //card[0] = 11;
+                        //card[1] = 11;
+                        //card[2] = 2;
+                        //card[3] = 2;
+                        //
+
+                        master_list[player].player_hand1 = [card[0], card[1]];
+                        master_list[player].dealer_hand = [card[2], card[3]];
+
+                        for (i = 0; i < card.length; i++) {
+                            if (card[i] == 10){
+                                dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
+                            }else if (card[i] == 11){
+                                dummycard[i] = 'A';
+                            }else{
+                                dummycard[i] = card[i];
+                            }
+                        }
+
+                        //Test Cards
+                        //dummycard[0] = 'J'
+                        //dummycard[1] = 'J'
+                        //
+
+                        master_list[player].player_dummy_hand1 = [dummycard[0], dummycard[1]]
+                        master_list[player].dealer_dummy_hand = [dummycard[2], dummycard[3]]
+
+                        Display_Status(master_list[player],message)
+                        purchase(new_bet, message.author.id, message, master) 
+
+                        if(master_list[player].dealer_dummy_hand[0] == 'A'){
+                            if(master_list[player].dealer_hand[1] == 10){
+                                master_list[player].gameStatus = 2
+                                var blackjack = true
+                                master_list[player].isStay[0] = true
+                            }else{
+                                setTimeout(function(){
+                                    message.channel.send("Dealer doesn't have blackjack")
+                                }, 50)
+                            }
+                        }else if(sum(master_list[player].dealer_hand) == 21){
+                            master_list[player].gameStatus = 2
+                            var blackjack = true
+                            master_list[player].isStay[0] = true
+                        }else{
+                            var blackjack = false
+                        }
+                        if(sum(master_list[player].player_hand1) == 21){
+                            master_list[player].isStay[0] = true
+                            if(blackjack == true){
+                                master_list[player].gameStatus = 4
+                            }else{
+                                master_list[player].gameStatus = 3
+                            }
+                        }
+                    }
+                    /*Checks the various cases where a bet may be invalid such as when no bet is specified, you bet more gbp than you have
+                    you bet less than the minimum bet, you use a non-number as a bet, and when you have already made a bet */
+                }catch(err){
+                    console.log(err)
+                    message.channel.send("Error occured in 21.js Deal")
+                }
+            break;
+            case 'hit':
+                try{
+                    if(master_list[player].gameStatus == 1){
+                        var cards = New_Card(suit,tens)
+                        if(master_list[player].isStay[0] == true){
+                            master_list[player].player_hand2.push(cards[0]);
+                            master_list[player].player_dummy_hand2.push(cards[1]);
+                            message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
+                            if(sum(master_list[player].player_hand2) > 21){
+                                if (master_list[player].player_hand2.indexOf(11) !== -1){
+                                    master_list[player].player_hand2[master_list[player].player_hand2.indexOf(11)] = 1;
+                                }else{
+                                    message.channel.send(`${master_list[player].name} hand 2 busts`)
+                                    master_list[player].isStay[1] = true
+                                    master_list[player].gameStatus = 11
+                                }
+                            }
+                        }else{
+                            master_list[player].player_hand1.push(cards[0]);
+                            master_list[player].player_dummy_hand1.push(cards[1]);
+                            message.channel.send(`${master_list[player].name} Hand 1: ${master_list[player].player_dummy_hand1}`)
+                            if(sum(master_list[player].player_hand1) > 21){
+                                if (master_list[player].player_hand1.indexOf(11) !== -1){
+                                    master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
+                                    if(sum(master_list[player].player_hand1) > 21){
+                                        master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
+                                    }
+                                }else{
+                                    master_list[player].isStay[0] = true
+                                    if(master_list[player].isSplit == false){
+                                        master_list[player].gameStatus = 5; 
+                                    }else{
+                                        message.channel.send(`${master_list[player].name} hand 1 busts`)
+                                        message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
+                                    }
+                                }
+                            }
+                        }
+                        if(master_list[player].gameStatus == 5){
+                            message.channel.send("Player busts") 
+                        }
+                    }else{
+                        message.channel.send("There currently isn't a game being played");
+                    }
+                }catch(err){
+                    console.log(err)
+                    message.channel.send("Error occured in !21.js Hit")
+                }
+            break;
+            case 'split':
+                try{
+                    if(parseFloat(total_money) >= parseFloat(master_list[player].bet)){
+                        if(master_list[player].player_dummy_hand1[0] === master_list[player].player_dummy_hand1[1] && master_list[player].isSplit == false && master_list[player].player_hand1.length == 2){
+                            var card_0 = master_list[player].player_hand1[0]
+                            var card_1 = master_list[player].player_hand1[1]
+                            var dummy_card_0 = master_list[player].player_dummy_hand1[0]
+                            var dummy_card_1 = master_list[player].player_dummy_hand1[1]
+
+                            var card = [];
+                            var dummycard = [];
+                            for (i = 0; i < 2; i++) {
                                 card[i] = suit[Math.floor(Math.random()*suit.length)];
                                 //generates cards for dealer and player
                             }
 
-                            player_hand_value = [card[0], card[1]];
-                            dealer_hand_value = [card[2], card[3]];
-                            //actual value of cards. Used for calculations
+                            master_list[player].player_hand1 = [card_0, card[0]];
+                            master_list[player].player_hand2 = [card_1, card[1]];
 
-                            var i;
                             for (i = 0; i < card.length; i++) {
                                 if (card[i] == 10){
                                     dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
@@ -49,184 +205,167 @@ module.exports = {
                                     dummycard[i] = card[i];
                                 }
                             }
+
+                            master_list[player].player_dummy_hand1 = [dummy_card_0, dummycard[0]]
+                            master_list[player].player_dummy_hand2 = [dummy_card_1, dummycard[1]]
+
+                            purchase(parseFloat(master_list[player].bet[0]), message.author.id, message, master);
                             
-                            player_hand = [dummycard[0], dummycard[1]];
-                            dealer_hand = [dummycard[2], '?'];
-                            dealer_hand2 = [dummycard[2], dummycard[3]];
-                            //dummy cards that convert the values into face cards if needed. No calculations are done with these
-                            //automatically makes second dealer card face down
-
-                            message.channel.send(`Dealer's hand: ${dealer_hand[0]} ${dealer_hand[1]}`);
-                            message.channel.send(`Player's hand: ${player_hand[0]} ${player_hand[1]}`);
-                            //Shows player and dealers hands
-
-                            if (dealer_hand_value[0] == 11){
-                                if (dealer_hand_value[1] == 10){
-                                    isStay = true;
-                                }else{
-                                    message.channel.send("Dealer doesn't have Blackjack")
-                                }
-                            }else if (dealer_hand_value[0] == 10){
-                                if (dealer_hand_value[1] == 11){
-                                    isStay = true;
-                                }
+                            var bet = master_list[player].bet;
+                            master_list[player].bet = [bet[0],bet[0]]
+                            master_list[player].isSplit = true;
+                            
+                            if(master_list[player].player_dummy_hand1[0] === 'A'){ //Set this to 'A' when done
+                                master_list[player].isStay = [true, true]
+                                master_list[player].gameStatus = 11
+                            }else{
+                                master_list[player].isStay = [false, false]
                             }
-                            //Checks if dealer has blackjack and responds accordingly
-                            if (sum(player_hand_value) == 21){
-                                isStay = true;
-                                message.channel.send('Player has Blackjack')
-                                blackjack = true;
-                                bet2 = parseFloat(bet2) * 1.5;
-                            }
-                        }else if(bet > total_money){
-                            message.channel.send("You don't that many gpbs");
+                            
+                            Display_Status(master_list[player],message)
+
+                        }else if(master_list[player].isSplit == true){
+                            message.channel.send("You can't resplit cards")
+                        }else if(master_list[player].player_hand1.length > 2){
+                            message.channel.send("You can't split after you have already hit")
+                        }else if(master_list[player].gameStatus == 0){
+                            message.channel.send("There currently isn't a hand being played")
                         }else{
-                            message.channel.send(`Please place a valid bet of ${min_bet} or greater gbp`);
+                            message.channel.send("You can't split because your cards don't match")
                         }
                     }else{
-                        message.channel.send('Hand is already ongoing');
+                        message.channel.send("You don't have enough money to split")
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in 21.js Deal");
+                    message.channel.send("Error occured in 21.js Split")
                 }
-
             break;
-
-            case 'hit':
-                try{
-                    if (typeof(player_hand_value) == 'undefined'){
-                        message.channel.send("There isn't an ongoing hand");
-                        //checks if hand is currently ongoing
-                    }else{
-
-                        if (sum(player_hand_value) > 21){
-                            if (player_hand_value.indexOf(11) !== -1){
-                                player_hand_value[player_hand_value.indexOf(11)] = 1;
-                            }else{
-                                message.channel.send('Player busts');
-                                isPlayerbust = true;
-                            }
-                        }
-                        //checks if player is above 21. If they have an ace its value becomes 1 
-                        //If they don't have an ace they busted
-                        
-                        i = card.length + 1;
-                        card[i] = suit[Math.floor(Math.random()*suit.length)];
-                        player_hand_value.push(card[i]);
-                        if (card[i] == 10){
-                            dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
-                        }else if (card[i] == 11){
-                            dummycard[i] = 'A';
-                        }else{
-                            dummycard[i] = card[i];
-                        }
-                        //generates a new card for the player. If the card is a 10 it turns it into either a 10, J, Q, or King
-                        //If the card is an 11 it converts it into an ace. Otherwise the card doesn't change
-                        
-                        player_hand.push(dummycard[i]);
-                        message.channel.send(`Player's hand: ${player_hand.join()}`);
-                        //adds card to players hand and send message with contents of hand to player
-
-
-                        if (sum(player_hand_value) > 21){
-                            if (player_hand_value.indexOf(11) !== -1){
-                                player_hand_value[player_hand_value.indexOf(11)] = 1;
-                            }else{
-                                message.channel.send('Player busts');
-                                isStay = true;
-                                isPlayerbust = true;
-                            }
-                        }
-                        //checks if player is above 21. If they have an ace its value becomes 1 
-                        //If they don't have an ace they busted
-
-                    }
-                }catch(err){
-                    console.log(err)
-                    message.channel.send("Error Occured in 21.js Hit");
-                }
-                
-
-            break;
-
             case 'doubledown':
                 try{
-                    if (typeof(player_hand_value) == 'undefined'){
-                        message.channel.send("There isn't an ongoing hand");
-                    }else if(player_hand.length > 2){
-                        message.channel.send("You can't double down after you have already hit once");
-                    }else{
-                        if(parseFloat(total_money) >= 2 * parseFloat(bet2)){
-                            bet2 = parseFloat(bet2) * 2;
-                        }else{
-                            bet2 = total_money;
-                            message.channel.send(`You didn't have enough for a full double down so you double downed for less. You're new bet is ${total_money}`)
-                        }
-                        i = card.length + 1;
-                        card[i] = suit[Math.floor(Math.random()*suit.length)];
-                        player_hand_value.push(card[i]);
-                        if (card[i] == 10){
-                            dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
-                        }else if (card[i] == 11){
-                            dummycard[i] = 'A';
-                        }else{
-                            dummycard[i] = card[i];
-                        }
-                        //generates a new card for the player. If the card is a 10 it turns it into either a 10, J, Q, or King
-                        //If the card is an 11 it converts it into an ace. Otherwise the card doesn't change
-                            
-                        player_hand.push(dummycard[i]);
-                        message.channel.send(`Player's hand: ${player_hand.join()}`);
-                        //adds card to players hand and send message with contents of hand to player
-
-
-                        if (sum(player_hand_value) > 21){
-                            if (player_hand_value.indexOf(11) !== -1){
-                                player_hand_value[player_hand_value.indexOf(11)] = 1;
+                    if(master_list[player].gameStatus == 1){
+                        var cards = New_Card(suit,tens)
+                        if(master_list[player].isStay[0] == true){
+                            if(master_list[player].player_hand2.length == 2){
+                                if(total_money < master_list[player].bet[1]){
+                                    message.channel.send(`You could not fully double down. Your new bet is ${master_list[player].bet[1] + total_money}`)
+                                    purchase(total_money, message.author.id, message, master)
+                                    master_list[player].bet[1] = parseFloat(total_money) + parseFloat(master_list[player].bet[1])
+                                }else{
+                                    purchase(master_list[player].bet[1], message.author.id, message, master)
+                                    message.channel.send(`Your new bet is ${2 * master_list[player].bet[1]}`)
+                                    master_list[player].bet[1] = 2 * parseFloat(master_list[player].bet[1])
+                                }
+                                master_list[player].isStay[1] = true
+                                master_list[player].player_hand2.push(cards[0]);
+                                master_list[player].player_dummy_hand2.push(cards[1]);
+                                message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
+                                if(sum(master_list[player].player_hand2) > 21){
+                                    if (master_list[player].player_hand1.indexOf(11) !== -1){
+                                        master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
+                                    }else{
+                                        message.channel.send(`${master_list[player].name} hand 2 busts`)
+                                        master_list[player].isStay[1] = true
+                                    }
+                                }
+                                master_list[player].gameStatus = 11
                             }else{
-                                message.channel.send('Player busts');
-                                isPlayerbust = true;
-                            }                            }
-                            //checks if player is above 21. If they have an ace its value becomes 1 
-                            //If they don't have an ace they busted
-                            isStay = true;
+                                message.channel.send("You can't doubledown after you have already hit once")
+                            }
+                        }else{
+                            if(master_list[player].player_hand1.length == 2){
+                                if(total_money < master_list[player].bet[0]){
+                                    message.channel.send(`You could not fully double down. Your new bet is ${master_list[player].bet[0] + total_money}`)
+                                    purchase(total_money, message.author.id, message, master)
+                                    master_list[player].bet[0] = parseFloat(total_money) + parseFloat(master_list[player].bet[0])
+                                }else{
+                                    purchase(master_list[player].bet[0], message.author.id, message, master)
+                                    message.channel.send(`Your new bet is ${2 * master_list[player].bet[0]}`)
+                                    master_list[player].bet[0] = 2 * parseFloat(master_list[player].bet[0])
+                                }
+                                master_list[player].isStay[0] = true
+                                master_list[player].player_hand1.push(cards[0]);
+                                master_list[player].player_dummy_hand1.push(cards[1]);
+                                message.channel.send(`${master_list[player].name} Hand 1: ${master_list[player].player_dummy_hand1}`)
+                                if(sum(master_list[player].player_hand1) > 21){
+                                    if (master_list[player].player_hand1.indexOf(11) !== -1){
+                                        master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
+                                        if(sum(master_list[player].player_hand1) > 21){
+                                            master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
+                                        }
+                                    }else{
+                                        master_list[player].isStay[0] = true
+                                        if(master_list[player].isSplit == false){
+                                            master_list[player].gameStatus = 5; 
+                                        }else{
+                                            message.channel.send(`${master_list[player].name} hand 1 busts`)
+                                        }
+                                    }
+                                }
+                                if(master_list[player].isSplit == true){
+                                    message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
+                                }
+                            }else{
+                                message.channel.send("You can't doubledown after you have already hit once")
+                            }
                         }
+                        if(master_list[player].gameStatus == 5){
+                            message.channel.send("Player busts") 
+                        }
+                    }else{
+                        message.channel.send("There currently isn't a game being played");
+                    }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in 21.js Doubledown");
+                    message.channel.send("Error occured in !21.js Doubledown")
                 }
             break;
-
+            case 'status':
+                try{
+                    if(master_list[player].gameStatus == 1){
+                        Display_Status(master_list[player],message)
+                    }else{
+                        message.channel.send("There currently isn't a game being played")
+                    }
+                }catch(err){
+                    console.log(err)
+                    message.channel.send("Error occured in 21.js Status")
+                }
+            break;
             case 'stay':
                 try{
-                    if (typeof(player_hand_value) == 'undefined'){
-                        message.channel.send("There isn't an ongoing hand");
+                    if(master_list[player].isStay[0] == true){
+                        master_list[player].isStay[1] = true;
+                        master_list[player].gameStatus = 11;
                     }else{
-                        isStay = true;
+                        master_list[player].isStay[0] = true;
+                        if(master_list[player].isSplit == true){
+                            message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
+                        }
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in 21.js Stay");
+                    message.channel.send("Error occured in !21.js Stay")
                 }
-
             break;
-
-            case 'hands':
+            case 'surrender':
                 try{
-                    if (typeof(player_hand_value) == 'undefined'){
-                        message.channel.send("There isn't an ongoing hand")
+                    if(master_list[player].player_hand1.length > 2){
+                        message.channel.send("You can't surrender after you have already hit")
+                    }else if(master_list[player].isSplit == true){
+                        message.channel.send("You can't surrender after you have already split")
+                    }else if(master_list[player].gameStatus == 0){
+                        message.channel.send("There currently isn't a game being played")
                     }else{
-                        message.channel.send(`Dealer's hand: ${dealer_hand}`);
-                        message.channel.send(`Player's hand: ${player_hand}`);
+                        message.channel.send("Coward")
+                        master_list[player].isStay[0] = true;
+                        master_list[player].gameStatus = 10
                     }
-                    //checks if there is an ongoing hand. If there is it responds with the current hands
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in 21.js Hands");
+                    message.channel.send("Error occured in !21.js Surrender")
                 }
             break;
-
             case 'help':
                 try{
                     var blackjack_commands = fs.readFileSync('./text_files/blackjack_commands.txt','utf8');
@@ -240,95 +379,278 @@ module.exports = {
             break;
 
             default:
-                message.channel.send('Use "!21 help" for a list of commands');
-
+                message.channel.send('Use "!21 help for a list of commands')
         }
         try{
-            if (isStay == true && isPlayerbust == false){
-                message.channel.send(`Dealer's hand: ${dealer_hand2}`);
-                //checks if the player has stayed and if the payer has busted
-                //reveals the dealers full hand
-                if (dealer_hand_value.length == 2 && sum(dealer_hand_value) == 21){
-                    message.channel.send('Dealer has Blackjack');
-                    //checks if dealer has blackjack
+            if(master_list[player].isSplit == true && master_list[player].gameStatus !== 1){
+                if(sum(master_list[player].player_hand1) <= 21 || master_list[player].player_dummy_hand1 == ['A','A']){
+                    var hand1_bust = false;
                 }else{
-                    //makes sure it doesn't register two aces as busting
-                    if (sum(dealer_hand_value) > 21){
-                        if (dealer_hand_value.indexOf(11) !== -1){
-                            dealer_hand_value[dealer_hand_value.indexOf(11)] = 1;
-                        }else{
-                            message.channel.send('Dealer busts');
-                            gameongoing = false;
-                            isDealerbust = true;
-                        }
-                    }
-                    
-                    //if the dealer doesn't have blackjack the dealer gains cards until its over 17
-                    while (sum(dealer_hand_value) < 17 && blackjack == false){
-                        i = i + 1;
-                        card[i] = suit[Math.floor(Math.random()*suit.length)];
-                        dealer_hand_value.push(card[i]);
-                        if (card[i] == 10){
-                            dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
-                        }else if (card[i] == 11){
-                            dummycard[i] = 'A';
-                        }else{
-                            dummycard[i] = card[i];
-                        }
-                        dealer_hand2.push(dummycard[i]);
-                        message.channel.send(`Dealer's hand: ${dealer_hand2}`);
-                        if (sum(dealer_hand_value) > 21){
-                            if (dealer_hand_value.indexOf(11) !== -1){
-                                dealer_hand_value[dealer_hand_value.indexOf(11)] = 1;
-                            }else{
-                                message.channel.send('Dealer busts');
-                                gameongoing = false;
-                                isDealerbust = true;
-                            }
-                        }   
-                    }
+                    var hand1_bust = true;
                 }
-            }else if (isStay == true && isPlayerbust == true){
-                message.channel.send(`Dealer's hand: ${dealer_hand2}`);
-                gameongoing = false;
-                //checks if player busted
-            }
-            if (isStay == true && gameongoing == false){
-                isStay = false;
 
-                //checks if either player busted
-                //deletes dealt card array so new hand can be started
-                if (isPlayerbust == true){
-                    message.channel.send(`Dealer wins`);
-                    betting(bet2, 'lose', gambler);
-                    delete(player_hand_value);
-                }else if (isDealerbust == true){
-                    message.channel.send('Player wins');
-                    betting(bet2, 'win', gambler);
-                    delete(player_hand_value);
+                if(sum(master_list[player].player_hand2) <= 21|| master_list[player].player_dummy_hand2 == ['A','A']){
+                    var hand2_bust = false;
                 }else{
-                    //if neither player nor dealer busted both hands are compared to see who won
-                    
-                    if (sum(player_hand_value) > sum(dealer_hand_value)){
-                        message.channel.send('Player wins');
-                        betting(bet2, 'win', gambler);
-                        delete(player_hand_value);
-                    }else if (sum(player_hand_value) < sum(dealer_hand_value)){
-                        message.channel.send('Dealer wins');
-                        betting(bet2, 'lose', gambler);
-                        delete(player_hand_value);
-                    }else{
-                        message.channel.send('Players pushes');
-                        betting(bet2, 'push', gambler);
-                        delete(player_hand_value);
+                    var hand2_bust = true;
+                }
+                if(hand1_bust == false || hand2_bust == false){
+                    if(sum(master_list[player].dealer_hand) > 21){
+                        if (master_list[player].dealer_hand.indexOf(11) !== -1){
+                            master_list[player].dealer_hand[master_list[player].dealer_hand.indexOf(11)] = 1;
+                        }
                     }
+                    setTimeout(function(){
+                        while(sum(master_list[player].dealer_hand) < 17){
+                            var cards = New_Card(suit,tens)
+                            master_list[player].dealer_hand.push(cards[0]);
+                            master_list[player].dealer_dummy_hand.push(cards[1]);
+                            message.channel.send(`Dealer hand: ${master_list[player].dealer_dummy_hand}`)
+                            if(sum(master_list[player].dealer_hand) > 21){
+                                if (master_list[player].dealer_hand.indexOf(11) !== -1){
+                                    master_list[player].dealer_hand[master_list[player].dealer_hand.indexOf(11)] = 1;
+                                }else{
+                                    master_list[player].gameStatus = 12
+                                    message.channel.send("Dealer busts")
+                                }
+                            }  
+                        }
+                    }, 20)
+                    Display_Final(master_list[player], message)
+                    setTimeout(function(){    
+                        if(master_list[player].gameStatus == 12){
+                            var winnings = 0
+                            if(hand1_bust == false){
+                                purchase(-2 * parseFloat(master_list[player].bet[0]), message.author.id, message, master);
+                                winnings = winnings + parseFloat(master_list[player].bet[0])
+                            }
+                            if(hand2_bust == false){
+                                purchase(-2 * parseFloat(master_list[player].bet[1]), message.author.id, message, master)
+                                winnings = winnings + parseFloat(master_list[player].bet[1])
+                            }
+                            message.channel.send(`${master_list[player].name} wins ${winnings} gbp`)
+
+                            reset(master_list, player)
+
+                        }else{
+                            var winnings = 0
+                            if(master_list[player].player_dummy_hand1 == ['A','A']){
+                                master_list[player].player_hand1 = [11, 1]
+                            }
+                            if(master_list[player].player_dummy_hand2 == ['A','A']){
+                                master_list[player].player_hand2 = [11, 1]
+                            }
+                            
+                            if(sum(master_list[player].player_hand1) > sum(master_list[player].dealer_hand) && hand1_bust == false){
+                                purchase(-2 * parseFloat(master_list[player].bet[0]), message.author.id, message, master);
+                                winnings = winnings + parseFloat(master_list[player].bet[0])
+                                message.channel.send(`${master_list[player].name} wins hand 1 and ${master_list[player].bet[0]} gbp`)
+                            }else if(sum(master_list[player].player_hand1) == sum(master_list[player].dealer_hand)){
+                                purchase(-1 * parseFloat(master_list[player].bet[0]), message.author.id, message, master);
+                                winnings = winnings + parseFloat(master_list[player].bet[0])
+                                message.channel.send(`Dealer pushes hand 1`)
+                            }else{
+                                message.channel.send("Dealer wins hand 1")
+                                winnings = 0
+                            }
+                
+                            if(sum(master_list[player].player_hand2) > sum(master_list[player].dealer_hand) & hand2_bust == false){
+                                purchase(-2 * parseFloat(master_list[player].bet[1]), message.author.id, message, master)
+                                winnings = winnings + parseFloat(master_list[player].bet[1])
+                                message.channel.send(`${master_list[player].name} wins hand 2 and ${master_list[player].bet[0]} gbp`)
+                            }else if(sum(master_list[player].player_hand2) == sum(master_list[player].dealer_hand)){
+                                purchase(-1 * parseFloat(master_list[player].bet[0]), message.author.id, message, master);
+                                winnings = winnings + parseFloat(master_list[player].bet[0])
+                                message.channel.send(`Dealer pushes hand 2`)
+                            }else{
+                                winnings = winnings
+                                message.channel.send("Dealer wins hand 2")
+                            }
+
+                            reset(master_list, player)
+                        }
+                    }, 20)
+                }else{
+                    Display_Final(master_list[player], message)
+                    message.channel.send("Dealer wins")
+                }
+            }else if(master_list[player].isSplit == false && master_list[player].isStay[0] == true){
+                if(master_list[player].isStay[0] == true){
+                    message.channel.send(`Dealer hand: ${master_list[player].dealer_dummy_hand}`)
+                    if([2,3,4,5,10].includes(master_list[player].gameStatus) == false){    
+                        if(sum(master_list[player].dealer_hand) > 21){
+                            if (master_list[player].dealer_hand.indexOf(11) !== -1){
+                                master_list[player].dealer_hand[master_list[player].dealer_hand.indexOf(11)] = 1;
+                            }
+                        }
+                        while(sum(master_list[player].dealer_hand) < 17){
+                            var cards = New_Card(suit,tens)
+                            master_list[player].dealer_hand.push(cards[0]);
+                            master_list[player].dealer_dummy_hand.push(cards[1]);
+                            
+                            if(sum(master_list[player].dealer_hand) > 21){
+                                if (master_list[player].dealer_hand.indexOf(11) !== -1){
+                                    master_list[player].dealer_hand[master_list[player].dealer_hand.indexOf(11)] = 1;
+                                }else{
+                                    master_list[player].gameStatus = 6
+                                }
+                            }
+                            message.channel.send(`Dealer hand: ${master_list[player].dealer_dummy_hand}`)            
+                            
+                        }
+                    }
+                    if([2,3,4,5,6,10].includes(master_list[player].gameStatus) == false){
+                        if(sum(master_list[player].player_hand1) == sum(master_list[player].dealer_hand)){
+                            master_list[player].gameStatus = 7
+                        }else if(sum(master_list[player].player_hand1) < sum(master_list[player].dealer_hand)){
+                            master_list[player].gameStatus = 8
+                        }else{
+                            master_list[player].gameStatus = 9
+                        }
+                    }
+                    setTimeout(function(){ 
+                        switch(master_list[player].gameStatus){
+                            case 2:
+                                message.channel.send("Dealer has blackjack")
+                                message.channel.send("Dealer wins")
+                            break;
+                            case 3:
+                                message.channel.send("Player has blackjack")
+                                message.channel.send("Player wins")
+                                message.channel.send(`${master_list[player].name} wins ${1.5 * parseFloat(master_list[player].bet[0])} gbp`)
+                                purchase(-2.5 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
+
+                            break;
+                            case 4:
+                                message.channel.send("Player has blackjack")
+                                message.channel.send("Dealer has blackjack")
+                                message.channel.send("Player pushes")
+                                purchase(-1 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
+                            break;
+                            case 5:
+                                message.channel.send("Dealer wins") 
+                            break;
+                            case 6:
+                                message.channel.send("Dealer busts")
+                                message.channel.send("Player wins")
+                                message.channel.send(`${master_list[player].name} wins ${1 * parseFloat(master_list[player].bet[0])} gbp`)
+                                purchase(-2 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
+                            break;
+                            case 7:
+                                message.channel.send("Player pushes")
+                                purchase( -1 * parseFloat(master_list[player].bet[0]), message.author.id, message)
+                            break;
+                            case 8:
+                                message.channel.send("Dealer wins")
+                            break;
+                            case 9:
+                                message.channel.send("Player wins")
+                                message.channel.send(`${master_list[player].name} wins ${1 * parseFloat(master_list[player].bet[0])} gbp`)
+                                purchase(-2 * master_list[player].bet[0], message.author.id, message, master) 
+                            break;
+                            case 10:
+                                purchase(-0.5 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
+                                message.channel.send(`You recieved ${.5 * parseFloat(master_list[player].bet[0])} gbp back`)
+                            break;
+
+                            /*
+                            Game Status: 
+                                0 - No game ongoing
+                                1 - Game ongoing
+                                2 - Dealer has blackjack
+                                3 - Player has blackjack
+                                4 - Both have blackjack
+                                5 - Player Busts
+                                6 - Dealer Busts
+                                7 - Player pushes
+                                8 - Dealer wins without bust
+                                9 - Player wins without bust
+                                10 - Player Surrenders
+                                11 - Player Split Options
+                            */
+                        }
+                        reset(master_list, player)
+                    }, 10)
                 }
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in 21.js");
+            message.channel.send("Error occured in !21.js Outcome")
         }
-    }    
+    }
+}
+
+
+function purchase(bet_value, player, message, master) {
+    try{
+        const fs = require('fs');
+        //var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        for(i in master){
+            if(player == i){
+                master[message.author.id].gbp = parseFloat(master[message.author.id].gbp) - parseFloat(bet_value)
+            }
+        }
+
+
+        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+    }catch(err){
+        console.log(err)
+        message.channel.send("Error Occured in 21.js Purchase");
+    }
+
+}
+
+function New_Card(suit, tens){
+    try{
+        var dummycard = "";
+        var card = suit[Math.floor(Math.random()*suit.length)];
+        if (card == 10){
+            dummycard = tens[Math.floor(Math.random()*tens.length)];
+        }else if (card == 11){
+            dummycard = 'A';
+        }else{
+            dummycard = card;
+        }
+        return [card, dummycard]
+    }catch(err){
+        console.log(err)
+        message.channel.send("Error occured in new21.js New_Card")
+    }
+}
+
+function Display_Status(master_list, message){
+    const Discord = require('discord.js')
+    var current_bet = master_list.bet;
+    var current_hand1 = master_list.player_dummy_hand1;
+    var current_hand2 = master_list.player_dummy_hand2;
+    var dealer_hand = master_list.dealer_dummy_hand;
+    if(current_hand2.length == 0){
+        var blackjack_stats = `Dealer's hand: ${dealer_hand[0]} ?\nPlayer's hand: ${current_hand1} \nCurrent bet: ${current_bet[0]}`
+    }else{
+        var blackjack_stats = `Dealer's hand: ${dealer_hand[0]} ?\nPlayer's hand 1: ${current_hand1} \nPlayer's Hand 2: ${current_hand2} \nCurrent bet: ${current_bet[0]}|${current_bet[1]}`
+    }
+    const blackjack_stats_embed = new Discord.RichEmbed()
+    .addField(`${master_list.name} Game Status:`, blackjack_stats);
+    message.channel.send(blackjack_stats_embed);
+}
+function Display_Final(master_list, message){
+    const Discord = require('discord.js')
+    var current_bet = master_list.bet;
+    var current_hand1 = master_list.player_dummy_hand1;
+    var current_hand2 = master_list.player_dummy_hand2;
+    var dealer_hand = master_list.dealer_dummy_hand;
+    if(current_hand2.length == 0){
+        var blackjack_stats = `Dealer's hand: ${dealer_hand} \nPlayer's hand: ${current_hand1} \nCurrent bet: ${current_bet[0]}`
+    }else{
+        var blackjack_stats = `Dealer's hand: ${dealer_hand} \nPlayer's hand 1: ${current_hand1} \nPlayer's Hand 2: ${current_hand2} \nCurrent bet: ${current_bet[0]}|${current_bet[1]}`
+    }
+    const blackjack_stats_embed = new Discord.RichEmbed()
+    .addField(`${master_list.name} Game Status:`, blackjack_stats);
+    message.channel.send(blackjack_stats_embed);
 }
 
 
@@ -341,66 +663,16 @@ function sum(arr) {
     }
     return s;
 }
-
-function betting(bet_value, outcome, player) {
-    try{    
-        const fs = require('fs');
-        var holdings = fs.readFileSync('./text_files/currency.txt','utf8');
-        var user_and_currency = holdings.split(",");
-        var user_money = [];
-        var just_discrim = [];
-        var array = [];
-        var final_array = [];
-
-        switch(outcome){
-            //checks outcome to apply proper muliplier to bet
-            case 'win':
-                bet_value = parseFloat(bet_value);
-            break;
-
-            case 'lose':
-                bet_value = parseFloat(bet_value) * -1
-            break;
-
-            case 'push':
-                bet_value = 0;
-            break;
-        }
-
-        for (i = 0; i < user_and_currency.length; i++) {
-            user_money[i] = user_and_currency[i].split(" ");
-        }
-        //breaks .txt into individual person/money pairs
-
-
-        for (i = 0; i < user_money.length; i++) {
-            array[i] = {discrim: user_money[i][0],
-                        name: user_money[i][1],
-                        money: user_money[i][2]}
-        }
-        //turns each pair into an object array
-
-        for (i = 0; i < array.length; i++) {
-            just_discrim[i] = array[i].discrim;
-        }
-        //assigns just the names in the object array to another array that can be used to cross reference the current players name
-        
-        for (i = 0; i < array.length; i++) {
-            if (just_discrim[i] === player){
-                array[i].money = String(parseFloat(array[i].money) + parseFloat(bet_value));
-            }
-        }
-        //compares the current players name to all other server names to see where to attribute bet to
-        
-
-        for (j = 0; j < array.length; j++) {
-            final_array[j] = array[j].discrim + " " + array[j].name + " " + array[j].money;
-        }
-        //converts object array back into normal array that can be easily written into a text file
-
-        fs.writeFileSync('./text_files/currency.txt', final_array);
-    }catch(err){
-        console.log(err)
-        message.channel.send("Error Occured in 21.js Betting");
-    }
+function reset(master_list, player){
+    master_list[player].player_hand1 = [];
+    master_list[player].player_hand2 = [];
+    master_list[player].player_dummy_hand1 = [];
+    master_list[player].player_dummy_hand2 = [];
+    master_list[player].dealer_hand = [];
+    master_list[player].dealer_dummy_hand = [];
+    master_list[player].bet = "";
+    master_list[player].gameStatus = 0;
+    master_list[player].isStay = [false, true];
+    master_list[player].blackjack = false;
+    master_list[player].isSplit = false
 }

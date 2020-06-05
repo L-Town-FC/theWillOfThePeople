@@ -29,9 +29,9 @@ module.exports = {
                             }else if(master[i].gbp < 0){
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 5) * 100)/100
                             }else if(master[i].gbp < 250){
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 2) * 100)/100
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 3) * 100)/100
                             }else if(master[i].gbp < 500){
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 1.5) * 100)/100
+                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 2) * 100)/100
                             }else if(master[i].gbp < 750){
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 1) * 100)/100
                             }else if(master[i].gbp < 1000){

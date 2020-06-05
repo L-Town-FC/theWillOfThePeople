@@ -6,9 +6,9 @@ module.exports = {
         const cheerio = require('cheerio');
         const request = require('request');
         const fs = require('fs');
-        var max_kumikos= 60
+        var max_kumikos = 60
         var kumiko = Math.ceil(Math.random()*max_kumikos);
-        var price = 10
+        var price = 20
 
         try{
             if(money < price){
