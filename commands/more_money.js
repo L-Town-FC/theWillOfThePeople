@@ -41,7 +41,7 @@ module.exports = {
                             }
                         }
                     }
-                    fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+                    fs.writeFileSync ("master.json", JSON.stringify(master), function(err) {
                         if (err) throw err;
                         console.log('complete');
                         }

@@ -4,7 +4,7 @@ Bug Fixes:
 
 New Features/Updates:
 -!steal Allows you to steal from other people. You steal between 15-25% of whatever you pay from specified person
-    -Used for trolling because you will also steal less than what you pay
+    -Used for trolling because you will always steal less than what you pay
 -Min bet for !21 was lowered to 15 gbp
 -You can now surrender and split in !21
 -!guessgame has changed to !gg
