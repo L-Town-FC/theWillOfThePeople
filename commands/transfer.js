@@ -23,8 +23,9 @@ module.exports = {
                 names[i] = full_list_split[i][1].toLowerCase();
             }
 
-
-            if(args.length == 1){
+            if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){
+                message.channel.bulkDelete(1)
+            }else if(args.length == 1){
                 message.channel.send("The format is !transfer [Person you want to transfer to] [amount to transfer]")
             }else if(names.includes(recipient.toLowerCase()) !== true){
                 message.channel.send("That recipient doesn't exist");

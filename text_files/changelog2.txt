@@ -2,3 +2,4 @@
 -Total number of lottery tickets was reduced to 15000
 -!kumiko now costs 20 gbp
 -!roles can now be updated by the supreme leader
+-!bank and !transfer will now auto-delete from the bot-tinkering channel

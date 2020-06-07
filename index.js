@@ -24,11 +24,16 @@ bot.on('ready', () => {
 })
 
 bot.on('message', message =>{
-    bot.commands.get('simmerdowncount').execute(message);
-    bot.commands.get('insult_counter').execute(message);
-    bot.commands.get('boo_trigger').execute(message);
-    bot.commands.get('more_money').execute(message);
-    //console.log(message)
+    try{
+        bot.commands.get('simmerdowncount').execute(message);
+        bot.commands.get('insult_counter').execute(message);
+        bot.commands.get('boo_trigger').execute(message);
+        bot.commands.get('more_money').execute(message);
+        //console.log(message)
+    }catch(err){
+        console.log(err)
+        message.channel.send("Error occured in message parser")
+    }
 })
 
 
@@ -98,9 +103,6 @@ bot.on('message', message =>{
                 case 'reserves':
                     bot.commands.get('reserves').execute(message,args)
                 break;
-                case 'new21':
-                    bot.commands.get('new21').execute(message,args,total_money(message.author.id))//
-                break
                 case 'help':
                     bot.commands.get('help').execute(message);
                 break;

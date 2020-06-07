@@ -67,7 +67,7 @@ module.exports = {
                         // Test Cards
                         //card[0] = 11;
                         //card[1] = 11;
-                        //card[2] = 2;
+                        //card[2] = 11;
                         //card[3] = 2;
                         //
 
@@ -471,7 +471,7 @@ module.exports = {
                         }
                     }, 20)
                 }else{
-                    Display_Final(master_list[player], message)
+                    message.channel.send(`Dealer's Hand: ${master_list[player].dealer_dummy_hand}`)
                     message.channel.send("Dealer wins")
                 }
             }else if(master_list[player].isSplit == false && master_list[player].isStay[0] == true){

@@ -10,7 +10,9 @@ module.exports = {
         var success = false;
         
         try{
-            if(typeof(name) == 'undefined'){
+            if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){
+                message.channel.bulkDelete(1)
+            }else if(typeof(name) == 'undefined'){
                 for(i in master){
                     if(user == i){
                         message.channel.send(`${master[i].name} has ${master[i].gbp} gbp`);

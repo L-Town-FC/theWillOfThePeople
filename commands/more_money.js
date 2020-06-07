@@ -2,10 +2,23 @@ module.exports = {
     name: 'more_money',
     description: 'gives 1 gbp every message',
     execute(message){
-
+        
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
-        var person = message.author.id
+        try{
+            var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+            var person = message.author.id
+            var backup = JSON.parse(fs.readFileSync("backup.json", "utf-8"))
+        }catch(err){
+            console.log(err)
+            message.channel.send("Error occured in master.json. File reset")
+            var backup = JSON.parse(fs.readFileSync("backup.json", "utf-8"))
+            fs.writeFile ("master.json", JSON.stringify(backup), function(err) {
+                if (err) throw err;
+                console.log('complete');
+                }
+            );
+        }
+
         try{
             for(i in master){
                 if(master[i].gbp == null){
@@ -19,14 +32,12 @@ module.exports = {
             }
 
 
-            
+        
             if(message.author.discriminator !== '9509' && message.author.discriminator !== '0250'){
                 if(message.content.startsWith("!") == false){
                     for(i in master){
                         if(person == i){
-                            if(message.channel.type === 'dm'){
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 0.25) * 100)/100
-                            }else if(master[i].gbp < 0){
+                            if(master[i].gbp < 0){
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 5) * 100)/100
                             }else if(master[i].gbp < 250){
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 3) * 100)/100
