@@ -9,14 +9,17 @@ module.exports = {
             var person = message.author.id
             var backup = JSON.parse(fs.readFileSync("backup.json", "utf-8"))
         }catch(err){
-            console.log(err)
-            message.channel.send("Error occured in master.json. File reset")
-            var backup = JSON.parse(fs.readFileSync("backup.json", "utf-8"))
-            fs.writeFile ("master.json", JSON.stringify(backup), function(err) {
-                if (err) throw err;
-                console.log('complete');
-                }
-            );
+            try{
+                message.channel.send("Error occured in master.json. File reset")
+                var backup = JSON.parse(fs.readFileSync("backup.json", "utf-8"))
+                fs.writeFile ("master.json", JSON.stringify(backup), function(err) {
+                    if (err) throw err;
+                    console.log('complete');
+                    }
+                );
+            }catch(err){
+                console.log(err)
+            }
         }
 
         try{
