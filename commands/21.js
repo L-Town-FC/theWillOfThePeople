@@ -65,10 +65,10 @@ module.exports = {
                         }
 
                         // Test Cards
-                        //card[0] = 11;
-                        //card[1] = 11;
-                        //card[2] = 11;
-                        //card[3] = 2;
+                        //card[0] = 10;
+                        //card[1] = 10;
+                        //card[2] = 10;
+                        //card[3] = 10;
                         //
 
                         master_list[player].player_hand1 = [card[0], card[1]];
@@ -542,7 +542,7 @@ module.exports = {
                             break;
                             case 7:
                                 message.channel.send("Player pushes")
-                                purchase( -1 * parseFloat(master_list[player].bet[0]), message.author.id, message)
+                                purchase( -1 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
                             break;
                             case 8:
                                 message.channel.send("Dealer wins")
