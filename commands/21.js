@@ -334,14 +334,18 @@ module.exports = {
             break;
             case 'stay':
                 try{
-                    if(master_list[player].isStay[0] == true){
-                        master_list[player].isStay[1] = true;
-                        master_list[player].gameStatus = 11;
-                    }else{
-                        master_list[player].isStay[0] = true;
-                        if(master_list[player].isSplit == true){
-                            message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
+                    if(master_list[player].gameStatus !== 0){
+                        if(master_list[player].isStay[0] == true){
+                            master_list[player].isStay[1] = true;
+                            master_list[player].gameStatus = 11;
+                        }else{
+                            master_list[player].isStay[0] = true;
+                            if(master_list[player].isSplit == true){
+                                message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
+                            }
                         }
+                    }else{
+                        message.channel.send("You aren't playing a game")
                     }
                 }catch(err){
                     console.log(err)
