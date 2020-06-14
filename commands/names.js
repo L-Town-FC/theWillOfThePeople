@@ -4,7 +4,7 @@ module.exports = {
     execute(message,args){
         const fs = require('fs');
         const Discord = require('discord.js');
-        const master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        const master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var just_names = [];
         var counter = 0
 

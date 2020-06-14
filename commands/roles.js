@@ -5,7 +5,7 @@ module.exports = {
         const fs = require('fs')
         var roles = fs.readFileSync('./text_files/roles.txt','utf8');
         var split_roles = roles.split(",")
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var names = [];
         var counter = 0
 

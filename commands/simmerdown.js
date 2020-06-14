@@ -3,7 +3,7 @@ module.exports = {
     description: 'sends number of simmer downs',
     execute(message,args){
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var person = args[1];
         var success = false;
 

@@ -2,7 +2,14 @@ module.exports = {
     name: 'test',
     description: 'custom emoji test',
     execute(message,args){
-        message.react('714888315173601350')
+        const fs = require('fs')
+        var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
+
+        fs.writeFileSync ("./JSON/achievements.json", JSON.stringify(achievements, null, 2), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
     }
 
 }

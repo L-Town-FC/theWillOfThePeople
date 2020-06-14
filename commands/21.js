@@ -11,7 +11,7 @@ module.exports = {
         var new_bet = args[2];
         var min_bet = 15;
         var command = args[1];
-        master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         if(typeof(master_list) == 'undefined'){
             master_list = []; 
@@ -370,6 +370,9 @@ module.exports = {
                     message.channel.send("Error occured in !21.js Surrender")
                 }
             break;
+            case 'reset':
+                reset(master_list, player)
+            break;
             case 'help':
                 try{
                     var blackjack_commands = fs.readFileSync('./text_files/blackjack_commands.txt','utf8');
@@ -588,7 +591,7 @@ module.exports = {
 function purchase(bet_value, player, message, master) {
     try{
         const fs = require('fs');
-        //var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        //var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         for(i in master){
             if(player == i){
                 master[message.author.id].gbp = parseFloat(master[message.author.id].gbp) - parseFloat(bet_value)
@@ -596,7 +599,7 @@ function purchase(bet_value, player, message, master) {
         }
 
 
-        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
             }

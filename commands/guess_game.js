@@ -5,7 +5,7 @@ module.exports = {
         const Discord = require('discord.js');
         const fs = require('fs');
         const min_bet = 5;
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var bet = args[2];
         var person = message.author.id;
         var guess = args[2];
@@ -101,7 +101,7 @@ function is_Ongoing() {
     try{
         const fs = require('fs');
         var number = fs.readFileSync('./text_files/guessgame.txt','utf8').split(" ");
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var player = number[2];
         var name = "";
         var guess_number = number[0];
@@ -190,7 +190,7 @@ function first_guess(player, bet){
 function purchase(bet_value, player) {
     try{
         const fs = require('fs');
-        master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         for(i in master){
             if(player == i){
                 if((master[i].gbp) == 'NaN'){
@@ -200,7 +200,7 @@ function purchase(bet_value, player) {
             }
         }
 
-        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
             }

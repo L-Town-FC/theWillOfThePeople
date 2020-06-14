@@ -1,0 +1,122 @@
+{
+  "1": {
+    "name": "High Roller",
+    "description": "Win a 21 hand for 1000 or more"
+  },
+  "2": {
+    "name": "Buster",
+    "description": "Lose a 21 hand for 1000 or more"
+  },
+  "3": {
+    "name": "L",
+    "description": "Be at or below 0 gbp"
+  },
+  "4": {
+    "name": "Psychic",
+    "description": "Win 5 guess games"
+  },
+  "5": {
+    "name": "Master Pugilist",
+    "description": "Use !pug 25 times"
+  },
+  "6": {
+    "name": "Too Big To Fail",
+    "description": "Have 10000 gbp at one time"
+  },
+  "7": {
+    "name": "Your a Dumbass",
+    "description": "Use !bank or !transer in the bot tinkering channel"
+  },
+  "8": {
+    "name": "This Bot is Rigged",
+    "description": "Lose 5 hands of blackjack in a row"
+  },
+  "9": {
+    "name": "It aint Easy but its Honest Work",
+    "description": "Send 250 farm messages"
+  },
+  "10": {
+    "name": "JACKPOT",
+    "description": "Win the Lottery"
+  },
+  "11": {
+    "name": "Trust Nobody",
+    "description": "Be stolen from"
+  },
+  "12": {
+    "name": "Better to ask for Forgiveness than Permission",
+    "description": "Steal from someone"
+  },
+  "13": {
+    "name": "Professional Asshole",
+    "description": "Move !insults or !boo 3 times"
+  },
+  "14": {
+    "name": "Kumiko Connoiseur",
+    "description": "Use !kumiko 25 times"
+  },
+  "15": {
+    "name": " Fetishist",
+    "description": "Post in both the doban and the feet chat"
+  },
+  "16": {
+    "name": "Easy Money",
+    "description": "Be transferred money in the stack your family chat"
+  },
+  "17": {
+    "name": "Fucking Liberal",
+    "description": "Send 100 messages in the politics chat"
+  },
+  "18": {
+    "name": "I Serve the Realm",
+    "description": "Use !council 5 times"
+  },
+  "19": {
+    "name": "As God Intended it",
+    "description": "Use !insults on Alex"
+  },
+  "20": {
+    "name": "Toxic",
+    "description": "Have both !boo and !insults on you at the same time"
+  },
+  "21": {
+    "name": "There is Only So Much Abuse You Can Take",
+    "description": "Be insulted by the bot 10 times"
+  },
+  "22": {
+    "name": "Masochist",
+    "description": "Put !insults or !boo on yourself"
+  },
+  "23": {
+    "name": "Psycho",
+    "description": "Play 50 hands of 21 for atleast 200 gbp"
+  },
+  "24": {
+    "name": "Large and In Charge",
+    "description": "Hold an elected position"
+  },
+  "25": {
+    "name": "History is Written by the Victors",
+    "description": "Use !delete 5 times"
+  },
+  "26": {
+    "name": "Massive Dobonhokeros",
+    "description": "Post in the doban chat 25 times"
+  },
+  "27": {
+    "name": "I Love Some Porkie Piggies",
+    "description": "Post in the feet chat 25 times"
+  },
+  "28": {
+    "name": "We Live in a Society",
+    "description": "Post in the gamer chat 100 times"
+  },
+  "29": {
+    "name": "Enlightened",
+    "description": "Post in the anime chat 100 times"
+  },
+  "30": {
+    "name": "Trickle Down Economics",
+    "description": "Steal from the poorest person on the server"
+  }
+}

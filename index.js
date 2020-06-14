@@ -19,7 +19,11 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
+    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
     console.log('This bot is online')
+    setInterval(function(){
+        Welfare(channel)
+    }, 86400 * 1000)
 })
 
 bot.on('message', message =>{
@@ -114,6 +118,12 @@ bot.on('message', message =>{
                 case 'steal':
                     bot.commands.get('steal').execute(message,args,total_money(message.author.id));
                 break;
+                case 'backup':
+                    bot.commands.get('backup').execute(message,args);
+                break;
+                case 'achievements':
+                    bot.commands.get('achievements').execute(message,args);
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message,args);
                 break;
@@ -134,7 +144,7 @@ bot.login(token);
 function total_money(person) {
     try{
         const fs = require('fs')
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         
         for(i in master){
             if(person == i){
@@ -146,4 +156,21 @@ function total_money(person) {
         console.log(err)
         message.channel.send("Error Occured in Index.js Total_Money");
     }
+}
+
+function Welfare(channel){
+    const fs = require('fs')
+    master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+
+    for(i in master){
+        if(master[i].gbp < 250){
+            master[i].gbp = 250
+        }
+    }
+    channel.send("Welfare has been distributed")
+    fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
 }

@@ -3,7 +3,7 @@ module.exports = {
     description: 'lets me set gbp',
     execute(message,args){
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var recipient = args[1];
         var amount = args[2];
         var success = false;
@@ -15,7 +15,7 @@ module.exports = {
                         master[i].gbp = parseFloat(amount)
                         message.channel.send(`${master[i].name} has been set to ${master[i].gbp} gbp`)
                         var success = true
-                        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+                        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
                             if (err) throw err;
                             console.log('complete');
                             }

@@ -45,14 +45,14 @@ module.exports = {
 function counter(person, message) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         
         for(i in master){
             if(person == i){
                 master[i].simmerdown = parseInt(master[i].simmerdown) + 1
             }
         }
-        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
             }

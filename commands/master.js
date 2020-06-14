@@ -5,14 +5,16 @@ module.exports = {
         const fs = require('fs')
         const {Discord, Attachment} = require('discord.js')
         
-        var money = new Attachment('master.json');
+        var money = new Attachment('./JSON/master.json');
         var lottery = new Attachment('./text_files/lottery_stats.txt')
         var insults = new Attachment('./text_files/insult_counter.txt')
         var boo = new Attachment('./text_files/boo.txt')
+        var tracker = new Attachment('./JSON/achievements_tracker.json')
         message.channel.send(money)
         message.channel.send(lottery)
         message.channel.send(insults)
         message.channel.send(boo)
+        message.channel.send(tracker)
     }
 
 }

@@ -4,7 +4,7 @@ module.exports = {
     execute(message,args,money){
         const fs = require('fs');
         var insultee_and_count = fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var price = 1500;
         var name = args[1];
         var success = false;
@@ -48,14 +48,14 @@ module.exports = {
 function purchase(bet_value, player) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(i == player){
                 master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value);
             }
         }
-        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
             }

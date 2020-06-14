@@ -145,7 +145,7 @@ function attempt(amount, money_spent){
 function purchase(bet_value, player) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(player == i){
@@ -153,7 +153,7 @@ function purchase(bet_value, player) {
             }
         }
 
-        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
             }

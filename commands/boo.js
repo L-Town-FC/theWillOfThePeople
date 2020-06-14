@@ -3,7 +3,7 @@ module.exports = {
     description: 'custom emoji test',
     execute(message,args,money){
         const fs = require('fs')
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var boo = fs.readFileSync('./text_files/boo.txt', "utf-8")
         var price = 250;
         var name = args[1];
@@ -38,14 +38,14 @@ module.exports = {
 function purchase(bet_value, player, message) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(player == i){
                 master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
             }
         }
-        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
             }

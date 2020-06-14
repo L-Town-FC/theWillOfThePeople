@@ -8,7 +8,7 @@ module.exports = {
         var recipient = args[1];
         var amount = args[2];
         var initiator = message.author.id;
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         var full_list = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
         var full_list_split = [];
@@ -52,7 +52,7 @@ function give_money(initiator, recipient, amount) {
     try{
         const Discord = require('discord.js');
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(initiator == i){
@@ -65,7 +65,7 @@ function give_money(initiator, recipient, amount) {
             }
         }
 
-        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
             }

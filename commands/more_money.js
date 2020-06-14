@@ -5,14 +5,14 @@ module.exports = {
         
         const fs = require('fs');
         try{
-            var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+            var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
             var person = message.author.id
-            var backup = JSON.parse(fs.readFileSync("backup.json", "utf-8"))
+            var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
         }catch(err){
             try{
                 message.channel.send("Error occured in master.json. File reset")
-                var backup = JSON.parse(fs.readFileSync("backup.json", "utf-8"))
-                fs.writeFile ("master.json", JSON.stringify(backup), function(err) {
+                var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
+                fs.writeFile ("./JSON/master.json", JSON.stringify(backup), function(err) {
                     if (err) throw err;
                     console.log('complete');
                     }
@@ -26,7 +26,7 @@ module.exports = {
             for(i in master){
                 if(master[i].gbp == null){
                     master[i].gbp = 0;
-                    fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+                    fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
                         if (err) throw err;
                         console.log('complete');
                         }
@@ -55,7 +55,7 @@ module.exports = {
                             }
                         }
                     }
-                    fs.writeFileSync ("master.json", JSON.stringify(master), function(err) {
+                    fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), function(err) {
                         if (err) throw err;
                         console.log('complete');
                         }

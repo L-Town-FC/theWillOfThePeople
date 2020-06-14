@@ -1,23 +1,7 @@
-Bug Fixes:
--!kumiko sends pics again
--!pug sends pics again
-
 New Features/Updates:
--!steal Allows you to steal from other people. You steal between 15-25% of whatever you pay from specified person
-    -Used for trolling because you will always steal less than what you pay
--Min bet for !21 was lowered to 15 gbp
--You can now surrender and split in !21
--!guessgame has changed to !gg
--!boo makes bot react to every message the specified user sends with :booo: and costs 250 gbp
--gbp per message is now progressive based on how much gbp you have:
-    -5 per message if less than 0
-    -3 per message if less than 250
-    -2 per message if less than 500
-    -1 per message if less than 750
-    -0.5 per message if less than 1000
-    -0.25 per message for anything more than 1000
--!insults now costs 1500 gbp to encourage it moving more
--!herald now only triggers when the person using it uses the "!herald say" command followed by their message
+-Welfare system will once a day set everyone below 250 gbp to 250 gbp
+-"!21 reset" now resets the game if a glitch occurs
+-New Ultra Rare Kumiko
 
 
 

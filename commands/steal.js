@@ -50,7 +50,7 @@ function steal(initiator, recipient, amount, stolen_percent) {
     try{
         const Discord = require('discord.js');
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("master.json", "utf-8"))
+        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(initiator == i){
@@ -63,7 +63,7 @@ function steal(initiator, recipient, amount, stolen_percent) {
             }
         }
 
-        fs.writeFileSync ("master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
             }
