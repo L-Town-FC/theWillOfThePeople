@@ -4,6 +4,7 @@ module.exports = {
     execute(message,args,total_money){
         const fs = require('fs');
         const Discord = require('discord.js');
+        const unlock = require('./Functions/Achievement_Functions')
         const suit = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
         //list of possible cards. Have multiple tens to account for J, Q, and K. 11 is for A
         const tens = ['10','J','Q','K']
@@ -520,13 +521,17 @@ module.exports = {
                             case 2:
                                 message.channel.send("Dealer has blackjack")
                                 message.channel.send("Dealer wins")
+                                if(master_list[player].bet[0] >= 1000){
+                                    unlock.unlock(master_list[player].id, 2, message, master)
+                                }
                             break;
                             case 3:
                                 message.channel.send("Player has blackjack")
-                                message.channel.send("Player wins")
                                 message.channel.send(`${master_list[player].name} wins ${1.5 * parseFloat(master_list[player].bet[0])} gbp`)
                                 purchase(-2.5 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
-
+                                if(master_list[player].bet[0] >= 1000){
+                                    unlock.unlock(master_list[player].id, 1, message, master)
+                                }
                             break;
                             case 4:
                                 message.channel.send("Player has blackjack")
@@ -536,12 +541,17 @@ module.exports = {
                             break;
                             case 5:
                                 message.channel.send("Dealer wins") 
+                                if(master_list[player].bet[0] >= 1000){
+                                    unlock.unlock(master_list[player].id, 2, message, master)
+                                }
                             break;
                             case 6:
                                 message.channel.send("Dealer busts")
-                                message.channel.send("Player wins")
                                 message.channel.send(`${master_list[player].name} wins ${1 * parseFloat(master_list[player].bet[0])} gbp`)
                                 purchase(-2 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
+                                if(master_list[player].bet[0] >= 1000){
+                                    unlock.unlock(master_list[player].id, 1, message, master)
+                                }
                             break;
                             case 7:
                                 message.channel.send("Player pushes")
@@ -549,11 +559,17 @@ module.exports = {
                             break;
                             case 8:
                                 message.channel.send("Dealer wins")
+                                if(master_list[player].bet[0] >= 1000){
+                                    unlock.unlock(master_list[player].id, 2, message, master)
+                                }
                             break;
                             case 9:
                                 message.channel.send("Player wins")
                                 message.channel.send(`${master_list[player].name} wins ${1 * parseFloat(master_list[player].bet[0])} gbp`)
                                 purchase(-2 * master_list[player].bet[0], message.author.id, message, master) 
+                                if(master_list[player].bet[0] >= 1000){
+                                    unlock.unlock(master_list[player].id, 1, message, master)
+                                }
                             break;
                             case 10:
                                 purchase(-0.5 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)

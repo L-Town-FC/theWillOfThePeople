@@ -1,0 +1,5 @@
+!achievements: Lists your personal achievements
+
+!achievements [name]: List achievements of given person
+
+!achievements list: Lists all possible achievements

@@ -1,13 +1,17 @@
+const { unlock } = require('./Functions/Achievement_Functions');
+
 module.exports = {
     name: 'more_money',
     description: 'gives 1 gbp every message',
     execute(message){
         
         const fs = require('fs');
+        const unlock = require('./Functions/Achievement_Functions')
         try{
             var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
             var person = message.author.id
             var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
+            
         }catch(err){
             try{
                 message.channel.send("Error occured in master.json. File reset")
@@ -40,7 +44,8 @@ module.exports = {
                 if(message.content.startsWith("!") == false){
                     for(i in master){
                         if(person == i){
-                            if(master[i].gbp < 0){
+                            if(master[i].gbp <= 0){
+                                unlock.unlock(i, 3, message, master)
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 5) * 100)/100
                             }else if(master[i].gbp < 250){
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 3) * 100)/100
@@ -52,6 +57,9 @@ module.exports = {
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 0.5) * 100)/100
                             }else{
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 0.25) * 100)/100
+                            }
+                            if(master[i].gbp > 10000){
+                                unlock.unlock(i, 6, message, master)
                             }
                         }
                     }
