@@ -3,29 +3,30 @@ module.exports = {
     description: 'allows stealing of gbp from one person',
     execute(message,args,total_money){
 
-        const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         var recipient = args[1];
         var amount = args[2];
         var initiator = message.author.id;
         var stolen_percent = (15 + Math.floor(Math.random() * 10))/100
-
-        var full_list = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
-        var full_list_split = [];
         var names = [];
+        var counter = 0
+        var gbp_amounts = 1000
 
         try{
-            for (i = 0; i < full_list.length; i++){
-                full_list_split[i] = full_list[i].split(" ");
+            
+            for(i in master){
+                names[counter] = master[i].name.toLowerCase()
+                if(master[i].gbp < gbp_amounts){
+                    gbp_amounts = master[i].gbp
+                    var id = i
+                    var poorest = id
+                }
+                counter++
             }
-
-            for (i = 0; i < full_list_split.length; i++){
-                names[i] = full_list_split[i][1].toLowerCase();
-            }
-
-
+            
             if(args.length == 1){
                 message.channel.send("The format is !steal [Person you want to steal from] [amout to pay for heist]")
             }else if(names.includes(recipient.toLowerCase()) !== true){
@@ -37,7 +38,7 @@ module.exports = {
             }else if(parseFloat(amount) > parseFloat(total_money)){
                 message.channel.send("You dont't have enough gbp to cover the heist expenses");
             }else{
-                steal(initiator, recipient, amount, stolen_percent, message);
+                steal(initiator, recipient, amount, stolen_percent, message, master, poorest);
                 message.channel.send(`You have successfully stolen ${stolen_percent * amount} gbp from ${recipient}`);
             }
         }catch(err){
@@ -47,12 +48,11 @@ module.exports = {
     }
 }
 
-function steal(initiator, recipient, amount, stolen_percent, message) {
+function steal(initiator, recipient, amount, stolen_percent, message, master, poorest) {
     try{
         const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(initiator == i){
@@ -62,6 +62,9 @@ function steal(initiator, recipient, amount, stolen_percent, message) {
                         master[i].gbp = parseFloat(master[i].gbp) - (1 - stolen_percent) * parseFloat(amount)
                         unlock.unlock(i, 12, message, master)
                         unlock.unlock(j, 11, message, master)
+                        if(j == poorest){
+                            unlock.unlock(initiator, 30, message, master)
+                        }
                     }
                 }
             }

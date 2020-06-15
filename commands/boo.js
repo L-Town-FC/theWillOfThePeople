@@ -3,7 +3,8 @@ module.exports = {
     description: 'custom emoji test',
     execute(message,args,money){
         const fs = require('fs')
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+        const unlock = require("./Functions/Achievement_Functions")
         var boo = fs.readFileSync('./text_files/boo.txt', "utf-8")
         var price = 250;
         var name = args[1];
@@ -22,6 +23,9 @@ module.exports = {
                         purchase(price, message.author.id, message)
                         var success = true
                         message.channel.send(`${master[id].name} is now being booed`)
+                        if(message.author.id == id){
+                            unlock.unlock(message.author.id, 22, message, master)
+                        }
                     }
                 }
                 if(success = false){

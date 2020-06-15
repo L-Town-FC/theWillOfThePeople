@@ -4,6 +4,7 @@ module.exports = {
     execute(message,args,total_money){
         const Discord = require('discord.js');
         const fs = require('fs');
+        const unlock = require('./Functions/Achievement_Functions')
 
         var recipient = args[1];
         var amount = args[2];
@@ -39,7 +40,7 @@ module.exports = {
                 console.log(amount)
                 console.log(total_money)
             }else{
-                give_money(initiator, recipient, amount);
+                give_money(initiator, recipient, amount, message);
                 message.channel.send(`You have successfully transferred ${amount} gbp to ${recipient}`);
             }
         }catch(err){
@@ -49,10 +50,11 @@ module.exports = {
     }
 }
 
-function give_money(initiator, recipient, amount) {
+function give_money(initiator, recipient, amount, message) {
     try{
         const Discord = require('discord.js');
         const fs = require('fs');
+        const unlock = require('./Functions/Achievement_Functions')
         var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
@@ -61,6 +63,9 @@ function give_money(initiator, recipient, amount) {
                     if(master[j].name.toLowerCase() == recipient.toLowerCase()){
                         master[j].gbp = parseFloat(master[j].gbp) + parseFloat(amount)
                         master[i].gbp = parseFloat(master[i].gbp) - parseFloat(amount)
+                        if(message.channel.id == '668600084052705290'){
+                            unlock.unlock(j, 16, message, master)
+                        }
                     }
                 }
             }

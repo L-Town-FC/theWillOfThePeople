@@ -3,8 +3,9 @@ module.exports = {
     description: 'shows who is being insulted and lets you change who it is',
     execute(message,args,money){
         const fs = require('fs');
+        const unlock = require('./Functions/Achievement_Functions')
         var insultee_and_count = fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var price = 1500;
         var name = args[1];
         var success = false;
@@ -28,6 +29,12 @@ module.exports = {
                             purchase(price, buyer)
                             fs.writeFileSync("./text_files/insult_counter.txt", insultee_and_count);
                             success = true
+                            if(name.toLowerCase() == 'alex'){
+                                unlock.unlock(buyer, 19, message, master)
+                            }
+                            if(buyer == insultee_and_count[0]){
+                                unlock.unlock(buyer, 22, message, master)
+                            }
                         }
                     }
                     if(success == false){
