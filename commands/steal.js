@@ -5,6 +5,7 @@ module.exports = {
 
         const Discord = require('discord.js');
         const fs = require('fs');
+        const unlock = require('./Functions/Achievement_Functions')
 
         var recipient = args[1];
         var amount = args[2];
@@ -36,7 +37,7 @@ module.exports = {
             }else if(parseFloat(amount) > parseFloat(total_money)){
                 message.channel.send("You dont't have enough gbp to cover the heist expenses");
             }else{
-                steal(initiator, recipient, amount, stolen_percent);
+                steal(initiator, recipient, amount, stolen_percent, message);
                 message.channel.send(`You have successfully stolen ${stolen_percent * amount} gbp from ${recipient}`);
             }
         }catch(err){
@@ -46,10 +47,11 @@ module.exports = {
     }
 }
 
-function steal(initiator, recipient, amount, stolen_percent) {
+function steal(initiator, recipient, amount, stolen_percent, message) {
     try{
         const Discord = require('discord.js');
         const fs = require('fs');
+        const unlock = require('./Functions/Achievement_Functions')
         var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
@@ -58,6 +60,8 @@ function steal(initiator, recipient, amount, stolen_percent) {
                     if(master[j].name.toLowerCase() == recipient.toLowerCase()){
                         master[j].gbp = parseFloat(master[j].gbp) - stolen_percent * parseFloat(amount)
                         master[i].gbp = parseFloat(master[i].gbp) - (1 - stolen_percent) * parseFloat(amount)
+                        unlock.unlock(i, 12, message, master)
+                        unlock.unlock(j, 11, message, master)
                     }
                 }
             }
@@ -70,6 +74,6 @@ function steal(initiator, recipient, amount, stolen_percent) {
         );
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Transfer.js Give_Money");
+        message.channel.send("Error Occured in Steal.js Give_Money");
     }
 }

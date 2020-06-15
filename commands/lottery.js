@@ -4,12 +4,13 @@ module.exports = {
     execute(message,args,total_money){
         const Discord = require('discord.js');
         const fs = require('fs');
-
+        const unlock = require('./Functions/Achievement_Functions')
         var command = args[1];
         var amount = args[2];
         var price = 5;
         var money_spent = price * parseInt(amount);
         var lottery_stats = fs.readFileSync('./text_files/lottery_stats.txt','utf8').split(",");
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         switch(command){
             case 'buy':
@@ -19,11 +20,12 @@ module.exports = {
                     }else if(isNaN(amount) == true){
                         
                         if(price < total_money){
-                            purchase(price, message.author.id);
+                            purchase(price, message.author.id, master);
                             if(attempt(1, price) == true){
                             message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} tries to win. Your prize is ${lottery_stats[1]}`)
-                            purchase(-1 * lottery_stats[1], message.author.id);
+                            purchase(-1 * lottery_stats[1], message.author.id, master);
                             fs.writeFileSync('./text_files/lottery_stats.txt', "0,10000");
+                            unlock.unlock(message.author.id, 10, message, master)
                             }else{
                                 message.channel.send("Sorry. Better luck next time");
                             }
@@ -35,11 +37,12 @@ module.exports = {
                         message.channel.send("Please choose a whole number for the amount of tickets");
                     }else{
                         if(money_spent < total_money){
-                            purchase(amount*price, message.author.id);
+                            purchase(amount*price, message.author.id, master);
                             if(attempt(amount, money_spent) == true){
-                                message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} to win. Your prize is ${lottery_stats[1]} gbp`)
-                                purchase(-1 * lottery_stats[1], message.author.id);
+                                message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} tries to win. Your prize is ${lottery_stats[1]} gbp`)
+                                purchase(-1 * lottery_stats[1], message.author.id, master);
                                 fs.writeFileSync('./text_files/lottery_stats.txt', "0,10000");
+                                unlock.unlock(message.author.id, 10, message, master)
                             }else{
                                 message.channel.send("Sorry. Try again");
                             }
@@ -142,17 +145,15 @@ function attempt(amount, money_spent){
         
 }
 
-function purchase(bet_value, player) {
+function purchase(bet_value, player, master) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(player == i){
                 master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
             }
         }
-
         fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
@@ -160,6 +161,6 @@ function purchase(bet_value, player) {
         );
     }catch(err){
         console.log(err)
-                    message.channel.send("Error Occured in Lottery.js Purchase");
+        message.channel.send("Error Occured in Lottery.js Purchase");
     }
 }
