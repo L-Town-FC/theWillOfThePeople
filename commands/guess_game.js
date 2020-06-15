@@ -4,8 +4,9 @@ module.exports = {
     execute(message, args, total_money){
         const Discord = require('discord.js');
         const fs = require('fs');
+        const unlock = require('./Functions/Achievement_Functions')
         const min_bet = 5;
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var bet = args[2];
         var person = message.author.id;
         var guess = args[2];
@@ -85,7 +86,7 @@ module.exports = {
                     message.channel.send(`You win ${10 * parseFloat(bet2)} gbp`);
                     purchase((-10 * parseFloat(bet2)), message.author.id);
                     fs.writeFileSync('./text_files/guessgame.txt', `0 0 0 0`);
-                    
+                    unlock.tracker1(message.author.id, 4, 1, 5, message, master)
                 }
             }
         }catch(err){

@@ -3,7 +3,9 @@ module.exports = {
     description: 'deletes the previous message',
     execute(message,args,total_money){
         const fs = require('fs');
+        const unlock = require("./Functions/Achievement_Functions")
         const cost = 1000;
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         try{
             if(typeof(args[1]) == 'undefined'){
@@ -13,16 +15,18 @@ module.exports = {
                     purchase(cost, message.author.id, message);
                     message.channel.bulkDelete(parseInt(num) + 1);
                     message.channel.send(`${num} message has been deleted`);
+                    unlock.tracker1(message.author.id, 25, num, 5, message, master)
                 }else{
                     message.channel.send(`This command costs ${total_cost} gbp`)
                 }
             }else if(parseInt(args[1]) > 0){
-                var num = args[1];
+                var num = parseInt(args[1]);
                 var total_cost = cost * num;
                 if (total_money >= total_cost){
                     purchase(total_cost, message.author.id, message);
                     message.channel.bulkDelete(parseInt(num) + 1);
                     message.channel.send(`${num} messages has been deleted`);
+                    unlock.tracker1(message.author.id, 25, num, 5, message, master)
                 }else{
                     message.channel.send(`This command costs ${total_cost} gbp`)
                 }

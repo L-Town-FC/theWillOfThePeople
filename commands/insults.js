@@ -24,11 +24,12 @@ module.exports = {
                     for(i in master){
                         if(master[i].name.toLowerCase() == name.toLowerCase()){
                             insultee_and_count[0] = i;
-                            insultee_and_count[1] = 0;
+                            insultee_and_count[1] = 1;
                             message.channel.send(`${master[insultee_and_count[0]].name} is now being insulted`)
                             purchase(price, buyer)
                             fs.writeFileSync("./text_files/insult_counter.txt", insultee_and_count);
                             success = true
+                            unlock.tracker1(message.author.id, 13, 1, 3, message, master)
                             if(name.toLowerCase() == 'alex'){
                                 unlock.unlock(buyer, 19, message, master)
                             }

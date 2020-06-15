@@ -4,6 +4,8 @@ module.exports = {
     execute(message,args ,money){
         const {Discord, Attachment} = require('discord.js');
         const fs = require('fs');
+        const unlock = require('./Functions/Achievement_Functions')
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var max_kumikos = 60
         var kumiko = Math.ceil(Math.random()*max_kumikos);
         var price = 20
@@ -15,6 +17,7 @@ module.exports = {
                 var kumiko_image = new Attachment('./kumiko_pics/kumiko'+ kumiko +'.jpg')
                 message.channel.send(kumiko_image)
                 purchase(price, message.author.id, message) 
+                unlock.tracker1(message.author.id, 14, 1, 25, message, master)
             }
         }catch(err){
             console.log(err)

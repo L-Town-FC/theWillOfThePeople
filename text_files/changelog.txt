@@ -1,3 +1,6 @@
+Bug Fixes:
+-!boo will now tell you if the name you gave was valid
+
 New Features/Updates:
 -Welfare system will once a day set everyone below 250 gbp to 250 gbp
 -"!21 reset" now resets the game if a glitch occurs

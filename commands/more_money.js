@@ -37,13 +37,12 @@ module.exports = {
                     );
                 }
             }
-
-
         
             if(message.author.discriminator !== '9509' && message.author.discriminator !== '0250'){
                 if(message.content.startsWith("!") == false){
                     for(i in master){
                         if(person == i){
+                            Achievement_Switch(person, message.channel.id, message, master)
                             if(master[i].gbp <= 0){
                                 unlock.unlock(i, 3, message, master)
                                 master[i].gbp = Math.round((parseFloat(master[i].gbp) + 5) * 100)/100
@@ -77,4 +76,42 @@ module.exports = {
         
     }
 
+}
+
+function Achievement_Switch(user, channel, message, master){
+    const fs = require('fs')
+    const unlock = require('./Functions/Achievement_Functions')
+
+    switch(channel){
+        case '590583268961812500':
+            //politics
+            unlock.tracker1(user, 17, 1, 100, message, master)
+        break;
+        case '590583073595457547':
+            //gaming
+            unlock.tracker1(user, 28, 1, 100, message, master)
+        break;
+        case '590585423202484227':
+            //pugilism
+            unlock.tracker1(user, 9, 1, 250, message, master)
+        break;
+        case '712755269863473252':
+            //blackjack
+            unlock.tracker1(user, 9, 1, 250, message, master)
+        break;
+        case '590583125445181469':
+            //anime
+            unlock.tracker1(user, 29, 1, 100, message, master)
+        break;
+        case '664241953973731328':
+            //feet 664241953973731328
+            unlock.tracker1(user, 27, 1, 100, message, master)
+            unlock.tracker2(user, 15, 0, message, master)
+        break;
+        case '606515956826636288':
+            //dobans 606515956826636288
+            unlock.tracker1(user, 26, 1, 100, message, master)
+            unlock.tracker2(user, 15, 1, message, master)
+        break;
+    }
 }

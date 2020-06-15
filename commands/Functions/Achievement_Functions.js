@@ -21,6 +21,48 @@ function unlock(user, achievement_num, message, master){
 }
 module.exports.unlock = unlock
 
-function tracker1(user, achievement_num, increment, message, master){
-    
+function reset1(user, achievement_num){
+    const fs = require('fs')
+    tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+    tracker[user][achievement_num] = 0
+    fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
 }
+module.exports.reset1 = reset1
+
+function tracker1(user, achievement_num, increment, threshold, message, master){
+    const fs = require('fs')
+    tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+
+    tracker[user][achievement_num] = tracker[user][achievement_num] + increment;
+
+    if(tracker[user][achievement_num] >= threshold){
+        unlock(user, achievement_num, message, master)
+    }
+    fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
+}
+module.exports.tracker1 = tracker1
+
+function tracker2(user, achievement_num, index, message, master){
+    const fs = require('fs')
+    tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+
+    tracker[user][achievement_num][index] = true
+
+    if(tracker[user][achievement_num].includes(false) == false){
+        unlock(user, achievement_num, message, master)
+    }
+    fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
+}
+module.exports.tracker2 = tracker2

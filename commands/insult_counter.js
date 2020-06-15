@@ -3,7 +3,9 @@ module.exports = {
     description: 'insults specified user',
     execute(message){
         try{
-            var fs = require('fs');
+            const fs = require('fs');
+            const unlock = require("./Functions/Achievement_Functions")
+            master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
             var insulted_counter= fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
             var name_count = parseInt(insulted_counter[1]);
             if (message.content.startsWith("!") == false){
@@ -44,6 +46,7 @@ module.exports = {
                         message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
                         insulted_counter[1] = 1;
                         fs.writeFileSync('./text_files/insult_counter.txt', insulted_counter)
+                        unlock.tracker1(message.author.id, 21, 1, 10, message, master)
                     //Checks when the last time the command was ran and runs command if its been too long since last execution
                     }
                 }

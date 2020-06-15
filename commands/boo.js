@@ -21,6 +21,7 @@ module.exports = {
                         var id = i
                         fs.writeFileSync('./text_files/boo.txt', id)
                         purchase(price, message.author.id, message)
+                        unlock.tracker1(message.author.id, 13, 1, 3, message, master)
                         var success = true
                         message.channel.send(`${master[id].name} is now being booed`)
                         if(message.author.id == id){
@@ -28,7 +29,7 @@ module.exports = {
                         }
                     }
                 }
-                if(success = false){
+                if(success == false){
                     message.channel.send("Please give a valid name")
                 }
             }

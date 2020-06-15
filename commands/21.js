@@ -58,6 +58,9 @@ module.exports = {
                     }else{
                         master_list[player].bet = [parseFloat(new_bet), 0]
                         master_list[player].gameStatus = 1;
+                        if(new_bet >= 200){
+                            unlock.tracker1(message.author.id, 23, 1, 50, message, master)
+                        }
                         var card = [];
                         var dummycard = [];
                         for (i = 0; i < 4; i++) {
@@ -524,6 +527,7 @@ module.exports = {
                                 if(master_list[player].bet[0] >= 1000){
                                     unlock.unlock(master_list[player].id, 2, message, master)
                                 }
+                                unlock.tracker1(master_list[player].id, 8, 1, 5, message, master)
                             break;
                             case 3:
                                 message.channel.send("Player has blackjack")
@@ -532,18 +536,21 @@ module.exports = {
                                 if(master_list[player].bet[0] >= 1000){
                                     unlock.unlock(master_list[player].id, 1, message, master)
                                 }
+                                unlock.reset1(master_list[player].id, 8)
                             break;
                             case 4:
                                 message.channel.send("Player has blackjack")
                                 message.channel.send("Dealer has blackjack")
                                 message.channel.send("Player pushes")
                                 purchase(-1 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
+                                unlock.reset1(master_list[player].id, 8)
                             break;
                             case 5:
                                 message.channel.send("Dealer wins") 
                                 if(master_list[player].bet[0] >= 1000){
                                     unlock.unlock(master_list[player].id, 2, message, master)
                                 }
+                                unlock.tracker1(master_list[player].id, 8, 1, 5, message, master)
                             break;
                             case 6:
                                 message.channel.send("Dealer busts")
@@ -552,16 +559,19 @@ module.exports = {
                                 if(master_list[player].bet[0] >= 1000){
                                     unlock.unlock(master_list[player].id, 1, message, master)
                                 }
+                                unlock.reset1(master_list[player].id, 8)
                             break;
                             case 7:
                                 message.channel.send("Player pushes")
                                 purchase( -1 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
+                                unlock.reset1(master_list[player].id, 8)
                             break;
                             case 8:
                                 message.channel.send("Dealer wins")
                                 if(master_list[player].bet[0] >= 1000){
                                     unlock.unlock(master_list[player].id, 2, message, master)
                                 }
+                                unlock.tracker1(master_list[player].id, 8, 1, 5, message, master)
                             break;
                             case 9:
                                 message.channel.send("Player wins")
@@ -570,10 +580,12 @@ module.exports = {
                                 if(master_list[player].bet[0] >= 1000){
                                     unlock.unlock(master_list[player].id, 1, message, master)
                                 }
+                                unlock.reset1(master_list[player].id, 8)
                             break;
                             case 10:
                                 purchase(-0.5 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
                                 message.channel.send(`You recieved ${.5 * parseFloat(master_list[player].bet[0])} gbp back`)
+                                unlock.reset1(master_list[player].id, 8)
                             break;
 
                             /*

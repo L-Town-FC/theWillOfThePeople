@@ -9,6 +9,7 @@ module.exports = {
             tracker[i][4] = 0
             tracker[i][5] = 0
             tracker[i][7] = 0
+            tracker[i][8] = 0
             tracker[i][9] = 0
             tracker[i][13] = 0
             tracker[i][14] = 0
