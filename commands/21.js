@@ -126,7 +126,9 @@ module.exports = {
                         }
                     }
                     /*Checks the various cases where a bet may be invalid such as when no bet is specified, you bet more gbp than you have
-                    you bet less than the minimum bet, you use a non-number as a bet, and when you have already made a bet */
+                    you bet less than the minimum bet, you use a non-number as a bet, and when you have already made a bet.
+                    Also checks if the player or dealer has blackjack. If either are true the game status is changed accordingly and 
+                    the player is forced to stay */
                 }catch(err){
                     console.log(err)
                     message.channel.send("Error occured in 21.js Deal")
@@ -135,8 +137,11 @@ module.exports = {
             case 'hit':
                 try{
                     if(master_list[player].gameStatus == 1){
+                        //checks if there is an ongoing game. If there is the card function generates a new card/dummy card
                         var cards = New_Card(suit,tens)
                         if(master_list[player].isStay[0] == true){
+                            //If the player stays on there first hand but the game status doesn't change it means that
+                            //they are split and their next hits will go to the 2nd hand
                             master_list[player].player_hand2.push(cards[0]);
                             master_list[player].player_dummy_hand2.push(cards[1]);
                             message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
@@ -150,6 +155,7 @@ module.exports = {
                                 }
                             }
                         }else{
+                            //Defaults to the first hand if not split or if they haven't stayed yet
                             master_list[player].player_hand1.push(cards[0]);
                             master_list[player].player_dummy_hand1.push(cards[1]);
                             message.channel.send(`${master_list[player].name} Hand 1: ${master_list[player].player_dummy_hand1}`)
@@ -170,6 +176,11 @@ module.exports = {
                                 }
                             }
                         }
+                        //After a card is dealt it checks if the players hand is over 21. If over 21 it checks if they have an 11
+                        //in their hand. If they do it is set to 1. If they don't have an 11 their game status is set to bust and
+                        //they are forced to stay
+
+
                         if(master_list[player].gameStatus == 5){
                             message.channel.send("Player busts") 
                         }
@@ -185,6 +196,10 @@ module.exports = {
                 try{
                     if(parseFloat(total_money) >= parseFloat(master_list[player].bet)){
                         if(master_list[player].player_dummy_hand1[0] === master_list[player].player_dummy_hand1[1] && master_list[player].isSplit == false && master_list[player].player_hand1.length == 2){
+                            /*Checks various cases such as if the player has hit or has enough gbp. If all cases are passed the players hand
+                            is split with each card becoming the first card of a new hand. 2 new cards are generated for the hands
+                            If the player has aces, they are forced to stay
+                            */
                             var card_0 = master_list[player].player_hand1[0]
                             var card_1 = master_list[player].player_hand1[1]
                             var dummy_card_0 = master_list[player].player_dummy_hand1[0]
@@ -248,8 +263,12 @@ module.exports = {
             case 'doubledown':
                 try{
                     if(master_list[player].gameStatus == 1){
+                        //Checks if game has started. If there is an ongoing game the player can use this command. If the player
+                        //doesn't have enough gbp to fully double there bet it uses the remained of their gbp to doubledown for less
+                        //This works the same as !hit but it makes the player stay after 1 card
                         var cards = New_Card(suit,tens)
                         if(master_list[player].isStay[0] == true){
+                            //If the player has split and stayed on their first hand, doubledown defaults to their second hand
                             if(master_list[player].player_hand2.length == 2){
                                 if(total_money < master_list[player].bet[1]){
                                     message.channel.send(`You could not fully double down. Your new bet is ${master_list[player].bet[1] + total_money}`)
@@ -338,6 +357,7 @@ module.exports = {
             break;
             case 'stay':
                 try{
+                    //checks if the player has an ongoing game. If they do it checks if they have already stayed on a split hand
                     if(master_list[player].gameStatus !== 0){
                         if(master_list[player].isStay[0] == true){
                             master_list[player].isStay[1] = true;
@@ -394,6 +414,8 @@ module.exports = {
         }
         try{
             if(master_list[player].isSplit == true && master_list[player].gameStatus !== 1){
+                //checks if player has split and the game is over. If they both are these lines automatically runs. Each hand is
+                //checked to see if the player is over 21 and if they are is it because they have 2 aces
                 if(sum(master_list[player].player_hand1) <= 21 || master_list[player].player_dummy_hand1 == ['A','A']){
                     var hand1_bust = false;
                 }else{
@@ -405,6 +427,8 @@ module.exports = {
                 }else{
                     var hand2_bust = true;
                 }
+                //checks if either hand hasn't busted. If both hands haven't busted the dealer will get new cards until they hit 17
+                //If both player hands have busted, the dealer doesn't draw new cards
                 if(hand1_bust == false || hand2_bust == false){
                     if(sum(master_list[player].dealer_hand) > 21){
                         if (master_list[player].dealer_hand.indexOf(11) !== -1){
@@ -412,6 +436,7 @@ module.exports = {
                         }
                     }
                     setTimeout(function(){
+                        //reusing the hit function from earlier
                         while(sum(master_list[player].dealer_hand) < 17){
                             var cards = New_Card(suit,tens)
                             master_list[player].dealer_hand.push(cards[0]);
@@ -428,7 +453,8 @@ module.exports = {
                         }
                     }, 20)
                     Display_Final(master_list[player], message)
-                    setTimeout(function(){    
+                    setTimeout(function(){   
+                        //checks if the dealer busted. If they did, the player is payed out for each non-busted hand 
                         if(master_list[player].gameStatus == 12){
                             var winnings = 0
                             if(hand1_bust == false){
@@ -444,6 +470,8 @@ module.exports = {
                             reset(master_list, player)
 
                         }else{
+                            //dealer hasn't busted so their hand must be compared to the players 2 hands. If the player has 2 11s, one of them is set to 1
+                            //the player is payed out according to how their hand compares to the dealers
                             var winnings = 0
                             if(master_list[player].player_dummy_hand1 == ['A','A']){
                                 master_list[player].player_hand1 = [11, 1]
@@ -482,10 +510,14 @@ module.exports = {
                         }
                     }, 20)
                 }else{
+                    //if both player hands busted, the dealer defaults a win
                     message.channel.send(`Dealer's Hand: ${master_list[player].dealer_dummy_hand}`)
                     message.channel.send("Dealer wins")
                 }
             }else if(master_list[player].isSplit == false && master_list[player].isStay[0] == true){
+                //if the player hasn't split and has stayed this block of code runs
+                //Checks if the player has busted or if blackjack has been dealt to either the dealer or the player
+                //If any of the cases are true new cards aren't dealt
                 if(master_list[player].isStay[0] == true){
                     message.channel.send(`Dealer hand: ${master_list[player].dealer_dummy_hand}`)
                     if([2,3,4,5,10].includes(master_list[player].gameStatus) == false){    
@@ -510,6 +542,8 @@ module.exports = {
                             
                         }
                     }
+
+                    //compares the dealers and players hand. Changes the game status according to if they player wins, loses, or pushes
                     if([2,3,4,5,6,10].includes(master_list[player].gameStatus) == false){
                         if(sum(master_list[player].player_hand1) == sum(master_list[player].dealer_hand)){
                             master_list[player].gameStatus = 7
@@ -520,6 +554,7 @@ module.exports = {
                         }
                     }
                     setTimeout(function(){ 
+                        //List of different game statuses where each status causes a different outcome
                         switch(master_list[player].gameStatus){
                             case 2:
                                 message.channel.send("Dealer has blackjack")

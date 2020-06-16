@@ -33,6 +33,22 @@ function reset1(user, achievement_num){
 }
 module.exports.reset1 = reset1
 
+function reset2(user, achievement_num, index){
+    const fs = require("fs");
+    tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+    for(i in tracker){
+        if(user !== i){
+            tracker[i][achievement_num][index] = false
+        }
+    }
+    fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
+}
+module.exports.reset2 = reset2
+
 function tracker1(user, achievement_num, increment, threshold, message, master){
     const fs = require('fs')
     tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
@@ -42,11 +58,6 @@ function tracker1(user, achievement_num, increment, threshold, message, master){
     if(tracker[user][achievement_num] >= threshold){
         unlock(user, achievement_num, message, master)
     }
-    fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
-        if (err) throw err;
-        console.log('complete');
-        }
-    );
 }
 module.exports.tracker1 = tracker1
 

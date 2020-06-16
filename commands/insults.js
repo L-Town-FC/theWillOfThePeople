@@ -29,11 +29,19 @@ module.exports = {
                             purchase(price, buyer)
                             fs.writeFileSync("./text_files/insult_counter.txt", insultee_and_count);
                             success = true
+                            //Professional Asshole  Achievement Tracker
                             unlock.tracker1(message.author.id, 13, 1, 3, message, master)
+
+                            //Toxic Achievement Tracker
+                            unlock.reset2(insultee_and_count[0], 20, 1)
+                            unlock.tracker2(insultee_and_count[0], 20, 1, message, master)
+
                             if(name.toLowerCase() == 'alex'){
+                                //As god intened it to be Achievement Tracker
                                 unlock.unlock(buyer, 19, message, master)
                             }
                             if(buyer == insultee_and_count[0]){
+                                //Masochist Achievement
                                 unlock.unlock(buyer, 22, message, master)
                             }
                         }

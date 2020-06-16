@@ -21,10 +21,17 @@ module.exports = {
                         var id = i
                         fs.writeFileSync('./text_files/boo.txt', id)
                         purchase(price, message.author.id, message)
+                        //Professional Asshole Achievement Tracker
                         unlock.tracker1(message.author.id, 13, 1, 3, message, master)
+
+                        //Toxic Achievement Tracker
+                        unlock.reset2(id, 20, 0)
+                        unlock.tracker2(id, 20, 0, message, master)
+
                         var success = true
                         message.channel.send(`${master[id].name} is now being booed`)
                         if(message.author.id == id){
+                            //Masochist Achievement
                             unlock.unlock(message.author.id, 22, message, master)
                         }
                     }

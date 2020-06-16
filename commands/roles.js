@@ -3,6 +3,7 @@ module.exports = {
     description: 'gives list of roles on the server',
     execute(message,args){
         const fs = require('fs')
+        const unlock = require('./Functions/Achievement_Functions')
         var roles = fs.readFileSync('./text_files/roles.txt','utf8');
         var split_roles = roles.split(",")
         var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
