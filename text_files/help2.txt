@@ -3,3 +3,7 @@
 !changelog: Displays list of everything that was changed in newest update
 
 !boo: Works the same way as !insults but lets makes bot auto react :booo: on any non-command post
+
+!steal: Lets you pay to steal someones gbp
+
+!achievements: Lets you track the everyones achievements

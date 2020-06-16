@@ -1,10 +1,20 @@
 Bug Fixes:
 -!boo will now tell you if the name you gave was valid
+-!Fixed bug where commands couldn't be used if capitalized
 
 New Features/Updates:
+-New Achievement System
+    -30 Achievements
+    -Unlocked by doing random stuff on the server
+    -Use "!achievements help" for a list of commands
+    -More Achievements to come
 -Welfare system will once a day set everyone below 250 gbp to 250 gbp
 -"!21 reset" now resets the game if a glitch occurs
 -New Ultra Rare Kumiko
+-!kumiko only cost 15 gbp now
+-More Kumikos
+-More Pugs
+
 
 
 

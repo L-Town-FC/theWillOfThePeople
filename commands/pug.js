@@ -6,7 +6,7 @@ module.exports = {
         const fs = require('fs')
         const unlock = require('./Functions/Achievement_Functions')
         master = JSON.parse(fs.readFileSync('./JSON/master.json', "utf-8"))
-        var max_pugs = 50;
+        var max_pugs = 53;
         var pug = Math.ceil(Math.random()*max_pugs);
         //console.log(pug)
         //var pug = 2;

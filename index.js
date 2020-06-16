@@ -45,7 +45,7 @@ bot.on('message', message =>{
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
         if (message.content.startsWith("!") == true){
-            switch(args[0]){
+            switch(args[0].toLowerCase()){
                 case 'ping':
                     bot.commands.get('ping').execute(message,args);
                 break;

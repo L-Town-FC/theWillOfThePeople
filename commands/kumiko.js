@@ -6,9 +6,9 @@ module.exports = {
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
-        var max_kumikos = 60
+        var max_kumikos = 70
         var kumiko = Math.ceil(Math.random()*max_kumikos);
-        var price = 20
+        var price = 15
 
         try{
             if(money < price){
