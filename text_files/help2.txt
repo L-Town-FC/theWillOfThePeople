@@ -6,4 +6,4 @@
 
 !steal: Lets you pay to steal someones gbp
 
-!achievements: Lets you track the everyones achievements
+!achievements: Lets you track everyones achievements
