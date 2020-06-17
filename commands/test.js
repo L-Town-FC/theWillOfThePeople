@@ -4,7 +4,8 @@ module.exports = {
     execute(message,args){
         const fs = require('fs')
         var tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        
+        var bwg = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
+        /*
         for(i in tracker){
             tracker[i][4] = 0
             tracker[i][5] = 0
@@ -25,9 +26,18 @@ module.exports = {
             tracker[i][28] = 0
             tracker[i][29] = 0
         }
+        */
 
+        for(i in bwg){
+            bwg[i].target = ""
+            bwg[i].current_word = ""
+            bwg[i].bet = 0
+            bwg[i].remaining_msgs = ""
+            bwg[i].used_words = []
+            bwg[i].gamestatus = 0
+        }
 
-        fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
+        fs.writeFileSync ("./JSON/banned_word_game.json", JSON.stringify(bwg, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
             }
