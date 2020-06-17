@@ -5,6 +5,7 @@ module.exports = {
     description: 'bet on if a person will say a certain word',
     execute(message, args, money){
         const fs = require("fs")
+        const Discord = require('discord.js')
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         bwg = JSON.parse(fs.readFileSync("./JSON/banned_word_game.json", "utf-8"))
         var command = String(args[1]).toLowerCase()
@@ -13,7 +14,7 @@ module.exports = {
         var word = args[4]
         var user = message.author.id
         min_bet = 50
-        max_bet = 250
+        max_bet = 500
         names = []
         counter = 0
         for(i in master){
@@ -51,15 +52,42 @@ module.exports = {
             break;
             case 'status':
                 //shows who is being targeted except in dms where it will show you your current game status
-
+                if(message.channel.type === 'dm'){
+                    Show_Status(user, bwg, master, message)
+                }else{
+                    var targets = []
+                    var counter = 0
+                    for(i in bwg){
+                        if(bwg[i].target !== ""){
+                            var id = bwg[i].target
+                            targets[counter] = master[id].name
+                            counter++
+                        }
+                    }
+                    const target_list = new Discord.RichEmbed()
+                    .setTitle("List of People being targeted")
+                    .setDescription(targets)
+                    message.channel.send(target_list)
+                }
             break;
             case 'reset':
                 //resets the game in case of a glitch or if you want to switch your target
                 Reset(user, bwg, message)
             break;
+            case 'rules':
+                var rules = fs.readFileSync('text_files/bwg_rules', 'utf-8')
+                const rules_list = new Discord.RichEmbed()
+                .setTitle("Banned Word Game (bwg) Rules")
+                .setDescription(rules)
+                message.channel.send(rules_list)
+            break;
             case 'help':
                 //shows list of commands
-
+                var help = fs.readFileSync('text_files/bwg_commands.txt', 'utf-8')
+                const help_list = new Discord.RichEmbed()
+                .setTitle("List of Commands")
+                .setDescription(help)
+                message.channel.send(help_list)
             break;
             default:
                 message.channel.send('Use "!bwg help" for a list of commands')
@@ -69,7 +97,7 @@ module.exports = {
 }
 function New_Game(player, target, bet, new_word, message, bwg){
     const fs = require('fs')
-    var remaining_msgs = 50
+    var remaining_msgs = 100
     bwg[player].target = target
     bwg[player].bet = bet
     bwg[player].current_word = new_word

@@ -75,7 +75,7 @@ module.exports = {
 
             break;
             default:
-                message.channel.send('Use the command !guessgame help for a list of commands');
+                message.channel.send('Use the command "!gg help" for a list of commands');
         }
         try{
             if(is_Ongoing()[2] >= 4 || result == true){
