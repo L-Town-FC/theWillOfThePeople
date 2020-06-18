@@ -14,6 +14,7 @@ New Features/Updates:
 -!kumiko only cost 15 gbp now
 -More Kumikos
 -More Pugs
+-NEED TO MAKE CHANGE TO BOO SO IT TRIGGERS LESS OFTEN
 
 
 

@@ -32,6 +32,7 @@ bot.on('message', message =>{
         bot.commands.get('insult_counter').execute(message);
         bot.commands.get('boo_trigger').execute(message);
         bot.commands.get('more_money').execute(message);
+        bot.commands.get('bwg_counter').execute(message);
         //console.log(message)
     }catch(err){
         console.log(err)

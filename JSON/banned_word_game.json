@@ -166,7 +166,7 @@
     "target": "",
     "current_word": "",
     "bet": 0,
-    "remaining_msgs": "",
+    "remaining_msgs": -1,
     "used_words": [],
     "gamestatus": 0
   }
