@@ -3,6 +3,7 @@ module.exports = {
     description: 'says pong',
     execute(message){
         const fs = require("fs")
+        const banned = require('./Functions/bwg_functions')
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         bwg = JSON.parse(fs.readFileSync("./JSON/banned_word_game.json", "utf-8"))
         var user = message.author.id
@@ -31,10 +32,14 @@ module.exports = {
                     }
                     if(win > 0){
                         message.channel.send("You said a banned word")
+                        //purchase/reset/add word to used words
                         win = 0
                     }else{
                         bwg[id].remaining_msgs = bwg[id].remaining_msgs - 1
-
+                        if(bwg[i].remaining_msgs <= 0){
+                            //congradulations you didnt say the word
+                            //reset
+                        }
                     }
                 }
             }
