@@ -7,3 +7,5 @@
 !steal: Lets you pay to steal someones gbp
 
 !achievements: Lets you track everyones achievements
+
+!bwg: Lets you play the Banned Word Game

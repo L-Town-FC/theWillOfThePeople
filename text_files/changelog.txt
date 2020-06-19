@@ -12,6 +12,10 @@ New Features/Updates:
 -"!21 reset" now resets the game if a glitch occurs
 -New Ultra Rare Kumiko
 -!kumiko only cost 15 gbp now
+-New game "Banned Word Game"
+    -Bet on words that you think someone else will say
+    -If they say it within 100 messages you take what you bet from your target automatically
+    -Use "!bwg help" for a list of commands
 -More Kumikos
 -More Pugs
 -NEED TO MAKE CHANGE TO BOO SO IT TRIGGERS LESS OFTEN

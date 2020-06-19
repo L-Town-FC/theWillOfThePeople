@@ -79,7 +79,7 @@ function purchase(bet_value, player, message, master) {
         //var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         for(i in master){
             if(player == i){
-                master[message.author.id].gbp = parseFloat(master[message.author.id].gbp) - parseFloat(bet_value)
+                master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
             }
         }
 

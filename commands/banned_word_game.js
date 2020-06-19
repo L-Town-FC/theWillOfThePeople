@@ -20,29 +20,32 @@ module.exports = {
             names[counter] = String(master[i].name).toLowerCase()
             counter++
         }
-
         switch(command){
             case 'bet':
                 //starts game
                 try{
                     if(bwg[user].gamestatus == 0){
                         if(typeof(name) !== 'undefined' && names.includes(name.toLowerCase()) == true){
-                            var target = banned.Target(name, master, message)
-                            if(bet > money){
-                                message.channel.send("You don't have enough gbp for that bet")
-                            }else if(typeof(bet - 0) !== 'NaN' && bet >= min_bet && bet <= max_bet){
-                                if(bwg[target].used_words.includes(word) == true){
-                                    message.channel.send(`That word has already been successfully used on ${name}`)
-                                }else if (!/[^a-zA-Z]/.test(word) && word.length >= 6){
-                                    message.channel.send('Your bet is accepted')
-                                    banned.purchase(bet, user, message, master)
-                                    banned.New_Game(user, target, bet, word, message, bwg)
-                                    banned.Show_Status(user, bwg, master, message)
+                            if(bwg[user].name.toLowerCase() !== name.toLowerCase()){
+                                var target = banned.Target(name, master, message)
+                                if(bet > money){
+                                    message.channel.send("You don't have enough gbp for that bet")
+                                }else if(typeof(bet - 0) !== 'NaN' && bet >= min_bet && bet <= max_bet){
+                                    if(bwg[target].used_words.includes(word) == true){
+                                        message.channel.send(`That word has already been successfully used on ${name}`)
+                                    }else if (!/[^a-zA-Z]/.test(word) && word.length >= 6){
+                                        message.channel.send('Your bet is accepted')
+                                        banned.purchase(bet, user, message, master)
+                                        banned.New_Game(user, target, bet, word, message, bwg)
+                                        banned.Show_Status(user, bwg, master, message)
+                                    }else{
+                                        message.channel.send('Please give a valid 6 letter word')
+                                    }
                                 }else{
-                                    message.channel.send('Please give a valid 6 letter word')
+                                    message.channel.send(`Please give a valid bet between ${min_bet} gbp and ${max_bet} gbp`)
                                 }
                             }else{
-                                message.channel.send(`Please give a valid bet between ${min_bet} gbp and ${max_bet} gbp`)
+                                message.channel.send(`You can't target yourself`)
                             }
                         }else{
                             message.channel.send('Please give a valid name')
@@ -103,6 +106,26 @@ module.exports = {
                     message.channel.send("Error occured in bwg.js rules")
                 }
             break;
+            case 'words':
+                //shows the words that can no longer be used for a person
+                if(typeof(name) == 'undefined'){
+                    const word_list = new Discord.RichEmbed()
+                    .setTitle(`Words that can't be used on ${bwg[user].name}`)
+                    .setDescription(bwg[user].used_words)
+                    message.channel.send(word_list)
+                }else if(names.includes(name.toLowerCase()) == true){
+                    for(i in bwg){
+                        if(name.toLowerCase() == bwg[i].name.toLowerCase()){
+                            const word_list = new Discord.RichEmbed()
+                            .setTitle(`Words that can't be used on ${bwg[i].name}`)
+                            .setDescription(bwg[i].used_words)
+                            message.channel.send(word_list)
+                        }
+                    }
+                }else{
+                    message.channel.send("Give a valid name or leave the name spot empty")
+                }
+            break
             case 'help':
                 //shows list of commands
                 try{

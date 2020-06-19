@@ -40,28 +40,30 @@ module.exports = {
         
             if(message.author.discriminator !== '9509' && message.author.discriminator !== '0250'){
                 if(message.content.startsWith("!") == false){
-                    if(message.member.roles.find(r => r.name === "Junior Representative Assistant") || message.member.roles.find(r => r.name === "Senior Representative Assistant") || message.member.roles.find(r => r.name === "The People's Representative") ||message.member.roles.find(r => r.name === "Dogcatcher") || message.member.roles.find(r => r.name === "Soupmaker")){
-                        unlock.unlock(message.author.id, 24, message, master)
+                    if(message.channel.type !== 'dm'){
+                        if(message.member.roles.find(r => r.name === "Junior Representative Assistant") || message.member.roles.find(r => r.name === "Senior Representative Assistant") || message.member.roles.find(r => r.name === "The People's Representative") ||message.member.roles.find(r => r.name === "Dogcatcher") || message.member.roles.find(r => r.name === "Soupmaker")){
+                            unlock.unlock(message.author.id, 24, message, master)
+                        }
                     }
                     for(i in master){
                         if(person == i){
                             Achievement_Switch(person, message.channel.id, message, master)
-                            if(master[i].gbp <= 0){
-                                unlock.unlock(i, 3, message, master)
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 5) * 100)/100
-                            }else if(master[i].gbp < 250){
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 3) * 100)/100
-                            }else if(master[i].gbp < 500){
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 2) * 100)/100
-                            }else if(master[i].gbp < 750){
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 1) * 100)/100
-                            }else if(master[i].gbp < 1000){
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 0.5) * 100)/100
+                            if(master[person].gbp <= 0){
+                                unlock.unlock(person, 3, message, master)
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 5) * 100)/100
+                            }else if(master[person].gbp < 250){
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 3) * 100)/100
+                            }else if(master[person].gbp < 500){
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 2) * 100)/100
+                            }else if(master[person].gbp < 750){
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 1) * 100)/100
+                            }else if(master[person].gbp < 1000){
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 0.5) * 100)/100
                             }else{
-                                master[i].gbp = Math.round((parseFloat(master[i].gbp) + 0.25) * 100)/100
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 0.25) * 100)/100
                             }
-                            if(master[i].gbp > 10000){
-                                unlock.unlock(i, 6, message, master)
+                            if(master[person].gbp > 10000){
+                                unlock.unlock(person, 6, message, master)
                             }
                         }
                     }

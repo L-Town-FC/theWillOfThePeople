@@ -7,3 +7,5 @@
 -If a target says a banned word then they can now longer be targeted with that word in the future. If they go the game without saying the word that word can be reused in the future
 
 -Messages in pugilism, blackjack, and dms are not counted because people farm in those chats
+
+-Command messages don't count. Example: If the banned word is "kumiko", !kumiko won't be counted

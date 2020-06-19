@@ -10,11 +10,13 @@ module.exports = {
         var insults = new Attachment('./text_files/insult_counter.txt')
         var boo = new Attachment('./text_files/boo.txt')
         var tracker = new Attachment('./JSON/achievements_tracker.json')
+        var bwg = new Attachment('./JSON/banned_word_game.json')
         message.channel.send(money)
         message.channel.send(lottery)
         message.channel.send(insults)
         message.channel.send(boo)
         message.channel.send(tracker)
+        message.channel.send(bwg)
     }
 
 }
