@@ -1,6 +1,7 @@
 Bug Fixes:
 -!boo will now tell you if the name you gave was valid
 -!Fixed bug where commands couldn't be used if capitalized
+-!simmerdown now tracker properly
 
 New Features/Updates:
 -New Achievement System

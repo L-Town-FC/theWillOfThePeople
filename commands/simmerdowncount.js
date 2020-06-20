@@ -48,6 +48,9 @@ function counter(person, message) {
         var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         
         for(i in master){
+            if(master[i].simmerdown == null){
+                master[i].simmerdown = 0;
+            }
             if(person == i){
                 master[i].simmerdown = parseInt(master[i].simmerdown) + 1
             }
