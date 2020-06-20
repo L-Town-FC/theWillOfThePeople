@@ -16,7 +16,7 @@
 
 !delete: Deletes previous messages at a cost of 1000 gbp per message
 
-!gg: Try to guess a number between 1 and 100 with 3 guesses. Guess correctly to get a 10x payout
+!gg: Try to guess a number between 1 and 100 with 3 guesses. Guess correctly to get a 15x payout
 
 !kumiko: Posts a picture of Kumiko from the critically acclaimed show "Sound! Euphonium" for 15 gbp a picture
 

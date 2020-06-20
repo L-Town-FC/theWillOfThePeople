@@ -8,6 +8,7 @@ bot.commands = new Discord.Collection();
 
 const cheerio = require('cheerio');
 const request = require('request');
+const stats = require('./commands/Functions/stats_functions')
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -19,7 +20,7 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
+    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
     console.log('This bot is online')
     setInterval(function(){
         Welfare(channel)
@@ -33,6 +34,9 @@ bot.on('message', message =>{
         bot.commands.get('boo_trigger').execute(message);
         bot.commands.get('more_money').execute(message);
         bot.commands.get('bwg_counter').execute(message);
+        if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
+            stats.tracker(message.author.id, 7, 1)
+        }
         //console.log(message)
     }catch(err){
         console.log(err)
@@ -46,6 +50,9 @@ bot.on('message', message =>{
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
         if (message.content.startsWith("!") == true){
+            if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
+                stats.tracker(message.author.id, 8, 1)
+            }
             switch(args[0].toLowerCase()){
                 case 'ping':
                     bot.commands.get('ping').execute(message,args);

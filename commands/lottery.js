@@ -5,6 +5,7 @@ module.exports = {
         const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
+        const stats = require('./Functions/stats_functions')
         var command = args[1];
         var amount = args[2];
         var price = 5;
@@ -21,11 +22,12 @@ module.exports = {
                         
                         if(price < total_money){
                             purchase(price, message.author.id, master);
+                            stats.tracker(message.author.id, 1, 1)
                             if(attempt(1, price) == true){
-                            message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} tries to win. Your prize is ${lottery_stats[1]}`)
-                            purchase(-1 * lottery_stats[1], message.author.id, master);
-                            fs.writeFileSync('./text_files/lottery_stats.txt', "0,10000");
-                            unlock.unlock(message.author.id, 10, message, master)
+                                message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} tries to win. Your prize is ${lottery_stats[1]}`)
+                                purchase(-1 * lottery_stats[1], message.author.id, master);
+                                fs.writeFileSync('./text_files/lottery_stats.txt', "0,10000");
+                                unlock.unlock(message.author.id, 10, message, master)
                             }else{
                                 message.channel.send("Sorry. Better luck next time");
                             }
@@ -37,6 +39,7 @@ module.exports = {
                         message.channel.send("Please choose a whole number for the amount of tickets");
                     }else{
                         if(money_spent < total_money){
+                            stats.tracker(message.author.id, 1, parseFloat(amount))
                             purchase(amount*price, message.author.id, master);
                             if(attempt(amount, money_spent) == true){
                                 message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} tries to win. Your prize is ${lottery_stats[1]} gbp`)

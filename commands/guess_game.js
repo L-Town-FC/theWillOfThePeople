@@ -5,6 +5,7 @@ module.exports = {
         const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
+        const stats = require('./Functions/stats_functions')
         const min_bet = 5;
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var bet = args[2];
@@ -81,12 +82,14 @@ module.exports = {
             if(is_Ongoing()[2] >= 4 || result == true){
                 if(result == false){
                     message.channel.send(`You are out of guesses. You lose. The correct number was ${magic_number}`);
+                    stats.tracker(message.author.id, 6, 1)
                     fs.writeFileSync('./text_files/guessgame.txt', `0 0 0 0`);
                 }else{
-                    message.channel.send(`You win ${10 * parseFloat(bet2)} gbp`);
-                    purchase((-10 * parseFloat(bet2)), message.author.id);
+                    message.channel.send(`You win ${15 * parseFloat(bet2)} gbp`);
+                    purchase((-15 * parseFloat(bet2)), message.author.id);
                     fs.writeFileSync('./text_files/guessgame.txt', `0 0 0 0`);
                     unlock.tracker1(message.author.id, 4, 1, 5, message, master)
+                    stats.tracker(message.author.id, 5, 1)
                 }
             }
         }catch(err){

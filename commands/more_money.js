@@ -7,6 +7,7 @@ module.exports = {
         
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
+        const stats = require('./Functions/stats_functions')
         try{
             var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
             var person = message.author.id

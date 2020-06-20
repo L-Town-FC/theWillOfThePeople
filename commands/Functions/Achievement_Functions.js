@@ -58,6 +58,11 @@ function tracker1(user, achievement_num, increment, threshold, message, master){
     if(tracker[user][achievement_num] >= threshold){
         unlock(user, achievement_num, message, master)
     }
+    fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
 }
 module.exports.tracker1 = tracker1
 

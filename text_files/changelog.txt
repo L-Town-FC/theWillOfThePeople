@@ -17,8 +17,11 @@ New Features/Updates:
     -If they say it within 100 messages you take what you bet from your target automatically
     -Use "!bwg help" for a list of commands
 -!boo now randomly triggers on 25% of messages from the target
+-Guessgame now has a 15x payout
+-!stats now shows various stats on the server
 -More Kumikos
 -More Pugs
+-More insults
 
 
 

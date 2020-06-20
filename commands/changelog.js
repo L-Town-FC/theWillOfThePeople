@@ -12,7 +12,7 @@ module.exports = {
             const help_embed2 = new Discord.RichEmbed()
             .addField('List of Changes Pg. 2', changelog2)
             message.channel.send(help_embed);
-            message.channel.send(help_embed2)
+            //message.channel.send(help_embed2)
         }catch(err){
             console.log(err)
             message.channel.send("Error Occured in Changelog.js");
