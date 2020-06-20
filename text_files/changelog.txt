@@ -16,9 +16,9 @@ New Features/Updates:
     -Bet on words that you think someone else will say
     -If they say it within 100 messages you take what you bet from your target automatically
     -Use "!bwg help" for a list of commands
+-!boo now randomly triggers on 25% of messages from the target
 -More Kumikos
 -More Pugs
--NEED TO MAKE CHANGE TO BOO SO IT TRIGGERS LESS OFTEN
 
 
 

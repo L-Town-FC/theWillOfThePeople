@@ -128,6 +128,9 @@ bot.on('message', message =>{
                 case 'bwg':
                     bot.commands.get('bwg').execute(message,args, total_money(message.author.id))
                 break;
+                case 'stats':
+                    bot.commands.get('stats').execute(message,args);
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message,args);
                 break;
