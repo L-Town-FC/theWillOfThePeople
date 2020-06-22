@@ -1,3 +1,5 @@
+const { Emoji } = require('discord.js');
+
 module.exports = {
     name: 'insult_counter',
     description: 'insults specified user',
@@ -8,6 +10,7 @@ module.exports = {
             master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
             var insulted_counter= fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
             var name_count = parseInt(insulted_counter[1]);
+            
             if (message.content.startsWith("!") == false){
                 if (insulted_counter[0] == message.author.id){
                     //checks if author or message mathces the intended target
@@ -44,7 +47,8 @@ module.exports = {
                                         "You look better with the lights off","Wow that post was shit","The Chinese Fireball, Ooooooohhhh", "Your shoe is untied", "It would make everyone feel better if you just deleted this post","Beep Boop","ALex is better at games than you are at life","For that, you'll walk the plank",
                                         "Hey you. Yeah you. Go fuck yourself", "Suck me, and fuck me", "Alright cockgobbler", 'Get your hinga dinga gurgen ass outta here',"I bet it's painful to talk to you in person","You look like a high quality stripper",
                                         'Nice shoes, wanna fuck?', "Hey bby, wan sum fuk?", "Show me your bob and vagene", "C'mon. I know you're better than this", "I'm not angry. I'm disappointed",
-                                        'Wait til my father hears about this', 'сука шлюха', 'Filthy Mudblood', 'Bring my body back. Bring my body back to my father', "He doesn't like. I don't like you either! You just watch yourself! We're wanted men. I have a death sentence on twelve systems"]
+                                        'Wait til my father hears about this', 'сука шлюха', 'Filthy Mudblood', 'Bring my body back. Bring my body back to my father', "He doesn't like. I don't like you either! You just watch yourself! We're wanted men. I have a death sentence on twelve systems",
+                                        fs.readFileSync('./text_files/copypastas/navyseal.txt','utf-8'), fs.readFileSync('./text_files/copypastas/helicopter.txt','utf-8'), "You chattering hog monkey"]
                         message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
                         insulted_counter[1] = 1;
                         fs.writeFileSync('./text_files/insult_counter.txt', insulted_counter)
