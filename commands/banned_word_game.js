@@ -31,12 +31,12 @@ module.exports = {
                                 if(bet > money){
                                     message.channel.send("You don't have enough gbp for that bet")
                                 }else if(typeof(bet - 0) !== 'NaN' && bet >= min_bet && bet <= max_bet){
-                                    if(bwg[target].used_words.includes(word) == true){
+                                    if(bwg[target].used_words.includes(word.toLowerCase()) == true){
                                         message.channel.send(`That word has already been successfully used on ${name}`)
                                     }else if (!/[^a-zA-Z]/.test(word) && word.length >= 6){
                                         message.channel.send('Your bet is accepted')
                                         banned.purchase(bet, user, message, master)
-                                        banned.New_Game(user, target, bet, word, message, bwg)
+                                        banned.New_Game(user, target, bet, word.toLowerCase(), message, bwg)
                                         banned.Show_Status(user, bwg, master, message)
                                     }else{
                                         message.channel.send('Please give a valid 6 letter word')

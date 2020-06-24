@@ -1,28 +1,7 @@
 Bug Fixes:
--!boo will now tell you if the name you gave was valid
--!Fixed bug where commands couldn't be used if capitalized
--!simmerdown now tracker properly
+-Fixed bug where if you capitalized the word in bwg it would be impossible to win
 
 New Features/Updates:
--New Achievement System
-    -30 Achievements
-    -Unlocked by doing random stuff on the server
-    -Use "!achievements help" for a list of commands
-    -More Achievements to come
--Welfare system will once a day set everyone below 250 gbp to 250 gbp
--"!21 reset" now resets the game if a glitch occurs
--New Ultra Rare Kumiko
--!kumiko only cost 15 gbp now
--New game "Banned Word Game"
-    -Bet on words that you think someone else will say
-    -If they say it within 100 messages you take what you bet from your target automatically
-    -Use "!bwg help" for a list of commands
--!boo now randomly triggers on 25% of messages from the target
--Guessgame now has a 15x payout
--!stats now shows various stats on the server
--More Kumikos
--More Pugs
--More insults
 
 
 

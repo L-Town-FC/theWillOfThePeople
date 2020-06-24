@@ -18,7 +18,7 @@ module.exports = {
                         if(user == bwg[i].target){
                             //goes through every person on server and checks if they are a target.
                             //If they are it checks the message they send for a banned word
-                            var word = bwg[i].current_word
+                            var word = bwg[i].current_word.toLowerCase()
                             var id = i
                             for(j = 0; j < args.length; j++){
                                 if (['[', '{', '(', '*', '#'].includes(args[j][0]) == true){
