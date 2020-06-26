@@ -70,10 +70,10 @@ module.exports = {
                         }
 
                         // Test Cards
-                        //card[0] = 10;
-                        //card[1] = 10;
-                        //card[2] = 10;
-                        //card[3] = 10;
+                        card[0] = 9;
+                        card[1] = 9;
+                        card[2] = 10;
+                        card[3] = 6;
                         //
 
                         master_list[player].player_hand1 = [card[0], card[1]];
@@ -417,13 +417,13 @@ module.exports = {
             if(master_list[player].isSplit == true && master_list[player].gameStatus !== 1){
                 //checks if player has split and the game is over. If they both are these lines automatically runs. Each hand is
                 //checked to see if the player is over 21 and if they are is it because they have 2 aces
-                if(sum(master_list[player].player_hand1) <= 21 || master_list[player].player_dummy_hand1 == ['A','A']){
+                if(sum(master_list[player].player_hand1) <= 21 || master_list[player].player_hand1.includes(11) == true){
                     var hand1_bust = false;
                 }else{
                     var hand1_bust = true;
                 }
 
-                if(sum(master_list[player].player_hand2) <= 21|| master_list[player].player_dummy_hand2 == ['A','A']){
+                if(sum(master_list[player].player_hand2) <= 21|| master_list[player].player_hand2.includes(11) == true){
                     var hand2_bust = false;
                 }else{
                     var hand2_bust = true;
@@ -459,15 +459,16 @@ module.exports = {
                         if(master_list[player].gameStatus == 12){
                             var winnings = 0
                             if(hand1_bust == false){
-                                purchase(-2 * parseFloat(master_list[player].bet[0]), message.author.id, message, master);
+                                //purchase(-2 * parseFloat(master_list[player].bet[0]), message.author.id, message, master);
                                 winnings = winnings + parseFloat(master_list[player].bet[0])
                                 stats.tracker(master_list[player].id, 2, 1)
                             }
                             if(hand2_bust == false){
-                                purchase(-2 * parseFloat(master_list[player].bet[1]), message.author.id, message, master)
+                                //purchase(-2 * parseFloat(master_list[player].bet[1]), message.author.id, message, master)
                                 winnings = winnings + parseFloat(master_list[player].bet[1])
                                 stats.tracker(master_list[player].id, 2, 1)
                             }
+                            purchase(-2 * parseFloat(winnings), message.author.id, message, master)
                             message.channel.send(`${master_list[player].name} wins ${winnings} gbp`)
 
                             reset(master_list, player)

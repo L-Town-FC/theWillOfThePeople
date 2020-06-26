@@ -5,8 +5,7 @@
     "current_word": "",
     "bet": 0,
     "remaining_msgs": "",
-    "used_words": [
-    ],
+    "used_words": [],
     "gamestatus": 0
   },
   "497803559144914944": {
@@ -15,7 +14,9 @@
     "current_word": "",
     "bet": 0,
     "remaining_msgs": "",
-    "used_words": [],
+    "used_words": [
+      "tester"
+    ],
     "gamestatus": 0
   },
   "499328039621230592": {

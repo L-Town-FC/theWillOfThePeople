@@ -1,5 +1,8 @@
 Bug Fixes:
 -Fixed bug where if you capitalized the word in bwg it would be impossible to win
+-Fixed bug where using !bwg status in dms when you don't have a game going would cause an error
+-Fixed bug where !transfer would give an error instead of just being deleted in bot tinkering
+-Fixed bug where if player had hand that was soft over 21 while split the hand would count as busted
 
 New Features/Updates:
 

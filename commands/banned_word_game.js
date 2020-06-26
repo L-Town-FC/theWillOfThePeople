@@ -62,7 +62,23 @@ module.exports = {
                 //shows who is being targeted except in dms where it will show you your current game status
                 try{
                     if(message.channel.type === 'dm'){
-                        banned.Show_Status(user, bwg, master, message)
+                        if(bwg[user].gamestatus == 1){
+                            banned.Show_Status(user, bwg, master, message)
+                        }else{
+                            var targets = []
+                            var counter = 0
+                            for(i in bwg){
+                                if(bwg[i].target !== ""){
+                                    var id = bwg[i].target
+                                    targets[counter] = master[id].name
+                                    counter++
+                                }
+                            }
+                            const target_list = new Discord.RichEmbed()
+                            .setTitle("List of People being targeted")
+                            .setDescription(targets)
+                            message.channel.send(target_list)
+                        }
                     }else{
                         var targets = []
                         var counter = 0

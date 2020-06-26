@@ -49,7 +49,7 @@ function Stats(user, stats, master, message){
     var achievements_ratio = `${achievements}/${total_achievements}`
     const Stats_list = new Discord.RichEmbed()
     .setTitle(`${stats[user].name} Stat List`)
-    .setDescription(`Total Messages: ${stats[user].total_msgs} \nTotal Commands: ${stats[user].total_commands} \nBlackjack Wins: ${stats[user].bj_wins} \nBlackjack Losses: ${stats[user].bj_losses}\nGuessgame Wins: ${stats[user].gg_wins}\nGuessgame Loses: ${stats[user].gg_losses}\nLottery Tickets bought: ${stats[user].lottery_tickets}\nAchievements: ${achievements_ratio}`)
+    .setDescription(`Total Messages: ${stats[user].total_msgs} \nTotal Commands: ${stats[user].total_commands} \nBlackjack Wins: ${stats[user].bj_wins} \nBlackjack Losses: ${stats[user].bj_losses}\nGuessgame Wins: ${stats[user].gg_wins}\nGuessgame Losses: ${stats[user].gg_losses}\nLottery Tickets bought: ${stats[user].lottery_tickets}\nAchievements: ${achievements_ratio}`)
     message.channel.send(Stats_list)
 }
 

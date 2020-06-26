@@ -26,7 +26,7 @@ module.exports = {
 
             if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){
                 message.channel.bulkDelete(1)
-                unlock.unlock(user, 7, message, master)
+                unlock.unlock(initiator, 7, message, master)
             }else if(args.length == 1){
                 message.channel.send("The format is !transfer [Person you want to transfer to] [amount to transfer]")
             }else if(names.includes(recipient.toLowerCase()) !== true){
