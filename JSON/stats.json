@@ -2,13 +2,15 @@
   "450001712305143869": {
     "name": "Colin",
     "lottery_tickets": 0,
-    "bj_wins": 2,
+    "bj_wins": 0,
     "bj_pushes": 0,
     "bj_losses": 0,
     "gg_wins": 0,
     "gg_losses": 0,
-    "total_msgs": 14,
-    "total_commands": 14,
+    "total_msgs": 73,
+    "total_commands": 55,
+    "farm_messages": 1,
+    "non_farm_messages": 16,
     "achievements": 0
   },
   "497803559144914944": {
@@ -21,6 +23,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "499328039621230592": {
@@ -33,6 +37,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "463080062175019010": {
@@ -45,6 +51,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "210861925771247636": {
@@ -57,6 +65,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "501929393401364481": {
@@ -69,6 +79,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "509430603339399186": {
@@ -81,6 +93,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "526190184455471105": {
@@ -93,6 +107,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "462798271195119626": {
@@ -105,6 +121,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "562203622474252288": {
@@ -117,6 +135,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "501887537451630593": {
@@ -129,6 +149,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "434471986748456962": {
@@ -141,6 +163,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "497861779020578837": {
@@ -153,6 +177,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "501930484838957069": {
@@ -165,6 +191,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "581903756111773716": {
@@ -177,6 +205,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "508076579684089896": {
@@ -189,6 +219,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "525147400176664626": {
@@ -201,6 +233,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "640368746690510868": {
@@ -213,6 +247,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   },
   "498262864541515786": {
@@ -225,6 +261,8 @@
     "gg_losses": 0,
     "total_msgs": 0,
     "total_commands": 0,
+    "farm_messages": 0,
+    "non_farm_messages": 0,
     "achievements": 0
   }
 }

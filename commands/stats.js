@@ -49,7 +49,18 @@ function Stats(user, stats, master, message){
     var achievements_ratio = `${achievements}/${total_achievements}`
     const Stats_list = new Discord.RichEmbed()
     .setTitle(`${stats[user].name} Stat List`)
-    .setDescription(`Total Messages: ${stats[user].total_msgs} \nTotal Commands: ${stats[user].total_commands} \nBlackjack Wins: ${stats[user].bj_wins} \nBlackjack Losses: ${stats[user].bj_losses}\nGuessgame Wins: ${stats[user].gg_wins}\nGuessgame Losses: ${stats[user].gg_losses}\nLottery Tickets bought: ${stats[user].lottery_tickets}\nAchievements: ${achievements_ratio}`)
+    .setDescription([
+        `Total Messages: ${stats[user].total_msgs}`,
+        `Total Commands: ${stats[user].total_commands}`,
+        `Total Non-Farm Messages: ${stats[user].non_farm_messages}`,
+        `Total Farm Messages: ${stats[user].farm_messages}`,
+        `Blackjack Wins: ${stats[user].bj_wins}`,
+        `Blackjack Losses: ${stats[user].bj_losses}`,
+        `Guessgame Wins: ${stats[user].gg_wins}`,
+        `Guessgame Losses: ${stats[user].gg_losses}`,
+        `Lottery Tickets bought: ${stats[user].lottery_tickets}`,
+        `Achievements: ${achievements_ratio}`
+    ])
     message.channel.send(Stats_list)
 }
 
@@ -64,6 +75,8 @@ function Stats_All(stats, message){
     var gg_losses = 0
     var total_msgs = 0
     var total_commands = 0
+    var farm_messages = 0
+    var non_farm_messages = 0
     for(i in stats){
         lottery_tickets = lottery_tickets + stats[i].lottery_tickets
         bj_wins = bj_wins + stats[i].bj_wins
@@ -73,10 +86,22 @@ function Stats_All(stats, message){
         gg_losses = gg_losses + stats[i].gg_losses
         total_msgs = total_msgs + stats[i].total_msgs
         total_commands = total_commands + stats[i].total_commands
+        farm_messages = farm_messages + stats[i].farm_messages
+        non_farm_messages = non_farm_messages + stats[i].non_farm_messages
     }
     const Stats_list = new Discord.RichEmbed()
     .setTitle(`All Stats List`)
-    .setDescription(`Total Messages: ${total_msgs} \nTotal Commands: ${total_commands} \nBlackjack Wins: ${bj_wins} \nBlackjack Losses: ${bj_losses}\nGuessgame Wins: ${gg_wins}\nGuessgame Loses: ${gg_losses}\nLottery Tickets bought: ${lottery_tickets}`)
+    .setDescription([
+        `Total Messages: ${total_msgs}`,
+        `Total Commands: ${total_commands}`,
+        `Total Non-Farm Messages: ${non_farm_messages}`,
+        `Total Farm Messages: ${farm_messages}`
+        `Blackjack Wins: ${bj_wins}`,
+        `Blackjack Losses: ${bj_losses}`,
+        `Guessgame Wins: ${gg_wins}`,
+        `Guessgame Loses: ${gg_losses}`,
+        `Lottery Tickets bought: ${lottery_tickets}`
+    ])
     message.channel.send(Stats_list)
 }
 

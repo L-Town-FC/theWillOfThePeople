@@ -48,6 +48,11 @@ module.exports = {
                     }
                     for(i in master){
                         if(person == i){
+                            if(['590585423202484227','712755269863473252', '672846614410428416'].includes(message.channel.id) == true){
+                                stats.tracker(person, 9, 1)
+                            }else{
+                                stats.tracker(person, 10, 1)
+                            }
                             Achievement_Switch(person, message.channel.id, message, master)
                             if(master[person].gbp <= 0){
                                 unlock.unlock(person, 3, message, master)
@@ -87,6 +92,7 @@ module.exports = {
 function Achievement_Switch(user, channel, message, master){
     const fs = require('fs')
     const unlock = require('./Functions/Achievement_Functions')
+    const stats = require('./Functions/stats_functions')
 
     switch(channel){
         case '590583268961812500':

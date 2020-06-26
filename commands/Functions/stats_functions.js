@@ -26,6 +26,12 @@ function tracker(user, stat, increment){
         case 8:
             stats[user].total_commands = stats[user].total_commands + increment
         break;
+        case 9:
+            stats[user].farm_messages = stats[user].farm_messages + increment
+        break;
+        case 10:
+            stats[user].non_farm_messages = stats[user].non_farm_messages + increment
+        break;
     }
     fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats, null, 2), function(err) {
         if (err) throw err;

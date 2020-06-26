@@ -51,6 +51,8 @@ module.exports = {
                 stats[i].gg_losses = 0
                 stats[i].total_msgs = 0
                 stats[i].total_commands = 0
+                stats[i].farm_messages = 0
+                stats[i].non_farm_messages = 0
                 stats[i].achievements = 0
             }
 

@@ -8,7 +8,8 @@ bot.commands = new Discord.Collection();
 
 const cheerio = require('cheerio');
 const request = require('request');
-const stats = require('./commands/Functions/stats_functions')
+const stats = require('./commands/Functions/stats_functions');
+const roulette = require('./commands/roulette');
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -37,6 +38,10 @@ bot.on('message', message =>{
         if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
             stats.tracker(message.author.id, 7, 1)
         }
+
+        if(typeof(bets_open) !== 'undefined' && message.channel.id == '611276436145438769'){
+            Roulette_bets(roulette_bets, message, master, total_money(message.channel.id))
+        }
         //console.log(message)
     }catch(err){
         console.log(err)
@@ -46,7 +51,7 @@ bot.on('message', message =>{
 
 
 bot.on('message', message =>{
-
+    
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
         if (message.content.startsWith("!") == true){
@@ -111,8 +116,8 @@ bot.on('message', message =>{
                 case 'changelog':
                     bot.commands.get('changelog').execute(message)
                 break;
-                case 'reserves':
-                    bot.commands.get('reserves').execute(message,args)
+                case 'roulette':
+                    bot.commands.get('roulette').execute(message,args,total_money(message.author.id))
                 break;
                 case 'help':
                     bot.commands.get('help').execute(message);
@@ -187,4 +192,9 @@ function Welfare(channel){
         console.log('complete');
         }
     );
+}
+
+function Roulette_bets(roulette_bets, message, money){
+    var args = message.content.split(" ")
+    var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 }
