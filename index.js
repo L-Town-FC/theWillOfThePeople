@@ -40,7 +40,7 @@ bot.on('message', message =>{
         }
 
         if(typeof(bets_open) !== 'undefined' && message.channel.id == '611276436145438769'){
-            Roulette_bets(roulette_bets, message, master, total_money(message.channel.id))
+            Roulette_bets(message, total_money(message.channel.id))
         }
         //console.log(message)
     }catch(err){
@@ -194,7 +194,11 @@ function Welfare(channel){
     );
 }
 
-function Roulette_bets(roulette_bets, message, money){
+function Roulette_bets(message, money){
     var args = message.content.split(" ")
     var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+
+    if(isNaN(args[0] == false)){
+        
+    }
 }

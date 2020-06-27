@@ -1,3 +1,5 @@
+const roulette = require('./roulette')
+
 module.exports = {
     name: 'test',
     description: 'custom emoji test',
@@ -7,6 +9,7 @@ module.exports = {
         var tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
         var bwg = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
         var stats = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
+        //var roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
         if(message.author.id == '450001712305143869' && message.channel.id == '611276436145438769'){
             for(i in tracker){
                 tracker[i][4] = 0
@@ -55,6 +58,34 @@ module.exports = {
                 stats[i].non_farm_messages = 0
                 stats[i].achievements = 0
             }
+            /*
+            for(i in roulette){
+                if(i % 2 == 0){
+                    roulette[i].even = true
+                }else{
+                    roulette[i].even = false
+                }
+                if(i <= 12){
+                    roulette[i].third = 1
+                }else if(i >= 25){
+                    roulette[i].third = 3
+                }else{
+                    roulette[i].third = 2
+                }
+                if(i <= 18){
+                    roulette[i].half = 1
+                }else{
+                    roulette[i].half = 2
+                }
+                if((i + 2) % 3 == 0){
+                    roulette[i].row = 1
+                }else if((i + 1) % 3 == 0){
+                    roulette[i].row = 2
+                }else{
+                    roulette[i].row = 3
+                }
+            }
+            */
 
             fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats, null, 2), function(err) {
                 if (err) throw err;
@@ -71,6 +102,13 @@ module.exports = {
                 console.log('complete');
                 }
             );
+            /*
+            fs.writeFileSync ("./JSON/roulette.json", JSON.stringify(roulette, null, 2), function(err) {
+                if (err) throw err;
+                console.log('complete');
+                }
+            );
+            */
         }
     }
 
