@@ -10,6 +10,7 @@ const cheerio = require('cheerio');
 const request = require('request');
 const stats = require('./commands/Functions/stats_functions');
 const roulette = require('./commands/roulette');
+const { type } = require('os');
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -40,7 +41,7 @@ bot.on('message', message =>{
         }
 
         if(typeof(bets_open) !== 'undefined' && message.channel.id == '611276436145438769'){
-            Roulette_bets(message, total_money(message.channel.id))
+            Roulette_bets(message, total_money(message.author.id))
         }
         //console.log(message)
     }catch(err){
@@ -117,7 +118,7 @@ bot.on('message', message =>{
                     bot.commands.get('changelog').execute(message)
                 break;
                 case 'roulette':
-                    bot.commands.get('roulette').execute(message,args,total_money(message.author.id))
+                    bot.commands.get('roulette').execute(message,args,total_money(message.author.id), Roulette_bets(message))
                 break;
                 case 'help':
                     bot.commands.get('help').execute(message);
@@ -197,8 +198,44 @@ function Welfare(channel){
 function Roulette_bets(message, money){
     var args = message.content.split(" ")
     var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+    var possible_bets = fs.readFileSync('./text_files/roulette_bets','utf-8')
+    var min_bet = 20;
 
-    if(isNaN(args[0] == false)){
-        
+    if(typeof(approved_bets) == 'undefined'){
+        approved_bets = []
+    }
+
+    if(isNaN(args[0]) == false && args[0] >= min_bet){
+        if(possible_bets.includes(args[1].toLowerCase()) == true){
+            if(money >= args[0]){
+                purchase(args[0], message.author.id, master)
+                var bet = [args[0], args[1], message.author.id]
+                approved_bets.push(bet)
+                message.channel.send('Bet accepted')
+            }else{
+                message.channel.send(`You don't have enough gbp for that bet`)
+            }
+            
+        }
+    }
+}
+
+function purchase(bet_value, player, master) {
+    try{
+        const fs = require('fs');
+
+        for(i in master){
+            if(player == i){
+                master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
+            }
+        }
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+    }catch(err){
+        console.log(err)
+        message.channel.send("Error Occured in Lottery.js Purchase");
     }
 }
