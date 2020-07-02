@@ -199,7 +199,7 @@ function Roulette_bets(message, money){
     var args = message.content.split(" ")
     var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
     var possible_bets = fs.readFileSync('./text_files/roulette_bets','utf-8').split(",")
-    var min_bet = 20;
+    var min_bet = 5;
     var bet = false
 
     if(typeof(approved_bets) == 'undefined'){

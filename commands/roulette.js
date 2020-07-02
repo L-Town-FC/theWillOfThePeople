@@ -128,9 +128,9 @@ function Display(message){
     var bets = fs.readFileSync('./text_files/possible_bets','utf-8')
     var test = new Discord.Attachment('roulette.jpg')
     const display = new Discord.RichEmbed()
-    .setTitle('Roulette')
+    .setTitle('**Roulette**')
+    .addField("Basics","Minimum bet is 5gbp\nBets are placed as such: [Bet Amount] [Bet Placement]")
     .attachFile(test)
-    //.setImage(roulette.jpg)
-    .addField('Possible Bets',bets)
+    .addField("Possible Bet Placements", bets)
     message.channel.send(display)
 }

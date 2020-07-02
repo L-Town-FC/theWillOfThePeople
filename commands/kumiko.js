@@ -16,9 +16,11 @@ module.exports = {
                 message.channel.send(`It costs ${price} gbp to use this command`)
             }else{
                 var kumiko_image = new Attachment('./kumiko_pics/kumiko'+ kumiko +'.jpg')
-                message.channel.send(kumiko_image)
                 purchase(price, message.author.id, message) 
-                unlock.tracker1(message.author.id, 14, 1, 25, message, master)
+                if(message.channel.id !== '711634711281401867'){
+                    message.channel.send(kumiko_image)
+                    unlock.tracker1(message.author.id, 14, 1, 25, message, master)    
+                }
             }
         }catch(err){
             console.log(err)
