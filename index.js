@@ -40,8 +40,9 @@ bot.on('message', message =>{
             stats.tracker(message.author.id, 7, 1)
         }
 
-        if(typeof(bets_open) !== 'undefined' && message.channel.id == '611276436145438769'){
-            Roulette_bets(message, total_money(message.author.id))
+        ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true
+        if(typeof(bets_open) !== 'undefined' && ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true){
+            Roulette_bets(message, total_money(message.author.id, message))
         }
         //console.log(message)
     }catch(err){
@@ -70,7 +71,7 @@ bot.on('message', message =>{
                     bot.commands.get('simmerdown').execute(message,args);    
                 break;
                 case '21':
-                    bot.commands.get('21').execute(message,args,total_money(message.author.id));
+                    bot.commands.get('21').execute(message,args,total_money(message.author.id, message));
                 break;
                 case 'flip':
                     bot.commands.get('flip').execute(message,args);
@@ -85,25 +86,25 @@ bot.on('message', message =>{
                     bot.commands.get('bank').execute(message,args);
                 break;
                 case 'insults':
-                    bot.commands.get('insults').execute(message,args,total_money(message.author.id));
+                    bot.commands.get('insults').execute(message,args,total_money(message.author.id, message));
                 break;
                 case 'delete':
-                    bot.commands.get('delete').execute(message,args,total_money(message.author.id));
+                    bot.commands.get('delete').execute(message,args,total_money(message.author.id, message));
                 break;
                 case 'gg':
-                    bot.commands.get('gg').execute(message,args,total_money(message.author.id));
+                    bot.commands.get('gg').execute(message,args,total_money(message.author.id, message));
                 break;
                 case 'transfer':
-                    bot.commands.get('transfer').execute(message,args,total_money(message.author.id));
+                    bot.commands.get('transfer').execute(message,args,total_money(message.author.id, message));
                 break;
                 case 'kumiko':
-                    bot.commands.get('kumiko').execute(message,args,total_money(message.author.id));//
+                    bot.commands.get('kumiko').execute(message,args,total_money(message.author.id, message));//
                 break;
                 case 'lottery':
-                    bot.commands.get('lottery').execute(message,args, total_money(message.author.id))
+                    bot.commands.get('lottery').execute(message,args, total_money(message.author.id, message))
                 break;
                 case 'herald':
-                    bot.commands.get('herald').execute(message,args, total_money(message.author.id))
+                    bot.commands.get('herald').execute(message,args, total_money(message.author.id, message))
                 break;
                 case 'names':
                     bot.commands.get('names').execute(message,args)
@@ -118,7 +119,7 @@ bot.on('message', message =>{
                     bot.commands.get('changelog').execute(message)
                 break;
                 case 'roulette':
-                    bot.commands.get('roulette').execute(message,args,total_money(message.author.id), Roulette_bets(message))
+                    bot.commands.get('roulette').execute(message,args,total_money(message.author.id, message), Roulette_bets(message))
                 break;
                 case 'help':
                     bot.commands.get('help').execute(message);
@@ -127,10 +128,10 @@ bot.on('message', message =>{
                     bot.commands.get('set').execute(message,args);
                 break;
                 case 'boo':
-                    bot.commands.get('boo').execute(message,args,total_money(message.author.id));
+                    bot.commands.get('boo').execute(message,args,total_money(message.author.id, message));
                 break;
                 case 'steal':
-                    bot.commands.get('steal').execute(message,args,total_money(message.author.id));
+                    bot.commands.get('steal').execute(message,args,total_money(message.author.id, message));
                 break;
                 case 'backup':
                     bot.commands.get('backup').execute(message,args);
@@ -139,7 +140,7 @@ bot.on('message', message =>{
                     bot.commands.get('achievements').execute(message,args);
                 break;
                 case 'bwg':
-                    bot.commands.get('bwg').execute(message,args, total_money(message.author.id))
+                    bot.commands.get('bwg').execute(message,args, total_money(message.author.id, message))
                 break;
                 case 'stats':
                     bot.commands.get('stats').execute(message,args);
@@ -161,7 +162,7 @@ bot.on('message', message =>{
 bot.login(token);
 
 
-function total_money(person) {
+function total_money(person, message) {
     try{
         const fs = require('fs')
         var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
