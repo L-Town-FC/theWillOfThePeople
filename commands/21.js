@@ -15,6 +15,7 @@ module.exports = {
         var command = args[1];
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
+        
         if(typeof(master_list) == 'undefined'){
             master_list = []; 
             var counter = 0
@@ -70,10 +71,10 @@ module.exports = {
                         }
 
                         // Test Cards
-                        card[0] = 9;
-                        card[1] = 9;
-                        card[2] = 10;
-                        card[3] = 6;
+                        //card[0] = 9;
+                        //card[1] = 9;
+                        //card[2] = 10;
+                        //card[3] = 6;
                         //
 
                         master_list[player].player_hand1 = [card[0], card[1]];
@@ -195,7 +196,7 @@ module.exports = {
             break;
             case 'split':
                 try{
-                    if(parseFloat(total_money) >= parseFloat(master_list[player].bet)){
+                    
                         if(master_list[player].player_dummy_hand1[0] === master_list[player].player_dummy_hand1[1] && master_list[player].isSplit == false && master_list[player].player_hand1.length == 2){
                             /*Checks various cases such as if the player has hit or has enough gbp. If all cases are passed the players hand
                             is split with each card becoming the first card of a new hand. 2 new cards are generated for the hands
@@ -253,9 +254,7 @@ module.exports = {
                         }else{
                             message.channel.send("You can't split because your cards don't match")
                         }
-                    }else{
-                        message.channel.send("You don't have enough money to split")
-                    }
+                    
                 }catch(err){
                     console.log(err)
                     message.channel.send("Error occured in 21.js Split")
@@ -271,15 +270,11 @@ module.exports = {
                         if(master_list[player].isStay[0] == true){
                             //If the player has split and stayed on their first hand, doubledown defaults to their second hand
                             if(master_list[player].player_hand2.length == 2){
-                                if(total_money < master_list[player].bet[1]){
-                                    message.channel.send(`You could not fully double down. Your new bet is ${master_list[player].bet[1] + total_money}`)
-                                    purchase(total_money, message.author.id, message, master)
-                                    master_list[player].bet[1] = parseFloat(total_money) + parseFloat(master_list[player].bet[1])
-                                }else{
+                                
                                     purchase(master_list[player].bet[1], message.author.id, message, master)
                                     message.channel.send(`Your new bet is ${2 * master_list[player].bet[1]}`)
                                     master_list[player].bet[1] = 2 * parseFloat(master_list[player].bet[1])
-                                }
+                                
                                 master_list[player].isStay[1] = true
                                 master_list[player].player_hand2.push(cards[0]);
                                 master_list[player].player_dummy_hand2.push(cards[1]);
@@ -298,15 +293,11 @@ module.exports = {
                             }
                         }else{
                             if(master_list[player].player_hand1.length == 2){
-                                if(total_money < master_list[player].bet[0]){
-                                    message.channel.send(`You could not fully double down. Your new bet is ${master_list[player].bet[0] + total_money}`)
-                                    purchase(total_money, message.author.id, message, master)
-                                    master_list[player].bet[0] = parseFloat(total_money) + parseFloat(master_list[player].bet[0])
-                                }else{
+                                
                                     purchase(master_list[player].bet[0], message.author.id, message, master)
                                     message.channel.send(`Your new bet is ${2 * master_list[player].bet[0]}`)
                                     master_list[player].bet[0] = 2 * parseFloat(master_list[player].bet[0])
-                                }
+                                
                                 master_list[player].isStay[0] = true
                                 master_list[player].player_hand1.push(cards[0]);
                                 master_list[player].player_dummy_hand1.push(cards[1]);

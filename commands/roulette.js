@@ -77,7 +77,7 @@ function purchase(bet_value, player, master) {
         }
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Lottery.js Purchase");
+        message.channel.send("Error Occured in roulette.js Purchase");
     }
 }
 
@@ -188,11 +188,13 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
 function Display(message){
     const Discord = require('discord.js')
     const fs = require('fs')
-    var test = new Discord.Attachment('roulette.jpg')
+    var basics = fs.readFileSync('./text_files/roulette/roulette_basics')
+    var payouts = fs.readFileSync('./text_files/roulette/roulette_payouts')
+    var board = new Discord.Attachment('./text_files/roulette/roulette.jpg')
     const display = new Discord.RichEmbed()
     .setTitle('**Roulette**')
-    .addField("Basics","Minimum bet is 5gbp\nBets must be made in the blackjack chat\nBets are placed as such: [Bet Amount] [Bet Placement]\nRow number goes from bottom to top\nHalf/Third number goes left to right")
-    .attachFile(test)
-    .addField("Bet/Payouts", "0-36: 35 to 1\nRow: 3 to 1\nThird: 3 to 1\nHalf: 2 to 1\nEven/Odd: 2 to 1\nRed/Black: 2 to 1")
+    .addField("Basics:",basics)
+    .attachFile(board)
+    .addField("Bet/Payouts:", payouts)
     message.channel.send(display)
 }

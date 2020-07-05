@@ -15,7 +15,7 @@ module.exports = {
         switch (String(args[1]).toLowerCase()){
             case 'standings':
                 try{
-                    var standings = fs.readFileSync('./text_files/standings.txt','utf8');
+                    var standings = fs.readFileSync('./text_files/assblast/standings.txt','utf8');
                     var player_and_scores = standings.split(",");
                         //splits standings doc into player score pairs
                     for (i = 0; i < player_and_scores.length; i++) {
@@ -42,7 +42,7 @@ module.exports = {
                     message.channel.send(embed);
                     //displays embed of standings
 
-                    fs.writeFileSync('./text_files/standings.txt', sorted_standings_array);
+                    fs.writeFileSync('./text_files/assblast/standings.txt', sorted_standings_array);
                     //rewrites standings text file
                 }catch(err){
                     console.log(err)
@@ -55,7 +55,7 @@ module.exports = {
                 try{
                     var name = args[2];
                     var points = args[3];
-                    var standings = fs.readFileSync('./text_files/standings.txt','utf8');
+                    var standings = fs.readFileSync('./text_files/assblast/standings.txt','utf8');
                     var player_and_scores = standings.split(",");
                     var final_array = [];
 
@@ -84,7 +84,7 @@ module.exports = {
                             for (j = 0; j < array.length; j++) {
                                 final_array[j] = array[j].name + " " + array[j].score;
                             }
-                            fs.writeFileSync('./text_files/standings.txt', final_array);
+                            fs.writeFileSync('./text_files/assblast/standings.txt', final_array);
                             message.channel.send("Standings have been updated");
                         }
                     }else{
@@ -99,7 +99,7 @@ module.exports = {
             case 'clear':
                 try{
                     const clear = 'Colin 0,Ian 0,Wyatt 0,Carl 0,Jacob 0,Dylan 0'
-                    fs.writeFileSync('./text_files/standings.txt', clear);
+                    fs.writeFileSync('./text_files/assblast/standings.txt', clear);
                     message.channel.send("The standings have been erased");
                     //resets the standings
                 }catch(err){
@@ -110,7 +110,7 @@ module.exports = {
 
             case 'help':
                 try{
-                    var assblast_commands = fs.readFileSync('./text_files/assblast_commands.txt','utf8');
+                    var assblast_commands = fs.readFileSync('./text_files/assblast/assblast_commands.txt','utf8');
                     const help_embed = new Discord.RichEmbed()
                     .addField('List of Commands', assblast_commands);
                     message.channel.send(help_embed);

@@ -16,12 +16,10 @@ module.exports = {
         var names = [];
 
         try{
-            for (i = 0; i < full_list.length; i++){
-                full_list_split[i] = full_list[i].split(" ");
-            }
-
-            for (i = 0; i < full_list_split.length; i++){
-                names[i] = full_list_split[i][1].toLowerCase();
+            var counter = 0
+            for(i in master){
+                names[counter] = master[i].name.toLowerCase()
+                counter++
             }
 
             if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){

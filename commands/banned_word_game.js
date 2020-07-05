@@ -16,6 +16,7 @@ module.exports = {
         max_bet = 500
         names = []
         counter = 0
+
         for(i in master){
             names[counter] = String(master[i].name).toLowerCase()
             counter++
@@ -112,7 +113,7 @@ module.exports = {
             case 'rules':
                 //shows basic rules of banned word game
                 try{
-                var rules = fs.readFileSync('text_files/bwg_rules', 'utf-8')
+                var rules = fs.readFileSync('text_files/bwg/bwg_rules', 'utf-8')
                 const rules_list = new Discord.RichEmbed()
                 .setTitle("Banned Word Game (bwg) Rules")
                 .setDescription(rules)
@@ -145,7 +146,7 @@ module.exports = {
             case 'help':
                 //shows list of commands
                 try{
-                var help = fs.readFileSync('text_files/bwg_commands.txt', 'utf-8')
+                var help = fs.readFileSync('text_files/bwg/bwg_commands.txt', 'utf-8')
                 const help_list = new Discord.RichEmbed()
                 .setTitle("List of Commands")
                 .setDescription(help)

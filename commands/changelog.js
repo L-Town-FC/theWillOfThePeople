@@ -5,8 +5,8 @@ module.exports = {
         try{
             var fs = require('fs');
             const Discord = require('discord.js');
-            var changelog = fs.readFileSync('./text_files/changelog.txt','utf8');
-            var changelog2 = fs.readFileSync('./text_files/changelog2.txt','utf8');
+            var changelog = fs.readFileSync('./text_files/changelog/changelog.txt','utf8');
+            var changelog2 = fs.readFileSync('./text_files/changelog/changelog2.txt','utf8');
             const help_embed = new Discord.RichEmbed()
             .addField('List of Changes', changelog);
             const help_embed2 = new Discord.RichEmbed()

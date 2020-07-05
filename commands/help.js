@@ -5,8 +5,8 @@ module.exports = {
         try{
             var fs = require('fs');
             const Discord = require('discord.js');
-            var help_commands_1 = fs.readFileSync('./text_files/help1.txt','utf8');
-            var help_commands_2 = fs.readFileSync('./text_files/help2.txt','utf8')
+            var help_commands_1 = fs.readFileSync('./text_files/help/help1.txt','utf8');
+            var help_commands_2 = fs.readFileSync('./text_files/help/help2.txt','utf8')
             const help_embed1 = new Discord.RichEmbed()
             .addField('List of Commands', help_commands_1);
             const help_embed2 = new Discord.RichEmbed()

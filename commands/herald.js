@@ -10,9 +10,9 @@ module.exports = {
         var amount = args[2];
         var price = 250;
         var money_spent = price * parseInt(amount);
-        var herald_stats = fs.readFileSync('./text_files/herald_counter.txt','utf8').split(",");
+        var herald_stats = fs.readFileSync('./text_files/herald/herald_counter.txt','utf8').split(",");
         var min_uses = 1;
-        var counter_discrim = fs.readFileSync('./text_files/herald_counter.txt','utf8').split(",");
+        var counter_discrim = fs.readFileSync('./text_files/herald/herald_counter.txt','utf8').split(",");
         var description = message.cleanContent.split("!herald say");
 
         switch(command){

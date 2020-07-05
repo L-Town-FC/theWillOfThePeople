@@ -5,7 +5,7 @@ module.exports = {
         try{
             const fs = require('fs');
             const Discord = require('discord.js');
-            var counter_discrim = fs.readFileSync('./text_files/herald_counter.txt','utf8').split(",");
+            var counter_discrim = fs.readFileSync('./text_files/herald/herald_counter.txt','utf8').split(",");
             var description = message.cleanContent;
 
             if(message.author.id == counter_discrim[1]){

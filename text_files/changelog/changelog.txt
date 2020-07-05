@@ -1,0 +1,20 @@
+Bug Fixes:
+-Fixed bug where if you capitalized the word in bwg it would be impossible to win
+-Fixed bug where using !bwg status in dms when you don't have a game going would cause an error
+-Fixed bug where !transfer would give an error instead of just being deleted in bot tinkering
+-Fixed bug where if player had hand that was soft over 21 while split the hand would count as busted
+
+New Features/Updates:
+-Changed Welfare
+    -Now if you have less than 0 gbp, 250 gbp is added to your account instead of being set to 250 gbp
+    -Welfare is unchanged if you are at or above 0 gbp
+-You are now allowed to go negative in order to split or fully doubledown in !21
+-Farm and Non-farm messages are now tracked separatley with !stats
+-!roulette is a new game that multiple people can play together
+    -Bets for the game are only tracked in the blackjack channel so it must be played there
+    -Use !roulette help for a list of commands
+
+
+
+
+
