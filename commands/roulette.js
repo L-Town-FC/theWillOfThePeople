@@ -24,7 +24,6 @@ module.exports = {
                                 delete bets_open
                                 message.channel.send('Bets are closed')
                                 var number = Math.floor(Math.random()*37)
-                                number = 4
                                 if(number == '0'){
                                     var color = ':green_circle:'
                                 }else if(roulette[number].red == true){
@@ -32,6 +31,7 @@ module.exports = {
                                 }else{
                                     var color = ':black_circle:'
                                 }
+                                Update_numbers(number + color)
                                 setTimeout(function(){
                                     message.channel.send(`The number is: \n${number}${color}`)
                                     counter = 0
@@ -45,14 +45,15 @@ module.exports = {
                             }  
                         },bet_time * 1000)
                     }else{
-                        message.channel.send('You must choose a time between 30 and 90 seconds')
+                        message.channel.send('You must choose a time between 30 and 60 seconds')
                     }
                 }else if(bets_open = true){
                     message.channel.send("Bets are already open")
                 }
             break;
             case 'stats':
-                //last 5 roulette spins
+                //last 10 roulette spins
+                Numbers(message)
             break;
             case 'list':
                 //list of possible bets and payouts
@@ -60,6 +61,7 @@ module.exports = {
             break;
             case 'help':
                 //list of commands
+                Help(message)
             break;
             default:
                 message.channel.send(`Use "!roulette help" for a list of commands`)
@@ -98,12 +100,12 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
         if(isNaN(value) == true){
             if(['even', 'odd', 'red', 'black'].includes(value)){
                 command = value
-            }else if(value.startsWith('r') == true){
-                command = 'column_split'
+            }else if(value.startsWith('r') == true && value[1] !== 'o'){
+                command = 'misc'
             }else if(value.startsWith('c') == true){
-                command = 'row_split'
+                command = 'misc'
             }else if(value.startsWith('d') == true){
-                command = 'diagonal'
+                command = 'misc'
             }else{
                 command = value.slice(0,-1)   
             }
@@ -181,16 +183,18 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                     message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                 }
             break;
-            case 'row_split':
-                if(roulette[picked_number]){
-                    
+            case 'misc':
+                if(roulette[picked_number].misc.includes(value) == true){
+                    if(value[0] == 'r' || value[0] == 'c'){
+                        winnings = -18 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    }else if(value[0] == 'd'){
+                        winnings = -9 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    }
                 }
-            break;
-            case 'column_split':
-
-            break;
-            case 'diagonal':
-
             break;
         }
         if(winnings !== 0){
@@ -219,4 +223,36 @@ function Display(message){
     .attachFile(board)
     .addField("Bet/Payouts:", payouts)
     message.channel.send(display)
+}
+
+function Numbers(message){
+    const Discord = require('discord.js')  
+    const fs = require('fs')
+    var numbers = fs.readFileSync('./text_files/roulette/roulette_numbers.txt')
+    var embed = new Discord.RichEmbed()
+    .setTitle('Last 10 Numbers')
+    .setDescription(numbers)
+    message.channel.send(embed)
+}
+
+function Update_numbers(number){
+    const fs = require('fs')
+    var old_numbers = fs.readFileSync('./text_files/roulette/roulette_numbers.txt','utf-8').split(",")
+    var new_numbers = []
+    for(i = 1;i < 10; i++){
+        new_numbers[i-1] = old_numbers[i]
+    }
+    
+    new_numbers.push(number)
+    fs.writeFileSync('./text_files/roulette/roulette_numbers.txt', new_numbers)
+}
+
+function Help(message){
+    const fs = require('fs')
+    const Discord = require('discord.js')
+    var help = fs.readFileSync('./text_files/roulette/roulette_commands.txt','utf-8')
+    embed = new Discord.RichEmbed()
+    .setTitle('List of Roulette Commands')
+    .setDescription(help)
+    message.channel.send(embed)
 }

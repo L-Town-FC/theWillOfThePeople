@@ -1,0 +1,5 @@
+!roulette bet [Time]: Starts roulette game where betting ends after "Time" seconds
+
+!roulette list: Shows you the roulette board, basics, and payouts
+
+!roulette stats: Shows you the last 10 numbers called
