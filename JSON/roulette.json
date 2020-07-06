@@ -4,251 +4,287 @@
     "red": true,
     "third": 1,
     "half": 1,
-    "row": 1
+    "row": 1,
+    "misc": ["c1","r1","d1"]
   },
   "2": {
     "even": true,
     "red": false,
     "third": 1,
     "half": 1,
-    "row": 2
+    "row": 2,
+    "misc": ["c1","c2","r2","d1","d2"]
   },
   "3": {
     "even": false,
     "red": true,
     "third": 1,
     "half": 1,
-    "row": 3
+    "row": 3,
+    "misc": ["c2","r3","d2"]
   },
   "4": {
     "even": true,
     "red": false,
     "third": 1,
     "half": 1,
-    "row": 1
+    "row": 1,
+    "misc": ["c4","r1","r4","d1","d4"]
   },
   "5": {
     "even": false,
     "red": true,
     "third": 1,
     "half": 1,
-    "row": 2
+    "row": 2,
+    "misc": ["c4","c5","r2","r5","d1","d2","d4","d5"]
   },
   "6": {
     "even": true,
     "red": false,
     "third": 1,
     "half": 1,
-    "row": 3
+    "row": 3,
+    "misc": ["c5","r3","r6","d2","d5"]
   },
   "7": {
     "even": false,
     "red": true,
     "third": 1,
     "half": 1,
-    "row": 1
+    "row": 1,
+    "misc": ["c7","r4","r7","d4","d7"]
   },
   "8": {
     "even": true,
     "red": false,
     "third": 1,
     "half": 1,
-    "row": 2
+    "row": 2,
+    "misc": ["c7","c8","r5","r8","d4","d7","d5","d8"]
   },
   "9": {
     "even": false,
     "red": true,
     "third": 1,
     "half": 1,
-    "row": 3
+    "row": 3,
+    "misc": ["c8","r6","r9","d5","d8"]
   },
   "10": {
     "even": true,
     "red": false,
     "third": 1,
     "half": 1,
-    "row": 1
+    "row": 1,
+    "misc": ["c10","r7","r10","d7","d10"]
   },
   "11": {
     "even": false,
     "red": false,
     "third": 1,
     "half": 1,
-    "row": 2
+    "row": 2,
+    "misc": ["c10","c11","r8","r11","d7","d10","d8","d11"]
   },
   "12": {
     "even": true,
     "red": true,
     "third": 1,
     "half": 1,
-    "row": 3
+    "row": 3,
+    "misc": ["c11","r9","r12","d8","d11"]
   },
   "13": {
     "even": false,
     "red": false,
     "third": 2,
     "half": 1,
-    "row": 1
+    "row": 1,
+    "misc": ["c13","r10","r13","d10","d13"]
   },
   "14": {
     "even": true,
     "red": true,
     "third": 2,
     "half": 1,
-    "row": 2
+    "row": 2,
+    "misc": ["c13","c14","r11","r14","d10","d13","d11","d14"]
   },
   "15": {
     "even": false,
     "red": false,
     "third": 2,
     "half": 1,
-    "row": 3
+    "row": 3,
+    "misc": ["c14","r12","r15","d11","d14"]
   },
   "16": {
     "even": true,
     "red": true,
     "third": 2,
     "half": 1,
-    "row": 1
+    "row": 1,
+    "misc": ["c16","r13","r16","d13","d16"]
   },
   "17": {
     "even": false,
     "red": false,
     "third": 2,
     "half": 1,
-    "row": 2
+    "row": 2,
+    "misc": ["c16","c17","r14","r17","d13","d16","d14","d17"]
   },
   "18": {
     "even": true,
     "red": true,
     "third": 2,
     "half": 1,
-    "row": 3
+    "row": 3,
+    "misc": ["c17","r15","r18","d14","d17"]
   },
   "19": {
     "even": false,
     "red": true,
     "third": 2,
     "half": 2,
-    "row": 1
+    "row": 1,
+    "misc": ["c19","r16","r19","d16","d19"]
   },
   "20": {
     "even": true,
     "red": false,
     "third": 2,
     "half": 2,
-    "row": 2
+    "row": 2,
+    "misc": ["c19","c20","r17","r20","d16","d19","d17","d20"]
   },
   "21": {
     "even": false,
     "red": true,
     "third": 2,
     "half": 2,
-    "row": 3
+    "row": 3,
+    "misc": ["c20","r18","r21","d17","d20"]
   },
   "22": {
     "even": true,
     "red": false,
     "third": 2,
     "half": 2,
-    "row": 1
+    "row": 1,
+    "misc": ["c22","r19","r22","d19","d22"]
   },
   "23": {
     "even": false,
     "red": true,
     "third": 2,
     "half": 2,
-    "row": 2
+    "row": 2,
+    "misc": ["c22","c23","r20","r23","d19","d22","d20","d23"]
   },
   "24": {
     "even": true,
     "red": false,
     "third": 2,
     "half": 2,
-    "row": 3
+    "row": 3,
+    "misc": ["c23","r21","r24","d20","d23"]
   },
   "25": {
     "even": false,
     "red": true,
     "third": 3,
     "half": 2,
-    "row": 1
+    "row": 1,
+    "misc": ["c25","r22","r25","d22","d25"]
   },
   "26": {
     "even": true,
     "red": false,
     "third": 3,
     "half": 2,
-    "row": 2
+    "row": 2,
+    "misc": ["c25","c26","r23","r26","d22","d25","d23","d26"]
   },
   "27": {
     "even": false,
     "red": true,
     "third": 3,
     "half": 2,
-    "row": 3
+    "row": 3,
+    "misc": ["c26","r24","r27","d23","d26"]
   },
   "28": {
     "even": true,
     "red": false,
     "third": 3,
     "half": 2,
-    "row": 1
+    "row": 1,
+    "misc": ["c28","r25","r28","d25","d28"]
   },
   "29": {
     "even": false,
     "red": false,
     "third": 3,
     "half": 2,
-    "row": 2
+    "row": 2,
+    "misc": ["c28","c29","r26","r29","d25","d28","d26","d29"]
   },
   "30": {
     "even": true,
     "red": true,
     "third": 3,
     "half": 2,
-    "row": 3
+    "row": 3,
+    "misc": ["c29","r27","r30","d26","d29"]
   },
   "31": {
     "even": false,
     "red": false,
     "third": 3,
     "half": 2,
-    "row": 1
+    "row": 1,
+    "misc": ["c31","r28","r31","d28","d31"]
   },
   "32": {
     "even": true,
     "red": true,
     "third": 3,
     "half": 2,
-    "row": 2
+    "row": 2,
+    "misc": ["c31","c32","r29","r32","d28","d31","d29","d32"]
   },
   "33": {
     "even": false,
     "red": false,
     "third": 3,
     "half": 2,
-    "row": 3
+    "row": 3,
+    "misc": ["c32","r30","r33","d29","d32"]
   },
   "34": {
     "even": true,
     "red": true,
     "third": 3,
     "half": 2,
-    "row": 1
+    "row": 1,
+    "misc": ["c34","r31","d31"]
   },
   "35": {
     "even": false,
     "red": false,
     "third": 3,
     "half": 2,
-    "row": 2
+    "row": 2,
+    "misc": ["c34","c35","r32","d31","d32"]
   },
   "36": {
     "even": true,
     "red": true,
     "third": 3,
     "half": 2,
-    "row": 3
+    "row": 3,
+    "misc": ["c35","r33","d32"]
   }
 }

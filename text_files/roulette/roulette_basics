@@ -3,3 +3,7 @@ Bets must be made in the blackjack chat
 Bets are placed as such: [Bet Amount] [Bet Placement]
 Row number goes from bottom to top
 Half/Third number goes left to right
+Use "cX" to split with the number above "X"
+Use "rX" split with the number to the right of "X"
+Use "dX" to split with 4 numbers with X being the bottom left
+-ex. "d1" would place a bet at the 1,2,4,5 corner

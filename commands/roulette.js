@@ -24,6 +24,7 @@ module.exports = {
                                 delete bets_open
                                 message.channel.send('Bets are closed')
                                 var number = Math.floor(Math.random()*37)
+                                number = 4
                                 if(number == '0'){
                                     var color = ':green_circle:'
                                 }else if(roulette[number].red == true){
@@ -97,6 +98,12 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
         if(isNaN(value) == true){
             if(['even', 'odd', 'red', 'black'].includes(value)){
                 command = value
+            }else if(value.startsWith('r') == true){
+                command = 'column_split'
+            }else if(value.startsWith('c') == true){
+                command = 'row_split'
+            }else if(value.startsWith('d') == true){
+                command = 'diagonal'
             }else{
                 command = value.slice(0,-1)   
             }
@@ -111,64 +118,79 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                 if(value == picked_number){
                     winnings = -36 * bet
                     purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings} gbp`)
+                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                 }
             break;
             case 'num':
                 if(value == picked_number){
                     winnings = -36 * bet
                     purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings} gbp`)
+                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                }else if((picked_number - 0.5) == value || (picked_number + 0.5) == value){
+                    winnings = -18 * bet
+                    purchase(winnings, user, master)
+                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                 }
             break;
             case 'even':
                 if(roulette[picked_number].even == true){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings} gbp`)
+                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                 }
             break;
             case 'odd':
                 if(roulette[picked_number].even == false){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings} gbp`)
+                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                 }
             break;
             case 'red':
                 if(roulette[picked_number].red == true){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings} gbp`)
+                    message.channel.send(`${master[user].name} wins ${-winnings- bet} gbp`)
                 }
             break;
             case 'black':
                 if(roulette[picked_number].red == false){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings} gbp`)
+                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                 }
             break;
             case 'row':
                 if(roulette[picked_number].row == value[3]){
                     winnings = -3 * bet
                     purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings} gbp`)
+                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                 }
             break;
             case 'half':
                 if(roulette[picked_number].row == value[4]){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings} gbp`)
+                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                 }
             break;
             case 'third':
                 if(roulette[picked_number].third == value[5]){
                     winnings = -3 * bet
                     purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings} gbp`)
+                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                 }
+            break;
+            case 'row_split':
+                if(roulette[picked_number]){
+                    
+                }
+            break;
+            case 'column_split':
+
+            break;
+            case 'diagonal':
+
             break;
         }
         if(winnings !== 0){
