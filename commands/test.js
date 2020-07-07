@@ -30,6 +30,15 @@ module.exports = {
                 tracker[i][27] = 0
                 tracker[i][28] = 0
                 tracker[i][29] = 0
+                tracker[i][31] = 0
+                tracker[i][32] = 0
+                tracker[i][33] = 0
+                tracker[i][36] = 0
+                tracker[i][37] = 0
+                tracker[i][40] = 0
+                tracker[i][39] = [0,0,0]
+                tracker[i][44] = 0
+                tracker[i][45] = 0
             }
             for(i in master){
                 master[i].simmerdown = 0

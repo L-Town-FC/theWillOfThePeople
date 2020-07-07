@@ -5,6 +5,7 @@ module.exports = {
         const fs = require('fs')
         const Discord = require('discord.js')
         const roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
+        const embed = require('./Functions/embed_functions')
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var bet_time = args[2];
         var command = args[1];

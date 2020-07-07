@@ -219,7 +219,10 @@ function Roulette_bets(message, money){
                 purchase(args[0], message.author.id, master)
                 var bet = [args[0], args[1], message.author.id]
                 approved_bets.push(bet)
-                message.channel.send(`${master[i].name} Bet accepted`)
+                message.channel.send(`${master[message.author.id].name} Bet accepted`)
+                if(Math.round(money) == args[0] && money >= 1000){
+                    unlock.unlock(message.author.id, 38, message, master)
+                }
             }else{
                 message.channel.send(`${master[i].name} doesn't have enough gbp for that bet`)
             }

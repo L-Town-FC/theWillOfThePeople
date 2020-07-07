@@ -25,13 +25,14 @@ module.exports = {
                         if(price < total_money){
                             purchase(price, message.author.id, master);
                             stats.tracker(message.author.id, 1, 1)
+                            unlock.tracker1(message.author.id, 31, 1, 500, message, master)
                             if(attempt(1, price) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${lottery_stats[0]} tickets to win. Your prize is ${lottery_stats[1]}`)
                                 purchase(-1 * lottery_stats[1], message.author.id, master);
                                 fs.writeFileSync('./text_files/lottery_stats.txt', `0,${base_winnings}`);
                                 unlock.unlock(message.author.id, 10, message, master)
                             }else{
-                                message.channel.send("Sorry. Better luck next time");
+                                message.channel.send("Sorry. Try again");
                             }
                         }else{
                             message.channel.send(`You need at least ${price} gbp for this command`)
@@ -42,6 +43,7 @@ module.exports = {
                     }else{
                         if(money_spent < total_money){
                             stats.tracker(message.author.id, 1, parseFloat(amount))
+                            unlock.tracker1(message.author.id, 31, parseInt(amount), 500, message, master)
                             purchase(amount*price, message.author.id, master);
                             if(attempt(amount, money_spent) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${lottery_stats[0]} tickets to win. Your prize is ${lottery_stats[1]} gbp`)

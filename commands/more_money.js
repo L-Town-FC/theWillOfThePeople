@@ -54,6 +54,9 @@ module.exports = {
                                 stats.tracker(person, 10, 1)
                             }
                             Achievement_Switch(person, message.channel.id, message, master)
+                            if(master[person].gbp <= -250){
+                                unlock.unlock(person, 34, message, master)
+                            }
                             if(master[person].gbp <= 0){
                                 unlock.unlock(person, 3, message, master)
                                 master[person].gbp = Math.round((parseFloat(master[person].gbp) + 5) * 100)/100

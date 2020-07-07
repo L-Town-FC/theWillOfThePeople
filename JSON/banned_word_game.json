@@ -1,12 +1,14 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "target": "462798271195119626",
-    "current_word": "titties",
-    "bet": 100,
-    "remaining_msgs": 100,
-    "used_words": [],
-    "gamestatus": 1
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [
+      "animal"
+    ],
+    "gamestatus": 0
   },
   "497803559144914944": {
     "name": "Andrew",

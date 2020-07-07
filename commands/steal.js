@@ -26,6 +26,16 @@ module.exports = {
                 }
                 counter++
             }
+            counter = 0
+            for(i in master){
+                names[counter] = master[i].name.toLowerCase()
+                if(master[i].gbp > gbp_amounts){
+                    gbp_amounts = master[i].gbp
+                    var id = i
+                    var richest = id
+                }
+                counter++
+            }
             
             if(args.length == 1){
                 message.channel.send("The format is !steal [Person you want to steal from] [amout to pay for heist]")
@@ -38,8 +48,9 @@ module.exports = {
             }else if(parseFloat(amount) > parseFloat(total_money)){
                 message.channel.send("You dont't have enough gbp to cover the heist expenses");
             }else{
-                steal(initiator, recipient, amount, stolen_percent, message, master, poorest);
+                steal(initiator, recipient, amount, stolen_percent, message, master, poorest, richest);
                 message.channel.send(`You have successfully stolen ${stolen_percent * amount} gbp from ${recipient}`);
+                unlock.tracker1(initiator, 36, 1, 5, message, master)
             }
         }catch(err){
             console.log(err)
@@ -48,7 +59,7 @@ module.exports = {
     }
 }
 
-function steal(initiator, recipient, amount, stolen_percent, message, master, poorest) {
+function steal(initiator, recipient, amount, stolen_percent, message, master, poorest, richest) {
     try{
         const Discord = require('discord.js');
         const fs = require('fs');
@@ -65,6 +76,10 @@ function steal(initiator, recipient, amount, stolen_percent, message, master, po
                         if(j == poorest){
                             unlock.unlock(initiator, 30, message, master)
                         }
+                        if(j == richest){
+                            unlock.unlock(initiator, 35, message, master)
+                        }
+                        unlock.tracker1(initiator, 37, (stolen_percent * parseFloat(amount)), 1000, message, master)
                     }
                 }
             }

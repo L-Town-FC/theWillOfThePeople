@@ -1,11 +1,10 @@
-const { reset } = require("nodemon")
-
 module.exports = {
     name: 'bwg_counter',
     description: 'says pong',
     execute(message){
         const fs = require("fs")
         const banned = require('./Functions/bwg_functions')
+        const unlock = require('./Functions/Achievement_Functions')
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         bwg = JSON.parse(fs.readFileSync("./JSON/banned_word_game.json", "utf-8"))
         var user = message.author.id
@@ -40,6 +39,7 @@ module.exports = {
                                 banned.purchase(-2 * bwg[id].bet, id, message, master)
                                 banned.purchase(1 * bwg[id].bet, user, message, master)
                                 bwg[bwg[id].target].used_words.push(bwg[id].current_word)
+                                unlock.tracker1(id, 40, 1, 5, message, master)
                                 banned.Reset(id, bwg, message)
                                 //purchase/reset/add word to used words
                                 win = 0
@@ -50,6 +50,7 @@ module.exports = {
                                     //reset
                                     message.channel.send(`Congratulations. ${bwg[id].name} bet ${bwg[id].bet} gbp that you would say "${bwg[id].current_word}" and you didn't`)
                                     message.channel.send(`You win ${bwg[id].bet} gbp`)
+                                    unlock.tracker1(bwg[id].target, 40, 1, 5, message, master)
                                     banned.purchase(-1 * bwg[id].bet, user, message, master)
                                     banned.Reset(id, bwg, message)
                                 }
