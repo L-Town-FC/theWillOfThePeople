@@ -1,11 +1,12 @@
 module.exports = {
-    name: 'lottery',
+    name: 'powerball',
     description: 'enters you into the lottery for big money',
     execute(message,args,total_money){
         const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
+        const base_winnings = 10000
         var command = args[1];
         var amount = args[2];
         var price = 5;
@@ -24,9 +25,9 @@ module.exports = {
                             purchase(price, message.author.id, master);
                             stats.tracker(message.author.id, 1, 1)
                             if(attempt(1, price) == true){
-                                message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} tries to win. Your prize is ${lottery_stats[1]}`)
+                                message.channel.send(`Congradulations. You won Powerball. It took ${lottery_stats[0]} tickets to win. Your prize is ${lottery_stats[1]}`)
                                 purchase(-1 * lottery_stats[1], message.author.id, master);
-                                fs.writeFileSync('./text_files/lottery_stats.txt', "0,10000");
+                                fs.writeFileSync('./text_files/lottery_stats.txt', `0,${base_winnings}`);
                                 unlock.unlock(message.author.id, 10, message, master)
                             }else{
                                 message.channel.send("Sorry. Better luck next time");
@@ -42,9 +43,9 @@ module.exports = {
                             stats.tracker(message.author.id, 1, parseFloat(amount))
                             purchase(amount*price, message.author.id, master);
                             if(attempt(amount, money_spent) == true){
-                                message.channel.send(`Congradulations. You won the lottery. It took ${lottery_stats[0]} tries to win. Your prize is ${lottery_stats[1]} gbp`)
+                                message.channel.send(`Congradulations. You won Powerball. It took ${lottery_stats[0]} tickets to win. Your prize is ${lottery_stats[1]} gbp`)
                                 purchase(-1 * lottery_stats[1], message.author.id, master);
-                                fs.writeFileSync('./text_files/lottery_stats.txt', "0,10000");
+                                fs.writeFileSync('./text_files/lottery_stats.txt', `0,${base_winnings}`);
                                 unlock.unlock(message.author.id, 10, message, master)
                             }else{
                                 message.channel.send("Sorry. Try again");
@@ -55,7 +56,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in Lottery.js Buy");
+                    message.channel.send("Error Occured in Powerball.js Buy");
                 }
             break;
 
@@ -63,10 +64,10 @@ module.exports = {
                 try{
                     var num_of_guesses = lottery_stats[0];
                     var total_pot = lottery_stats[1];
-                    message.channel.send(`The pot is currently at ${total_pot} gbp. ${num_of_guesses} guesses have been made.`)
+                    message.channel.send(`The pot is currently at ${total_pot} gbp. ${num_of_guesses} tickets have been bought.`)
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in Lottery.js Stats");
+                    message.channel.send("Error Occured in Powerball.js Stats");
                 }
             break;
             
@@ -78,7 +79,7 @@ module.exports = {
                     message.channel.send(help_embed);
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in Lottery.js Help");
+                    message.channel.send("Error Occured in Powerball.js Help");
                 }
             break;
 
@@ -143,7 +144,7 @@ function attempt(amount, money_spent){
         }
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Lottery.js Attempt");
+        message.channel.send("Error Occured in Powerball.js Attempt");
     }
         
 }
@@ -164,6 +165,6 @@ function purchase(bet_value, player, master) {
         );
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Lottery.js Purchase");
+        message.channel.send("Error Occured in Powerball.js Purchase");
     }
 }

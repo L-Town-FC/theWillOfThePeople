@@ -20,7 +20,7 @@
 
 !kumiko: Posts a picture of Kumiko from the critically acclaimed show "Sound! Euphonium" for 15 gbp a picture
 
-!lottery: Enters you into a lottery for 5 gbp per ticket
+!powerball: Enters you into the Powerball for 5 gbp per ticket
 
 !transfer: Allows a person to transfer some of their gbp to another person
 

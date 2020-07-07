@@ -48,7 +48,10 @@ module.exports = {
                                         "Hey you. Yeah you. Go fuck yourself", "Suck me, and fuck me", "Alright cockgobbler", 'Get your hinga dinga gurgen ass outta here',"I bet it's painful to talk to you in person","You look like a high quality stripper",
                                         'Nice shoes, wanna fuck?', "Hey bby, wan sum fuk?", "Show me your bob and vagene", "C'mon. I know you're better than this", "I'm not angry. I'm disappointed",
                                         'Wait til my father hears about this', 'сука шлюха', 'Filthy Mudblood', 'Bring my body back. Bring my body back to my father', "He doesn't like. I don't like you either! You just watch yourself! We're wanted men. I have a death sentence on twelve systems",
-                                        fs.readFileSync('./text_files/copypastas/navyseal.txt','utf-8'), fs.readFileSync('./text_files/copypastas/helicopter.txt','utf-8'), "You chattering hog monkey"]
+                                        fs.readFileSync('./text_files/copypastas/navyseal.txt','utf-8'), fs.readFileSync('./text_files/copypastas/helicopter.txt','utf-8'), "You chattering hog monkey", "I have information that will lead to Hillary Clinton's arrest",
+                                        "You ever just shut up", "Take a big step and literally FUCK YOUR OWN FACE", "Patrolling the Mojave almost makes you wish for a nuclear winter", `You should really stop talking ${master[message.author.id].name}`, "Your mother was a hamster and your father smelt of elderberries",
+                                        "I fart in your general direction", "If I wanted a joke, I'd follow you into the John and watch you take a leak", "I don't give a tuppery fuck about your moral conundrum, you meat-headed shit sack",
+                                        "You are a sad strange little man, and you have my pity", "I don't like your jerk-off name. I don't like your jerk-off face. I don't like your jerk-off behavior, and I don't like you, jerk-off. Do I make myself clear?"]
                         message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
                         insulted_counter[1] = 1;
                         fs.writeFileSync('./text_files/insult_counter.txt', insulted_counter)

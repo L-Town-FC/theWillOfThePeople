@@ -13,7 +13,10 @@ New Features/Updates:
 -!roulette is a new game that multiple people can play together
     -Bets for the game are only tracked in the blackjack channel so it must be played there
     -Use !roulette help for a list of commands
-
+-!lottery has been renamed to !powerball but the command works the same
+-New Daily Lottery that everyone is automatically entered into
+    -Triggers at the same time as Welfare
+    -Each person has a 1 in 500 chance of winning each day
 
 
 

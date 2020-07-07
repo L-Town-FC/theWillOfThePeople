@@ -1,3 +1,5 @@
+const { User, Role } = require("discord.js");
+
 module.exports = {
     name: 'ping',
     description: 'says pong',

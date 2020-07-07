@@ -118,5 +118,65 @@
   "30": {
     "name": "Trickle Down Economics",
     "description": "Steal from the poorest person on the server"
+  },
+  "31": {
+    "name": "Sorry. Try Again",
+    "description": "Buy 500 Powerball tickets"
+  },
+  "32": {
+    "name": "The House Always Wins",
+    "description": "Lose 10000 gbp across all forms of gambling"
+  },
+  "33": {
+    "name": "Professional Gambler",
+    "description": "Win 10000 gbp across all forms of gambling"
+  },
+  "34": {
+    "name": "Deep Dark Hole",
+    "description": "Have -250 gbp or less"
+  },
+  "35": {
+    "name": "Robinhood",
+    "description": "Steal from the richest person on the server"
+  },
+  "36": {
+    "name": "Kleptomaniac",
+    "description": "Steal 5 times"
+  },
+  "37": {
+    "name": "Master Thief",
+    "description": "Steal over 5000 gbp total"
+  },
+  "38": {
+    "name": "Bet it all on Black",
+    "description": "Bet all your gbp (at least 1000) on black "
+  },
+  "39": {
+    "name": "Jack of All Trades",
+    "description": "Win 1000 gbp in blackjack, guessgame, and roulette"
+  },
+  "40": {
+    "name": "They're all Too Predictable",
+    "description": "Win bwg 5 times"
+  },
+  "41": {
+    "name": "Nice",
+    "description": "Have 69 gbp"
+  },
+  "42": {
+    "name": "Roulette Completionist",
+    "description": "Win every payout at least once"
+  },
+  "43": {
+    "name": "Classic Zaid",
+    "description": "Send a twitch clip"
+  },
+  "44": {
+    "name": "50/50",
+    "description": "Flip a coin 10 times"
+  },
+  "45": {
+    "name": "Achievement Hunter",
+    "description": "Use !achievements 15 times"
   }
 }

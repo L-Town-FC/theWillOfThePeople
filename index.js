@@ -9,6 +9,7 @@ bot.commands = new Discord.Collection();
 const cheerio = require('cheerio');
 const request = require('request');
 const stats = require('./commands/Functions/stats_functions');
+const unlock = require('./commands/Functions/Achievement_Functions')
 const roulette = require('./commands/roulette');
 const { type } = require('os');
 
@@ -26,7 +27,10 @@ bot.on('ready', () => {
     console.log('This bot is online')
     setInterval(function(){
         Welfare(channel)
+        Lottery(channel, unlock)
     }, 86400 * 1000)
+    //86400
+    //590585423202484227
 })
 
 bot.on('message', message =>{
@@ -100,8 +104,8 @@ bot.on('message', message =>{
                 case 'kumiko':
                     bot.commands.get('kumiko').execute(message,args,total_money(message.author.id, message));//
                 break;
-                case 'lottery':
-                    bot.commands.get('lottery').execute(message,args, total_money(message.author.id, message))
+                case 'powerball':
+                    bot.commands.get('powerball').execute(message,args, total_money(message.author.id, message))
                 break;
                 case 'herald':
                     bot.commands.get('herald').execute(message,args, total_money(message.author.id, message))
@@ -215,9 +219,9 @@ function Roulette_bets(message, money){
                 purchase(args[0], message.author.id, master)
                 var bet = [args[0], args[1], message.author.id]
                 approved_bets.push(bet)
-                message.channel.send('Bet accepted')
+                message.channel.send(`${master[i].name} Bet accepted`)
             }else{
-                message.channel.send(`You don't have enough gbp for that bet`)
+                message.channel.send(`${master[i].name} doesn't have enough gbp for that bet`)
             }
             
         }
@@ -240,6 +244,34 @@ function purchase(bet_value, player, master) {
         );
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Lottery.js Purchase");
+        message.channel.send("Error Occured in Index.js Purchase");
+    }
+}
+
+function Lottery(channel, unlock){
+    const fs = require('fs')
+    odds = 500
+    var number = Math.ceil(Math.random()*odds);
+    var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+    var pot = 1000
+    var success = false
+    channel.send("The Daily Lottery Drawing is occuring...")
+    for(i in master){
+        var guess = Math.ceil(Math.random()*odds);
+        if(guess == number){
+            master[i].gbp = pot + master[i].gbp
+            channel.send(`Congratulations! ${master[i].name} won the Daily lottery of ${pot} gbp`)
+            unlock.index_unlock(i, 10, channel, master)
+            success = true
+        }
+    }
+    if(success == true){
+        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+    }else{
+        channel.send('No winners')
     }
 }

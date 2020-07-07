@@ -58,7 +58,7 @@ function Stats(user, stats, master, message){
         `Blackjack Losses: ${stats[user].bj_losses}`,
         `Guessgame Wins: ${stats[user].gg_wins}`,
         `Guessgame Losses: ${stats[user].gg_losses}`,
-        `Lottery Tickets bought: ${stats[user].lottery_tickets}`,
+        `Powerball Tickets bought: ${stats[user].lottery_tickets}`,
         `Achievements: ${achievements_ratio}`
     ])
     message.channel.send(Stats_list)
@@ -100,7 +100,7 @@ function Stats_All(stats, message){
         `Blackjack Losses: ${bj_losses}`,
         `Guessgame Wins: ${gg_wins}`,
         `Guessgame Loses: ${gg_losses}`,
-        `Lottery Tickets bought: ${lottery_tickets}`
+        `Powerball Tickets bought: ${lottery_tickets}`
     ])
     message.channel.send(Stats_list)
 }
