@@ -6,6 +6,7 @@ module.exports = {
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
+        const embed = require('./Functions/embed_functions')
         const min_bet = 5;
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var bet = args[2];
@@ -67,7 +68,8 @@ module.exports = {
                 try{
                     var guessgame_commands = fs.readFileSync('./text_files/guessgame/guessgame_commands.txt','utf8');
                     const help_embed = new Discord.RichEmbed()
-                    .addField('List of Commands', guessgame_commands);
+                    .addField('List of Commands', guessgame_commands)
+                    .setColor(embed.Color(message))
                     message.channel.send(help_embed);
                 }catch(err){
                     console.log(err)

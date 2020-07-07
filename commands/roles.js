@@ -4,6 +4,7 @@ module.exports = {
     execute(message,args){
         const fs = require('fs')
         const unlock = require('./Functions/Achievement_Functions')
+        const embed = require('./Functions/embed_functions')
         var roles = fs.readFileSync('./text_files/roles.txt','utf8');
         var split_roles = roles.split(",")
         var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
@@ -24,7 +25,8 @@ module.exports = {
             try{
                 const Discord = require('discord.js');
                 const help_embed = new Discord.RichEmbed()
-                .addField('List of Electable Roles', split_roles);
+                .addField('List of Electable Roles', split_roles)
+                .setColor(embed.Color(message))
                 message.channel.send(help_embed);
             }catch(err){
                 console.log(err)

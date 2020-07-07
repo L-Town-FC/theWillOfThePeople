@@ -4,6 +4,7 @@ module.exports = {
     execute(message,args){
         const fs = require('fs');
         const Discord = require('discord.js');
+        const embed = require('./Functions/embed_functions')
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         var user = message.author.id;
@@ -15,7 +16,7 @@ module.exports = {
             if(typeof(name) == 'undefined'){
                 for(i in master){
                     if(user == i){
-                        Achievements(user, master, message)
+                        Achievements(user, master, message, embed)
                     }
                 }
             }else if(name.toLowerCase() == 'list'){
@@ -28,18 +29,20 @@ module.exports = {
                 const achievements_list = new Discord.RichEmbed()
                 .setTitle("List of All Achievements")
                 .setDescription(list)
+                .setColor(embed.Color(message))
                 message.channel.send(achievements_list)
             }else if(name.toLowerCase() == 'help'){
                 var help = fs.readFileSync('./text_files/achievement_commands', 'utf-8')
                 const command_list = new Discord.RichEmbed()
                 .setTitle("List of Commands")
                 .setDescription(help)
+                .setColor(embed.Color(message))
                 message.channel.send(command_list)
             }else{
                 for(i in master){
                     if(master[i].name.toLowerCase() === name.toLowerCase()){
                         var id = i;
-                        Achievements(id, master, message)
+                        Achievements(id, master, message, embed)
                         success = true
                     }
                 }
@@ -54,7 +57,7 @@ module.exports = {
     }
 }
 
-function Achievements(user, master, message){
+function Achievements(user, master, message, embed){
     const fs = require('fs')
     const Discord = require('discord.js')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
@@ -67,6 +70,7 @@ function Achievements(user, master, message){
     const achievement_embed = new Discord.RichEmbed()
     .setTitle(`${master[user].name}'s Achievements`)
     .setDescription(list)
+    .setColor(embed.Color(message))
     message.channel.send(achievement_embed)
     
 }

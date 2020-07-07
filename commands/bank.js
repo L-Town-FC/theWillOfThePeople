@@ -5,6 +5,7 @@ module.exports = {
         const fs = require('fs');
         const Discord = require('discord.js');
         const unlock = require("./Functions/Achievement_Functions")
+        const embed = require('./Functions/embed_functions')
         var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var user = message.author.id;
         var name = args[1];
@@ -30,6 +31,7 @@ module.exports = {
                 const message_embed = new Discord.RichEmbed()
                 .setTitle("List of all bank accounts on Server")
                 .setDescription(everyone)
+                .setColor(embed.Color(message))
                 message.channel.send(message_embed)
             }else{
                 for(i in master){

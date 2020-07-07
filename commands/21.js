@@ -6,6 +6,7 @@ module.exports = {
         const Discord = require('discord.js');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
+        const embed = require('./Functions/embed_functions')
         const suit = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
         //list of possible cards. Have multiple tens to account for J, Q, and K. 11 is for A
         const tens = ['10','J','Q','K']
@@ -98,7 +99,7 @@ module.exports = {
                         master_list[player].player_dummy_hand1 = [dummycard[0], dummycard[1]]
                         master_list[player].dealer_dummy_hand = [dummycard[2], dummycard[3]]
 
-                        Display_Status(master_list[player],message)
+                        Display_Status(master_list[player],message, embed)
                         purchase(new_bet, message.author.id, message, master) 
 
                         if(master_list[player].dealer_dummy_hand[0] == 'A'){
@@ -243,7 +244,7 @@ module.exports = {
                                 master_list[player].isStay = [false, false]
                             }
                             
-                            Display_Status(master_list[player],message)
+                            Display_Status(master_list[player],message,embed)
 
                         }else if(master_list[player].isSplit == true){
                             message.channel.send("You can't resplit cards")
@@ -338,7 +339,7 @@ module.exports = {
             case 'status':
                 try{
                     if(master_list[player].gameStatus == 1){
-                        Display_Status(master_list[player],message)
+                        Display_Status(master_list[player],message,embed)
                     }else{
                         message.channel.send("There currently isn't a game being played")
                     }
@@ -393,7 +394,8 @@ module.exports = {
                 try{
                     var blackjack_commands = fs.readFileSync('./text_files/blackjack_commands.txt','utf8');
                     const help_embed = new Discord.RichEmbed()
-                    .addField('List of Commands', blackjack_commands);
+                    .addField('List of Commands', blackjack_commands)
+                    .setColor(embed.Color(message))
                     message.channel.send(help_embed);
                 }catch(err){
                     console.log(err)
@@ -444,7 +446,7 @@ module.exports = {
                             }  
                         }
                     }, 20)
-                    Display_Final(master_list[player], message)
+                    Display_Final(master_list[player], message,embed)
                     setTimeout(function(){   
                         //checks if the dealer busted. If they did, the player is payed out for each non-busted hand 
                         if(master_list[player].gameStatus == 12){
@@ -672,7 +674,6 @@ function purchase(bet_value, player, message, master) {
             }
         }
 
-
         fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
             if (err) throw err;
             console.log('complete');
@@ -703,7 +704,7 @@ function New_Card(suit, tens){
     }
 }
 
-function Display_Status(master_list, message){
+function Display_Status(master_list, message, embed){
     const Discord = require('discord.js')
     var current_bet = master_list.bet;
     var current_hand1 = master_list.player_dummy_hand1;
@@ -715,10 +716,11 @@ function Display_Status(master_list, message){
         var blackjack_stats = `Dealer's hand: ${dealer_hand[0]} ?\nPlayer's hand 1: ${current_hand1} \nPlayer's Hand 2: ${current_hand2} \nCurrent bet: ${current_bet[0]}|${current_bet[1]}`
     }
     const blackjack_stats_embed = new Discord.RichEmbed()
-    .addField(`${master_list.name} Game Status:`, blackjack_stats);
+    .addField(`${master_list.name} Game Status:`, blackjack_stats)
+    .setColor(embed.Color(message))
     message.channel.send(blackjack_stats_embed);
 }
-function Display_Final(master_list, message){
+function Display_Final(master_list, message, embed){
     const Discord = require('discord.js')
     var current_bet = master_list.bet;
     var current_hand1 = master_list.player_dummy_hand1;
@@ -730,7 +732,8 @@ function Display_Final(master_list, message){
         var blackjack_stats = `Dealer's hand: ${dealer_hand} \nPlayer's hand 1: ${current_hand1} \nPlayer's Hand 2: ${current_hand2} \nCurrent bet: ${current_bet[0]}|${current_bet[1]}`
     }
     const blackjack_stats_embed = new Discord.RichEmbed()
-    .addField(`${master_list.name} Game Status:`, blackjack_stats);
+    .addField(`${master_list.name} Game Status:`, blackjack_stats)
+    .setColor(embed.Color(message))
     message.channel.send(blackjack_stats_embed);
 }
 

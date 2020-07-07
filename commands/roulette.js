@@ -14,7 +14,7 @@ module.exports = {
                 if(typeof(bets_open) == 'undefined'){
                     if(isNaN(args[2]) == false && bet_time >= 30 && bet_time <= 60){
                         bets_open = true
-                        Display(message)
+                        Display(message, embed)
                         message.channel.send(`Bets are open. You have ${bet_time} seconds to place bets`)
                         setTimeout(function(){
                             //console.log(approved_bets)
@@ -53,15 +53,15 @@ module.exports = {
             break;
             case 'stats':
                 //last 10 roulette spins
-                Numbers(message)
+                Numbers(message, embed)
             break;
             case 'list':
                 //list of possible bets and payouts
-                Display(message)
+                Display(message,embed)
             break;
             case 'help':
                 //list of commands
-                Help(message)
+                Help(message, embed)
             break;
             default:
                 message.channel.send(`Use "!roulette help" for a list of commands`)
@@ -211,7 +211,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
         message.channel.send("No Winners")
     }
 }
-function Display(message){
+function Display(message, embed){
     const Discord = require('discord.js')
     const fs = require('fs')
     var basics = fs.readFileSync('./text_files/roulette/roulette_basics')
@@ -222,17 +222,19 @@ function Display(message){
     .addField("Basics:",basics)
     .attachFile(board)
     .addField("Bet/Payouts:", payouts)
+    .setColor(embed.Color(message))
     message.channel.send(display)
 }
 
-function Numbers(message){
+function Numbers(message,embed){
     const Discord = require('discord.js')  
     const fs = require('fs')
     var numbers = fs.readFileSync('./text_files/roulette/roulette_numbers.txt')
-    var embed = new Discord.RichEmbed()
+    var numbers_embed = new Discord.RichEmbed()
     .setTitle('Last 10 Numbers')
     .setDescription(numbers)
-    message.channel.send(embed)
+    .setColor(embed.Color(message))
+    message.channel.send(numbers_embed)
 }
 
 function Update_numbers(number){
@@ -247,12 +249,13 @@ function Update_numbers(number){
     fs.writeFileSync('./text_files/roulette/roulette_numbers.txt', new_numbers)
 }
 
-function Help(message){
+function Help(message, embed){
     const fs = require('fs')
     const Discord = require('discord.js')
     var help = fs.readFileSync('./text_files/roulette/roulette_commands.txt','utf-8')
-    embed = new Discord.RichEmbed()
+    help_embed = new Discord.RichEmbed()
     .setTitle('List of Roulette Commands')
     .setDescription(help)
-    message.channel.send(embed)
+    .setColor(embed.Color(message))
+    message.channel.send(help_embed)
 }

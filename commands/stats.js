@@ -5,6 +5,7 @@ module.exports = {
         const fs = require('fs');
         const Discord = require('discord.js');
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+        const embed = require('./Functions/embed_functions')
         achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         stats = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
         var user = message.author.id;
@@ -16,16 +17,16 @@ module.exports = {
             if(typeof(name) == 'undefined'){
                 for(i in master){
                     if(user == i){
-                        Stats(user, stats, master, message)
+                        Stats(user, stats, master, message, embed)
                     }
                 }
             }else if(name.toLowerCase() == 'all'){
-                Stats_All(stats, message)
+                Stats_All(stats, message, embed)
             }else{
                 for(i in master){
                     if(master[i].name.toLowerCase() === name.toLowerCase()){
                         var id = i;
-                        Stats(id, stats, master, message)
+                        Stats(id, stats, master, message, embed)
                         success = true
                     }
                 }
@@ -40,7 +41,7 @@ module.exports = {
     }
 }
 
-function Stats(user, stats, master, message){
+function Stats(user, stats, master, message, embed){
     const fs = require('fs')
     const Discord = require('discord.js')
     const achievements_list = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
@@ -49,6 +50,7 @@ function Stats(user, stats, master, message){
     var achievements_ratio = `${achievements}/${total_achievements}`
     const Stats_list = new Discord.RichEmbed()
     .setTitle(`${stats[user].name} Stat List`)
+    .setColor(embed.Color(message))
     .setDescription([
         `Total Messages: ${stats[user].total_msgs}`,
         `Total Commands: ${stats[user].total_commands}`,
@@ -64,7 +66,7 @@ function Stats(user, stats, master, message){
     message.channel.send(Stats_list)
 }
 
-function Stats_All(stats, message){
+function Stats_All(stats, message, embed){
     const fs = require('fs')
     const Discord = require('discord.js')
     var lottery_tickets = 0
@@ -91,11 +93,12 @@ function Stats_All(stats, message){
     }
     const Stats_list = new Discord.RichEmbed()
     .setTitle(`All Stats List`)
+    .setColor(embed.Color(message))
     .setDescription([
         `Total Messages: ${total_msgs}`,
         `Total Commands: ${total_commands}`,
         `Total Non-Farm Messages: ${non_farm_messages}`,
-        `Total Farm Messages: ${farm_messages}`
+        `Total Farm Messages: ${farm_messages}`,
         `Blackjack Wins: ${bj_wins}`,
         `Blackjack Losses: ${bj_losses}`,
         `Guessgame Wins: ${gg_wins}`,

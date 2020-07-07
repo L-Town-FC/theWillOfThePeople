@@ -3,6 +3,7 @@ module.exports = {
     description: 'enters you into the lottery for big money',
     execute(message,args,total_money){
         const Discord = require('discord.js');
+        const embed = require('./Functions/embed_functions')
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
@@ -75,7 +76,8 @@ module.exports = {
                 try{
                     var lottery_commands = fs.readFileSync('./text_files/lottery_commands.txt','utf8');
                     const help_embed = new Discord.RichEmbed()
-                    .addField('List of Commands', lottery_commands);
+                    .addField('List of Commands', lottery_commands)
+                    .setColor(embed.Color(message))
                     message.channel.send(help_embed);
                 }catch(err){
                     console.log(err)

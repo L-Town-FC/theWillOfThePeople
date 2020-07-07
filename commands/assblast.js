@@ -4,6 +4,7 @@ module.exports = {
     execute(message,args){
         var fs = require('fs');
         const Discord = require('discord.js');
+        const embed = require('./Functions/embed_functions')
         scores = [];
         names =[];
         player_and_scores = [];
@@ -37,9 +38,10 @@ module.exports = {
 
                     //converts array pieces into original text format
                     
-                    const embed = new Discord.RichEmbed()
-                    .addField('Standings', sorted_standings_array);
-                    message.channel.send(embed);
+                    const standings_embed = new Discord.RichEmbed()
+                    .addField('Standings', sorted_standings_array)
+                    .setColor(embed.Color(message))
+                    message.channel.send(standings_embed);
                     //displays embed of standings
 
                     fs.writeFileSync('./text_files/assblast/standings.txt', sorted_standings_array);
@@ -112,7 +114,8 @@ module.exports = {
                 try{
                     var assblast_commands = fs.readFileSync('./text_files/assblast/assblast_commands.txt','utf8');
                     const help_embed = new Discord.RichEmbed()
-                    .addField('List of Commands', assblast_commands);
+                    .addField('List of Commands', assblast_commands)
+                    .setColor(embed.Color(message))
                     message.channel.send(help_embed);
                     //creates embed from text file that contains all assblast commands
                 }catch(err){

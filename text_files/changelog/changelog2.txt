@@ -1,5 +1,3 @@
--Only 4 gbp per lottery ticket bought goes towards the pot
--Total number of lottery tickets was reduced to 15000
--!kumiko now costs 20 gbp
--!roles can now be updated by the supreme leader
--!bank and !transfer will now auto-delete from the bot-tinkering channel
+-New Daily Lottery that everyone is automatically entered into
+    -Triggers at the same time as Welfare
+    -Each person has a 1 in 500 chance of winning each day

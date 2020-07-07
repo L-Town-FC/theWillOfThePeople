@@ -5,6 +5,7 @@ module.exports = {
 
         const Discord = require('discord.js');
         const fs = require('fs');
+        const embed = require('./Functions/embed_functions')
 
         var command = args[1];
         var amount = args[2];
@@ -25,7 +26,7 @@ module.exports = {
                     }else if(isNaN(amount) == true){
                         if(price < total_money){
                             purchase(price, message.author.id)
-                            fs.writeFileSync('./text_files/herald_counter.txt', `${min_uses},${message.author.id}`)
+                            fs.writeFileSync('./text_files/herald/herald_counter.txt', `${min_uses},${message.author.id}`)
                             message.channel.send(`You have successfully rented the Herald for ${min_uses} uses`)
                         }else{
                             message.channel.send(`You need at least ${price} gbp for this command`)
@@ -35,7 +36,7 @@ module.exports = {
                     }else{
                         if(money_spent < total_money){
                             purchase(amount*price, message.author.id);
-                            fs.writeFileSync('./text_files/herald_counter.txt', `${min_uses*amount},${message.author.id}`)
+                            fs.writeFileSync('./text_files/herald/herald_counter.txt', `${min_uses*amount},${message.author.id}`)
                             message.channel.send(`You have successfully rented the Herald for ${min_uses*amount} uses`)
                         }else{
                             message.channel.send(`You need at least ${money_spent} gbp to buy ${amount} sets of uses`);
@@ -70,7 +71,8 @@ module.exports = {
                         .setTitle(`Important Decree from His Excellency ${name(message.author.id)}`)
                         .setDescription(description)
                         .setAuthor("-----------------------------------------------------------",message.author.displayAvatarURL)
-                        .setFooter("By the Suprme Leader's grace. May he help us live our most fulfilled lives");
+                        .setFooter("By the Suprme Leader's grace. May he help us live our most fulfilled lives")
+                        .setColor(embed.Color(message))
                         message.channel.send(` @everyone Hear ye, hear ye. Would'st thou all gather round for a message that our beloved ${name(message.author.id)} hath decided you should know and is as follows:`)
                         message.channel.send(message_embed);
                         counter_discrim[0] = parseInt(counter_discrim[0]) - 1
@@ -91,7 +93,8 @@ module.exports = {
                 try{
                     var herald_commands = fs.readFileSync('./text_files/herald_commands.txt','utf8');
                     const help_embed = new Discord.RichEmbed()
-                    .addField('List of Commands', herald_commands);
+                    .addField('List of Commands', herald_commands)
+                    .setColor(embed.Color(message))
                     message.channel.send(help_embed);
                 }catch(err){
                     console.log(err)

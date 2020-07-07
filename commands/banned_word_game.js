@@ -5,6 +5,7 @@ module.exports = {
         const fs = require("fs")
         const Discord = require('discord.js')
         const banned = require('./Functions/bwg_functions')
+        const embed = require('./Functions/embed_functions')
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         bwg = JSON.parse(fs.readFileSync("./JSON/banned_word_game.json", "utf-8"))
         var command = String(args[1]).toLowerCase()
@@ -78,6 +79,7 @@ module.exports = {
                             const target_list = new Discord.RichEmbed()
                             .setTitle("List of People being targeted")
                             .setDescription(targets)
+                            .setColor(embed.Color(message))
                             message.channel.send(target_list)
                         }
                     }else{
@@ -93,6 +95,7 @@ module.exports = {
                         const target_list = new Discord.RichEmbed()
                         .setTitle("List of People being targeted")
                         .setDescription(targets)
+                        .setColor(embed.Color(message))
                         message.channel.send(target_list)
                     }
                 }catch(err){
@@ -117,6 +120,7 @@ module.exports = {
                 const rules_list = new Discord.RichEmbed()
                 .setTitle("Banned Word Game (bwg) Rules")
                 .setDescription(rules)
+                .setColor(embed.Color(message))
                 message.channel.send(rules_list)
                 }catch(err){
                     console.log(err)
@@ -129,6 +133,7 @@ module.exports = {
                     const word_list = new Discord.RichEmbed()
                     .setTitle(`Words that can't be used on ${bwg[user].name}`)
                     .setDescription(bwg[user].used_words)
+                    .setColor(embed.Color(message))
                     message.channel.send(word_list)
                 }else if(names.includes(name.toLowerCase()) == true){
                     for(i in bwg){
@@ -136,6 +141,7 @@ module.exports = {
                             const word_list = new Discord.RichEmbed()
                             .setTitle(`Words that can't be used on ${bwg[i].name}`)
                             .setDescription(bwg[i].used_words)
+                            .setColor(embed.Color(message))
                             message.channel.send(word_list)
                         }
                     }
@@ -150,6 +156,7 @@ module.exports = {
                 const help_list = new Discord.RichEmbed()
                 .setTitle("List of Commands")
                 .setDescription(help)
+                .setColor(embed.Color(message))
                 message.channel.send(help_list)
                 }catch(err){
                     console.log(err)

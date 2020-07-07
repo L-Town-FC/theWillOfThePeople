@@ -22,6 +22,7 @@ module.exports.New_Game = New_Game
 function Show_Status(player, bwg, master, message){
     try{
     const Discord = require('discord.js')
+    const embed = require('./embed_functions')
     var target = master[bwg[player].target].name
     var bet = bwg[player].bet
     var word = bwg[player].current_word
@@ -29,6 +30,7 @@ function Show_Status(player, bwg, master, message){
     const status_embed = new Discord.RichEmbed()
     .setTitle(`${bwg[player].name} Game Status`)
     .setDescription(`Target: ${target} \nCurrent Word: ${word} \nBet: ${bet} \nRemaining Messages: ${msgs}`)
+    .setColor(embed.Color(message))
     message.channel.send(status_embed)
     }catch(err){
         console.log(err)
