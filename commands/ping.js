@@ -1,9 +1,7 @@
-const { User, Role } = require("discord.js");
-
 module.exports = {
     name: 'ping',
     description: 'says pong',
-    execute(message,args){
+    execute(message){
         message.channel.send('pong');
     }
 }

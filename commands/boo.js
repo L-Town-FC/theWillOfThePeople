@@ -1,9 +1,8 @@
 module.exports = {
     name: 'boo',
     description: 'custom emoji test',
-    execute(message,args,money){
+    execute(message,args,money, master){
         const fs = require('fs')
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         const unlock = require("./Functions/Achievement_Functions")
         var boo = fs.readFileSync('./text_files/boo.txt', "utf-8")
         var price = 250;
@@ -14,13 +13,13 @@ module.exports = {
             if(typeof(name) == 'undefined'){
                 message.channel.send(`${master[boo].name} is currently being booed`)
             }else if(parseFloat(money) < price){
-                message.channel.send(`You must have atelast ${price} gbp to use this command`)
+                message.channel.send(`You must have at least ${price} gbp to use this command`)
             }else{
                 for(i in master){
                     if(name.toLowerCase() == master[i].name.toLowerCase()){
                         var id = i
                         fs.writeFileSync('./text_files/boo.txt', id)
-                        purchase(price, message.author.id, message)
+                        purchase(price, message.author.id, message, master)
                         //Professional Asshole Achievement Tracker
                         unlock.tracker1(message.author.id, 13, 1, 3, message, master)
 
@@ -47,10 +46,9 @@ module.exports = {
     }
 }
 
-function purchase(bet_value, player, message) {
+function purchase(bet_value, player, message, master) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(player == i){

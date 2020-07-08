@@ -101,6 +101,11 @@ module.exports = {
             }
             */
 
+           fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+            );
             fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats, null, 2), function(err) {
                 if (err) throw err;
                 console.log('complete');

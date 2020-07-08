@@ -1,7 +1,7 @@
 module.exports = {
     name: 'powerball',
     description: 'enters you into the lottery for big money',
-    execute(message,args,total_money){
+    execute(message,args,total_money, master){
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         const fs = require('fs');
@@ -13,7 +13,6 @@ module.exports = {
         var price = 5;
         var money_spent = price * parseInt(amount);
         var lottery_stats = fs.readFileSync('./text_files/lottery_stats.txt','utf8').split(",");
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         switch(command){
             case 'buy':

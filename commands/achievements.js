@@ -1,14 +1,11 @@
-const { unlock } = require('./Functions/Achievement_Functions');
-
 module.exports = {
     name: 'achievements',
     description: 'shows achievements',
-    execute(message,args){
+    execute(message,args, master){
         const fs = require('fs');
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         const unlock = require('./Functions/Achievement_Functions')
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         var user = message.author.id;
         var name = args[1];

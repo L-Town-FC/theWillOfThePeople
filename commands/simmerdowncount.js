@@ -1,7 +1,7 @@
 module.exports = {
     name: 'simmerdowncount',
     description: 'counts how many times simmer down is said',
-    execute(message,args){
+    execute(message, master){
         var said_simmer = -2
         var said_down = 0
         const Discord = require('discord.js');
@@ -26,7 +26,7 @@ module.exports = {
                         //checks if down is used and marks its location
                     }
                     if (said_simmer - said_down == -1){
-                        counter(user, message);
+                        counter(user, message, master);
                         said_simmer = -2;
                         said_down = 0;
 
@@ -42,10 +42,9 @@ module.exports = {
     }
 }
 
-function counter(person, message) {
+function counter(person, message, master) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         
         for(i in master){
             if(master[i].simmerdown == null){

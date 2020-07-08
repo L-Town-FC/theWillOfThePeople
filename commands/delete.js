@@ -1,18 +1,17 @@
 module.exports = {
     name: 'delete',
     description: 'deletes the previous message',
-    execute(message,args,total_money){
+    execute(message,args,total_money, master){
         const fs = require('fs');
         const unlock = require("./Functions/Achievement_Functions")
         const cost = 1000;
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         try{
             if(typeof(args[1]) == 'undefined'){
                 var num = 1;
                 var total_cost = cost * num;
                 if (total_money >= total_cost){
-                    purchase(cost, message.author.id, message);
+                    purchase(cost, message.author.id, message, master);
                     message.channel.bulkDelete(parseInt(num) + 1);
                     message.channel.send(`${num} message has been deleted`);
                     unlock.tracker1(message.author.id, 25, num, 5, message, master)
@@ -20,12 +19,13 @@ module.exports = {
                     message.channel.send(`This command costs ${total_cost} gbp`)
                 }
             }else if(parseInt(args[1]) > 0){
+                console.log('here')
                 var num = parseInt(args[1]);
                 var total_cost = cost * num;
                 if (total_money >= total_cost){
-                    purchase(total_cost, message.author.id, message);
+                    purchase(total_cost, message.author.id, message, master);
                     message.channel.bulkDelete(parseInt(num) + 1);
-                    message.channel.send(`${num} messages has been deleted`);
+                    message.channel.send(`${num} messages have been deleted`);
                     unlock.tracker1(message.author.id, 25, num, 5, message, master)
                 }else{
                     message.channel.send(`This command costs ${total_cost} gbp`)
@@ -40,10 +40,9 @@ module.exports = {
     }
 }
 
-function purchase(bet_value, player, message) {
+function purchase(bet_value, player, message, master) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(player == i){

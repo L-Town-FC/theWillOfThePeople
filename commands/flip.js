@@ -1,10 +1,9 @@
 module.exports = {
     name: 'flip',
     description: 'flips coin',
-    execute(message,args){
+    execute(message,master){
         const unlock = require('./Functions/Achievement_Functions')
         const fs = require('fs')
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         try{
             result = Math.floor(Math.random()*2);
             if (parseInt(result) == 1){

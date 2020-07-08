@@ -1,13 +1,10 @@
-const { Emoji } = require('discord.js');
-
 module.exports = {
     name: 'insult_counter',
     description: 'insults specified user',
-    execute(message){
+    execute(message, master){
         try{
             const fs = require('fs');
             const unlock = require("./Functions/Achievement_Functions")
-            master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
             var insulted_counter= fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
             var name_count = parseInt(insulted_counter[1]);
             

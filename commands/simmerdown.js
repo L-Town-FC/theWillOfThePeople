@@ -1,9 +1,8 @@
 module.exports = {
     name: 'simmerdown',
     description: 'sends number of simmer downs',
-    execute(message,args){
+    execute(message,args, master){
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var person = args[1];
         var success = false;
 

@@ -1,10 +1,9 @@
 module.exports = {
     name: 'council',
     description: 'gets response from the council',
-    execute(message,args){
+    execute(message,master){
         const fs = require('fs')
         const unlock = require('./Functions/Achievement_Functions')
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         try{
             unlock.tracker1(message.author.id, 18, 1, 5, message, master)
             test = Math.floor(Math.random()*100);

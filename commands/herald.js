@@ -1,7 +1,7 @@
 module.exports = {
     name: 'herald',
     description: 'gives you a herald',
-    execute(message,args,total_money){
+    execute(message,args,total_money, master){
 
         const Discord = require('discord.js');
         const fs = require('fs');
@@ -20,12 +20,12 @@ module.exports = {
             case 'buy':
                 try{
                     if(herald_stats[0] != 0){
-                        message.channel.send(`${name(herald_stats[1])} is already employing the herald. You will have to wait until they run out of uses`)
+                        message.channel.send(`${name(herald_stats[1], master)} is already employing the herald. You will have to wait until they run out of uses`)
                     }else if(amount <= 0){
                         message.channel.send('Please choose a whole number greater than 0 for the number of sets');
                     }else if(isNaN(amount) == true){
                         if(price < total_money){
-                            purchase(price, message.author.id)
+                            purchase(price, message.author.id, master)
                             fs.writeFileSync('./text_files/herald/herald_counter.txt', `${min_uses},${message.author.id}`)
                             message.channel.send(`You have successfully rented the Herald for ${min_uses} uses`)
                         }else{
@@ -35,7 +35,7 @@ module.exports = {
                         message.channel.send("Please choose a whole number greater than 0 for the number of sets");
                     }else{
                         if(money_spent < total_money){
-                            purchase(amount*price, message.author.id);
+                            purchase(amount*price, message.author.id, master);
                             fs.writeFileSync('./text_files/herald/herald_counter.txt', `${min_uses*amount},${message.author.id}`)
                             message.channel.send(`You have successfully rented the Herald for ${min_uses*amount} uses`)
                         }else{
@@ -55,7 +55,7 @@ module.exports = {
                     if(remaining_uses == 0){
                         message.channel.send("Noone is currently using the herald")
                     }else{
-                        message.channel.send(`${name(message.author.id)} is currently using the herald. They have ${remaining_uses} uses remaining`)
+                        message.channel.send(`${name(message.author.id, master)} is currently using the herald. They have ${remaining_uses} uses remaining`)
                     }
                 }catch(err){
                     console.log(err)
@@ -68,18 +68,18 @@ module.exports = {
                     if(message.attachments.array().length == 0){                
                         message.channel.bulkDelete(1);
                         const message_embed = new Discord.RichEmbed()
-                        .setTitle(`Important Decree from His Excellency ${name(message.author.id)}`)
+                        .setTitle(`Important Decree from His Excellency ${name(message.author.id, master)}`)
                         .setDescription(description)
                         .setAuthor("-----------------------------------------------------------",message.author.displayAvatarURL)
                         .setFooter("By the Suprme Leader's grace. May he help us live our most fulfilled lives")
                         .setColor(embed.Color(message))
-                        message.channel.send(` @everyone Hear ye, hear ye. Would'st thou all gather round for a message that our beloved ${name(message.author.id)} hath decided you should know and is as follows:`)
+                        message.channel.send(` @everyone Hear ye, hear ye. Would'st thou all gather round for a message that our beloved ${name(message.author.id, master)} hath decided you should know and is as follows:`)
                         message.channel.send(message_embed);
                         counter_discrim[0] = parseInt(counter_discrim[0]) - 1
                         if (counter_discrim[0] == 0){
-                            fs.writeFileSync('./text_files/herald_counter.txt', "0,0")
+                            fs.writeFileSync('./text_files/herald/herald_counter.txt', "0,0")
                         }else{
-                            fs.writeFileSync('./text_files/herald_counter.txt', counter_discrim)
+                            fs.writeFileSync('./text_files/herald/herald_counter.txt', counter_discrim)
                         }
                     }else{
                         message.channel.send("You can't have any attachments when you use the herald")
@@ -110,10 +110,9 @@ module.exports = {
 
 }
 
-function purchase(bet_value, player) {
+function purchase(bet_value, player, master) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(player == i){
@@ -132,10 +131,9 @@ function purchase(bet_value, player) {
     }
 }
 
-function name(player){
+function name(player, master){
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(player == i){

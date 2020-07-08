@@ -1,18 +1,13 @@
 module.exports = {
     name: 'transfer',
     description: 'allows transfer of gbp from one person to another',
-    execute(message,args,total_money){
-        const Discord = require('discord.js');
+    execute(message,args,total_money, master){
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
 
         var recipient = args[1];
         var amount = args[2];
         var initiator = message.author.id;
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
-
-        var full_list = fs.readFileSync('./text_files/currency.txt','utf8').split(",");
-        var full_list_split = [];
         var names = [];
 
         try{
@@ -38,7 +33,7 @@ module.exports = {
                 console.log(amount)
                 console.log(total_money)
             }else{
-                give_money(initiator, recipient, amount, message);
+                give_money(initiator, recipient, amount, message, master);
                 message.channel.send(`You have successfully transferred ${amount} gbp to ${recipient}`);
             }
         }catch(err){
@@ -48,12 +43,11 @@ module.exports = {
     }
 }
 
-function give_money(initiator, recipient, amount, message) {
+function give_money(initiator, recipient, amount, message, master) {
     try{
         const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(initiator == i){

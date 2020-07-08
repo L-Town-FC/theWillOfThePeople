@@ -1,11 +1,10 @@
 module.exports = {
     name: 'insults',
     description: 'shows who is being insulted and lets you change who it is',
-    execute(message,args,money){
+    execute(message,args,money, master){
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         var insultee_and_count = fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var price = 1500;
         var name = args[1];
         var success = false;
@@ -26,7 +25,7 @@ module.exports = {
                             insultee_and_count[0] = i;
                             insultee_and_count[1] = 1;
                             message.channel.send(`${master[insultee_and_count[0]].name} is now being insulted`)
-                            purchase(price, buyer)
+                            purchase(price, buyer, master)
                             fs.writeFileSync("./text_files/insult_counter.txt", insultee_and_count);
                             success = true
                             //Professional Asshole  Achievement Tracker
@@ -61,10 +60,9 @@ module.exports = {
     }
 }
 
-function purchase(bet_value, player) {
+function purchase(bet_value, player, master) {
     try{
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         for(i in master){
             if(i == player){

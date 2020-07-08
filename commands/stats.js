@@ -1,10 +1,9 @@
 module.exports = {
     name: 'stats',
     description: 'shows stats of player',
-    execute(message,args){
+    execute(message,args, master){
         const fs = require('fs');
         const Discord = require('discord.js');
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         const embed = require('./Functions/embed_functions')
         achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         stats = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
@@ -57,6 +56,7 @@ function Stats(user, stats, master, message, embed){
         `Total Non-Farm Messages: ${stats[user].non_farm_messages}`,
         `Total Farm Messages: ${stats[user].farm_messages}`,
         `Blackjack Wins: ${stats[user].bj_wins}`,
+        `Blackjack Pushes: ${stats[user].bj_pushes}`,
         `Blackjack Losses: ${stats[user].bj_losses}`,
         `Guessgame Wins: ${stats[user].gg_wins}`,
         `Guessgame Losses: ${stats[user].gg_losses}`,
@@ -100,6 +100,7 @@ function Stats_All(stats, message, embed){
         `Total Non-Farm Messages: ${non_farm_messages}`,
         `Total Farm Messages: ${farm_messages}`,
         `Blackjack Wins: ${bj_wins}`,
+        `Blackjack Pushes ${bj_pushes}`,
         `Blackjack Losses: ${bj_losses}`,
         `Guessgame Wins: ${gg_wins}`,
         `Guessgame Loses: ${gg_losses}`,

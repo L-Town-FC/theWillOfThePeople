@@ -1,11 +1,10 @@
 module.exports = {
     name: 'bwg_counter',
     description: 'says pong',
-    execute(message){
+    execute(message, master){
         const fs = require("fs")
         const banned = require('./Functions/bwg_functions')
         const unlock = require('./Functions/Achievement_Functions')
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         bwg = JSON.parse(fs.readFileSync("./JSON/banned_word_game.json", "utf-8"))
         var user = message.author.id
         var args = String(message.cleanContent).toLowerCase().split(" ")    

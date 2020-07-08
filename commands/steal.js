@@ -1,11 +1,8 @@
 module.exports = {
     name: 'steal',
     description: 'allows stealing of gbp from one person',
-    execute(message,args,total_money){
-
-        const fs = require('fs');
+    execute(message,args,total_money, master){
         const unlock = require('./Functions/Achievement_Functions')
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 
         var recipient = args[1];
         var amount = args[2];
@@ -61,7 +58,6 @@ module.exports = {
 
 function steal(initiator, recipient, amount, stolen_percent, message, master, poorest, richest) {
     try{
-        const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
 

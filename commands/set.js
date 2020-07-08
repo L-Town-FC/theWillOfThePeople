@@ -1,9 +1,8 @@
 module.exports = {
     name: 'set',
     description: 'lets me set gbp',
-    execute(message,args){
+    execute(message,args, master){
         const fs = require('fs');
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var recipient = args[1];
         var amount = args[2];
         var success = false;

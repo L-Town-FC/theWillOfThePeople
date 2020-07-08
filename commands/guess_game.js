@@ -1,14 +1,13 @@
 module.exports = {
     name: 'gg',
     description: 'guess the correct number within three tries and get 10x payout',
-    execute(message, args, total_money){
+    execute(message, args, total_money, master){
         const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
         const embed = require('./Functions/embed_functions')
         const min_bet = 5;
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var bet = args[2];
         var person = message.author.id;
         var guess = args[2];
@@ -26,7 +25,7 @@ module.exports = {
                     }else if (typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) <= parseFloat(total_money)){
                         message.channel.send("Your bet is accepted. Please guess the number between 0 and 100. You have 3 guesses");
                         first_guess(person, bet);
-                        purchase(bet, message.author.id);
+                        purchase(bet, message.author.id, master);
                     }else if(parseFloat(total_money) < parseFloat(bet)){
                         message.channel.send("You don't have enough gbp for that bet")
                     }else{
@@ -84,11 +83,13 @@ module.exports = {
             if(is_Ongoing()[2] >= 4 || result == true){
                 if(result == false){
                     message.channel.send(`You are out of guesses. You lose. The correct number was ${magic_number}`);
+                    unlock.tracker1(message.author.id, 32, parseFloat(bet2), 10000, message, master)
                     stats.tracker(message.author.id, 6, 1)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                 }else{
                     message.channel.send(`You win ${15 * parseFloat(bet2)} gbp`);
-                    purchase((-15 * parseFloat(bet2)), message.author.id);
+                    purchase((-15 * parseFloat(bet2)), message.author.id, master);
+                    unlock.tracker1(message.author.id, 33, parseFloat(15 * bet2), 10000, message, master)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                     unlock.tracker1(message.author.id, 4, 1, 5, message, master)
                     stats.tracker(message.author.id, 5, 1)
@@ -182,7 +183,6 @@ function first_guess(player, bet){
     try{
         const fs = require('fs');
         const Discord = require('discord.js');
-        var number = fs.readFileSync('./text_files/guessgame/guessgame.txt','utf8').split(" ");
         var magic_number = Math.ceil(Math.random()*100);
 
         var updated_status = `1 ${magic_number} ${player} ${bet}`
@@ -193,10 +193,9 @@ function first_guess(player, bet){
     }
 }
 
-function purchase(bet_value, player) {
+function purchase(bet_value, player, master) {
     try{
         const fs = require('fs');
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         for(i in master){
             if(player == i){
                 if((master[i].gbp) == 'NaN'){

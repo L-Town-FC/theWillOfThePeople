@@ -1,12 +1,11 @@
 module.exports = {
     name: 'bank',
     description: 'says currency amount',
-    execute(message,args){
+    execute(message,args, master){
         const fs = require('fs');
         const Discord = require('discord.js');
         const unlock = require("./Functions/Achievement_Functions")
         const embed = require('./Functions/embed_functions')
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var user = message.author.id;
         var name = args[1];
         var success = false;

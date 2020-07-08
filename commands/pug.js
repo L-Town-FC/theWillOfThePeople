@@ -1,11 +1,10 @@
 module.exports = {
     name: 'pug',
     description: 'randomly generates pug pic',
-    execute(message,args){
+    execute(message, master){
         const {Discord, Attachment} = require('discord.js');
         const fs = require('fs')
         const unlock = require('./Functions/Achievement_Functions')
-        master = JSON.parse(fs.readFileSync('./JSON/master.json', "utf-8"))
         const dir = './pug_pics'
         var max_pugs = fs.readdirSync(dir).length
         var pug = Math.ceil(Math.random()*max_pugs);

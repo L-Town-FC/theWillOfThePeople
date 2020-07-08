@@ -1,13 +1,13 @@
 module.exports = {
     name: 'more_money',
     description: 'gives 1 gbp every message',
-    execute(message){
+    execute(message, master){
         
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
         try{
-            var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+            //var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
             var person = message.author.id
             var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
             

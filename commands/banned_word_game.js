@@ -1,12 +1,11 @@
 module.exports = {
     name: 'bwg',
     description: 'bet on if a person will say a certain word',
-    execute(message, args, money){
+    execute(message, args, money, master){
         const fs = require("fs")
         const Discord = require('discord.js')
         const banned = require('./Functions/bwg_functions')
         const embed = require('./Functions/embed_functions')
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         bwg = JSON.parse(fs.readFileSync("./JSON/banned_word_game.json", "utf-8"))
         var command = String(args[1]).toLowerCase()
         var name = args[2]

@@ -1,11 +1,9 @@
 module.exports = {
     name: 'names',
     description: 'lists all names on the server',
-    execute(message,args){
-        const fs = require('fs');
+    execute(message,master){
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
-        const master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var just_names = [];
         var counter = 0
 

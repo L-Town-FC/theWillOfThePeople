@@ -1,7 +1,7 @@
 module.exports = {
     name: 'boo_trigger',
     description: 'says pong',
-    execute(message,args){
+    execute(message){
         const fs = require('fs')
         const boo = fs.readFileSync("./text_files/boo.txt")
         var chance = 4
