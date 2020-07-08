@@ -12,6 +12,7 @@ module.exports = {
         //var roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
         if(message.author.id == '450001712305143869' && message.channel.id == '611276436145438769'){
             for(i in tracker){
+                /*
                 tracker[i][4] = 0
                 tracker[i][5] = 0
                 tracker[i][7] = 0
@@ -30,6 +31,7 @@ module.exports = {
                 tracker[i][27] = 0
                 tracker[i][28] = 0
                 tracker[i][29] = 0
+                */
                 tracker[i][31] = 0
                 tracker[i][32] = 0
                 tracker[i][33] = 0
@@ -37,6 +39,7 @@ module.exports = {
                 tracker[i][37] = 0
                 tracker[i][40] = 0
                 tracker[i][39] = [0,0,0]
+                tracker[i][42] = [false, false, false, false, false, false, false, false]
                 tracker[i][44] = 0
                 tracker[i][45] = 0
             }
@@ -44,6 +47,7 @@ module.exports = {
                 master[i].simmerdown = 0
             }
 
+            /*
             for(i in bwg){
                 bwg[i].target = ""
                 bwg[i].current_word = ""
@@ -52,6 +56,7 @@ module.exports = {
                 bwg[i].used_words = []
                 bwg[i].gamestatus = 0
             }
+            */
 
 
             for(i in stats){

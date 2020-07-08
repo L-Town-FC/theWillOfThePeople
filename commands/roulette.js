@@ -3,7 +3,6 @@ module.exports = {
     description: 'lets multiple people play roulette',
     execute(message, args, money){
         const fs = require('fs')
-        const Discord = require('discord.js')
         const roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
         const embed = require('./Functions/embed_functions')
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
@@ -87,6 +86,7 @@ function purchase(bet_value, player, master) {
 
 function bet_checker(approved_bets, picked_number, roulette, message, master){
     const fs = require('fs')
+    const unlock = require('./Functions/Achievement_Functions')
     var winnings = 0
     var bet = ''
     var value = ''
@@ -122,6 +122,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                     winnings = -36 * bet
                     purchase(winnings, user, master)
                     message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    unlock.tracker2(user, 42, 0, message, master)
                 }
             break;
             case 'num':
@@ -129,10 +130,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                     winnings = -36 * bet
                     purchase(winnings, user, master)
                     message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                }else if((picked_number - 0.5) == value || (picked_number + 0.5) == value){
-                    winnings = -18 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    unlock.tracker2(user, 42, 0, message, master)
                 }
             break;
             case 'even':
@@ -140,6 +138,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
                     message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    unlock.tracker2(user, 42, 6, message, master)
                 }
             break;
             case 'odd':
@@ -147,6 +146,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
                     message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    unlock.tracker2(user, 42, 6, message, master)
                 }
             break;
             case 'red':
@@ -154,6 +154,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
                     message.channel.send(`${master[user].name} wins ${-winnings- bet} gbp`)
+                    unlock.tracker2(user, 42, 7, message, master)
                 }
             break;
             case 'black':
@@ -161,6 +162,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
                     message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    unlock.tracker2(user, 42, 7, message, master)
                 }
             break;
             case 'row':
@@ -168,13 +170,15 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                     winnings = -3 * bet
                     purchase(winnings, user, master)
                     message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    unlock.tracker2(user, 42, 3, message, master)
                 }
             break;
             case 'half':
-                if(roulette[picked_number].row == value[4]){
+                if(roulette[picked_number].half == value[4]){
                     winnings = -2 * bet
                     purchase(winnings, user, master)
                     message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    unlock.tracker2(user, 42, 5, message, master)
                 }
             break;
             case 'third':
@@ -182,6 +186,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                     winnings = -3 * bet
                     purchase(winnings, user, master)
                     message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                    unlock.tracker2(user, 42, 4, message, master)
                 }
             break;
             case 'misc':
@@ -190,10 +195,12 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
                         winnings = -18 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                        unlock.tracker2(user, 42, 1, message, master)
                     }else if(value[0] == 'd'){
                         winnings = -9 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                        unlock.tracker2(user, 42, 2, message, master)
                     }
                 }
             break;

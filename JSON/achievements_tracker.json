@@ -3,7 +3,7 @@
     "4": 0,
     "5": 0,
     "7": 0,
-    "8": 2,
+    "8": 0,
     "9": 0,
     "13": 0,
     "14": 0,
@@ -18,25 +18,35 @@
       false
     ],
     "21": 0,
-    "23": 6,
+    "23": 0,
     "25": 0,
     "26": 0,
     "27": 0,
     "28": 0,
     "29": 0,
-    "31": 400,
+    "31": 0,
     "32": 0,
     "33": 0,
-    "36": 5,
+    "36": 0,
     "37": 0,
     "39": [
       0,
       0,
       0
     ],
-    "40": 5,
-    "44": 0,
-    "45": 0,
+    "40": 0,
+    "42": [
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ],
+    "44": 10,
+    "45": 5,
     "name": "Colin"
   },
   "497803559144914944": {
@@ -74,7 +84,17 @@
       0,
       0
     ],
-    "40": 1,
+    "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Andrew"
@@ -115,6 +135,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Wyatt"
@@ -155,6 +185,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Ian"
@@ -195,6 +235,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Zaid"
@@ -235,6 +285,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Mike"
@@ -275,6 +335,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Brian"
@@ -315,6 +385,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Carl"
@@ -355,6 +435,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Alex"
@@ -395,6 +485,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Dylan"
@@ -435,6 +535,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Ramzi"
@@ -475,6 +585,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Chrisvan"
@@ -515,6 +635,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Hayden"
@@ -555,6 +685,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Tom"
@@ -595,6 +735,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Justin"
@@ -635,6 +785,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Jacob"
@@ -675,6 +835,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Teddy"
@@ -715,6 +885,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Slim"
@@ -755,6 +935,16 @@
       0
     ],
     "40": 0,
+    "42": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
     "44": 0,
     "45": 0,
     "name": "Derek"

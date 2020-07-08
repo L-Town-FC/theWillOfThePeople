@@ -1,3 +1,5 @@
+const { unlock } = require('./Functions/Achievement_Functions');
+
 module.exports = {
     name: 'achievements',
     description: 'shows achievements',
@@ -5,6 +7,7 @@ module.exports = {
         const fs = require('fs');
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
+        const unlock = require('./Functions/Achievement_Functions')
         master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         var user = message.author.id;
@@ -12,7 +15,7 @@ module.exports = {
         var success = false;
         
         try{
-
+            unlock.tracker1(user, 45, 1, 5, message, master)
             if(typeof(name) == 'undefined'){
                 for(i in master){
                     if(user == i){

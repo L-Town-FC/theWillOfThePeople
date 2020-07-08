@@ -1,5 +1,3 @@
-const { unlock } = require('./Functions/Achievement_Functions');
-
 module.exports = {
     name: 'more_money',
     description: 'gives 1 gbp every message',
@@ -54,9 +52,7 @@ module.exports = {
                                 stats.tracker(person, 10, 1)
                             }
                             Achievement_Switch(person, message.channel.id, message, master)
-                            if(master[person].gbp <= -250){
-                                unlock.unlock(person, 34, message, master)
-                            }
+                            Random_Achievements(person, message, master)
                             if(master[person].gbp <= 0){
                                 unlock.unlock(person, 3, message, master)
                                 master[person].gbp = Math.round((parseFloat(master[person].gbp) + 5) * 100)/100
@@ -70,9 +66,6 @@ module.exports = {
                                 master[person].gbp = Math.round((parseFloat(master[person].gbp) + 0.5) * 100)/100
                             }else{
                                 master[person].gbp = Math.round((parseFloat(master[person].gbp) + 0.25) * 100)/100
-                            }
-                            if(master[person].gbp > 10000){
-                                unlock.unlock(person, 6, message, master)
                             }
                         }
                     }
@@ -128,5 +121,19 @@ function Achievement_Switch(user, channel, message, master){
             unlock.tracker1(user, 26, 1, 100, message, master)
             unlock.tracker2(user, 15, 1, message, master)
         break;
+    }
+}
+
+function Random_Achievements(user, message, master){
+    const unlock = require('./Functions/Achievement_Functions')
+    if(master[user].gbp <= -250){
+        unlock.unlock(user, 34, message, master)
+    }else if(master[user].gbp == 69){
+        unlock.unlock(user, 41, message, master)
+    }else if(master[user].gbp >= 10000){
+        unlock.unlock(person, 6, message, master)
+    }
+    if(message.content.toLowerCase().includes('twitch.tv/') == true){
+        unlock.unlock(user, 43, message, master)
     }
 }
