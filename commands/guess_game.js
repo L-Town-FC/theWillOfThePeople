@@ -1,7 +1,7 @@
 module.exports = {
     name: 'gg',
     description: 'guess the correct number within three tries and get 10x payout',
-    execute(message, args, total_money, master){
+    execute(message, args, total_money, master, stats_list){
         const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
@@ -84,7 +84,7 @@ module.exports = {
                 if(result == false){
                     message.channel.send(`You are out of guesses. You lose. The correct number was ${magic_number}`);
                     unlock.tracker1(message.author.id, 32, parseFloat(bet2), message, master)
-                    stats.tracker(message.author.id, 6, 1)
+                    stats.tracker(message.author.id, 6, 1, stats_list)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                 }else{
                     message.channel.send(`You win ${15 * parseFloat(bet2)} gbp`);
@@ -92,7 +92,7 @@ module.exports = {
                     unlock.tracker1(message.author.id, 33, parseFloat(15 * bet2), message, master)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                     unlock.tracker1(message.author.id, 4, 1, message, master)
-                    stats.tracker(message.author.id, 5, 1)
+                    stats.tracker(message.author.id, 5, 1, stats_list)
                 }
             }
         }catch(err){

@@ -8,8 +8,8 @@ bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions')
-const roulette = require('./commands/roulette');
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -38,10 +38,10 @@ bot.on('message', message =>{
             bot.commands.get('simmerdowncount').execute(message, master);
             bot.commands.get('insult_counter').execute(message, master);
             bot.commands.get('boo_trigger').execute(message);
-            bot.commands.get('more_money').execute(message, master);
+            bot.commands.get('more_money').execute(message, master, stats_list);
             bot.commands.get('bwg_counter').execute(message, master);
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
-                stats.tracker(message.author.id, 7, 1)
+                stats.tracker(message.author.id, 7, 1, stats_list)
             }
 
             ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true
@@ -63,7 +63,7 @@ bot.on('message', message =>{
         let args = message.content.substring(PREFIX.length).split(" ");
         if (message.content.startsWith("!") == true){
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
-                stats.tracker(message.author.id, 8, 1)
+                stats.tracker(message.author.id, 8, 1, stats_list)
             }
             switch(args[0].toLowerCase()){
                 case 'ping':
@@ -76,7 +76,7 @@ bot.on('message', message =>{
                     bot.commands.get('simmerdown').execute(message,args, master);    
                 break;
                 case '21':
-                    bot.commands.get('21').execute(message,args,master[message.author.id].gbp, master);
+                    bot.commands.get('21').execute(message,args,master[message.author.id].gbp, master, stats_list);
                 break;
                 case 'flip':
                     bot.commands.get('flip').execute(message,master);
@@ -97,7 +97,7 @@ bot.on('message', message =>{
                     bot.commands.get('delete').execute(message,args,master[message.author.id].gbp, master);
                 break;
                 case 'gg':
-                    bot.commands.get('gg').execute(message,args,master[message.author.id].gbp, master);
+                    bot.commands.get('gg').execute(message,args,master[message.author.id].gbp, master, stats_list);
                 break;
                 case 'transfer':
                     bot.commands.get('transfer').execute(message,args,master[message.author.id].gbp, master);
@@ -106,7 +106,7 @@ bot.on('message', message =>{
                     bot.commands.get('kumiko').execute(message,master[message.author.id].gbp, master);
                 break;
                 case 'powerball':
-                    bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master)
+                    bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list)
                 break;
                 case 'herald':
                     bot.commands.get('herald').execute(message,args, master[message.author.id].gbp, master)
@@ -151,17 +151,15 @@ bot.on('message', message =>{
                     bot.commands.get('stats').execute(message,args, master);
                 break;
                 case 'test':
-                    bot.commands.get('test').execute(message,args);
+                    bot.commands.get('test').execute(message, master, stats_list);
                 break;
                 default:
                     message.channel.send('Use command !help for a list of commands');
             }
         }
-        fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
+        //Only time Major JSONs should be overwritten
+        JSON_Overwrite(master, stats_list)
+
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Index.js Comand Handler");
@@ -241,4 +239,16 @@ function Lottery(channel, master, unlock){
     if(success == false){
         channel.send('No winners')
     }
+}
+function JSON_Overwrite(master, stats_list){
+    fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
+    fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats_list, null, 2), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
 }

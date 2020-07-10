@@ -1,7 +1,7 @@
 module.exports = {
     name: 'more_money',
     description: 'gives 1 gbp every message',
-    execute(message, master){
+    execute(message, master, stats_list){
         
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
@@ -42,9 +42,9 @@ module.exports = {
                     for(i in master){
                         if(person == i){
                             if(['590585423202484227','712755269863473252', '672846614410428416'].includes(message.channel.id) == true){
-                                stats.tracker(person, 9, 1)
+                                stats.tracker(person, 9, 1, stats_list)
                             }else{
-                                stats.tracker(person, 10, 1)
+                                stats.tracker(person, 10, 1, stats_list)
                             }
                             Achievement_Switch(person, message.channel.id, message, master)
                             Random_Achievements(person, message, master)
@@ -76,9 +76,7 @@ module.exports = {
 }
 
 function Achievement_Switch(user, channel, message, master){
-    const fs = require('fs')
     const unlock = require('./Functions/Achievement_Functions')
-    const stats = require('./Functions/stats_functions')
 
     switch(channel){
         case '590583268961812500':

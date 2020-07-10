@@ -1,7 +1,7 @@
 module.exports = {
     name: 'powerball',
     description: 'enters you into the lottery for big money',
-    execute(message,args,total_money, master){
+    execute(message,args,total_money, master, stats_list){
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         const fs = require('fs');
@@ -23,7 +23,7 @@ module.exports = {
                         
                         if(price < total_money){
                             purchase(price, message.author.id, master);
-                            stats.tracker(message.author.id, 1, 1)
+                            stats.tracker(message.author.id, 1, 1,stats_list)
                             unlock.tracker1(message.author.id, 31, 1, message, master)
                             if(attempt(1, price) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${lottery_stats[0]} tickets to win. Your prize is ${lottery_stats[1]}`)
@@ -41,7 +41,7 @@ module.exports = {
                         message.channel.send("Please choose a whole number for the amount of tickets");
                     }else{
                         if(money_spent < total_money){
-                            stats.tracker(message.author.id, 1, parseFloat(amount))
+                            stats.tracker(message.author.id, 1, parseFloat(amount), stats_list)
                             unlock.tracker1(message.author.id, 31, parseInt(amount), message, master)
                             purchase(amount*price, message.author.id, master);
                             if(attempt(amount, money_spent) == true){
