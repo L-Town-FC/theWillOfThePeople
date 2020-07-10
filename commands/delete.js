@@ -14,7 +14,7 @@ module.exports = {
                     purchase(cost, message.author.id, message, master);
                     message.channel.bulkDelete(parseInt(num) + 1);
                     message.channel.send(`${num} message has been deleted`);
-                    unlock.tracker1(message.author.id, 25, num, 5, message, master)
+                    unlock.tracker1(message.author.id, 25, num, message, master)
                 }else{
                     message.channel.send(`This command costs ${total_cost} gbp`)
                 }
@@ -26,7 +26,7 @@ module.exports = {
                     purchase(total_cost, message.author.id, message, master);
                     message.channel.bulkDelete(parseInt(num) + 1);
                     message.channel.send(`${num} messages have been deleted`);
-                    unlock.tracker1(message.author.id, 25, num, 5, message, master)
+                    unlock.tracker1(message.author.id, 25, num, message, master)
                 }else{
                     message.channel.send(`This command costs ${total_cost} gbp`)
                 }

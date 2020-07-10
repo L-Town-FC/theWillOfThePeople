@@ -220,9 +220,9 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
             counter++
         }
         if(win_checker !== 0){
-            unlock.tracker1(user, 33, parseFloat(winnings), 10000, message, master)
+            unlock.tracker1(user, 33, parseFloat(winnings), message, master)
         }else{
-            unlock.tracker1(user, 32, parseFloat(bet), 10000, message, master)
+            unlock.tracker1(user, 32, parseFloat(bet), message, master)
         }
     }
     if(counter !== 0){

@@ -21,7 +21,7 @@ module.exports = {
                         fs.writeFileSync('./text_files/boo.txt', id)
                         purchase(price, message.author.id, message, master)
                         //Professional Asshole Achievement Tracker
-                        unlock.tracker1(message.author.id, 13, 1, 3, message, master)
+                        unlock.tracker1(message.author.id, 13, 1, message, master)
 
                         //Toxic Achievement Tracker
                         unlock.reset2(id, 20, 0)

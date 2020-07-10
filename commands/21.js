@@ -60,7 +60,7 @@ module.exports = {
                         master_list[player].bet = [parseFloat(new_bet), 0]
                         master_list[player].gameStatus = 1;
                         if(new_bet >= 200){
-                            unlock.tracker1(message.author.id, 23, 1, 50, message, master)
+                            unlock.tracker1(message.author.id, 23, 1, message, master)
                         }
                         var card = [];
                         var dummycard = [];
@@ -454,17 +454,17 @@ module.exports = {
                                 winnings = winnings + parseFloat(master_list[player].bet[0])
                                 stats.tracker(master_list[player].id, 2, 1)
                             }else{
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]))
+                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
                             }
                             if(hand2_bust == false){
                                 //purchase(-2 * parseFloat(master_list[player].bet[1]), message.author.id, message, master)
                                 winnings = winnings + parseFloat(master_list[player].bet[1])
                                 stats.tracker(master_list[player].id, 2, 1)
                             }else{
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[1]))
+                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[1]), master)
                             }
                             purchase(-2 * parseFloat(winnings), message.author.id, message, master)
-                            unlock.tracker1(master_list[player].id, 33, parseFloat(winnings))
+                            unlock.tracker1(master_list[player].id, 33, parseFloat(winnings), message, master)
                             message.channel.send(`${master_list[player].name} wins ${winnings} gbp`)
 
                             reset(master_list, player)
@@ -513,7 +513,7 @@ module.exports = {
                                 stats.tracker(master_list[player].id, 4, 1)
                             }
                             purchase(-1 * parseFloat(winnings), message.author.id, message, master)
-                            unlock.tracker1(master_list[player].id, 33, parseFloat(winnings - correction), 10000, message, master)
+                            unlock.tracker1(master_list[player].id, 33, parseFloat(winnings - correction), message, master)
                             reset(master_list, player)
                         }
                     }, 20)
@@ -521,8 +521,8 @@ module.exports = {
                     //if both player hands busted, the dealer defaults a win
                     message.channel.send(`Dealer's Hand: ${master_list[player].dealer_dummy_hand}`)
                     message.channel.send("Dealer wins")
-                    unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), 10000, message, master)
-                    unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[1]), 10000, message, master)
+                    unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
+                    unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[1]), message, master)
                     stats.tracker(master_list[player].id, 4, 2)
                     reset(master_list, player)
                 }
@@ -574,8 +574,8 @@ module.exports = {
                                 if(master_list[player].bet[0] >= 1000){
                                     unlock.unlock(master_list[player].id, 2, message, master)
                                 }
-                                unlock.tracker1(master_list[player].id, 8, 1, 5, message, master)
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), 10000, message, master)
+                                unlock.tracker1(master_list[player].id, 8, 1, message, master)
+                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
                                 stats.tracker(master_list[player].id, 4, 1)
                             break;
                             case 3:
@@ -586,7 +586,7 @@ module.exports = {
                                     unlock.unlock(master_list[player].id, 1, message, master)
                                 }
                                 unlock.reset1(master_list[player].id, 8)
-                                unlock.tracker1(master_list[player].id, 33, 1.5 * parseFloat(master_list[player].bet[0]), 10000, message, master)
+                                unlock.tracker1(master_list[player].id, 33, 1.5 * parseFloat(master_list[player].bet[0]), message, master)
                                 stats.tracker(master_list[player].id, 2, 1)
                             break;
                             case 4:
@@ -602,8 +602,8 @@ module.exports = {
                                 if(master_list[player].bet[0] >= 1000){
                                     unlock.unlock(master_list[player].id, 2, message, master)
                                 }
-                                unlock.tracker1(master_list[player].id, 8, 1, 5, message, master)
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), 10000, message, master)
+                                unlock.tracker1(master_list[player].id, 8, 1, message, master)
+                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
                                 stats.tracker(master_list[player].id, 4, 1)
                             break;
                             case 6:
@@ -614,7 +614,7 @@ module.exports = {
                                     unlock.unlock(master_list[player].id, 1, message, master)
                                 }
                                 unlock.reset1(master_list[player].id, 8)
-                                unlock.tracker1(master_list[player].id, 33, parseFloat(master_list[player].bet[0]), 10000, message, master)
+                                unlock.tracker1(master_list[player].id, 33, parseFloat(master_list[player].bet[0]), message, master)
                                 stats.tracker(master_list[player].id, 2, 1)
                             break;
                             case 7:
@@ -628,8 +628,8 @@ module.exports = {
                                 if(master_list[player].bet[0] >= 1000){
                                     unlock.unlock(master_list[player].id, 2, message, master)
                                 }
-                                unlock.tracker1(master_list[player].id, 8, 1, 5, message, master)
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), 10000, message, master)
+                                unlock.tracker1(master_list[player].id, 8, 1, message, master)
+                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
                                 stats.tracker(master_list[player].id, 4, 1)
                             break;
                             case 9:
@@ -640,7 +640,7 @@ module.exports = {
                                     unlock.unlock(master_list[player].id, 1, message, master)
                                 }
                                 unlock.reset1(master_list[player].id, 8)
-                                unlock.tracker1(master_list[player].id, 33, parseFloat(master_list[player].bet[0]), 10000, message, master)
+                                unlock.tracker1(master_list[player].id, 33, parseFloat(master_list[player].bet[0]), message, master)
                                 stats.tracker(master_list[player].id, 2, 1)
                             break;
                             case 10:

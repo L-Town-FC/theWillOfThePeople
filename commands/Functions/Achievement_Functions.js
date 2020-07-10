@@ -74,7 +74,7 @@ function reset2(user, achievement_num, index){
 }
 module.exports.reset2 = reset2
 
-function tracker1(user, achievement_num, increment, threshold, message, master){
+function tracker1(user, achievement_num, increment, message, master){
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))

@@ -18,7 +18,7 @@ module.exports = {
                 purchase(price, message.author.id, message, master) 
                 if(message.channel.id !== '711634711281401867'){
                     message.channel.send(kumiko_image)
-                    unlock.tracker1(message.author.id, 14, 1, 25, message, master)    
+                    unlock.tracker1(message.author.id, 14, 1, message, master)    
                 }
             }
         }catch(err){

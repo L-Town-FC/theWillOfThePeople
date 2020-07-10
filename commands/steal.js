@@ -47,7 +47,7 @@ module.exports = {
             }else{
                 steal(initiator, recipient, amount, stolen_percent, message, master, poorest, richest);
                 message.channel.send(`You have successfully stolen ${stolen_percent * amount} gbp from ${recipient}`);
-                unlock.tracker1(initiator, 36, 1, 5, message, master)
+                unlock.tracker1(initiator, 36, 1, message, master)
             }
         }catch(err){
             console.log(err)
@@ -75,7 +75,7 @@ function steal(initiator, recipient, amount, stolen_percent, message, master, po
                         if(j == richest){
                             unlock.unlock(initiator, 35, message, master)
                         }
-                        unlock.tracker1(initiator, 37, (stolen_percent * parseFloat(amount)), 1000, message, master)
+                        unlock.tracker1(initiator, 37, (stolen_percent * parseFloat(amount)), message, master)
                     }
                 }
             }

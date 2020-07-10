@@ -83,15 +83,15 @@ module.exports = {
             if(is_Ongoing()[2] >= 4 || result == true){
                 if(result == false){
                     message.channel.send(`You are out of guesses. You lose. The correct number was ${magic_number}`);
-                    unlock.tracker1(message.author.id, 32, parseFloat(bet2), 10000, message, master)
+                    unlock.tracker1(message.author.id, 32, parseFloat(bet2), message, master)
                     stats.tracker(message.author.id, 6, 1)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                 }else{
                     message.channel.send(`You win ${15 * parseFloat(bet2)} gbp`);
                     purchase((-15 * parseFloat(bet2)), message.author.id, master);
-                    unlock.tracker1(message.author.id, 33, parseFloat(15 * bet2), 10000, message, master)
+                    unlock.tracker1(message.author.id, 33, parseFloat(15 * bet2), message, master)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
-                    unlock.tracker1(message.author.id, 4, 1, 5, message, master)
+                    unlock.tracker1(message.author.id, 4, 1, message, master)
                     stats.tracker(message.author.id, 5, 1)
                 }
             }

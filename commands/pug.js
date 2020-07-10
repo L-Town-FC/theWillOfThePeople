@@ -15,7 +15,7 @@ module.exports = {
         try{
             var pug_image = new Attachment('./pug_pics/pug'+ pug +'.jpg')
             message.channel.send(pug_image)
-            unlock.tracker1(message.author.id, 5, 1, 25, message, master)
+            unlock.tracker1(message.author.id, 5, 1, message, master)
         }catch(err){
             console.log(err)
             message.channel.send("Error Occured in Pug.js");

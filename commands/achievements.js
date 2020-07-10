@@ -12,7 +12,7 @@ module.exports = {
         var success = false;
         
         try{
-            unlock.tracker1(user, 45, 1, 5, message, master)
+            unlock.tracker1(user, 45, 1, message, master)
             if(typeof(name) == 'undefined'){
                 for(i in master){
                     if(user == i){

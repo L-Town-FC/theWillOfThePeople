@@ -29,7 +29,7 @@ module.exports = {
                             fs.writeFileSync("./text_files/insult_counter.txt", insultee_and_count);
                             success = true
                             //Professional Asshole  Achievement Tracker
-                            unlock.tracker1(message.author.id, 13, 1, 3, message, master)
+                            unlock.tracker1(message.author.id, 13, 1,  message, master)
 
                             //Toxic Achievement Tracker
                             unlock.reset2(insultee_and_count[0], 20, 1)
