@@ -82,6 +82,8 @@ module.exports = {
                             message.channel.send(target_list)
                         }
                     }else{
+                        //Checks all players for if they are targeting someone
+                        //If they are, it adds the targets name to a list to be displayed
                         var targets = []
                         var counter = 0
                         for(i in bwg){

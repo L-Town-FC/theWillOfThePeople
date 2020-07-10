@@ -195,21 +195,7 @@ function first_guess(player, bet){
 
 function purchase(bet_value, player, master) {
     try{
-        const fs = require('fs');
-        for(i in master){
-            if(player == i){
-                if((master[i].gbp) == 'NaN'){
-                    master[i].gbp = 0
-                }
-                master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
-            }
-        }
-
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
+        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
 
     }catch(err){
         console.log(err)

@@ -21,12 +21,12 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
+    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
     console.log('This bot is online')
     setInterval(function(){
         Welfare(channel, master)
         Lottery(channel, master, unlock)
-    }, 86400 * 1000)
+    }, 10 * 1000)
     //86400
     //590585423202484227 - pugilism
     //611276436145438769 - test
@@ -157,6 +157,11 @@ bot.on('message', message =>{
                     message.channel.send('Use command !help for a list of commands');
             }
         }
+        fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Index.js Comand Handler");
@@ -177,11 +182,6 @@ function Welfare(channel, master){
         }
     }
     channel.send("Welfare has been distributed")
-    fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-        if (err) throw err;
-        console.log('complete');
-        }
-    );
 }
 
 function Roulette_bets(message, money, master){
@@ -214,18 +214,8 @@ function Roulette_bets(message, money, master){
 
 function purchase(bet_value, player, master) {
     try{
-        const fs = require('fs');
+        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
 
-        for(i in master){
-            if(player == i){
-                master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
-            }
-        }
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Index.js Purchase");
@@ -234,7 +224,7 @@ function purchase(bet_value, player, master) {
 
 function Lottery(channel, master, unlock){
     const fs = require('fs')
-    odds = 500
+    odds = 250
     var number = Math.ceil(Math.random()*odds);
     var pot = 1000
     var success = false
@@ -248,13 +238,7 @@ function Lottery(channel, master, unlock){
             success = true
         }
     }
-    if(success == true){
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-    }else{
+    if(success == false){
         channel.send('No winners')
     }
 }

@@ -80,12 +80,6 @@ function steal(initiator, recipient, amount, stolen_percent, message, master, po
                 }
             }
         }
-
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Steal.js Give_Money");

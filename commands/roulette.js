@@ -225,13 +225,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master){
             unlock.tracker1(user, 32, parseFloat(bet), message, master)
         }
     }
-    if(counter !== 0){
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-    }else{
+    if(counter == 0){
         message.channel.send("No Winners")
     }
 }

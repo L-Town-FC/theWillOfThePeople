@@ -154,18 +154,8 @@ function attempt(amount, money_spent){
 
 function purchase(bet_value, player, master) {
     try{
-        const fs = require('fs');
+        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
 
-        for(i in master){
-            if(player == i){
-                master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
-            }
-        }
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Powerball.js Purchase");

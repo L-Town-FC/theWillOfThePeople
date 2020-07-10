@@ -112,19 +112,7 @@ module.exports = {
 
 function purchase(bet_value, player, master) {
     try{
-        const fs = require('fs');
-
-        for(i in master){
-            if(player == i){
-                master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
-            }
-        }
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-        
+        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Herald.js Purchase");
@@ -133,13 +121,8 @@ function purchase(bet_value, player, master) {
 
 function name(player, master){
     try{
-        const fs = require('fs');
 
-        for(i in master){
-            if(player == i){
-                return master[i].name
-            }
-        }
+    return master[player].name
 
     }catch(err){
         console.log(err)

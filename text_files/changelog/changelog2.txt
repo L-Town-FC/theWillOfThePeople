@@ -1,3 +1,4 @@
 -New Daily Lottery that everyone is automatically entered into
     -Triggers at the same time as Welfare
     -Each person has a 1 in 500 chance of winning each day
+-Embedded messages the bot sends now default to the color of whoever used the command

@@ -114,11 +114,6 @@ module.exports = {
                 console.log('complete');
                 }
             );
-            fs.writeFileSync ("./JSON/banned_word_game.json", JSON.stringify(bwg, null, 2), function(err) {
-                if (err) throw err;
-                console.log('complete');
-                }
-            );
             fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
                 if (err) throw err;
                 console.log('complete');

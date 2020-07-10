@@ -63,11 +63,6 @@ function give_money(initiator, recipient, amount, message, master) {
             }
         }
 
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Transfer.js Give_Money");

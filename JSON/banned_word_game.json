@@ -1,59 +1,184 @@
 {
   "450001712305143869": {
-    "name": "Colin"
+    "name": "Colin",
+    "target": "462798271195119626",
+    "current_word": "liberals",
+    "bet": 500,
+    "remaining_msgs": 100,
+    "used_words": [
+      "banned",
+      "kumiko",
+      "kumiko",
+      "kumiko"
+    ],
+    "gamestatus": 1
   },
   "497803559144914944": {
-    "name": "Andrew"
+    "name": "Andrew",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "499328039621230592": {
-    "name": "Wyatt"
+    "name": "Wyatt",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "463080062175019010": {
-    "name": "Ian"
+    "name": "Ian",
+    "target": "498262864541515786",
+    "current_word": "liberals",
+    "bet": 200,
+    "remaining_msgs": 35,
+    "used_words": [],
+    "gamestatus": 1
   },
   "210861925771247636": {
-    "name": "Zaid"
+    "name": "Zaid",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "501929393401364481": {
-    "name": "Mike"
+    "name": "Mike",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "509430603339399186": {
-    "name": "Brian"
+    "name": "Brian",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [
+      "people"
+    ],
+    "gamestatus": 0
   },
   "526190184455471105": {
-    "name": "Carl"
+    "name": "Carl",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "462798271195119626": {
-    "name": "Alex"
+    "name": "Alex",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [
+      "america"
+    ],
+    "gamestatus": 0
   },
   "562203622474252288": {
-    "name": "Dylan"
+    "name": "Dylan",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "501887537451630593": {
-    "name": "Ramzi"
+    "name": "Ramzi",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "434471986748456962": {
-    "name": "Chrisvan"
+    "name": "Chrisvan",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "497861779020578837": {
-    "name": "Hayden"
+    "name": "Hayden",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "501930484838957069": {
-    "name": "Tom"
+    "name": "Tom",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "581903756111773716": {
-    "name": "Justin"
+    "name": "Justin",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "508076579684089896": {
-    "name": "Jacob"
+    "name": "Jacob",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "525147400176664626": {
-    "name": "Teddy"
+    "name": "Teddy",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "640368746690510868": {
-    "name": "Slim"
+    "name": "Slim",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [],
+    "gamestatus": 0
   },
   "498262864541515786": {
-    "name": "Derek"
+    "name": "Derek",
+    "target": "",
+    "current_word": "",
+    "bet": 0,
+    "remaining_msgs": "",
+    "used_words": [
+      "weekend"
+    ],
+    "gamestatus": 0
   }
 }

@@ -14,11 +14,6 @@ module.exports = {
                         master[i].gbp = parseFloat(amount)
                         message.channel.send(`${master[i].name} has been set to ${master[i].gbp} gbp`)
                         var success = true
-                        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-                            if (err) throw err;
-                            console.log('complete');
-                            }
-                        );
                     }else{
                         message.channel.send("Please enter a real amount")
                         var success = true

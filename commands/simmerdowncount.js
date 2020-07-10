@@ -44,21 +44,13 @@ module.exports = {
 
 function counter(person, message, master) {
     try{
-        const fs = require('fs');
-        
-        for(i in master){
-            if(master[i].simmerdown == null){
-                master[i].simmerdown = 0;
-            }
-            if(person == i){
-                master[i].simmerdown = parseInt(master[i].simmerdown) + 1
-            }
+        if(master[person].simmerdown == null){
+            master[person].simmerdown = 0;
         }
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
+        
+        master[person].simmerdown = parseInt(master[person].simmerdown) + 1
+        
+
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Simmerdowncount.js Counter");

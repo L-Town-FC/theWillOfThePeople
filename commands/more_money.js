@@ -29,11 +29,6 @@ module.exports = {
             for(i in master){
                 if(master[i].gbp == null){
                     master[i].gbp = 0;
-                    fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-                        if (err) throw err;
-                        console.log('complete');
-                        }
-                    );
                 }
             }
         
@@ -69,11 +64,6 @@ module.exports = {
                             }
                         }
                     }
-                    fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), function(err) {
-                        if (err) throw err;
-                        console.log('complete');
-                        }
-                    );
                 }
             }
         }catch(err){
