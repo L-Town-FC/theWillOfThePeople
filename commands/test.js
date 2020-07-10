@@ -9,6 +9,7 @@ module.exports = {
         var tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
         var bwg = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
         var stats = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
+        var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         //var roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
         if(message.author.id == '450001712305143869' && message.channel.id == '611276436145438769'){
             for(i in tracker){
@@ -46,7 +47,9 @@ module.exports = {
             for(i in master){
                 master[i].simmerdown = 0
             }
-
+            for(i in achievements){
+                achievements[i].threshold = 0
+            }
             /*
             for(i in bwg){
                 bwg[i].target = ""

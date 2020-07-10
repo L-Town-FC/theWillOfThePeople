@@ -76,8 +76,10 @@ module.exports.reset2 = reset2
 
 function tracker1(user, achievement_num, increment, threshold, message, master){
     const fs = require('fs')
+    var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
 
+    threshold = achievements[achievement_num].threshold
     tracker[user][achievement_num] = tracker[user][achievement_num] + increment;
 
     if(tracker[user][achievement_num] >= threshold){
