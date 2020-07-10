@@ -12,13 +12,6 @@ function unlock(user, achievement_num, message, master){
             }
         }
     }
-    if(success == true){
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-    }
 }
 module.exports.unlock = unlock
 
@@ -34,13 +27,6 @@ function index_unlock(user, achievement_num, channel, master){
                 success = true
             }
         }
-    }
-    if(success == true){
-        fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), {spaces: 2}, function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
     }
 }
 

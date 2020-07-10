@@ -2,13 +2,13 @@
   "450001712305143869": {
     "name": "Colin",
     "lottery_tickets": 1000,
-    "bj_wins": 2,
+    "bj_wins": 3,
     "bj_pushes": 2,
     "bj_losses": 5,
     "gg_wins": 0,
     "gg_losses": 0,
-    "total_msgs": 86,
-    "total_commands": 81,
+    "total_msgs": 92,
+    "total_commands": 87,
     "farm_messages": 0,
     "non_farm_messages": 5,
     "achievements": 0

@@ -21,12 +21,12 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
+    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
     console.log('This bot is online')
     setInterval(function(){
         Welfare(channel, master)
         Lottery(channel, master, unlock)
-    }, 10 * 1000)
+    }, 86400 * 1000)
     //86400
     //590585423202484227 - pugilism
     //611276436145438769 - test
