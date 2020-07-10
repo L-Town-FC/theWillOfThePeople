@@ -10,6 +10,8 @@ const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions')
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
+tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+//Note: NO OTHER VARIABLES CAN BE NAMED TRACKER
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -158,7 +160,7 @@ bot.on('message', message =>{
             }
         }
         //Only time Major JSONs should be overwritten
-        JSON_Overwrite(master, stats_list)
+        JSON_Overwrite(master, stats_list, tracker)
 
     }catch(err){
         console.log(err)
@@ -247,6 +249,11 @@ function JSON_Overwrite(master, stats_list){
         }
     );
     fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats_list, null, 2), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
+    fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
         if (err) throw err;
         console.log('complete');
         }
