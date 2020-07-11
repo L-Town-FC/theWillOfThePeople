@@ -187,7 +187,7 @@ function Welfare(channel, master){
 function Roulette_bets(message, money, master){
     var args = message.content.split(" ")
     var possible_bets = fs.readFileSync('./text_files/roulette/roulette_bets','utf-8').split(",")
-    var min_bet = 5;
+    var min_bet = 10;
     var bet = false
 
     if(typeof(approved_bets) == 'undefined'){

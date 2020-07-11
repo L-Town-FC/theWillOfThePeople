@@ -2,3 +2,6 @@
     -Triggers at the same time as Welfare
     -Each person has a 1 in 500 chance of winning each day
 -Embedded messages the bot sends now default to the color of whoever used the command
+-Changed how progressive gbp works at higher amounts
+    -No more fractional gbp
+    -Instead the chance of getting 1 gbp per message decreases from 100% at 750 gbp to 25% at 1500 gbp where it then remains constant

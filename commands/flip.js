@@ -3,7 +3,6 @@ module.exports = {
     description: 'flips coin',
     execute(message,master){
         const unlock = require('./Functions/Achievement_Functions')
-        const fs = require('fs')
         try{
             result = Math.floor(Math.random()*2);
             if (parseInt(result) == 1){

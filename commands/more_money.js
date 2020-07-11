@@ -46,6 +46,9 @@ module.exports = {
                             }else{
                                 stats.tracker(person, 10, 1, stats_list)
                             }
+
+                            var scaling_modifier = -0.1 * master[person].gbp + 175
+
                             Achievement_Switch(person, message.channel.id, message, master)
                             Random_Achievements(person, message, master)
                             if(master[person].gbp <= 0){
@@ -57,10 +60,16 @@ module.exports = {
                                 master[person].gbp = Math.round((parseFloat(master[person].gbp) + 2) * 100)/100
                             }else if(master[person].gbp < 750){
                                 master[person].gbp = Math.round((parseFloat(master[person].gbp) + 1) * 100)/100
-                            }else if(master[person].gbp < 1000){
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 0.5) * 100)/100
+                            }else if(master[person].gbp < 1500){
+                                var chance = Math.random() * 100
+                                if(chance <= scaling_modifier){
+                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + 1) * 100)/100
+                                }
                             }else{
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 0.25) * 100)/100
+                                var chance = Math.random() * 100
+                                if(chance <= 25){
+                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + 1) * 100)/100
+                                }
                             }
                         }
                     }

@@ -53,6 +53,7 @@ module.exports = {
                         insulted_counter[1] = 1;
                         fs.writeFileSync('./text_files/insult_counter.txt', insulted_counter)
                         unlock.tracker1(message.author.id, 21, 1, message, master)
+                        //console.log(insults.length)
                     //Checks when the last time the command was ran and runs command if its been too long since last execution
                     }
                 }
