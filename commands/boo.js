@@ -1,7 +1,7 @@
 module.exports = {
     name: 'boo',
     description: 'custom emoji test',
-    execute(message,args,money, master){
+    execute(message,args,money, master, tracker){
         const fs = require('fs')
         const unlock = require("./Functions/Achievement_Functions")
         var boo = fs.readFileSync('./text_files/boo.txt', "utf-8")
@@ -21,11 +21,11 @@ module.exports = {
                         fs.writeFileSync('./text_files/boo.txt', id)
                         purchase(price, message.author.id, message, master)
                         //Professional Asshole Achievement Tracker
-                        unlock.tracker1(message.author.id, 13, 1, message, master)
+                        unlock.tracker1(message.author.id, 13, 1, message, master, tracker)
 
                         //Toxic Achievement Tracker
                         unlock.reset2(id, 20, 0)
-                        unlock.tracker2(id, 20, 0, message, master)
+                        unlock.tracker2(id, 20, 0, message, master, tracker)
 
                         var success = true
                         message.channel.send(`${master[id].name} is now being booed`)

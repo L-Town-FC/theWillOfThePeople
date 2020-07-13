@@ -1,7 +1,7 @@
 module.exports = {
     name: 'flip',
     description: 'flips coin',
-    execute(message,master){
+    execute(message,master, tracker){
         const unlock = require('./Functions/Achievement_Functions')
         try{
             result = Math.floor(Math.random()*2);
@@ -10,7 +10,7 @@ module.exports = {
             }else{
                 message.channel.send('Heads');
             }
-            unlock.tracker1(message.author.id, 44, 1, message, master)
+            unlock.tracker1(message.author.id, 44, 1, message, master, tracker)
         }catch(err){
             console.log(err)
             message.channel.send("Error Occured in flip.js Standings");

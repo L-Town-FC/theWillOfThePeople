@@ -1,7 +1,7 @@
 module.exports = {
     name: 'powerball',
     description: 'enters you into the lottery for big money',
-    execute(message,args,total_money, master, stats_list){
+    execute(message,args,total_money, master, stats_list, tracker){
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         const fs = require('fs');
@@ -21,10 +21,10 @@ module.exports = {
                         message.channel.send("Please choose a number of tickets greater than 0")
                     }else if(isNaN(amount) == true){
                         
-                        if(price < total_money){
+                        if(price <= total_money){
                             purchase(price, message.author.id, master);
                             stats.tracker(message.author.id, 1, 1,stats_list)
-                            unlock.tracker1(message.author.id, 31, 1, message, master)
+                            unlock.tracker1(message.author.id, 31, 1, message, master, tracker)
                             if(attempt(1, price) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${lottery_stats[0]} tickets to win. Your prize is ${lottery_stats[1]}`)
                                 purchase(-1 * lottery_stats[1], message.author.id, master);
@@ -40,9 +40,9 @@ module.exports = {
                     }else if(parseInt(amount) !== parseFloat(amount)){
                         message.channel.send("Please choose a whole number for the amount of tickets");
                     }else{
-                        if(money_spent < total_money){
+                        if(money_spent <= total_money){
                             stats.tracker(message.author.id, 1, parseFloat(amount), stats_list)
-                            unlock.tracker1(message.author.id, 31, parseInt(amount), message, master)
+                            unlock.tracker1(message.author.id, 31, parseInt(amount), message, master, tracker)
                             purchase(amount*price, message.author.id, master);
                             if(attempt(amount, money_spent) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${lottery_stats[0]} tickets to win. Your prize is ${lottery_stats[1]} gbp`)

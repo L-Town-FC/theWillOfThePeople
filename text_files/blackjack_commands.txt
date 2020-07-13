@@ -1,4 +1,5 @@
-!21 deal "bet": Starts game of blackjack with specified bet
+!21 deal "bet" "Match the dealer bet": Starts game of blackjack with specified bet
+--Match the dealer pays 3:1 if either of your cards match the dealer's face up card. It isn't a mandatory bet
 
 !21 hit: Gives player additional card
 

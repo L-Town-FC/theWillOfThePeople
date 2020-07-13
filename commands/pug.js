@@ -1,7 +1,7 @@
 module.exports = {
     name: 'pug',
     description: 'randomly generates pug pic',
-    execute(message, master){
+    execute(message, master, tracker){
         const {Discord, Attachment} = require('discord.js');
         const fs = require('fs')
         const unlock = require('./Functions/Achievement_Functions')
@@ -15,7 +15,7 @@ module.exports = {
         try{
             var pug_image = new Attachment('./pug_pics/pug'+ pug +'.jpg')
             message.channel.send(pug_image)
-            unlock.tracker1(message.author.id, 5, 1, message, master)
+            unlock.tracker1(message.author.id, 5, 1, message, master, tracker)
         }catch(err){
             console.log(err)
             message.channel.send("Error Occured in Pug.js");

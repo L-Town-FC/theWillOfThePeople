@@ -38,10 +38,10 @@ bot.on('message', message =>{
     try{
         if(message.author.bot == false){
             bot.commands.get('simmerdowncount').execute(message, master);
-            bot.commands.get('insult_counter').execute(message, master);
+            bot.commands.get('insult_counter').execute(message, master, tracker);
             bot.commands.get('boo_trigger').execute(message);
-            bot.commands.get('more_money').execute(message, master, stats_list);
-            bot.commands.get('bwg_counter').execute(message, master);
+            bot.commands.get('more_money').execute(message, master, stats_list, tracker);
+            bot.commands.get('bwg_counter').execute(message, master, tracker);
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
                 stats.tracker(message.author.id, 7, 1, stats_list)
             }
@@ -72,19 +72,19 @@ bot.on('message', message =>{
                     bot.commands.get('ping').execute(message);
                 break;
                 case 'pug':
-                    bot.commands.get('pug').execute(message,master); 
+                    bot.commands.get('pug').execute(message,master, tracker); 
                 break;
                 case 'simmerdown':
                     bot.commands.get('simmerdown').execute(message,args, master);    
                 break;
                 case '21':
-                    bot.commands.get('21').execute(message,args,master[message.author.id].gbp, master, stats_list);
+                    bot.commands.get('21').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
                 break;
                 case 'flip':
-                    bot.commands.get('flip').execute(message,master);
+                    bot.commands.get('flip').execute(message, master, tracker);
                 break;
                 case 'council':
-                    bot.commands.get('council').execute(message,master);
+                    bot.commands.get('council').execute(message,master,tracker);
                 break;
                 case 'assblast':
                     bot.commands.get('assblast').execute(message,args);
@@ -93,22 +93,22 @@ bot.on('message', message =>{
                     bot.commands.get('bank').execute(message,args, master);
                 break;
                 case 'insults':
-                    bot.commands.get('insults').execute(message,args,master[message.author.id].gbp, master);
+                    bot.commands.get('insults').execute(message,args,master[message.author.id].gbp, master, tracker);
                 break;
                 case 'delete':
-                    bot.commands.get('delete').execute(message,args,master[message.author.id].gbp, master);
+                    bot.commands.get('delete').execute(message,args,master[message.author.id].gbp, master, tracker);
                 break;
                 case 'gg':
-                    bot.commands.get('gg').execute(message,args,master[message.author.id].gbp, master, stats_list);
+                    bot.commands.get('gg').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
                 break;
                 case 'transfer':
                     bot.commands.get('transfer').execute(message,args,master[message.author.id].gbp, master);
                 break;
                 case 'kumiko':
-                    bot.commands.get('kumiko').execute(message,master[message.author.id].gbp, master);
+                    bot.commands.get('kumiko').execute(message,master[message.author.id].gbp, master, tracker);
                 break;
                 case 'powerball':
-                    bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list)
+                    bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list, tracker)
                 break;
                 case 'herald':
                     bot.commands.get('herald').execute(message,args, master[message.author.id].gbp, master)
@@ -126,7 +126,7 @@ bot.on('message', message =>{
                     bot.commands.get('changelog').execute(message)
                 break;
                 case 'roulette':
-                    bot.commands.get('roulette').execute(message,args,master, Roulette_bets(message))
+                    bot.commands.get('roulette').execute(message,args,master, Roulette_bets(message), tracker)
                 break;
                 case 'help':
                     bot.commands.get('help').execute(message);
@@ -135,16 +135,16 @@ bot.on('message', message =>{
                     bot.commands.get('set').execute(message,args, master);
                 break;
                 case 'boo':
-                    bot.commands.get('boo').execute(message,args,master[message.author.id].gbp, master);
+                    bot.commands.get('boo').execute(message,args,master[message.author.id].gbp, master, tracker);
                 break;
                 case 'steal':
-                    bot.commands.get('steal').execute(message,args,master[message.author.id].gbp, master);
+                    bot.commands.get('steal').execute(message,args,master[message.author.id].gbp, master, tracker);
                 break;
                 case 'backup':
                     bot.commands.get('backup').execute(message,args);
                 break;
                 case 'achievements':
-                    bot.commands.get('achievements').execute(message,args, master);
+                    bot.commands.get('achievements').execute(message,args, master, tracker);
                 break;
                 case 'bwg':
                     bot.commands.get('bwg').execute(message,args, master[message.author.id].gbp, master)
@@ -160,7 +160,11 @@ bot.on('message', message =>{
             }
         }
         //Only time Major JSONs should be overwritten
-        JSON_Overwrite(master, stats_list, tracker)
+        if(message.author.bot == false){
+            setTimeout(function(){
+                JSON_Overwrite(master, stats_list, tracker)
+            },50)
+        }
 
     }catch(err){
         console.log(err)

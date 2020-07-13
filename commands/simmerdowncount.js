@@ -4,12 +4,10 @@ module.exports = {
     execute(message, master){
         var said_simmer = -2
         var said_down = 0
-        const Discord = require('discord.js');
-        const bot = new Discord.Client();
         var user = message.author.id;
         try{
             //Variables that hold the location of simmer/down in the sentence
-            if (message.author === bot.user){
+            if (message.author.bot == true){
             //makes sure the bot doesn't read what it says
             }else{
                 simmer = message.content.toLowerCase().split(" ")

@@ -1,7 +1,7 @@
 module.exports = {
     name: 'achievements',
     description: 'shows achievements',
-    execute(message,args, master){
+    execute(message,args, master, tracker){
         const fs = require('fs');
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
@@ -12,7 +12,7 @@ module.exports = {
         var success = false;
         
         try{
-            unlock.tracker1(user, 45, 1, message, master)
+            unlock.tracker1(user, 45, 1, message, master, tracker)
             if(typeof(name) == 'undefined'){
                 for(i in master){
                     if(user == i){

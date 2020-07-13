@@ -1,7 +1,7 @@
 module.exports = {
     name: '21',
     description: 'A better blackjack',
-    execute(message,args,total_money, master, stats_list){
+    execute(message,args,total_money, master, stats_list, tracker){
         const fs = require('fs');
         const Discord = require('discord.js');
         const unlock = require('./Functions/Achievement_Functions')
@@ -12,8 +12,10 @@ module.exports = {
         const tens = ['10','J','Q','K']
         //used to convert 10s into other cards
         var new_bet = args[2];
+        var match = args[3];
         var min_bet = 15;
         var command = args[1];
+
         
         if(typeof(master_list) == 'undefined'){
             master_list = []; 
@@ -57,6 +59,17 @@ module.exports = {
                     }else if(master_list[player].gameStatus !== 0){
                         message.channel.send("You are already playing a game")
                     }else{
+                        purchase(new_bet, message.author.id, message, master)
+                        if(isNaN(match) == false){
+                            if(master[message.author.id].gbp >= match){
+                                message.channel.send(`Your "Match the Dealer" bet was accepted`)
+                                purchase(parseFloat(match), master_list[player].id, message, master)
+                                var match_good = true
+                            }else{
+                                message.channel.send(`You didn't have enough for your "Match the Dealer" bet`)
+                                var match_good = false
+                            }
+                        }
                         master_list[player].bet = [parseFloat(new_bet), 0]
                         master_list[player].gameStatus = 1;
                         if(new_bet >= 200){
@@ -70,9 +83,9 @@ module.exports = {
                         }
 
                         // Test Cards
-                        //card[0] = 8;
-                        //card[1] = 8;
-                        //card[2] = 7;
+                        card[0] = 10;
+                        card[1] = 10;
+                        //card[2] = 10;
                         //card[3] = 10;
                         //
 
@@ -90,15 +103,24 @@ module.exports = {
                         }
 
                         //Test Cards
-                        //dummycard[0] = 'J'
-                        //dummycard[1] = 'J'
+                        dummycard[0] = 'J'
+                        dummycard[1] = 'J'
+                        //dummycard[2] = 'Q'
+                        //dummycard[3] = 'J'
                         //
 
                         master_list[player].player_dummy_hand1 = [dummycard[0], dummycard[1]]
                         master_list[player].dealer_dummy_hand = [dummycard[2], dummycard[3]]
 
                         Display_Status(master_list[player],message, embed)
-                        purchase(new_bet, message.author.id, message, master) 
+                        if(match_good == true){
+                            if(master_list[player].player_dummy_hand1.includes(master_list[player].dealer_dummy_hand[0]) == true){
+                                purchase(-4 * parseFloat(match), master_list[player].id, message, master)
+                                message.channel.send(`You matched the dealer. You win ${3 * parseFloat(match)} gbp`)
+                            }else{
+                                message.channel.send(`You didn't match the dealer`)
+                            }
+                        }
 
                         if(master_list[player].dealer_dummy_hand[0] == 'A'){
                             if(master_list[player].dealer_hand[1] == 10){
@@ -452,19 +474,18 @@ module.exports = {
                             if(hand1_bust == false){
                                 //purchase(-2 * parseFloat(master_list[player].bet[0]), message.author.id, message, master);
                                 winnings = winnings + parseFloat(master_list[player].bet[0])
-                                stats.tracker(master_list[player].id, 2, 1, stats_list)
+                                Win(master_list[player], 0, message, master, stats_list)
                             }else{
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
+                                Lose(master_list[player], 0, message, master, stats_list)
                             }
                             if(hand2_bust == false){
                                 //purchase(-2 * parseFloat(master_list[player].bet[1]), message.author.id, message, master)
                                 winnings = winnings + parseFloat(master_list[player].bet[1])
-                                stats.tracker(master_list[player].id, 2, 1, stats_list)
+                                Win(master_list[player], 0, message, master, stats_list)
                             }else{
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[1]), master)
+                                Lose(master_list[player], 0, message, master, stats_list)
                             }
                             purchase(-2 * parseFloat(winnings), message.author.id, message, master)
-                            unlock.tracker1(master_list[player].id, 33, parseFloat(winnings), message, master)
                             message.channel.send(`${master_list[player].name} wins ${winnings} gbp`)
 
                             reset(master_list, player)
@@ -485,35 +506,34 @@ module.exports = {
                                 winnings = winnings + 2 * parseFloat(master_list[player].bet[0])
                                 message.channel.send(`${master_list[player].name} wins hand 1 and ${master_list[player].bet[0]} gbp`)
                                 correction = parseFloat(master_list[player].bet[0]) //Used to track actual winnings, not winnings with original bet included
-                                stats.tracker(master_list[player].id, 2, 1, stats_list)
+                                Win(master_list[player], 0, message, master, stats_list)
                             }else if(sum(master_list[player].player_hand1) == sum(master_list[player].dealer_hand)){
                                 winnings = winnings + parseFloat(master_list[player].bet[0])
                                 correction = parseFloat(master_list[player].bet[0])
                                 message.channel.send(`Dealer pushes hand 1`)
-                                stats.tracker(master_list[player].id, 3, 1, stats_list)
+                                Push(master_list[player], 0, message, master, stats_list)
                             }else{
                                 message.channel.send("Dealer wins hand 1")
                                 winnings = 0
-                                stats.tracker(master_list[player].id, 4, 1, stats_list)
+                                Lose(master_list[player], 0, message, master, stats_list)
                             }
                 
                             if(sum(master_list[player].player_hand2) > sum(master_list[player].dealer_hand) & hand2_bust == false){
                                 winnings = winnings + 2 * parseFloat(master_list[player].bet[1])
                                 correction = parseFloat(master_list[player].bet[1]) + correction
                                 message.channel.send(`${master_list[player].name} wins hand 2 and ${master_list[player].bet[0]} gbp`)
-                                stats.tracker(master_list[player].id, 2, 1, stats_list)
+                                Win(master_list[player], 1, message, master, stats_list)
                             }else if(sum(master_list[player].player_hand2) == sum(master_list[player].dealer_hand)){
                                 winnings = winnings + parseFloat(master_list[player].bet[1])
                                 correction = parseFloat(master_list[player].bet[1]) + correction
                                 message.channel.send(`Dealer pushes hand 2`)
-                                stats.tracker(master_list[player].id, 2, 1, stats_list)
+                                Push(master_list[player], 1, message, master, stats_list)
                             }else{
                                 winnings = winnings
                                 message.channel.send("Dealer wins hand 2")
-                                stats.tracker(master_list[player].id, 4, 1, stats_list)
+                                Lose(master_list[player], 1, message, master, stats_list)
                             }
                             purchase(-1 * parseFloat(winnings), message.author.id, message, master)
-                            unlock.tracker1(master_list[player].id, 33, parseFloat(winnings - correction), message, master)
                             reset(master_list, player)
                         }
                     }, 20)
@@ -521,9 +541,8 @@ module.exports = {
                     //if both player hands busted, the dealer defaults a win
                     message.channel.send(`Dealer's Hand: ${master_list[player].dealer_dummy_hand}`)
                     message.channel.send("Dealer wins")
-                    unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
-                    unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[1]), message, master)
-                    stats.tracker(master_list[player].id, 4, 2, stats_list)
+                    Lose(master_list[player], 0, message, master, stats_list)
+                    Lose(master_list[player], 1, message, master, stats_list)
                     reset(master_list, player)
                 }
             }else if(master_list[player].isSplit == false && master_list[player].isStay[0] == true){
@@ -571,77 +590,61 @@ module.exports = {
                             case 2:
                                 message.channel.send("Dealer has blackjack")
                                 message.channel.send("Dealer wins")
-                                if(master_list[player].bet[0] >= 1000){
-                                    unlock.unlock(master_list[player].id, 2, message, master)
-                                }
-                                unlock.tracker1(master_list[player].id, 8, 1, message, master)
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
-                                stats.tracker(master_list[player].id, 4, 1, stats_list)
+
+                                Lose(master_list[player], 0, message, master, stats_list)
+
                             break;
                             case 3:
                                 message.channel.send("Player has blackjack")
                                 message.channel.send(`${master_list[player].name} wins ${1.5 * parseFloat(master_list[player].bet[0])} gbp`)
                                 purchase(-2.5 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
-                                if(master_list[player].bet[0] >= 1000){
-                                    unlock.unlock(master_list[player].id, 1, message, master)
-                                }
-                                unlock.reset1(master_list[player].id, 8)
-                                unlock.tracker1(master_list[player].id, 33, 1.5 * parseFloat(master_list[player].bet[0]), message, master)
-                                stats.tracker(master_list[player].id, 2, 1, stats_list)
+                                
+                                Win(master_list[player], 0, message, master, stats_list)
+
                             break;
                             case 4:
                                 message.channel.send("Player has blackjack")
                                 message.channel.send("Dealer has blackjack")
                                 message.channel.send("Player pushes")
                                 purchase(-1 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
-                                unlock.reset1(master_list[player].id, 8)
-                                stats.tracker(master_list[player].id, 3, 1, stats_list)
+                                
+                                Push(master_list[player], 0, message, master, stats_list)
+                                
                             break;
                             case 5:
                                 message.channel.send("Dealer wins") 
-                                if(master_list[player].bet[0] >= 1000){
-                                    unlock.unlock(master_list[player].id, 2, message, master)
-                                }
-                                unlock.tracker1(master_list[player].id, 8, 1, message, master)
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
-                                stats.tracker(master_list[player].id, 4, 1, stats_list)
+
+                                Lose(master_list[player], 0, message, master, stats_list, tracker)
+
                             break;
                             case 6:
                                 message.channel.send("Dealer busts")
                                 message.channel.send(`${master_list[player].name} wins ${1 * parseFloat(master_list[player].bet[0])} gbp`)
                                 purchase(-2 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
-                                if(master_list[player].bet[0] >= 1000){
-                                    unlock.unlock(master_list[player].id, 1, message, master)
-                                }
-                                unlock.reset1(master_list[player].id, 8)
-                                unlock.tracker1(master_list[player].id, 33, parseFloat(master_list[player].bet[0]), message, master)
-                                stats.tracker(master_list[player].id, 2, 1, stats_list)
+                                
+                                Win(master_list[player], 0, message, master, stats_list)
+                                
                             break;
                             case 7:
                                 message.channel.send("Player pushes")
                                 purchase( -1 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
-                                unlock.reset1(master_list[player].id, 8)
-                                stats.tracker(master_list[player].id, 3, 1, stats_list)
+                                
+                                Push(master_list[player], 0, message, master, stats_list)
+       
                             break;
                             case 8:
                                 message.channel.send("Dealer wins")
-                                if(master_list[player].bet[0] >= 1000){
-                                    unlock.unlock(master_list[player].id, 2, message, master)
-                                }
-                                unlock.tracker1(master_list[player].id, 8, 1, message, master)
-                                unlock.tracker1(master_list[player].id, 32, parseFloat(master_list[player].bet[0]), message, master)
-                                stats.tracker(master_list[player].id, 4, 1, stats_list)
+
+                                Lose(master_list[player], 0, message, master, stats_list)
+
                             break;
                             case 9:
                                 message.channel.send("Player wins")
                                 message.channel.send(`${master_list[player].name} wins ${1 * parseFloat(master_list[player].bet[0])} gbp`)
                                 purchase(-2 * master_list[player].bet[0], message.author.id, message, master) 
-                                if(master_list[player].bet[0] >= 1000){
-                                    unlock.unlock(master_list[player].id, 1, message, master)
-                                }
-                                unlock.reset1(master_list[player].id, 8)
-                                unlock.tracker1(master_list[player].id, 33, parseFloat(master_list[player].bet[0]), message, master)
-                                stats.tracker(master_list[player].id, 2, 1, stats_list)
+
+                                Win(master_list[player], 0, message, master, stats_list)
+
                             break;
                             case 10:
                                 purchase(-0.5 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
@@ -764,4 +767,35 @@ function reset(master_list, player){
     master_list[player].isStay = [false, true];
     master_list[player].blackjack = false;
     master_list[player].isSplit = false
+}
+
+function Win(master_list, split_index, message, master, stats_list){
+    const unlock = require('./Functions/Achievement_Functions')
+    const stats = require('./Functions/stats_functions')
+    if(master_list.bet[split_index] >= 1000){
+        unlock.unlock(master_list.id, 1, message, master)
+    }
+    unlock.reset1(master_list.id, 8, tracker)
+    unlock.tracker1(master_list.id, 33, 1.5 * parseFloat(master_list.bet[split_index]), message, master, tracker)
+    stats.tracker(master_list.id, 2, 1, stats_list)
+
+}
+
+function Lose(master_list, split_index,message, master, stats_list){
+    const unlock = require('./Functions/Achievement_Functions')
+    const stats = require('./Functions/stats_functions')
+    if(master_list.bet[split_index] >= 1000){
+        unlock.unlock(master_list.id, 2, message, master)
+    }
+    unlock.tracker1(master_list.id, 8, 1, message, master, tracker)
+    unlock.tracker1(master_list.id, 32, parseFloat(master_list.bet[split_index]), message, master, tracker)
+    stats.tracker(master_list.id, 4, 1, stats_list)
+}
+
+function Push(master_list, split_index, message, master, stats_list){
+    const unlock = require('./Functions/Achievement_Functions')
+    const stats = require('./Functions/stats_functions')
+
+    unlock.reset1(master_list.id, 8, tracker)
+    stats.tracker(master_list.id, 3, 1, stats_list, tracker)
 }

@@ -1,7 +1,7 @@
 module.exports = {
     name: 'more_money',
     description: 'gives 1 gbp every message',
-    execute(message, master, stats_list){
+    execute(message, master, stats_list, tracker){
         
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
@@ -90,33 +90,33 @@ function Achievement_Switch(user, channel, message, master){
     switch(channel){
         case '590583268961812500':
             //politics
-            unlock.tracker1(user, 17, 1, message, master)
+            unlock.tracker1(user, 17, 1, message, master, tracker)
         break;
         case '590583073595457547':
             //gaming
-            unlock.tracker1(user, 28, 1, message, master)
+            unlock.tracker1(user, 28, 1, message, master, tracker)
         break;
         case '590585423202484227':
             //pugilism
-            unlock.tracker1(user, 9, 1, message, master)
+            unlock.tracker1(user, 9, 1, message, master, tracker)
         break;
         case '712755269863473252':
             //blackjack
-            unlock.tracker1(user, 9, 1, message, master)
+            unlock.tracker1(user, 9, 1, message, master, tracker)
         break;
         case '590583125445181469':
             //anime
-            unlock.tracker1(user, 29, 1, message, master)
+            unlock.tracker1(user, 29, 1, message, master, tracker)
         break;
         case '664241953973731328':
             //feet 664241953973731328
-            unlock.tracker1(user, 27, 1, message, master)
-            unlock.tracker2(user, 15, 0, message, master)
+            unlock.tracker1(user, 27, 1, message, master, tracker)
+            unlock.tracker2(user, 15, 0, message, master, tracker)
         break;
         case '606515956826636288':
             //dobans 606515956826636288
-            unlock.tracker1(user, 26, 1, message, master)
-            unlock.tracker2(user, 15, 1, message, master)
+            unlock.tracker1(user, 26, 1, message, master, tracker)
+            unlock.tracker2(user, 15, 1, message, master, tracker)
         break;
     }
 }

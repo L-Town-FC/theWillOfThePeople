@@ -1,7 +1,7 @@
 module.exports = {
     name: 'delete',
     description: 'deletes the previous message',
-    execute(message,args,total_money, master){
+    execute(message,args,total_money, master, tracker){
         const fs = require('fs');
         const unlock = require("./Functions/Achievement_Functions")
         const cost = 1000;
@@ -14,7 +14,7 @@ module.exports = {
                     purchase(cost, message.author.id, message, master);
                     message.channel.bulkDelete(parseInt(num) + 1);
                     message.channel.send(`${num} message has been deleted`);
-                    unlock.tracker1(message.author.id, 25, num, message, master)
+                    unlock.tracker1(message.author.id, 25, num, message, master, tracker)
                 }else{
                     message.channel.send(`This command costs ${total_cost} gbp`)
                 }
@@ -26,7 +26,7 @@ module.exports = {
                     purchase(total_cost, message.author.id, message, master);
                     message.channel.bulkDelete(parseInt(num) + 1);
                     message.channel.send(`${num} messages have been deleted`);
-                    unlock.tracker1(message.author.id, 25, num, message, master)
+                    unlock.tracker1(message.author.id, 25, num, message, master, tracker)
                 }else{
                     message.channel.send(`This command costs ${total_cost} gbp`)
                 }

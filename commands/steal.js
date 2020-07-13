@@ -1,7 +1,7 @@
 module.exports = {
     name: 'steal',
     description: 'allows stealing of gbp from one person',
-    execute(message,args,total_money, master){
+    execute(message,args,total_money, master, tracker){
         const unlock = require('./Functions/Achievement_Functions')
 
         var recipient = args[1];
@@ -47,7 +47,7 @@ module.exports = {
             }else{
                 steal(initiator, recipient, amount, stolen_percent, message, master, poorest, richest);
                 message.channel.send(`You have successfully stolen ${stolen_percent * amount} gbp from ${recipient}`);
-                unlock.tracker1(initiator, 36, 1, message, master)
+                unlock.tracker1(initiator, 36, 1, message, master, tracker)
             }
         }catch(err){
             console.log(err)
@@ -75,7 +75,7 @@ function steal(initiator, recipient, amount, stolen_percent, message, master, po
                         if(j == richest){
                             unlock.unlock(initiator, 35, message, master)
                         }
-                        unlock.tracker1(initiator, 37, (stolen_percent * parseFloat(amount)), message, master)
+                        unlock.tracker1(initiator, 37, (stolen_percent * parseFloat(amount)), message, master, tracker)
                     }
                 }
             }

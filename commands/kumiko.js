@@ -1,7 +1,7 @@
 module.exports = {
     name: 'kumiko',
     description: 'randomly generates kumiko pic',
-    execute(message,money, master){
+    execute(message,money, master, tracker){
         const {Discord, Attachment} = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
@@ -18,7 +18,7 @@ module.exports = {
                 purchase(price, message.author.id, message, master) 
                 if(message.channel.id !== '711634711281401867'){
                     message.channel.send(kumiko_image)
-                    unlock.tracker1(message.author.id, 14, 1, message, master)    
+                    unlock.tracker1(message.author.id, 14, 1, message, master, tracker)    
                 }
             }
         }catch(err){

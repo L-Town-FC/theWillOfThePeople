@@ -1,7 +1,7 @@
 module.exports = {
     name: 'insults',
     description: 'shows who is being insulted and lets you change who it is',
-    execute(message,args,money, master){
+    execute(message,args,money, master, tracker){
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         var insultee_and_count = fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
@@ -29,11 +29,11 @@ module.exports = {
                             fs.writeFileSync("./text_files/insult_counter.txt", insultee_and_count);
                             success = true
                             //Professional Asshole  Achievement Tracker
-                            unlock.tracker1(message.author.id, 13, 1,  message, master)
+                            unlock.tracker1(message.author.id, 13, 1,  message, master, tracker)
 
                             //Toxic Achievement Tracker
                             unlock.reset2(insultee_and_count[0], 20, 1)
-                            unlock.tracker2(insultee_and_count[0], 20, 1, message, master)
+                            unlock.tracker2(insultee_and_count[0], 20, 1, message, master, tracker)
 
                             if(name.toLowerCase() == 'alex'){
                                 //As god intened it to be Achievement Tracker
