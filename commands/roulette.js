@@ -10,57 +10,77 @@ module.exports = {
 
         switch(command){
             case 'bet':
-                if(typeof(bets_open) == 'undefined'){
-                    if(isNaN(args[2]) == false && bet_time >= 30 && bet_time <= 60){
-                        bets_open = true
-                        Display(message, embed)
-                        message.channel.send(`Bets are open. You have ${bet_time} seconds to place bets`)
-                        setTimeout(function(){
-                            //console.log(approved_bets)
-                            //bets go, [bet amount, bet placement, bettor id]
-                            //make special case for 0 not being even/odd or red/black
-                            if(approved_bets.length > 0){  
-                                delete bets_open
-                                message.channel.send('Bets are closed')
-                                var number = Math.floor(Math.random()*37)
-                                if(number == '0'){
-                                    var color = ':green_circle:'
-                                }else if(roulette[number].red == true){
-                                    var color = ':red_circle:'
+                try{
+                    if(typeof(bets_open) == 'undefined'){
+                        if(isNaN(args[2]) == false && bet_time >= 30 && bet_time <= 60){
+                            bets_open = true
+                            Display(message, embed)
+                            message.channel.send(`Bets are open. You have ${bet_time} seconds to place bets`)
+                            setTimeout(function(){
+                                //console.log(approved_bets)
+                                //bets go, [bet amount, bet placement, bettor id]
+                                //make special case for 0 not being even/odd or red/black
+                                if(approved_bets.length > 0){  
+                                    delete bets_open
+                                    message.channel.send('Bets are closed')
+                                    var number = Math.floor(Math.random()*37)
+                                    if(number == '0'){
+                                        var color = ':green_circle:'
+                                    }else if(roulette[number].red == true){
+                                        var color = ':red_circle:'
+                                    }else{
+                                        var color = ':black_circle:'
+                                    }
+                                    Update_numbers(number + color)
+                                    setTimeout(function(){
+                                        message.channel.send(`The number is: \n${number}${color}`)
+                                        counter = 0
+                                        bet_checker(approved_bets, number, roulette, message, master, tracker)
+                                        delete counter
+                                        delete approved_bets
+                                    }, 2000)
                                 }else{
-                                    var color = ':black_circle:'
-                                }
-                                Update_numbers(number + color)
-                                setTimeout(function(){
-                                    message.channel.send(`The number is: \n${number}${color}`)
-                                    counter = 0
-                                    bet_checker(approved_bets, number, roulette, message, master, tracker)
-                                    delete counter
-                                    delete approved_bets
-                                }, 2000)
-                            }else{
-                                message.channel.send("No bets were made, the game is cancelled")
-                                delete bets_open
-                            }  
-                        },bet_time * 1000)
-                    }else{
-                        message.channel.send('You must choose a time between 30 and 60 seconds')
+                                    message.channel.send("No bets were made, the game is cancelled")
+                                    delete bets_open
+                                }  
+                            },bet_time * 1000)
+                        }else{
+                            message.channel.send('You must choose a time between 30 and 60 seconds')
+                        }
+                    }else if(bets_open = true){
+                        message.channel.send("Bets are already open")
                     }
-                }else if(bets_open = true){
-                    message.channel.send("Bets are already open")
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error Occured in Roulette.js bet')
                 }
             break;
             case 'stats':
                 //last 10 roulette spins
-                Numbers(message, embed)
+                try{
+                    Numbers(message, embed)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send("Error Occured in roulette.js stats")
+                }
             break;
             case 'list':
                 //list of possible bets and payouts
-                Display(message,embed)
+                try{
+                    Display(message,embed)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send("Error Occured in roulette.js list")
+                }
             break;
             case 'help':
                 //list of commands
-                Help(message, embed)
+                try{
+                    Help(message, embed)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send("Error Occured in roulette.js help")
+                }
             break;
             default:
                 message.channel.send(`Use "!roulette help" for a list of commands`)

@@ -1,10 +1,10 @@
 module.exports = {
     name: 'test',
     description: 'custom emoji test',
-    execute(message,master, stats){
+    execute(message,master, stats, tracker){
         const fs = require('fs')
         //var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
-        var tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+        //var tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
         var bwg = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
         //var stats = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
         var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))

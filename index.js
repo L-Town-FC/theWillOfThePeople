@@ -154,7 +154,7 @@ bot.on('message', message =>{
                     bot.commands.get('stats').execute(message,args, master);
                 break;
                 case 'test':
-                    bot.commands.get('test').execute(message, master, stats_list);
+                    bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;
                 default:
                     message.channel.send('Use command !help for a list of commands');
