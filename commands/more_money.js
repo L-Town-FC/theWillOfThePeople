@@ -54,7 +54,8 @@ module.exports = {
                             Random_Achievements(person, message, master)
                             var amount = 1
                             if(gbp_farmed[person].farmed > 1000){
-                                
+                                //checks if user has sent 1000 messages today
+                                //makes it so if they have they get gbp at a reduced rate
                                 var chance = Math.random() * 100
                                 if(chance <= 25){
                                     master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
@@ -63,9 +64,6 @@ module.exports = {
                             }else if(master[person].gbp <= 0){
                                 var amount = 5
                                 unlock.unlock(person, 3, message, master)
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
-                            }else if(master[person].gbp < 250){
-                                var amount = 3
                                 master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
                             }else if(master[person].gbp < 500){
                                 var amount = 2
@@ -86,6 +84,7 @@ module.exports = {
                                     master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
                                 }
                             }
+
                             gbp_farmed[person].farmed = gbp_farmed[person].farmed + 1
                             fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
                                 if (err) throw err;
@@ -149,7 +148,7 @@ function Random_Achievements(user, message, master){
     }else if(master[user].gbp == 69){
         unlock.unlock(user, 41, message, master)
     }else if(master[user].gbp >= 10000){
-        unlock.unlock(person, 6, message, master)
+        unlock.unlock(user, 6, message, master)
     }
     if(message.content.toLowerCase().includes('twitch.tv/') == true){
         unlock.unlock(user, 43, message, master)

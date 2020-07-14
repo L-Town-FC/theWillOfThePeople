@@ -52,6 +52,7 @@ module.exports.reset2 = reset2
 function tracker1(user, achievement_num, increment, message, master, tracker){
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
+
     if(tracker == 'undefined'){
         tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
     }
@@ -69,7 +70,6 @@ function tracker2(user, achievement_num, index, message, master, tracker){
     if(tracker == 'undefined'){
         tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
     }
-
     tracker[user][achievement_num][index] = true
 
     if(tracker[user][achievement_num].includes(false) == false){
@@ -88,11 +88,13 @@ function tracker3(user, achievement_num, index, increment, message, master, trac
     tracker[user][achievement_num][index] = tracker[user][achievement_num][index] + parseFloat(increment)
     
     var counter = 0
-    for(i in tracker[user][achievement_num]){
-        if(parseFloat(i) >= threshold){
+    
+    for(i = 0;i < tracker[user][achievement_num].length; i++){
+        if(parseFloat(tracker[user][achievement_num][i]) >= threshold){
             counter++
         }
     }
+    
     if(tracker[user][achievement_num].length == (counter)){
         unlock(user, achievement_num, message, master)
     }

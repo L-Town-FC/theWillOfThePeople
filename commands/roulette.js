@@ -220,7 +220,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
             counter++
         }
         if(win_checker !== 0){
-            unlock.tracker1(user, 33, parseFloat(winnings), message, master, tracker)
+            unlock.tracker1(user, 33, parseFloat(-winnings - bet), message, master, tracker)
+            unlock.tracker3(user, 39, 2, parseFloat(-winnings - bet), message, master, tracker)
         }else{
             unlock.tracker1(user, 32, parseFloat(bet), message, master, tracker)
         }
@@ -229,6 +230,11 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
         message.channel.send("No Winners")
     }else{
         fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+        fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
             }

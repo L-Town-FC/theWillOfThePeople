@@ -127,7 +127,7 @@ bot.on('message', message =>{
                     bot.commands.get('changelog').execute(message)
                 break;
                 case 'roulette':
-                    bot.commands.get('roulette').execute(message,args,master, Roulette_bets(message), tracker)
+                    bot.commands.get('roulette').execute(message,args,master, tracker)
                 break;
                 case 'help':
                     bot.commands.get('help').execute(message);

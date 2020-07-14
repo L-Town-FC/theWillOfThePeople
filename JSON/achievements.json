@@ -191,8 +191,8 @@
   },
   "39": {
     "name": "Jack of All Trades",
-    "description": "Win 2000 gbp in blackjack, guessgame, and roulette",
-    "threshold": 2000
+    "description": "Win 5000 gbp in blackjack, guessgame, and roulette",
+    "threshold": 5000
   },
   "40": {
     "name": "So Predictable",

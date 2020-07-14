@@ -73,7 +73,7 @@ module.exports = {
                         master_list[player].bet = [parseFloat(new_bet), 0]
                         master_list[player].gameStatus = 1;
                         if(new_bet >= 200){
-                            unlock.tracker1(message.author.id, 23, 1, message, master)
+                            unlock.tracker1(message.author.id, 23, 1, message, master, tracker)
                         }
                         var card = [];
                         var dummycard = [];
@@ -777,6 +777,7 @@ function Win(master_list, split_index, message, master, stats_list){
     }
     unlock.reset1(master_list.id, 8, tracker)
     unlock.tracker1(master_list.id, 33, 1.5 * parseFloat(master_list.bet[split_index]), message, master, tracker)
+    unlock.tracker3(master_list.id, 39, 0, parseFloat(master_list.bet[split_index]), message, master, tracker)
     stats.tracker(master_list.id, 2, 1, stats_list)
 
 }
