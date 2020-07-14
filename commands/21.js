@@ -83,8 +83,8 @@ module.exports = {
                         }
 
                         // Test Cards
-                        card[0] = 10;
-                        card[1] = 10;
+                        //card[0] = 10;
+                        //card[1] = 10;
                         //card[2] = 10;
                         //card[3] = 10;
                         //
@@ -103,8 +103,8 @@ module.exports = {
                         }
 
                         //Test Cards
-                        dummycard[0] = 'J'
-                        dummycard[1] = 'J'
+                        //dummycard[0] = 'J'
+                        //dummycard[1] = 'J'
                         //dummycard[2] = 'Q'
                         //dummycard[3] = 'J'
                         //

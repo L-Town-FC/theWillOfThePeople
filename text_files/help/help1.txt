@@ -24,6 +24,6 @@
 
 !transfer: Allows a person to transfer some of their gbp to another person
 
-!herald: Allows you to request a herald who speaks on your behalf. Costs 250 gbp per use
+!herald: Allows you to request a herald who speaks on your behalf. Costs 500 gbp per use
 
 !names: Lists the names of the people on the server

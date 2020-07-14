@@ -10,6 +10,7 @@ module.exports = {
             //var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
             var person = message.author.id
             var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
+            var gbp_farmed = JSON.parse(fs.readFileSync("./JSON/gbp_farmer.json", "utf-8"))
             
         }catch(err){
             try{
@@ -51,26 +52,46 @@ module.exports = {
 
                             Achievement_Switch(person, message.channel.id, message, master)
                             Random_Achievements(person, message, master)
-                            if(master[person].gbp <= 0){
-                                unlock.unlock(person, 3, message, master)
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 5) * 100)/100
-                            }else if(master[person].gbp < 250){
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 3) * 100)/100
-                            }else if(master[person].gbp < 500){
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 2) * 100)/100
-                            }else if(master[person].gbp < 750){
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + 1) * 100)/100
-                            }else if(master[person].gbp < 1500){
-                                var chance = Math.random() * 100
-                                if(chance <= scaling_modifier){
-                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + 1) * 100)/100
-                                }
-                            }else{
+                            var amount = 1
+                            if(gbp_farmed[person].farmed > 1000){
+                                
                                 var chance = Math.random() * 100
                                 if(chance <= 25){
-                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + 1) * 100)/100
+                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+                                }
+
+                            }else if(master[person].gbp <= 0){
+                                var amount = 5
+                                unlock.unlock(person, 3, message, master)
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+                            }else if(master[person].gbp < 250){
+                                var amount = 3
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+                            }else if(master[person].gbp < 500){
+                                var amount = 2
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+                            }else if(master[person].gbp < 750){
+                               
+                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+                            }else if(master[person].gbp < 1500){
+                                
+                                var chance = Math.random() * 100
+                                if(chance <= scaling_modifier){
+                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+                                }
+                            }else{
+                                
+                                var chance = Math.random() * 100
+                                if(chance <= 25){
+                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
                                 }
                             }
+                            gbp_farmed[person].farmed = gbp_farmed[person].farmed + 1
+                            fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
+                                if (err) throw err;
+                                console.log('complete');
+                                }
+                            );
                         }
                     }
                 }
