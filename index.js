@@ -23,13 +23,13 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
+    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
     console.log('This bot is online')
     setInterval(function(){
         Welfare(channel, master)
         Lottery(channel, master, unlock)
         gbp_farm_reset(channel)
-    }, 30 * 1000)
+    }, 86400 * 1000)
     //86400
     //590585423202484227 - pugilism
     //611276436145438769 - test
@@ -267,10 +267,19 @@ function JSON_Overwrite(master, stats_list){
 
 function gbp_farm_reset(channel){
     var gbp_farmed = JSON.parse(fs.readFileSync("./JSON/gbp_farmer.json", "utf-8"))
+    var deletes = JSON.parse(fs.readFileSync("./JSON/delete_tracker.json", "utf-8"))
     for(i in gbp_farmed){
         gbp_farmed[i].farmed = 0
     }
+    for(i in deletes){
+        deletes[i].deletes = 0
+    }
     fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
+        if (err) throw err;
+        console.log('complete');
+        }
+    );
+    fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {
         if (err) throw err;
         console.log('complete');
         }

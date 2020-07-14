@@ -4,31 +4,51 @@ module.exports = {
     execute(message,args,total_money, master, tracker){
         const fs = require('fs');
         const unlock = require("./Functions/Achievement_Functions")
-        const cost = 1000;
+        const cost = 1500;
+        var deletes = JSON.parse(fs.readFileSync("./JSON/delete_tracker.json", "utf-8"))
 
         try{
             if(typeof(args[1]) == 'undefined'){
                 var num = 1;
-                var total_cost = cost * num;
-                if (total_money >= total_cost){
-                    purchase(cost, message.author.id, message, master);
-                    message.channel.bulkDelete(parseInt(num) + 1);
-                    message.channel.send(`${num} message has been deleted`);
-                    unlock.tracker1(message.author.id, 25, num, message, master, tracker)
+                if(deletes[message.author.id].deletes + num <= 5){
+                    var total_cost = cost * num;
+                    if (total_money >= total_cost){
+                        purchase(cost, message.author.id, message, master);
+                        message.channel.bulkDelete(parseInt(num) + 1);
+                        message.channel.send(`${num} message has been deleted`);
+                        unlock.tracker1(message.author.id, 25, num, message, master, tracker)
+                        deletes[message.author.id].deletes = deletes[message.author.id].deletes + num
+                        fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {
+                            if (err) throw err;
+                            console.log('complete');
+                            }
+                        );
+                    }else{
+                        message.channel.send(`This command costs ${total_cost} gbp`)
+                    }
                 }else{
-                    message.channel.send(`This command costs ${total_cost} gbp`)
+                    message.channel.send('You can only use this command 5 times per day')
                 }
             }else if(parseInt(args[1]) > 0){
-                console.log('here')
                 var num = parseInt(args[1]);
-                var total_cost = cost * num;
-                if (total_money >= total_cost){
-                    purchase(total_cost, message.author.id, message, master);
-                    message.channel.bulkDelete(parseInt(num) + 1);
-                    message.channel.send(`${num} messages have been deleted`);
-                    unlock.tracker1(message.author.id, 25, num, message, master, tracker)
+                if(deletes[message.author.id].deletes + num <= 5){
+                    var total_cost = cost * num;
+                    if (total_money >= total_cost){
+                        purchase(total_cost, message.author.id, message, master);
+                        message.channel.bulkDelete(parseInt(num) + 1);
+                        message.channel.send(`${num} messages have been deleted`);
+                        unlock.tracker1(message.author.id, 25, num, message, master, tracker)
+                        deletes[message.author.id].deletes = deletes[message.author.id].deletes + num
+                        fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {
+                            if (err) throw err;
+                            console.log('complete');
+                            }
+                        );
+                    }else{
+                        message.channel.send(`This command costs ${total_cost} gbp`)
+                    }
                 }else{
-                    message.channel.send(`This command costs ${total_cost} gbp`)
+                    message.channel.send('You can only use this command 5 times per day')
                 }
             }else{
                 message.channel.send("Use the commmand as the following: \n \n!delete #_of_messages_to_delete \n \nIf no number is specified it is assumed to be one")
