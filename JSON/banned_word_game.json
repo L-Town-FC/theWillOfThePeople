@@ -3,12 +3,10 @@
     "name": "Colin",
     "target": "462798271195119626",
     "current_word": "liberals",
-    "bet": 500,
-    "remaining_msgs": 100,
+    "bet": 100,
+    "remaining_msgs": 76,
     "used_words": [
       "banned",
-      "kumiko",
-      "kumiko",
       "kumiko"
     ],
     "gamestatus": 1
@@ -36,7 +34,7 @@
     "target": "498262864541515786",
     "current_word": "liberals",
     "bet": 200,
-    "remaining_msgs": 35,
+    "remaining_msgs": 26,
     "used_words": [],
     "gamestatus": 1
   },
@@ -118,12 +116,12 @@
   },
   "497861779020578837": {
     "name": "Hayden",
-    "target": "",
-    "current_word": "",
-    "bet": 0,
-    "remaining_msgs": "",
+    "target": "562203622474252288",
+    "current_word": "khabib",
+    "bet": 50,
+    "remaining_msgs": 97,
     "used_words": [],
-    "gamestatus": 0
+    "gamestatus": 1
   },
   "501930484838957069": {
     "name": "Tom",
