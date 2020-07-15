@@ -9,3 +9,5 @@
 !achievements: Lets you track everyones achievements
 
 !bwg: Lets you play the Banned Word Game
+
+!roulette: Lets you play roulette with multiple people

@@ -87,7 +87,7 @@ module.exports = {
             break;
 
             default:
-                message.channel.send("Use !lottery help for a list of commands");
+                message.channel.send("Use !powerball help for a list of commands");
         }
     }
 

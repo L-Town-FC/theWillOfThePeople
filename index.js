@@ -160,6 +160,7 @@ bot.on('message', message =>{
                     message.channel.send('Use command !help for a list of commands');
             }
         }
+        
         //Only time Major JSONs should be overwritten
         if(message.author.bot == false){
             setTimeout(function(){

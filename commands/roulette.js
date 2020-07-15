@@ -55,19 +55,19 @@ module.exports = {
                     message.channel.send('Error Occured in Roulette.js bet')
                 }
             break;
-            case 'stats':
+            case 'numbers':
                 //last 10 roulette spins
                 try{
                     Numbers(message, embed)
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in roulette.js stats")
+                    message.channel.send("Error Occured in roulette.js numbers")
                 }
             break;
             case 'list':
                 //list of possible bets and payouts
                 try{
-                    Display(message,embed)
+                    Display(message, embed)
                 }catch(err){
                     console.log(err)
                     message.channel.send("Error Occured in roulette.js list")
@@ -270,9 +270,9 @@ function Display(message, embed){
     const display = new Discord.RichEmbed()
     .setTitle('**Roulette**')
     .addField("Basics:",basics)
-    .attachFile(board)
     .addField("Bet/Payouts:", payouts)
     .setColor(embed.Color(message))
+    message.channel.send(board)
     message.channel.send(display)
 }
 
