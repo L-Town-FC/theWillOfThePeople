@@ -20,7 +20,7 @@ module.exports = {
                                 //console.log(approved_bets)
                                 //bets go, [bet amount, bet placement, bettor id]
                                 //make special case for 0 not being even/odd or red/black
-                                if(approved_bets.length > 0){  
+                                if(approved_bets ? approved_bets.length : 0 > 0){  
                                     delete bets_open
                                     message.channel.send('Bets are closed')
                                     var number = Math.floor(Math.random()*37)
