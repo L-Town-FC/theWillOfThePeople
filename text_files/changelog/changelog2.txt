@@ -3,7 +3,7 @@
 -!lottery has been renamed to !powerball but the command works the same
 -New Daily Lottery that everyone is automatically entered into
 --Triggers at the same time as Welfare
---Each person has a 1 in 500 chance of winning each day
+--Each person has a 1 in 250 chance of winning each day
 -Embedded messages the bot sends now default to the color of whoever used the command
 -Changed how progressive gbp works at higher amounts
 --No more fractional gbp

@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const token = process.env.BOTTOKEN;
+//const token = 'NjY4OTk2NzU1MjExMjg4NTk1.XxB84A.MDlKpVhDFC3LmMBgkSfmopcjnEc'
 const PREFIX = "!";
 
 const fs = require('fs');
@@ -127,7 +128,7 @@ bot.on('message', message =>{
                     bot.commands.get('changelog').execute(message)
                 break;
                 case 'roulette':
-                    bot.commands.get('roulette').execute(message,args,master, tracker)
+                    bot.commands.get('roulette').execute(message,args,master, tracker, Roulette_bets(message, master[message.author.id].gbp, master))
                 break;
                 case 'help':
                     bot.commands.get('help').execute(message);
@@ -164,7 +165,7 @@ bot.on('message', message =>{
         //Only time Major JSONs should be overwritten
         if(message.author.bot == false){
             setTimeout(function(){
-                JSON_Overwrite(master, stats_list, tracker)
+                JSON_Overwrite(master, stats_list, tracker, message)
             },50)
         }
 
@@ -180,14 +181,19 @@ bot.login(token);
 function Welfare(channel, master){
     const fs = require('fs')
 
-    for(i in master){
-        if(master[i].gbp < 0){
-            master[i].gbp = master[i].gbp + 250
-        }else if(master[i].gbp < 250){
-            master[i].gbp = 250
+    try{
+        for(i in master){
+            if(master[i].gbp < 0){
+                master[i].gbp = master[i].gbp + 250
+            }else if(master[i].gbp < 250){
+                master[i].gbp = 250
+            }
         }
+        channel.send("Welfare has been distributed")
+    }catch(err){
+        console.log(err)
+        message.channel.send('Error Occured in Welfare')
     }
-    channel.send("Welfare has been distributed")
 }
 
 function Roulette_bets(message, money, master){
@@ -196,25 +202,30 @@ function Roulette_bets(message, money, master){
     var min_bet = 10;
     var bet = false
 
-    if(typeof(approved_bets) == 'undefined'){
-        approved_bets = []
-    }
-
-    if(isNaN(args[0]) == false && args[0] >= min_bet){
-        if(possible_bets.includes(args[1].toLowerCase()) == true){
-            if(money >= args[0]){
-                purchase(args[0], message.author.id, master)
-                var bet = [args[0], args[1], message.author.id]
-                approved_bets.push(bet)
-                message.channel.send(`${master[message.author.id].name} Bet accepted`)
-                if(Math.round(money) == args[0] && money >= 1000){
-                    unlock.unlock(message.author.id, 38, message, master)
-                }
-            }else{
-                message.channel.send(`${master[i].name} doesn't have enough gbp for that bet`)
-            }
-            
+    try{
+        if(typeof(approved_bets) == 'undefined'){
+            approved_bets = []
         }
+
+        if(isNaN(args[0]) == false && args[0] >= min_bet){
+            if(possible_bets.includes(args[1].toLowerCase()) == true){
+                if(money >= args[0]){
+                    purchase(args[0], message.author.id, master)
+                    var bet = [args[0], args[1], message.author.id]
+                    approved_bets.push(bet)
+                    message.channel.send(`${master[message.author.id].name} Bet accepted`)
+                    if(Math.round(money) == args[0] && money >= 1000){
+                        unlock.unlock(message.author.id, 38, message, master)
+                    }
+                }else{
+                    message.channel.send(`${master[i].name} doesn't have enough gbp for that bet`)
+                }
+                
+            }
+        }
+    }catch(err){
+        console.log(err)
+        message.channel.send('Error Occured in Roulette_bets.js')
     }
 }
 
@@ -248,41 +259,51 @@ function Lottery(channel, master, unlock){
         channel.send('No winners')
     }
 }
-function JSON_Overwrite(master, stats_list){
-    fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
-        if (err) throw err;
-        console.log('complete');
-        }
-    );
-    fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats_list, null, 2), function(err) {
-        if (err) throw err;
-        console.log('complete');
-        }
-    );
-    fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
-        if (err) throw err;
-        console.log('complete');
-        }
-    );
+function JSON_Overwrite(master, stats_list, tracker, message){
+    try{
+        fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+        fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats_list, null, 2), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+        fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+    }catch(err){
+        console.log(err)
+        message.channel.send('Error Occured in JSON_Overwrite')
+    }
 }
 
 function gbp_farm_reset(channel){
     var gbp_farmed = JSON.parse(fs.readFileSync("./JSON/gbp_farmer.json", "utf-8"))
     var deletes = JSON.parse(fs.readFileSync("./JSON/delete_tracker.json", "utf-8"))
-    for(i in gbp_farmed){
-        gbp_farmed[i].farmed = 0
-    }
-    for(i in deletes){
-        deletes[i].deletes = 0
-    }
-    fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
-        if (err) throw err;
-        console.log('complete');
+    try{
+        for(i in gbp_farmed){
+            gbp_farmed[i].farmed = 0
         }
-    );
-    fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {
-        if (err) throw err;
-        console.log('complete');
+        for(i in deletes){
+            deletes[i].deletes = 0
         }
-    );
+        fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+        fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+    }catch(err){
+        console.log(err)
+        channel.send("Error occured in gbp_farm_reset")
+    }
 }
