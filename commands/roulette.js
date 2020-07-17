@@ -12,7 +12,7 @@ module.exports = {
             case 'bet':
                 try{
                     if(typeof(bets_open) == 'undefined'){
-                        if(isNaN(args[2]) == false && bet_time >= 30 && bet_time <= 60){
+                        if(isNaN(args[2]) == false && bet_time >= 1 && bet_time <= 60){
                             bets_open = true
                             Display(message, embed)
                             message.channel.send(`Bets are open. You have ${bet_time} seconds to place bets`)
@@ -33,11 +33,16 @@ module.exports = {
                                     }
                                     Update_numbers(number + color)
                                     setTimeout(function(){
-                                        message.channel.send(`The number is: \n${number}${color}`)
-                                        counter = 0
-                                        bet_checker(approved_bets, number, roulette, message, master, tracker)
-                                        delete counter
-                                        delete approved_bets
+                                        try{
+                                            message.channel.send(`The number is: \n${number}${color}`)
+                                            counter = 0
+                                            bet_checker(approved_bets, number, roulette, message, master, tracker)
+                                            delete counter
+                                            delete approved_bets
+                                        }catch(err){
+                                            console.log(err)
+                                            message.channel.send("Error Occured in roulette.js")
+                                        }
                                     }, 2000)
                                 }else{
                                     message.channel.send("No bets were made, the game is cancelled")
@@ -289,14 +294,19 @@ function Numbers(message,embed){
 
 function Update_numbers(number){
     const fs = require('fs')
-    var old_numbers = fs.readFileSync('./text_files/roulette/roulette_numbers.txt','utf-8').split(",")
-    var new_numbers = []
-    for(i = 1;i < 10; i++){
-        new_numbers[i-1] = old_numbers[i]
+    try{
+        var old_numbers = fs.readFileSync('./text_files/roulette/roulette_numbers.txt','utf-8').split(",")
+        var new_numbers = []
+        for(i = 1;i < 10; i++){
+            new_numbers[i-1] = old_numbers[i]
+        }
+        
+        new_numbers.push(number)
+        fs.writeFileSync('./text_files/roulette/roulette_numbers.txt', new_numbers)
+    }catch(err){
+        console.log(err)
+        message.channel.send('Error occured in roulette.js Update_Numbers')
     }
-    
-    new_numbers.push(number)
-    fs.writeFileSync('./text_files/roulette/roulette_numbers.txt', new_numbers)
 }
 
 function Help(message, embed){

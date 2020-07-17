@@ -1,1 +1,1 @@
-15:black_circle:,32:red_circle:,26:black_circle:,20:black_circle:,14:red_circle:,4:black_circle:,28:black_circle:,25:red_circle:,19:red_circle:,28:black_circle:
+9:red_circle:,9:red_circle:,9:red_circle:,9:red_circle:,0:green_circle:,0:green_circle:,22:black_circle:,4:black_circle:,0:green_circle:,1:red_circle:
