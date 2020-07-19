@@ -24,6 +24,7 @@ module.exports = {
                                     delete bets_open
                                     message.channel.send('Bets are closed')
                                     var number = Math.floor(Math.random()*37)
+                                    var number = 0
                                     if(number == '0'){
                                         var color = ':green_circle:'
                                     }else if(roulette[number].red == true){
@@ -117,153 +118,158 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
     var user = ''
     var command = ''
     var counter = 0
-    for(j = 0; j < approved_bets.length; j++){
-        var win_checker = 0
-        bet = parseFloat(approved_bets[j][0])
-        value = String(approved_bets[j][1]).toLowerCase()
-        user = approved_bets[j][2]
-        command = ''
-        if(isNaN(value) == true){
-            if(['even', 'odd', 'red', 'black'].includes(value)){
-                command = value
-            }else if(value.startsWith('r') == true && value[1] !== 'o'){
-                command = 'misc'
-            }else if(value.startsWith('c') == true){
-                command = 'misc'
-            }else if(value.startsWith('d') == true){
-                command = 'misc'
+    try{
+        for(j = 0; j < approved_bets.length; j++){
+            var win_checker = 0
+            bet = parseFloat(approved_bets[j][0])
+            value = String(approved_bets[j][1]).toLowerCase()
+            user = approved_bets[j][2]
+            command = ''
+            if(isNaN(value) == true){
+                if(['even', 'odd', 'red', 'black'].includes(value)){
+                    command = value
+                }else if(value.startsWith('r') == true && value[1] !== 'o'){
+                    command = 'misc'
+                }else if(value.startsWith('c') == true){
+                    command = 'misc'
+                }else if(value.startsWith('d') == true){
+                    command = 'misc'
+                }else{
+                    command = value.slice(0,-1)   
+                }
             }else{
-                command = value.slice(0,-1)   
+                command = 'num'
+                if(picked_number == 0){
+                    command = 'zero'
+                }
             }
-        }else{
-            command = 'num'
-            if(picked_number == 0){
-                command = 'zero'
-            }
-        }
-        switch(command){
-            case 'zero':
-                if(value == picked_number){
-                    winnings = -36 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                    unlock.tracker2(user, 42, 0, message, master, tracker)
-                    win_checker++
-                }
-            break;
-            case 'num':
-                if(value == picked_number){
-                    winnings = -36 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                    unlock.tracker2(user, 42, 0, message, master, tracker)
-                    win_checker++
-                }
-            break;
-            case 'even':
-                if(roulette[picked_number].even == true){
-                    winnings = -2 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                    unlock.tracker2(user, 42, 6, message, master, tracker)
-                    win_checker++
-                }
-            break;
-            case 'odd':
-                if(roulette[picked_number].even == false){
-                    winnings = -2 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                    unlock.tracker2(user, 42, 6, message, master, tracker)
-                    win_checker++
-                }
-            break;
-            case 'red':
-                if(roulette[picked_number].red == true){
-                    winnings = -2 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings- bet} gbp`)
-                    unlock.tracker2(user, 42, 7, message, master,tracker)
-                    win_checker++
-                }
-            break;
-            case 'black':
-                if(roulette[picked_number].red == false){
-                    winnings = -2 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                    unlock.tracker2(user, 42, 7, message, master, tracker)
-                    win_checker++
-                }
-            break;
-            case 'row':
-                if(roulette[picked_number].row == value[3]){
-                    winnings = -3 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                    unlock.tracker2(user, 42, 3, message, master, tracker)
-                    win_checker++
-                }
-            break;
-            case 'half':
-                if(roulette[picked_number].half == value[4]){
-                    winnings = -2 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                    unlock.tracker2(user, 42, 5, message, master,tracker)
-                    win_checker++
-                }
-            break;
-            case 'third':
-                if(roulette[picked_number].third == value[5]){
-                    winnings = -3 * bet
-                    purchase(winnings, user, master)
-                    message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                    unlock.tracker2(user, 42, 4, message, master,tracker)
-                    win_checker++
-                }
-            break;
-            case 'misc':
-                if(roulette[picked_number].misc.includes(value) == true){
-                    if(value[0] == 'r' || value[0] == 'c'){
-                        winnings = -18 * bet
+            switch(command){
+                case 'zero':
+                    if(value == picked_number){
+                        winnings = -36 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 1, message, master, tracker)
-                        win_checker++
-                    }else if(value[0] == 'd'){
-                        winnings = -9 * bet
-                        purchase(winnings, user, master)
-                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 2, message, master, tracker)
+                        unlock.tracker2(user, 42, 0, message, master, tracker)
                         win_checker++
                     }
-                }
-            break;
+                break;
+                case 'num':
+                    if(value == picked_number){
+                        winnings = -36 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                        unlock.tracker2(user, 42, 0, message, master, tracker)
+                        win_checker++
+                    }
+                break;
+                case 'even':
+                    if(picked_number !== 0 && roulette[picked_number].even == true ){
+                        winnings = -2 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                        unlock.tracker2(user, 42, 6, message, master, tracker)
+                        win_checker++
+                    }
+                break;
+                case 'odd':
+                    if(picked_number !== 0 && roulette[picked_number].even == false){
+                        winnings = -2 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                        unlock.tracker2(user, 42, 6, message, master, tracker)
+                        win_checker++
+                    }
+                break;
+                case 'red':
+                    if(picked_number !== 0 && roulette[picked_number].red == true){
+                        winnings = -2 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings- bet} gbp`)
+                        unlock.tracker2(user, 42, 7, message, master,tracker)
+                        win_checker++
+                    }
+                break;
+                case 'black':
+                    if(picked_number !== 0 && roulette[picked_number].red == false){
+                        winnings = -2 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                        unlock.tracker2(user, 42, 7, message, master, tracker)
+                        win_checker++
+                    }
+                break;
+                case 'row':
+                    if(picked_number !== 0 && roulette[picked_number].row == value[3]){
+                        winnings = -3 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                        unlock.tracker2(user, 42, 3, message, master, tracker)
+                        win_checker++
+                    }
+                break;
+                case 'half':
+                    if(picked_number !== 0 && roulette[picked_number].half == value[4]){
+                        winnings = -2 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                        unlock.tracker2(user, 42, 5, message, master,tracker)
+                        win_checker++
+                    }
+                break;
+                case 'third':
+                    if(picked_number !== 0 && roulette[picked_number].third == value[5]){
+                        winnings = -3 * bet
+                        purchase(winnings, user, master)
+                        message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                        unlock.tracker2(user, 42, 4, message, master,tracker)
+                        win_checker++
+                    }
+                break;
+                case 'misc':
+                    if(picked_number !== 0 && roulette[picked_number].misc.includes(value) == true){
+                        if(value[0] == 'r' || value[0] == 'c'){
+                            winnings = -18 * bet
+                            purchase(winnings, user, master)
+                            message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                            unlock.tracker2(user, 42, 1, message, master, tracker)
+                            win_checker++
+                        }else if(value[0] == 'd'){
+                            winnings = -9 * bet
+                            purchase(winnings, user, master)
+                            message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
+                            unlock.tracker2(user, 42, 2, message, master, tracker)
+                            win_checker++
+                        }
+                    }
+                break;
+            }
+            if(winnings !== 0){
+                counter++
+            }
+            if(win_checker !== 0){
+                unlock.tracker1(user, 33, parseFloat(-winnings - bet), message, master, tracker)
+                unlock.tracker3(user, 39, 2, parseFloat(-winnings - bet), message, master, tracker)
+            }else{
+                unlock.tracker1(user, 32, parseFloat(bet), message, master, tracker)
+            }
         }
-        if(winnings !== 0){
-            counter++
-        }
-        if(win_checker !== 0){
-            unlock.tracker1(user, 33, parseFloat(-winnings - bet), message, master, tracker)
-            unlock.tracker3(user, 39, 2, parseFloat(-winnings - bet), message, master, tracker)
+        if(counter == 0){
+            message.channel.send("No Winners")
         }else{
-            unlock.tracker1(user, 32, parseFloat(bet), message, master, tracker)
+            fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
+                if (err) throw err;
+                console.log('complete');
+                }
+            );
+            fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
+                if (err) throw err;
+                console.log('complete');
+                }
+            );
         }
-    }
-    if(counter == 0){
-        message.channel.send("No Winners")
-    }else{
-        fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-        fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
+    }catch(err){
+        console.log(err)
+        message.channel.send('Error Occured in roulette.js bet checker')
     }
 }
 function Display(message, embed){
