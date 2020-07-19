@@ -24,7 +24,6 @@ module.exports = {
                                     delete bets_open
                                     message.channel.send('Bets are closed')
                                     var number = Math.floor(Math.random()*37)
-                                    var number = 0
                                     if(number == '0'){
                                         var color = ':green_circle:'
                                     }else if(roulette[number].red == true){
