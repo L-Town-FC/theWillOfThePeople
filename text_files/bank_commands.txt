@@ -1,0 +1,7 @@
+!bank [person]: Shows Public gbp of specified person. Defaults to user if noone is specified
+
+!bank account: Shows you your private bank account
+
+!bank deposit [amount]: Lets you deposit gbp into your private account
+
+!bank withdraw [amount]: Lets you withdraw gbp from your private account

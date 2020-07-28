@@ -43,10 +43,7 @@ module.exports = {
                 tracker[i][45] = 0
             }
             for(i in master){
-                master[i].simmerdown = 0
-            }
-            for(i in achievements){
-                achievements[i].threshold = 0
+                master[i].account = 0
             }
             /*
             for(i in bwg){

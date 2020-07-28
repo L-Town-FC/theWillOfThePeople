@@ -16,7 +16,6 @@ module.exports = {
                 names[counter] = master[i].name.toLowerCase()
                 counter++
             }
-
             if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){
                 message.channel.bulkDelete(1)
                 unlock.unlock(initiator, 7, message, master)
@@ -34,7 +33,7 @@ module.exports = {
                 console.log(total_money)
             }else{
                 give_money(initiator, recipient, amount, message, master);
-                message.channel.send(`You have successfully transferred ${amount} gbp to ${recipient}`);
+                message.channel.send(`${master[message.author.id].name} has successfully transferred ${amount} gbp to ${recipient}`);
             }
         }catch(err){
             console.log(err)

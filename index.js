@@ -11,7 +11,6 @@ const unlock = require('./commands/Functions/Achievement_Functions')
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-//Note: NO OTHER VARIABLES CAN BE NAMED TRACKER
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -182,10 +181,10 @@ function Welfare(channel, master){
 
     try{
         for(i in master){
-            if(master[i].gbp < 0){
+            if(master[i].gbp + master[i].account < 0){
                 master[i].gbp = master[i].gbp + 250
-            }else if(master[i].gbp < 250){
-                master[i].gbp = 250
+            }else if(master[i].gbp + master[i].account < 250){
+                master[i].gbp = 250 - parseFloat(master[i].account)
             }
         }
         channel.send("Welfare has been distributed")
@@ -217,7 +216,7 @@ function Roulette_bets(message, money, master){
                         unlock.unlock(message.author.id, 38, message, master)
                     }
                 }else{
-                    message.channel.send(`${master[i].name} doesn't have enough gbp for that bet`)
+                    message.channel.send(`${master[message.author.id].name} doesn't have enough gbp for that bet`)
                 }
                 
             }

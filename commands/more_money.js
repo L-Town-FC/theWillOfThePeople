@@ -47,7 +47,7 @@ module.exports = {
                             }else{
                                 stats.tracker(person, 10, 1, stats_list)
                             }
-
+                            var total_assets = master[i].gbp + master[i].account
                             var scaling_modifier = -0.1 * master[person].gbp + 175
 
                             Achievement_Switch(person, message.channel.id, message, master)
@@ -57,33 +57,37 @@ module.exports = {
                                 //checks if user has sent 1000 messages today
                                 //makes it so if they have they get gbp at a reduced rate
                                 var chance = Math.random() * 100
-                                if(chance <= 25){
-                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+                                if(chance > 25){
+                                    var amount = 0
                                 }
-
-                            }else if(master[person].gbp <= 0){
+                            }else if(total_assets < -10000){
+                                var amount = 50
+                            }else if(total_assets < -2500){
+                                var amount = 20
+                            }else if(total_assets < -1000){
+                                var amount = 10
+                            }else if(total_assets <= 0){
                                 var amount = 5
                                 unlock.unlock(person, 3, message, master)
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
-                            }else if(master[person].gbp < 500){
+                            }else if(total_assets < 250){
+                                var amount = 3
+                            }else if(total_assets < 500){
                                 var amount = 2
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
-                            }else if(master[person].gbp < 750){
-                               
-                                master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
-                            }else if(master[person].gbp < 1500){
-                                
+                            }else if(total_assets < 750){
+                               var amount = 1
+                            }else if(total_assets < 1500){
                                 var chance = Math.random() * 100
-                                if(chance <= scaling_modifier){
-                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+                                if(chance > scaling_modifier){
+                                    var amount = 0
                                 }
                             }else{
-                                
                                 var chance = Math.random() * 100
-                                if(chance <= 25){
-                                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+                                if(chance > 25){
+                                    var amount = 0
                                 }
                             }
+
+                            master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
 
                             gbp_farmed[person].farmed = gbp_farmed[person].farmed + 1
                             fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
