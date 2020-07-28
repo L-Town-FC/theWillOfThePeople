@@ -13,3 +13,6 @@ New Features/Updates:
 --The account maxes out at 20000 gbp
 --Welfare and Progressive gbp check your private account to give out accurate gbp
 -!transfer now says who initiated the transfer
+-!21 improvements
+--Added suits to the cards
+--Matching can now have suited and double match the dealers
