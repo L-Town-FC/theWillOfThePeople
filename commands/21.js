@@ -8,6 +8,7 @@ module.exports = {
         const stats = require('./Functions/stats_functions')
         const embed = require('./Functions/embed_functions')
         const suit = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+        const suits = [':diamonds:',':hearts:',':spades:',':clubs:']
         //list of possible cards. Have multiple tens to account for J, Q, and K. 11 is for A
         const tens = ['10','J','Q','K']
         //used to convert 10s into other cards
@@ -83,8 +84,8 @@ module.exports = {
                         }
 
                         // Test Cards
-                        //card[0] = 10;
-                        //card[1] = 10;
+                        card[0] = 9;
+                        card[1] = 9;
                         //card[2] = 10;
                         //card[3] = 10;
                         //
@@ -93,6 +94,7 @@ module.exports = {
                         master_list[player].dealer_hand = [card[2], card[3]];
 
                         for (i = 0; i < card.length; i++) {
+                            var card_suit = suits[Math.floor(Math.random()*4)]
                             if (card[i] == 10){
                                 dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
                             }else if (card[i] == 11){
@@ -100,12 +102,13 @@ module.exports = {
                             }else{
                                 dummycard[i] = card[i];
                             }
+                            dummycard[i] = dummycard[i] + card_suit
                         }
 
                         //Test Cards
-                        //dummycard[0] = 'J'
-                        //dummycard[1] = 'J'
-                        //dummycard[2] = 'Q'
+                        //dummycard[0] = 'J' + ':clubs:'
+                        //dummycard[1] = 'J' + ':clubs:'
+                        //dummycard[2] = 'J' + ':clubs:'
                         //dummycard[3] = 'J'
                         //
 
@@ -114,9 +117,40 @@ module.exports = {
 
                         Display_Status(master_list[player],message, embed)
                         if(match_good == true){
-                            if(master_list[player].player_dummy_hand1.includes(master_list[player].dealer_dummy_hand[0]) == true){
-                                purchase(-4 * parseFloat(match), master_list[player].id, message, master)
-                                message.channel.send(`You matched the dealer. You win ${3 * parseFloat(match)} gbp`)
+                            var temp_hands = [master_list[player].player_dummy_hand1[0].split(':'), master_list[player].player_dummy_hand1[1].split(':'), master_list[player].dealer_dummy_hand[0].split(':')]
+                            console.log(temp_hands)
+                            var match_winnings = 0 //winnings with original bet included
+                            var true_winnings = 0 //winnings without original bet included
+                            match = parseFloat(match)
+                            if(temp_hands[0][0] == temp_hands[2][0]){
+                                if(temp_hands[0][1] == temp_hands[2][1]){
+                                    true_winnings = 7 * match
+                                    match_winnings = true_winnings + match
+                                }else{
+                                    true_winnings = 3 * match
+                                    match_winnings = true_winnings + match
+                                }
+                            }else{
+                                true_winnings = 0
+                                match_winnings = 0
+                            }
+                            if(temp_hands[1][0] == temp_hands[2][0]){
+                                if(temp_hands[1][1] == temp_hands[2][1]){
+                                    true_winnings = 7 * match + true_winnings
+                                    match_winnings = true_winnings + match
+                                }else{
+                                    true_winnings = 3 * match + true_winnings
+                                    match_winnings = true_winnings + match
+                                }
+                            }else{
+                                true_winnings = true_winnings
+                                match_winnings = match_winnings
+                            }
+                            console.log(match_winnings)
+                            if(match_winnings > 0){
+                                message.channel.send(`You matched the dealer`)
+                                message.channel.send(`You win ${true_winnings} gbp`)
+                                master[message.author.id].gbp = master[message.author.id].gbp + match_winnings
                             }else{
                                 message.channel.send(`You didn't match the dealer`)
                             }
@@ -217,8 +251,7 @@ module.exports = {
             break;
             case 'split':
                 try{
-                    
-                        if(master_list[player].player_dummy_hand1[0] === master_list[player].player_dummy_hand1[1] && master_list[player].isSplit == false && master_list[player].player_hand1.length == 2){
+                        if(master_list[player].player_dummy_hand1[0].split(':')[0] === master_list[player].player_dummy_hand1[1].split(":")[0] && master_list[player].isSplit == false && master_list[player].player_hand1.length == 2){
                             /*Checks various cases such as if the player has hit or has enough gbp. If all cases are passed the players hand
                             is split with each card becoming the first card of a new hand. 2 new cards are generated for the hands
                             If the player has aces, they are forced to stay
@@ -239,6 +272,7 @@ module.exports = {
                             master_list[player].player_hand2 = [card_1, card[1]];
 
                             for (i = 0; i < card.length; i++) {
+                                var card_suit = suits[Math.floor(Math.random()*4)]
                                 if (card[i] == 10){
                                     dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
                                 }else if (card[i] == 11){
@@ -246,6 +280,7 @@ module.exports = {
                                 }else{
                                     dummycard[i] = card[i];
                                 }
+                                dummycard[i] = dummycard[i] + card_suit
                             }
 
                             master_list[player].player_dummy_hand1 = [dummy_card_0, dummycard[0]]
@@ -696,6 +731,8 @@ function purchase(bet_value, player, message, master) {
 
 function New_Card(suit, tens){
     try{
+        const suits = [':diamonds:',':hearts:',':spades:',':clubs:']
+        var card_suit = suits[Math.floor(Math.random()*4)]
         var dummycard = "";
         var card = suit[Math.floor(Math.random()*suit.length)];
         if (card == 10){
@@ -705,7 +742,7 @@ function New_Card(suit, tens){
         }else{
             dummycard = card;
         }
-        return [card, dummycard]
+        return [card, dummycard + card_suit]
     }catch(err){
         console.log(err)
         message.channel.send("Error occured in new21.js New_Card")
