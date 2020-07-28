@@ -11,4 +11,4 @@ New Features/Updates:
 --You can now deposit and withdraw gbp into a private account that only you can see
 --The account maxes out at 20000 gbp
 --Welfare and Progressive gbp check your private account to give out accurate gbp
--!transfer now says who initiated the transfer
+-!transfer now says who initiated the
