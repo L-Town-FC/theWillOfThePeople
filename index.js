@@ -152,6 +152,9 @@ bot.on('message', message =>{
                 case 'stats':
                     bot.commands.get('stats').execute(message,args, master);
                 break;
+                case 'newhelp':
+                    bot.commands.get('newhelp').execute(message,args);
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;

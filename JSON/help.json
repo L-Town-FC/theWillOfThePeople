@@ -1,0 +1,86 @@
+{
+    "1":{
+        "name": "!pug",
+        "description":"Posts a random pug picture"
+    },
+    "2":{
+        "name": "!simmerdown",
+        "description":"Displays how many times someone says 'Simmer down'"
+    },
+    "3":{
+        "name": "!21",
+        "description":"Plays Blackjack"
+    },
+    "4":{
+        "name": "!flip",
+        "description":"Flips a coin"
+    },
+    "5":{
+        "name": "!council",
+        "description":"Gets input from the council"
+    },
+    "6":{
+        "name": "!assblast",
+        "description":"Displays and updates assblast standings"
+    },
+    "7":{
+        "name": "!bank",
+        "description":"Displays how much gbp a user has"
+    },
+    "8":{
+        "name": "!insults",
+        "description":"Allows you to see and set who is being insulted"
+    },
+    "9":{
+        "name": "!delete",
+        "description":"Deleves previous messages at a cost of 1500 gbp per message"
+    },
+    "10":{
+        "name": "!gg",
+        "description":"Try to guess a number between 1 and 100 with 3 guesses"
+    },
+    "11":{
+        "name": "!kumiko",
+        "description":"Posts a picture of Kumiko from Sound Euphonium for 15 gbp"
+    },
+    "12":{
+        "name": "!powerball",
+        "description":"Enters you into the Powerball for 5 gbp per ticket"
+    },
+    "13":{
+        "name": "!transfer",
+        "description":"Allows a user to transfer gbp to another user"
+    },
+    "14":{
+        "name": "!herald",
+        "description":"Allows you to request a herald who speaks on your behalf"
+    },
+    "15":{
+        "name": "!names",
+        "description":"Lists the names of all the people on the server"
+    },
+    "16":{
+        "name":"!changelog",
+        "description":"Displays list of everything that was changed in the latest update"
+    },
+    "17":{
+        "name":"!boo",
+        "description":"Lets you see and choose who is being booed"
+    },
+    "18":{
+        "name":"!steal",
+        "description":"Lets you pay to steal someones gbp"
+    },
+    "19":{
+        "name":"!achievements",
+        "description":"Lets you track achievements gotten in the server"
+    },
+    "20":{
+        "name":"!bwg",
+        "description":"Lets you play the Banned Word Game"
+    },
+    "21":{
+        "name":"!roulette",
+        "description":"Lets you play roulette with multiple people"
+    }
+}
