@@ -1,86 +1,132 @@
 {
     "1":{
         "name": "!pug",
-        "description":"Posts a random pug picture"
+        "description":"Posts a random pug picture",
+        "rules":""
     },
     "2":{
         "name": "!simmerdown",
-        "description":"Displays how many times someone says 'Simmer down'"
+        "description":"Displays how many times someone says 'Simmer down'",
+        "rules":"***!simmerdown [person]:*** Says how many times the specified person said 'Simmer Down'. If no person is specified, it defaults to the user"
     },
     "3":{
         "name": "!21",
-        "description":"Plays Blackjack"
+        "description":"Plays Blackjack",
+        "rules":["***!21 deal [bet] [match the dealer]:*** Starts game of blackjack with specified bet\n--Match the dealer pays 3:1 if either of your cards match the dealer's face up card. It isn't a mandatory bet",
+            "***!21 hit:*** Gives player additional card",
+        "***!21 doubledown:*** Doubles your bet but only lets you take 1 card per hand",
+    "***!21 split:***  Lets you split your hand into two hands if your original hand was watching cards. Note: Can't hit split aces",
+"***!21 stay:*** Makes player stay for their current hand",
+"***!21 surrender:*** Quits the hand but only gives back half of what the player bet. Note: Can't be done after splitting or hitting",
+"***!21 status:*** Resends dealer and player hands"]
     },
     "4":{
         "name": "!flip",
-        "description":"Flips a coin"
+        "description":"Flips a coin",
+        "rules":""
     },
     "5":{
         "name": "!council",
-        "description":"Gets input from the council"
+        "description":"Gets input from the council",
+        "rules":""
     },
     "6":{
         "name": "!assblast",
-        "description":"Displays and updates assblast standings"
+        "description":"Displays and updates assblast standings",
+        "rules":["***!assblast standings:*** Lists the current standings for the assblast league",
+        "***!assblast clear:*** Clears the assblast standings",
+    "***!assblast points [Player] [Amount of Points]:*** Adds or subtracts the specified amount of points from the specified player"]
     },
     "7":{
         "name": "!bank",
-        "description":"Displays how much gbp a user has"
+        "description":["Displays how much gbp a user has", "Private accounts can hold upto 20000 gbp"],
+        "rules":["***!bank [person]:*** Shows Public gbp of specified person. Defaults to user if noone is specified",
+        "***!bank account:*** Shows you your private bank account",
+    "***!bank deposit [amount]:*** Lets you deposit gbp into your private account",
+"***!bank withdraw:*** Lets you withdraw gbp from your private account"]
     },
     "8":{
         "name": "!insults",
-        "description":"Allows you to see and set who is being insulted"
+        "description":"Allows you to see and set who is being insulted",
+        "rules":"***!insults [person]:*** Makes it so the bot insults the specified person. If no user is specified it shows who is currently being insulted"
     },
     "9":{
         "name": "!delete",
-        "description":"Deleves previous messages at a cost of 1500 gbp per message"
+        "description":["Deleves previous messages","Costs 1500 gbp per message","Can only be used 5 times per day"],
+        "rules":"***!delete [amount]:*** Deletes specified number of messages. If no amount is specified it defaults to 1"
     },
     "10":{
         "name": "!gg",
-        "description":"Try to guess a number between 1 and 100 with 3 guesses"
+        "description":["Try to guess a number between 1 and 100 with 3 guesses","Gives a 15X payout"],
+        "rules":["***!gg bet [bet amount]:*** Starts game with specified bet",
+        "***!gg guess [guess number]:*** Use 1 of your guesses to try and guess the correct number",
+    "***!gg status:*** Names if anyone is playing and what guess they are on"]
     },
     "11":{
         "name": "!kumiko",
-        "description":"Posts a picture of Kumiko from Sound Euphonium for 15 gbp"
+        "description":["Posts a picture of Kumiko from the critically acclaimed show Sound! Euphonium","Costs 15 gbp per use"],
+        "rules":""
     },
     "12":{
         "name": "!powerball",
-        "description":"Enters you into the Powerball for 5 gbp per ticket"
+        "description":"Enters you into the Powerball for 5 gbp per ticket",
+        "rules":["***!powerball buy [Number of Tickets]:*** Purchases the nubmer of specified tickets. If no number is specified, it defaults to 1",
+            "***!powerball stats:*** Shows the number of tickets that have been bought and the amount of gbp in the lottery"]
     },
     "13":{
         "name": "!transfer",
-        "description":"Allows a user to transfer gbp to another user"
+        "description":"Allows a user to transfer gbp to another user",
+        "rules":"***!transfer [user] [amount]:*** Transfer the specified amount of gpb to the specified user"
     },
     "14":{
         "name": "!herald",
-        "description":"Allows you to request a herald who speaks on your behalf"
+        "description":["Allows you to request a herald who speaks on your behalf","Herald doesn't work with images","Herald costs 500 gbp per use"],
+        "rules":["***!herald buy [Number of Sets]:*** Allows you to rent a herald who will say specified messages for you. If no number is specified it defaults to 1",
+            "***!herald stats:*** Shows you who currently is using the herald and how many uses they have left",
+            "***!herald say [message]:*** Makes the herald say your message"]
     },
     "15":{
         "name": "!names",
-        "description":"Lists the names of all the people on the server"
+        "description":"Lists the names of all the people on the server",
+        "rules":""
     },
     "16":{
         "name":"!changelog",
-        "description":"Displays list of everything that was changed in the latest update"
+        "description":"Displays list of everything that was changed in the latest update",
+        "rules":""
     },
     "17":{
         "name":"!boo",
-        "description":"Lets you see and choose who is being booed"
+        "description":["Lets you see and choose who is being booed","Costs 250 gbp to move"],
+        "rules":["***!boo [user]:*** Makes the bot boo the specified user. If no user is specified it states who is currently being booed"]
     },
     "18":{
         "name":"!steal",
-        "description":"Lets you pay to steal someones gbp"
+        "description":["Steals a percentage of what you pay from another user","Costs a minimum of 250 gbp"],
+        "rules":"***!steal [user] [amount paid for heist]:*** Lets you steal from the specified user, paying the specified amount"
     },
     "19":{
         "name":"!achievements",
-        "description":"Lets you track achievements gotten in the server"
+        "description":"Lets you track achievements gotten in the server",
+        "rules":["***!achievements:*** Lists your personal achievements",
+            "***!achievements [name]:*** List achievements of given person",
+            "***!achievements list:*** Lists all possible achievements"]
     },
     "20":{
         "name":"!bwg",
-        "description":"Lets you play the Banned Word Game"
+        "description":["Lets you play the Banned Word Game","Can bet between 50 and 500 gbp"],
+        "rules":["***!bwg bet [target] [bet] [word]:*** Starts the banned word game",
+            "***!bwg status:*** If sent to the group chat, it displays everyone who is currently being targeted. If sent to the bot through dms it displays your current game",
+        "***!bwg reset:*** Cancels your game in case you want to switch who you are targeting. Your bet is not refunded",
+        "***!bwg rules:*** Explains some basic rules about the banned word game"]
     },
     "21":{
         "name":"!roulette",
-        "description":"Lets you play roulette with multiple people"
+        "description":"Lets you play roulette with multiple people",
+        "rules":["***!roulette bet [Time]:*** Starts roulette game where betting ends after [Time] seconds",
+
+            "***!roulette list:*** Shows you the roulette board, basics, and payouts",
+            
+            "***!roulette numbers:*** Shows you the last 10 numbers called"]
     }
 }
