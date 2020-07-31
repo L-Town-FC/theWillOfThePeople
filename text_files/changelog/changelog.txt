@@ -1,18 +1,23 @@
-Bug Fixes:
+**Bug Fixes:**
 -Fixed bug where if you didn't have enough gbp to cover a roulette bet it defaulted to saying "Derek didn't have enough gbp"
 -Changed it so !powerball help says "powerball" instead of "lottery"
 
-New Features/Updates:
--Progressive gbp farming changes
+**New Features/Updates:**
+**-Progressive gbp farming changes**
 --50 per msg > -10000
 --20 per msg > -2500
 --10 per msg > -1000
 --reverted it back to 3 per msg > 250
--Added Banking
+**-Added Banking**
 --You can now deposit and withdraw gbp into a private account that only you can see
 --The account maxes out at 20000 gbp
 --Welfare and Progressive gbp check your private account to give out accurate gbp
--!transfer now says who initiated the transfer
--!21 improvements
+**-!transfer now says who initiated the transfer**
+**-!kumiko now lets you go negative**
+**-!21 improvements**
 --Added suits to the cards
 --Matching can now have suited and double match the dealers
+**-!help improvements**
+--Each command is now easily searchable by using '!help [number]'
+**New Command: !button**
+-Has a 90% chance of giving you 100 gbp and a 10% chance of taking 1000 gbp away

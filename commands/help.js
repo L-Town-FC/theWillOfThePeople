@@ -1,25 +1,35 @@
 module.exports = {
     name: 'help',
-    description: 'gives list of commands',
-    execute(message,args){
-        try{
-            var fs = require('fs');
-            const Discord = require('discord.js');
-            const embed = require('./Functions/embed_functions')
-            var help_commands_1 = fs.readFileSync('./text_files/help/help1.txt','utf8');
-            var help_commands_2 = fs.readFileSync('./text_files/help/help2.txt','utf8')
-            const help_embed1 = new Discord.RichEmbed()
-            .addField('List of Commands', help_commands_1)
+    description: 'Gives you a list of all commands',
+    execute(message, args){
+        const fs = require('fs')
+        const Discord = require('discord.js')
+        const embed = require('./Functions/embed_functions')
+        const help = JSON.parse(fs.readFileSync('./JSON/help.json', 'utf-8'))
+        var length = Object.keys(help).length
+        
+        if(!args[1]){
+            var list = []
+            for(i in help){
+                list.push(`${i}. ${help[i].name}`)
+            }
+            var help_embed = new Discord.RichEmbed()
+            .setTitle('List of Commands')
+            .setDescription(`Use "!help [number]" for more detailed list of specificied command`)
+            .addField(`Commands:`, list)
             .setColor(embed.Color(message))
-            const help_embed2 = new Discord.RichEmbed()
-            .addField('List of Commands Pg.2', help_commands_2)
+            message.channel.send(help_embed)
+        }else if(parseInt(args[1]) == parseFloat(args[1]) && args[1] > 0 && args[1] <= length){
+            var help_embed = new Discord.RichEmbed()
+            .setTitle(`**${help[args[1]].name}**`)
+            .setDescription(help[args[1]].description)
             .setColor(embed.Color(message))
-            message.channel.send(help_embed1);
-            message.channel.send(help_embed2);
-        }catch(err){
-            console.log(err)
-            message.channel.send("Error Occured in Help.js");
+            if(help[args[1]].rules !== ""){
+                help_embed.addField('**Commands**', help[args[1]].rules)
+            }
+            message.channel.send(help_embed)
+        }else{
+            message.channel.send('Use !help for a list of all commands. Use !help [command number] for a more detailed list of the specified command')
         }
     }
-
 }

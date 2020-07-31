@@ -69,6 +69,7 @@ module.exports = {
                 stats[i].farm_messages = 0
                 stats[i].non_farm_messages = 0
                 stats[i].achievements = 0
+                stats[i].button_presses = 0
             }
             /*
             for(i in roulette){

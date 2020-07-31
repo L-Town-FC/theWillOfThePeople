@@ -11,15 +11,11 @@ module.exports = {
         var price = 15
 
         try{
-            if(money < price){
-                message.channel.send(`It costs ${price} gbp to use this command`)
-            }else{
-                var kumiko_image = new Attachment('./kumiko_pics/kumiko'+ kumiko +'.jpg')
-                purchase(price, message.author.id, message, master) 
-                if(message.channel.id !== '711634711281401867'){
-                    message.channel.send(kumiko_image)
-                    unlock.tracker1(message.author.id, 14, 1, message, master, tracker)    
-                }
+            var kumiko_image = new Attachment('./kumiko_pics/kumiko'+ kumiko +'.jpg')
+            purchase(price, message.author.id, message, master) 
+            if(message.channel.id !== '711634711281401867'){
+                message.channel.send(kumiko_image)
+                unlock.tracker1(message.author.id, 14, 1, message, master, tracker)    
             }
         }catch(err){
             console.log(err)

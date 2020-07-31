@@ -129,7 +129,7 @@ bot.on('message', message =>{
                     bot.commands.get('roulette').execute(message,args,master, tracker, Roulette_bets(message, master[message.author.id].gbp, master))
                 break;
                 case 'help':
-                    bot.commands.get('help').execute(message);
+                    bot.commands.get('help').execute(message, args);
                 break;
                 case 'set':
                     bot.commands.get('set').execute(message,args, master);
@@ -152,8 +152,8 @@ bot.on('message', message =>{
                 case 'stats':
                     bot.commands.get('stats').execute(message,args, master);
                 break;
-                case 'newhelp':
-                    bot.commands.get('newhelp').execute(message,args);
+                case 'button':
+                    bot.commands.get('button').execute(message,args, master, stats_list, tracker);
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);

@@ -2,16 +2,17 @@
   "450001712305143869": {
     "name": "Colin",
     "lottery_tickets": 0,
-    "bj_wins": 3,
-    "bj_pushes": 2,
-    "bj_losses": 7,
+    "bj_wins": 0,
+    "bj_pushes": 0,
+    "bj_losses": 0,
     "gg_wins": 0,
     "gg_losses": 0,
-    "total_msgs": 235,
-    "total_commands": 199,
+    "total_msgs": 598,
+    "total_commands": 596,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 36
+    "non_farm_messages": 2,
+    "button_presses": 544
   },
   "497803559144914944": {
     "name": "Andrew",
@@ -25,7 +26,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "499328039621230592": {
     "name": "Wyatt",
@@ -35,11 +37,12 @@
     "bj_losses": 0,
     "gg_wins": 0,
     "gg_losses": 0,
-    "total_msgs": 4,
+    "total_msgs": 0,
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 4
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "463080062175019010": {
     "name": "Ian",
@@ -53,7 +56,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "210861925771247636": {
     "name": "Zaid",
@@ -67,7 +71,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "501929393401364481": {
     "name": "Mike",
@@ -81,7 +86,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "509430603339399186": {
     "name": "Brian",
@@ -95,7 +101,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "526190184455471105": {
     "name": "Carl",
@@ -109,7 +116,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "462798271195119626": {
     "name": "Alex",
@@ -123,7 +131,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "562203622474252288": {
     "name": "Dylan",
@@ -137,7 +146,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "501887537451630593": {
     "name": "Ramzi",
@@ -151,7 +161,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "434471986748456962": {
     "name": "Chrisvan",
@@ -165,7 +176,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "497861779020578837": {
     "name": "Hayden",
@@ -179,7 +191,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "501930484838957069": {
     "name": "Tom",
@@ -193,7 +206,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "581903756111773716": {
     "name": "Justin",
@@ -207,7 +221,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "508076579684089896": {
     "name": "Jacob",
@@ -221,7 +236,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "525147400176664626": {
     "name": "Teddy",
@@ -235,7 +251,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "640368746690510868": {
     "name": "Slim",
@@ -249,7 +266,8 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   },
   "498262864541515786": {
     "name": "Derek",
@@ -263,6 +281,7 @@
     "total_commands": 0,
     "achievements": 0,
     "farm_messages": 0,
-    "non_farm_messages": 0
+    "non_farm_messages": 0,
+    "button_presses": 0
   }
 }
