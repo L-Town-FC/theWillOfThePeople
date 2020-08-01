@@ -41,7 +41,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error occrued in Boo.js")
+            message.channel.send("Error occurred in Boo.js")
         }
     }
 }
@@ -53,6 +53,6 @@ function purchase(bet_value, player, message, master) {
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Boo.js Purchase");
+        message.channel.send("Error occurred in Boo.js Purchase");
     }
 }

@@ -65,7 +65,7 @@ module.exports = {
             );
         }catch(err){
             console.log(err)
-            message.channel.send('Error Occured in banned_word_game_counter.js')
+            message.channel.send('Error occurred in banned_word_game_counter.js')
         }
     }
 }

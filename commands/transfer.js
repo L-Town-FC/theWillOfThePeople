@@ -37,7 +37,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in transfer.js");
+            message.channel.send("Error occurred in transfer.js");
         }
     }
 }
@@ -64,6 +64,6 @@ function give_money(initiator, recipient, amount, message, master) {
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Transfer.js Give_Money");
+        message.channel.send("Error occurred in Transfer.js Give_Money");
     }
 }

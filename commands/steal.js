@@ -51,7 +51,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in transfer.js");
+            message.channel.send("Error occurred in steal.js");
         }
     }
 }
@@ -82,6 +82,6 @@ function steal(initiator, recipient, amount, stolen_percent, message, master, po
         }
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Steal.js Give_Money");
+        message.channel.send("Error occurred in Steal.js Give_Money");
     }
 }

@@ -16,7 +16,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error occured in boo_trigger.js")
+            message.channel.send("Error occurred in boo_trigger.js")
         }
     }
 

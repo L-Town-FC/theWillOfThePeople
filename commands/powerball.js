@@ -58,7 +58,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in Powerball.js Buy");
+                    message.channel.send("Error occurred in Powerball.js Buy");
                 }
             break;
 
@@ -69,7 +69,7 @@ module.exports = {
                     message.channel.send(`The pot is currently at ${total_pot} gbp. ${num_of_guesses} tickets have been bought.`)
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in Powerball.js Stats");
+                    message.channel.send("Error occurred in Powerball.js Stats");
                 }
             break;
             
@@ -82,7 +82,7 @@ module.exports = {
                     message.channel.send(help_embed);
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in Powerball.js Help");
+                    message.channel.send("Error occurred in Powerball.js Help");
                 }
             break;
 
@@ -147,7 +147,7 @@ function attempt(amount, money_spent){
         }
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Powerball.js Attempt");
+        message.channel.send("Error occurred in Powerball.js Attempt");
     }
         
 }
@@ -158,6 +158,6 @@ function purchase(bet_value, player, master) {
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Powerball.js Purchase");
+        message.channel.send("Error occurred in Powerball.js Purchase");
     }
 }

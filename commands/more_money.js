@@ -101,7 +101,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in More_money.js");
+            message.channel.send("Error occurred in More_money.js");
         }
         
     }

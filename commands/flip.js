@@ -13,7 +13,7 @@ module.exports = {
             unlock.tracker1(message.author.id, 44, 1, message, master, tracker)
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in flip.js Standings");
+            message.channel.send("Error Occurred in flip.js Standings");
         }
     }
 }

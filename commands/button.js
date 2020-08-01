@@ -5,11 +5,27 @@ module.exports = {
         const fs = require('fs')
         var button_stats = JSON.parse(fs.readFileSync('./JSON/button_stats.json', 'utf-8'))
         if(!args[1]){
-            ButtonPress(message, master, stats_list, tracker, button_stats)
+            try{
+                ButtonPress(message, master, stats_list, tracker, button_stats)
+            }catch(err){
+                console.log(err)
+                message.channel.send('Error occurred in button.js')
+            }
         }else if(args[1].toLowerCase() == 'stats'){
-            ButtonStats(message, button_stats)
+            try{
+                ButtonStats(message, button_stats)
+            }catch(err){
+                console.log(err)
+                message.channel.send('Error occurred in button.js stats')
+            }
         }else if(args[1].toLowerCase() == 'help'){
-            ButtonHelp(message)
+            try{
+                ButtonHelp(message)
+            }catch(err){
+                console.log(err)
+                message.channel.send('Error occurred in button.js help')
+            }
+            
         }else{
             message.channel.send(`Use "!button help" for a list of commands`)
         }

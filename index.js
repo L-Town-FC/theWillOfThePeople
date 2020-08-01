@@ -11,6 +11,7 @@ const unlock = require('./commands/Functions/Achievement_Functions')
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+loans = JSON.parse(fs.readFileSync('./JSON/loans.json', 'utf-8'))
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -54,7 +55,7 @@ bot.on('message', message =>{
         //console.log(message)
     }catch(err){
         console.log(err)
-        message.channel.send("Error occured in message parser")
+        message.channel.send("Error occurred in message parser")
     }
 })
 
@@ -154,6 +155,9 @@ bot.on('message', message =>{
                 break;
                 case 'button':
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker);
+                break;
+                case 'loan':
+                    bot.commands.get('loan').execute(message,args, master, loans);
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
@@ -305,6 +309,6 @@ function gbp_farm_reset(channel){
         );
     }catch(err){
         console.log(err)
-        channel.send("Error occured in gbp_farm_reset")
+        channel.send("Error occurred in gbp_farm_reset")
     }
 }

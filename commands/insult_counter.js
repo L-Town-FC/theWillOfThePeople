@@ -62,7 +62,7 @@ module.exports = {
             fs.writeFileSync('./text_files/insult_counter.txt', insulted_counter);
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in Insult_counter.js");
+            message.channel.send("Error occurred in Insult_counter.js");
         }
     }
 }

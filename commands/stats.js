@@ -35,7 +35,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in stats.js");
+            message.channel.send("Error occurred in stats.js");
         }   
     }
 }

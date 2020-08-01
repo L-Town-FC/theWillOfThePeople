@@ -56,7 +56,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in bwg.js bet")
+                    message.channel.send("Error occurred in bwg.js bet")
                 }
             break;
             case 'status':
@@ -111,7 +111,7 @@ module.exports = {
                     message.channel.send("Your game has been reset")
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in bwg.js reset")
+                    message.channel.send("Error occurred in bwg.js reset")
                 }
             break;
             case 'rules':

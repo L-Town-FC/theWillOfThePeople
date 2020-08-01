@@ -18,7 +18,7 @@ module.exports = {
             unlock.tracker1(message.author.id, 5, 1, message, master, tracker)
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in Pug.js");
+            message.channel.send("Error Occurred in Pug.js");
         }
     }
 }

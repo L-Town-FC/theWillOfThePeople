@@ -33,7 +33,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in guessgame.js Bet");
+                    message.channel.send("Error occurred in guessgame.js Bet");
                 }
 
             break;
@@ -46,7 +46,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in guessgame.js Guess");
+                    message.channel.send("Error occurred in guessgame.js Guess");
                 }
 
             break;
@@ -59,7 +59,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in guessgame.js Bet");
+                    message.channel.send("Error occurred in guessgame.js Bet");
                 }
 
             break;
@@ -72,7 +72,7 @@ module.exports = {
                     message.channel.send(help_embed);
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in guessgame.js Help");
+                    message.channel.send("Error occurred in guessgame.js Help");
                 }
 
             break;
@@ -98,7 +98,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in guessgame.js");
+            message.channel.send("Error occurred in guessgame.js");
         }
     }
 
@@ -130,7 +130,7 @@ function is_Ongoing() {
         }
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in guessgame.js Is_Ongoing");
+        message.channel.send("Error occurred in guessgame.js Is_Ongoing");
     }
 }
 
@@ -176,7 +176,7 @@ function update_guesses(guess,message){
         }
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in guessgame.js Update_Guesses");
+        message.channel.send("Error occurred in guessgame.js Update_Guesses");
     }
 }
 
@@ -190,7 +190,7 @@ function first_guess(player, bet){
         fs.writeFileSync('./text_files/guessgame/guessgame.txt', updated_status);
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in guessgame.js First_guess");
+        message.channel.send("Error occurred in guessgame.js First_guess");
     }
 }
 
@@ -200,7 +200,7 @@ function purchase(bet_value, player, master) {
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in guessgame.js Purchase");
+        message.channel.send("Error occurred in guessgame.js Purchase");
     }
 
 }

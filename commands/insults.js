@@ -54,7 +54,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in Insults.js");
+            message.channel.send("Error occurred in Insults.js");
         }
 
     }
@@ -65,6 +65,6 @@ function purchase(bet_value, player, master) {
         master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value);
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Insults.js Purchase");
+        message.channel.send("Error occurred in Insults.js Purchase");
     }
 }

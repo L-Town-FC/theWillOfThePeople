@@ -21,7 +21,7 @@ module.exports = {
             message.channel.send(message_embed)
         }catch(err){
             console.log(err)
-                    message.channel.send("Error Occured in Names.js");
+            message.channel.send("Error Occurred in Names.js");
         }
     }
 }

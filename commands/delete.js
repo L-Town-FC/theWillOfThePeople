@@ -55,7 +55,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in delete.js");
+            message.channel.send("Error Occurred in delete.js");
         }
     }
 }
@@ -67,6 +67,6 @@ function purchase(bet_value, player, message, master) {
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in delete.js");
+        message.channel.send("Error Occurred in delete.js");
     }
 }

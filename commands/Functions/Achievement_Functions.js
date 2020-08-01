@@ -12,7 +12,7 @@ function unlock(user, achievement_num, message, master){
         }
     }catch(err){
         console.log(err)
-        message.channel.send('Error occured in Achievement Unlock')
+        message.channel.send('Error occurred in Achievement Unlock')
         message.channel.send(`Achievement number: ${achievement_num}`)
     }
 }
@@ -42,7 +42,7 @@ function reset1(user, achievement_num, tracker){
         tracker[user][achievement_num] = 0
     }catch(err){
         console.log(err)
-        message.channel.send('Error occured in Achievement Reset1')
+        message.channel.send('Error occurred in Achievement Reset1')
         message.channel.send(`Achievement number: ${achievement_num}`)
     }
 }
@@ -61,7 +61,7 @@ function reset2(user, achievement_num, index, tracker){
         }
     }catch(err){
         console.log(err)
-        message.channel.send('Error occured in Achievement Reset2')
+        message.channel.send('Error occurred in Achievement Reset2')
         message.channel.send(`Achievement number: ${achievement_num}`)
     }
 }
@@ -82,7 +82,7 @@ function tracker1(user, achievement_num, increment, message, master, tracker){
         }
     }catch(err){
         console.log(err)
-        message.channel.send('Error occured in Achievement Tracker1')
+        message.channel.send('Error occurred in Achievement Tracker1')
         message.channel.send(`Achievement number: ${achievement_num}`)
     }
 }
@@ -101,7 +101,7 @@ function tracker2(user, achievement_num, index, message, master, tracker){
         }
     }catch(err){
         console.log(err)
-        message.channel.send('Error occured in Achievement Tracker2')
+        message.channel.send('Error occurred in Achievement Tracker2')
         message.channel.send(`Achievement number: ${achievement_num}`)
     }
 }
@@ -130,7 +130,7 @@ function tracker3(user, achievement_num, index, increment, message, master, trac
         }
     }catch(err){
         console.log(err)
-        message.channel.send('Error occured in Achievement Tracker3')
+        message.channel.send('Error occurred in Achievement Tracker3')
         message.channel.send(`Achievement number: ${achievement_num}`)
     }
 }

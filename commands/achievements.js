@@ -52,7 +52,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in achievements.js");
+            message.channel.send("Error Occurred in achievements.js");
         }   
     }
 }

@@ -44,7 +44,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in Herald.js Buy");
+                    message.channel.send("Error occurred in Herald.js Buy");
                 }
 
             break;
@@ -59,7 +59,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in Herald.js Stats");
+                    message.channel.send("Error occurred in Herald.js Stats");
                 }
             break;
 
@@ -98,7 +98,7 @@ module.exports = {
                     message.channel.send(help_embed);
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in Herald.js Help");
+                    message.channel.send("Error occurred in Herald.js Help");
                 }
 
             break;
@@ -115,7 +115,7 @@ function purchase(bet_value, player, master) {
         master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Herald.js Purchase");
+        message.channel.send("Error occurred in Herald.js Purchase");
     }
 }
 
@@ -126,6 +126,6 @@ function name(player, master){
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Herald.js Names");
+        message.channel.send("Error occurred in Herald.js Names");
     }
 }

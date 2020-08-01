@@ -188,7 +188,7 @@ module.exports = {
                     the player is forced to stay */
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error occured in 21.js Deal")
+                    message.channel.send("Error occurred in 21.js Deal")
                 }
             break;
             case 'hit':
@@ -246,7 +246,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error occured in !21.js Hit")
+                    message.channel.send("Error occurred in !21.js Hit")
                 }
             break;
             case 'split':
@@ -313,7 +313,7 @@ module.exports = {
                     
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error occured in 21.js Split")
+                    message.channel.send("Error occurred in 21.js Split")
                 }
             break;
             case 'doubledown':
@@ -388,7 +388,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error occured in !21.js Doubledown")
+                    message.channel.send("Error occurred in !21.js Doubledown")
                 }
             break;
             case 'status':
@@ -400,7 +400,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error occured in 21.js Status")
+                    message.channel.send("Error occurred in 21.js Status")
                 }
             break;
             case 'stay':
@@ -421,7 +421,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error occured in !21.js Stay")
+                    message.channel.send("Error occurred in !21.js Stay")
                 }
             break;
             case 'surrender':
@@ -439,7 +439,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error occured in !21.js Surrender")
+                    message.channel.send("Error occurred in !21.js Surrender")
                 }
             break;
             case 'reset':
@@ -710,7 +710,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error occured in !21.js Outcome")
+            message.channel.send("Error occurred in !21.js Outcome")
         }
     }
 }
@@ -745,7 +745,7 @@ function New_Card(suit, tens){
         return [card, dummycard + card_suit]
     }catch(err){
         console.log(err)
-        message.channel.send("Error occured in new21.js New_Card")
+        message.channel.send("Error occurred in new21.js New_Card")
     }
 }
 

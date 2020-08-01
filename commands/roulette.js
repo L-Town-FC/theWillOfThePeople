@@ -41,7 +41,7 @@ module.exports = {
                                             delete approved_bets
                                         }catch(err){
                                             console.log(err)
-                                            message.channel.send("Error Occured in roulette.js")
+                                            message.channel.send("Error occurred in roulette.js")
                                         }
                                     }, 2000)
                                 }else{
@@ -57,7 +57,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send('Error Occured in Roulette.js bet')
+                    message.channel.send('Error occurred in Roulette.js bet')
                 }
             break;
             case 'numbers':
@@ -66,7 +66,7 @@ module.exports = {
                     Numbers(message, embed)
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in roulette.js numbers")
+                    message.channel.send("Error occurred in roulette.js numbers")
                 }
             break;
             case 'list':
@@ -75,7 +75,7 @@ module.exports = {
                     Display(message, embed)
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in roulette.js list")
+                    message.channel.send("Error occurred in roulette.js list")
                 }
             break;
             case 'help':
@@ -84,7 +84,7 @@ module.exports = {
                     Help(message, embed)
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in roulette.js help")
+                    message.channel.send("Error occurred in roulette.js help")
                 }
             break;
             default:
@@ -104,7 +104,7 @@ function purchase(bet_value, player, master) {
         }
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in roulette.js Purchase");
+        message.channel.send("Error occurred in roulette.js Purchase");
     }
 }
 
@@ -268,7 +268,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
         }
     }catch(err){
         console.log(err)
-        message.channel.send('Error Occured in roulette.js bet checker')
+        message.channel.send('Error occurred in roulette.js bet checker')
     }
 }
 function Display(message, embed){

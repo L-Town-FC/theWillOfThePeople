@@ -35,7 +35,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in Simmerdowncount.js");
+            message.channel.send("Error occurred in Simmerdowncount.js");
         }
     }
 }
@@ -51,7 +51,7 @@ function counter(person, message, master) {
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Simmerdowncount.js Counter");
+        message.channel.send("Error occurred in Simmerdowncount.js Counter");
     }
 }
 

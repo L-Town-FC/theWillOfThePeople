@@ -22,7 +22,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in simmerdown.js");
+            message.channel.send("Error occurred in simmerdown.js");
         }
     }
 }

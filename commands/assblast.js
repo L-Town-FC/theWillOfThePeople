@@ -48,7 +48,7 @@ module.exports = {
                     //rewrites standings text file
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in assblast.js Standings");
+                    message.channel.send("Error occurred in assblast.js Standings");
                 }
 
             break;
@@ -94,7 +94,7 @@ module.exports = {
                     }
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in assblast.js Points");
+                    message.channel.send("Error occurred in assblast.js Points");
                 }                
             break;
 
@@ -106,7 +106,7 @@ module.exports = {
                     //resets the standings
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in assblast.js Clear");
+                    message.channel.send("Error occurred in assblast.js Clear");
                 }
             break;
 
@@ -120,7 +120,7 @@ module.exports = {
                     //creates embed from text file that contains all assblast commands
                 }catch(err){
                     console.log(err)
-                    message.channel.send("Error Occured in assblast.js Help");
+                    message.channel.send("Error occurred in assblast.js Help");
                 }
             break;
 

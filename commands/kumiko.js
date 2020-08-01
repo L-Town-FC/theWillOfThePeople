@@ -19,7 +19,7 @@ module.exports = {
             }
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in Kumiko.js");
+            message.channel.send("Error occurred in Kumiko.js");
         }
             
         }
@@ -30,6 +30,6 @@ function purchase(bet_value, player, message, master) {
         master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Kumiko.js");
+        message.channel.send("Error occurred in Kumiko.js");
     }
 }

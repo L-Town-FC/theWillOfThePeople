@@ -18,7 +18,7 @@ module.exports = {
             message.channel.send(help_embed2)
         }catch(err){
             console.log(err)
-            message.channel.send("Error Occured in Changelog.js");
+            message.channel.send("Error Occurred in Changelog.js");
         }
     }
 

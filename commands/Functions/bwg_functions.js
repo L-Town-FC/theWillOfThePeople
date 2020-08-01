@@ -14,7 +14,7 @@ function New_Game(player, target, bet, new_word, message, bwg){
         );
     }catch(err){
         console.log(err)
-        message.channel.send('Error Occured in bwg_functions.js New_Game')
+        message.channel.send('Error occurred in bwg_functions.js New_Game')
     }
 }
 module.exports.New_Game = New_Game
@@ -34,7 +34,7 @@ function Show_Status(player, bwg, master, message){
     message.channel.send(status_embed)
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in bwg_function.js Show_Status")
+        message.channel.send("Error occurred in bwg_function.js Show_Status")
     }
 }
 
@@ -49,7 +49,7 @@ function Target(name, master, message){
         }
     }catch(err){
         console.log(err)
-        message.channel.send('Error Occured in bwg_functions.js Target')
+        message.channel.send('Error occurred in bwg_functions.js Target')
     }
 }
 module.exports.Target = Target
@@ -70,7 +70,7 @@ function Reset(player, bwg, message){
         );
     }catch(err){
         console.log(err)
-        message.channel.send('Error Occured in bwg_functions.js Reset')
+        message.channel.send('Error occurred in bwg_functions.js Reset')
     }
 }
 module.exports.Reset = Reset
@@ -82,7 +82,7 @@ function purchase(bet_value, player, message, master) {
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in bwg.js Purchase");
+        message.channel.send("Error occurred in bwg.js Purchase");
     }
 
 }

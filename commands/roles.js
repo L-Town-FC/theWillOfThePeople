@@ -29,7 +29,7 @@ module.exports = {
                 message.channel.send(help_embed);
             }catch(err){
                 console.log(err)
-                message.channel.send("Error Occured in Roles.js");
+                message.channel.send("Error occurred in Roles.js");
             }
         }else if(typeof(name_index) !== 'undefined'){
             if(message.author.id == '434471986748456962'){

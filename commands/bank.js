@@ -27,58 +27,83 @@ module.exports = {
         try{
             switch(command){
                 case 'all':
-                    var everyone = [];
-                    var counter = 0
-                    var total = 0
-                    for(i in master){
-                        everyone[counter] = `${master[i].name}: ${master[i].gbp}`;
-                        counter = counter + 1;
-                        total = total + master[i].gbp
+                    try{
+                        var everyone = [];
+                        var counter = 0
+                        var total = 0
+                        for(i in master){
+                            everyone[counter] = `${master[i].name}: ${master[i].gbp}`;
+                            counter = counter + 1;
+                            total = total + master[i].gbp
+                        }
+                        const message_embed = new Discord.RichEmbed()
+                        .setTitle("List of all Public accounts on Server")
+                        .setDescription(everyone)
+                        .addField(`Total Public GBP on Server`, total)
+                        .setColor(embed.Color(message))
+                        message.channel.send(message_embed)
+                    }catch(err){
+                        console.log(err)
+                        message.channel.send('Error occurred in bank.js all')
                     }
-                    const message_embed = new Discord.RichEmbed()
-                    .setTitle("List of all Public accounts on Server")
-                    .setDescription(everyone)
-                    .addField(`Total Public GBP on Server`, total)
-                    .setColor(embed.Color(message))
-                    message.channel.send(message_embed)
                 break;
                 case 'name':
-                    message.channel.send(`${master[person].name} has ${master[person].gbp} gbp`);
+                    try{
+                        message.channel.send(`${master[person].name} has ${master[person].gbp} gbp`);
+                    }catch(err){
+                        console.log(err)
+                        message.channel.send('Error occurred in bank.js name')
+                    }
                 break;
                 case 'account':
-                    message.channel.send(`You currently have ${master[message.author.id].account} gbp in your private account`)
+                    try{
+                        message.channel.send(`You currently have ${master[message.author.id].account} gbp in your private account`)
+                    }catch(err){
+                        console.log(err)
+                        message.channel.send('Error occurred in bank.js account')
+                    }
                 break;
                 case 'deposit':
-                    var account = master[message.author.id].account
-                    var amount = parseFloat(args[2])
-                    if(isNaN(amount) == true || amount <= 0){
-                        message.channel.send('Please specify an amount greater than 0')
-                    }else if(amount > master[message.author.id].gbp){
-                        message.channel.send(`You can't deposit more gbp than you currently have`)
-                    }else if(account == max_amount){
-                        message.channel.send(`You are at the max account size of ${max_amount} gbp`)
-                    }else if(account + amount > max_amount){
-                        message.channel.send(`Depositing the full amount would put you over the limit. Instead you deposited up to the limit of ${max_amount} gbp`)
-                        var deposited = max_amount - account
-                        master[message.author.id].account = max_amount
-                        master[message.author.id].gbp = master[message.author.id].gbp - deposited
-                    }else{
-                        message.channel.send(`You deposited ${amount} gbp` )
-                        master[message.author.id].account = master[message.author.id].account + amount
-                        master[message.author.id].gbp = master[message.author.id].gbp - amount
+                    try{
+                        var account = master[message.author.id].account
+                        var amount = parseFloat(args[2])
+                        if(isNaN(amount) == true || amount <= 0){
+                            message.channel.send('Please specify an amount greater than 0')
+                        }else if(amount > master[message.author.id].gbp){
+                            message.channel.send(`You can't deposit more gbp than you currently have`)
+                        }else if(account == max_amount){
+                            message.channel.send(`You are at the max account size of ${max_amount} gbp`)
+                        }else if(account + amount > max_amount){
+                            message.channel.send(`Depositing the full amount would put you over the limit. Instead you deposited up to the limit of ${max_amount} gbp`)
+                            var deposited = max_amount - account
+                            master[message.author.id].account = max_amount
+                            master[message.author.id].gbp = master[message.author.id].gbp - deposited
+                        }else{
+                            message.channel.send(`You deposited ${amount} gbp` )
+                            master[message.author.id].account = master[message.author.id].account + amount
+                            master[message.author.id].gbp = master[message.author.id].gbp - amount
+                        }
+                    }catch(err){
+                        console.log(err)
+                        message.channel.send('Error occurred in bank.js deposit')
                     }
                 break;
                 case 'withdraw':
-                    var account = master[message.author.id].account
-                    var amount = parseFloat(args[2])
-                    if(isNaN(amount) == true || amount <= 0){
-                        message.channel.send('Please specify an amount greater than 0')
-                    }else if(amount > master[message.author.id].account){
-                        message.channel.send(`You can't withdraw more gbp than you currently have in your account`)
-                    }else{
-                        message.channel.send(`You withdrew ${amount} gbp` )
-                        master[message.author.id].account = master[message.author.id].account - amount
-                        master[message.author.id].gbp = master[message.author.id].gbp + amount
+                    try{
+                        var account = master[message.author.id].account
+                        var amount = parseFloat(args[2])
+                        if(isNaN(amount) == true || amount <= 0){
+                            message.channel.send('Please specify an amount greater than 0')
+                        }else if(amount > master[message.author.id].account){
+                            message.channel.send(`You can't withdraw more gbp than you currently have in your account`)
+                        }else{
+                            message.channel.send(`You withdrew ${amount} gbp` )
+                            master[message.author.id].account = master[message.author.id].account - amount
+                            master[message.author.id].gbp = master[message.author.id].gbp + amount
+                        }
+                    }catch(err){
+                        console.log(err)
+                        message.channel.send('Error occurred in bank.js withdraw')
                     }
                 break;
                 case 'help':
@@ -89,10 +114,10 @@ module.exports = {
                         .setDescription(help)
                         .setColor(embed.Color(message))
                         message.channel.send(help_list)
-                        }catch(err){
-                            console.log(err)
-                            message.channel.send("Error occured in bank.js help")
-                        }
+                    }catch(err){
+                        console.log(err)
+                        message.channel.send("Error occured in bank.js help")
+                    }
                 break;
                 default:
                     message.channel.send('Use "!bank help" for a list of commands')
