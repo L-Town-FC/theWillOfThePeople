@@ -2,6 +2,9 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const token = process.env.BOTTOKEN;
 const PREFIX = "!";
+if(typeof(daily_counter) == 'undefined'){
+    daily_counter = 0
+}
 
 const fs = require('fs');
 bot.commands = new Discord.Collection();
@@ -11,8 +14,6 @@ const unlock = require('./commands/Functions/Achievement_Functions')
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-loans = JSON.parse(fs.readFileSync('./JSON/loans.json', 'utf-8'))
-
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -25,11 +26,18 @@ for(const file of commandFiles){
 bot.on('ready', () => {
     var channel = bot.channels.find(channel => channel.id === '590585423202484227')
     console.log('This bot is online')
+    if(!daily_counter){
+        daily_counter = 0
+    }
     setInterval(function(){
-        Welfare(channel, master)
-        Lottery(channel, master, unlock)
-        gbp_farm_reset(channel)
-    }, 86400 * 1000)
+        daily_counter = daily_counter + 1
+        if(daily_counter == 24){
+            daily_counter = 0
+            Welfare(channel, master)
+            Lottery(channel, master, unlock)
+            gbp_farm_reset(channel)
+        }
+    }, 3600 * 1000)
     //86400
     //590585423202484227 - pugilism
     //611276436145438769 - test
@@ -157,7 +165,7 @@ bot.on('message', message =>{
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker);
                 break;
                 case 'loan':
-                    bot.commands.get('loan').execute(message,args, master, loans);
+                    bot.commands.get('loan').execute(message,args, master);
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);

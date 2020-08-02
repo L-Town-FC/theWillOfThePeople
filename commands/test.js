@@ -6,7 +6,6 @@ module.exports = {
         //var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         //var tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
         var bwg = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
-        var loans = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
         //var stats = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
         var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         //var roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
@@ -45,6 +44,11 @@ module.exports = {
             }
             for(i in master){
                 master[i].account = 0
+                master[i].loans = {}
+                master[i].loans.target = ''
+                master[i].loans.remaining = 0
+                master[i].loans.collection = 0
+                master[i].loans.rate = 0
             }
             /*
             for(i in bwg){
@@ -73,11 +77,6 @@ module.exports = {
                 stats[i].button_presses = 0
             }
 
-            for(i in loans){
-                loans[i].target = ''
-                loans[i].remaining = 0
-                loans[i].collection = 0
-            }
             /*
             for(i in roulette){
                 if(i % 2 == 0){
@@ -107,11 +106,6 @@ module.exports = {
             }
             */
 
-           fs.writeFileSync ("./JSON/loans.json", JSON.stringify(loans, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-            );
            fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), function(err) {
             if (err) throw err;
             console.log('complete');
