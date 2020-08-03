@@ -31,7 +31,7 @@ bot.on('ready', () => {
     }
     setInterval(function(){
         daily_counter = daily_counter + 1
-        if(daily_counter == 24){
+        if(daily_counter >= 24){
             daily_counter = 0
             Welfare(channel, master)
             Lottery(channel, master, unlock)

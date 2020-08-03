@@ -1,3 +1,5 @@
+const { log } = require('console')
+
 module.exports = {
     name: 'loan',
     description: 'lets you take out loans with people',
@@ -27,13 +29,13 @@ module.exports = {
                 Loan_Checker(message, user, master)
             break;
             case 'offer':
-
+                Loan_Offer(message, args, master)
             break;
             case 'accept':
-
+                loan_accept = master[message.author.id].name
             break;
-            case 'collect':
-
+            case 'pay':
+               
             break;
             case 'cancel':
 
@@ -77,4 +79,53 @@ function Loan_Checker(message, user, master){
         loan_list.addField('***Creditor***', 'None')
     }
     message.channel.send(loan_list)
+}
+
+function Loan_Offer(message, args, master){
+//!loan offer [person] [amount] [interest] [days]
+    const fs = require('fs')
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    var person = args[2] || ""
+    var amount = args[3]
+    var interest = args[4]
+    var days = args[5]
+    var names = []
+    for(i in master){
+        names.push(master[i].name.toLowerCase())
+    }
+    if(names.includes(person.toLowerCase()) == true){
+        if(isNaN(amount) == false && parseFloat(amount) > 0 && parseFloat(amount) <= master[message.author.id].gbp){
+            if(isNaN(interest) == false && interest > 0){
+                if(isNaN(days) == false && parseInt(days) == days && days > 0){
+                    //This is where the command actually happens
+                    //Everything else is just getting to this point
+                    var time = 5
+                    message.channel.send(`The loan offer will be available for ${time} seconds`)
+                    loan_offer = [person.toLowerCase(), parseFloat(amount), parseFloat(interest), parseInt(days)]
+                    setTimeout(function(){
+                        if(typeof(loan_accept) == 'undefined'){
+                            message.channel.send("Offer wasn't accetped in time. Please send it again")
+                        }else{
+                            console.log(loan_accept)
+                            delete loan_accept
+                        }
+                        delete loan_offer
+                    },time * 1000)
+                }else{
+                    message.channel.send('Please give a whole number of days')
+                }
+            }else{
+                message.channel.send('Please give a valid interest rate')
+            }
+        }else{
+            if(parseFloat(amount) > master[message.author.id].gbp){
+                message.channel.send("You don't have enough gbp for that loan")
+            }else{
+                message.channel.send('Please give a valid amount greater than 0')
+            }
+        }
+    }else{
+        message.channel.send('Please give a valid name')
+    }
 }
