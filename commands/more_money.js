@@ -40,63 +40,68 @@ module.exports = {
                             unlock.unlock(message.author.id, 24, message, master)
                         }
                     }
+                    if(['590585423202484227','712755269863473252', '672846614410428416'].includes(message.channel.id) == true){
+                        stats.tracker(person, 9, 1, stats_list)
+                    }else{
+                        stats.tracker(person, 10, 1, stats_list)
+                    }
+                    var total_assets = master[person].gbp + master[person].account
+                    var scaling_modifier = -0.1 * master[person].gbp + 175
+                    var loan_list = []
                     for(i in master){
-                        if(person == i){
-                            if(['590585423202484227','712755269863473252', '672846614410428416'].includes(message.channel.id) == true){
-                                stats.tracker(person, 9, 1, stats_list)
-                            }else{
-                                stats.tracker(person, 10, 1, stats_list)
-                            }
-                            var total_assets = master[i].gbp + master[i].account
-                            var scaling_modifier = -0.1 * master[person].gbp + 175
-
-                            Achievement_Switch(person, message.channel.id, message, master)
-                            Random_Achievements(person, message, master)
-                            var amount = 1
-                            if(gbp_farmed[person].farmed > 1000){
-                                //checks if user has sent 1000 messages today
-                                //makes it so if they have they get gbp at a reduced rate
-                                var chance = Math.random() * 100
-                                if(chance > 25){
-                                    var amount = 0
-                                }
-                            }else if(total_assets < -10000){
-                                var amount = 50
-                            }else if(total_assets < -2500){
-                                var amount = 20
-                            }else if(total_assets < -1000){
-                                var amount = 10
-                            }else if(total_assets <= 0){
-                                var amount = 5
-                                unlock.unlock(person, 3, message, master)
-                            }else if(total_assets < 250){
-                                var amount = 3
-                            }else if(total_assets < 500){
-                                var amount = 2
-                            }else if(total_assets < 750){
-                               var amount = 1
-                            }else if(total_assets < 1500){
-                                var chance = Math.random() * 100
-                                if(chance > scaling_modifier){
-                                    var amount = 0
-                                }
-                            }else{
-                                var chance = Math.random() * 100
-                                if(chance > 25){
-                                    var amount = 0
-                                }
-                            }
-
-                            master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
-
-                            gbp_farmed[person].farmed = gbp_farmed[person].farmed + 1
-                            fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
-                                if (err) throw err;
-                                console.log('complete');
-                                }
-                            );
+                        if(master[i].loans.target == message.author.id && master[i].loans.collection == 0){
+                            loan_list = [message.author.id, i]
                         }
                     }
+                    Achievement_Switch(person, message.channel.id, message, master)
+                    Random_Achievements(person, message, master)
+                    var amount = 1
+
+                    if(gbp_farmed[person].farmed > 1000){
+                        //checks if user has sent 1000 messages today
+                        //makes it so if they have they get gbp at a reduced rate
+                        var chance = Math.random() * 100
+                        if(chance > 25){
+                            var amount = 0
+                        }
+                    }else if(total_assets < -10000){
+                        var amount = 50
+                    }else if(total_assets < -2500){
+                        var amount = 20
+                    }else if(total_assets < -1000){
+                        var amount = 10
+                    }else if(total_assets < 0){
+                        var amount = 5
+                        unlock.unlock(person, 3, message, master)
+                    }else if(total_assets < 250){
+                        var amount = 3
+                    }else if(total_assets < 500){
+                        var amount = 2
+                    }else if(total_assets < 750){
+                        var amount = 1
+                    }else if(total_assets < 1500){
+                        var chance = Math.random() * 100
+                        if(chance > scaling_modifier){
+                            var amount = 0
+                        }
+                    }else{
+                        var chance = Math.random() * 100
+                        if(chance > 25){
+                            var amount = 0
+                        }
+                    }
+                    master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
+
+                    if(loan_list[0] == message.author.id){
+                        Loan_Stuff(message, master, amount, loan_list)
+                    }
+
+                    gbp_farmed[person].farmed = gbp_farmed[person].farmed + 1
+                    fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
+                        if (err) throw err;
+                        console.log('complete');
+                        }
+                    );
                 }
             }
         }catch(err){
@@ -156,5 +161,20 @@ function Random_Achievements(user, message, master){
     }
     if(message.content.toLowerCase().includes('twitch.tv/') == true){
         unlock.unlock(user, 43, message, master)
+    }
+}
+
+function Loan_Stuff(message, master, amount, loan_list){
+    master[loan_list[1]].gbp += amount
+    master[loan_list[1]].loans.remaining -= amount
+    master[loan_list[0]].gbp -= amount
+    if(master[loan_list[1]].loans.remaining <= 0){
+        master[loan_list[1]].loans = {
+            target: "",
+            remaining: 0,
+            collection: 0,
+            rate: 0
+        }
+        message.channel.send('You have payed off your loan')
     }
 }

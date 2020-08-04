@@ -1,5 +1,3 @@
-const { log } = require('console')
-
 module.exports = {
     name: 'loan',
     description: 'lets you take out loans with people',
@@ -32,13 +30,18 @@ module.exports = {
                 Loan_Offer(message, args, master)
             break;
             case 'accept':
-                loan_accept = master[message.author.id].name
+                Loan_Accept(message, master)
             break;
             case 'pay':
-               
+               Loan_Pay(message, args, master)
             break;
             case 'cancel':
-
+                master[message.author.id].loans ={
+                    target: "",
+                    remaining: 0,
+                    collection: 0,
+                    rate: 0
+                }
             break;
             default:
                 message.channel.send('Use "!loan help" for a list of commands')
@@ -95,37 +98,128 @@ function Loan_Offer(message, args, master){
         names.push(master[i].name.toLowerCase())
     }
     if(names.includes(person.toLowerCase()) == true){
-        if(isNaN(amount) == false && parseFloat(amount) > 0 && parseFloat(amount) <= master[message.author.id].gbp){
-            if(isNaN(interest) == false && interest > 0){
-                if(isNaN(days) == false && parseInt(days) == days && days > 0){
-                    //This is where the command actually happens
-                    //Everything else is just getting to this point
-                    var time = 5
-                    message.channel.send(`The loan offer will be available for ${time} seconds`)
-                    loan_offer = [person.toLowerCase(), parseFloat(amount), parseFloat(interest), parseInt(days)]
-                    setTimeout(function(){
-                        if(typeof(loan_accept) == 'undefined'){
-                            message.channel.send("Offer wasn't accetped in time. Please send it again")
-                        }else{
-                            console.log(loan_accept)
-                            delete loan_accept
-                        }
-                        delete loan_offer
-                    },time * 1000)
+        var target_check = false
+        for(var i in master){
+            if(person.toLowerCase() == master[i].name.toLowerCase()){
+                var person_id = i
+                for(var j in master){
+                    if(person_id == master[j].loans.target){
+                        target_check = true
+                    }
+                }
+            }
+        }
+        if(target_check == false){
+            if(isNaN(amount) == false && parseFloat(amount) > 0 && parseFloat(amount) <= master[message.author.id].gbp){
+                if(isNaN(interest) == false && interest > 0){
+                    if(isNaN(days) == false && parseInt(days) == days && days > 0){
+                        //This is where the command actually happens
+                        //Everything else is just getting to this point
+                        var time = 30
+                        message.channel.send(`The loan offer will be available for ${time} seconds`)
+                        loan_offer = [person.toLowerCase(), parseFloat(amount), parseFloat(interest), parseInt(days), message.author.id]
+                        setTimeout(function(){
+                            if(typeof(loan_accept) == 'undefined'){
+                                message.channel.send("Offer wasn't accetped in time. Please send it again")
+                            }else{
+                                delete loan_accept
+                            }
+                            delete loan_offer
+                        },time * 1000)
+                    }else{
+                        message.channel.send('Please give a whole number of days')
+                    }
                 }else{
-                    message.channel.send('Please give a whole number of days')
+                    message.channel.send('Please give a valid interest rate')
                 }
             }else{
-                message.channel.send('Please give a valid interest rate')
+                if(parseFloat(amount) > master[message.author.id].gbp){
+                    message.channel.send("You don't have enough gbp for that loan")
+                }else{
+                    message.channel.send('Please give a valid amount greater than 0')
+                }
             }
         }else{
-            if(parseFloat(amount) > master[message.author.id].gbp){
-                message.channel.send("You don't have enough gbp for that loan")
-            }else{
-                message.channel.send('Please give a valid amount greater than 0')
-            }
+            message.channel.send(`${master[person_id].name} already has a loan taken out`)
         }
     }else{
         message.channel.send('Please give a valid name')
+    }
+}
+
+function Loan_Accept(message, master){
+    if(typeof(loan_offer) !== 'undefined'){
+        var isTarget = false
+        for(i in master){
+            if(master[i].loans.target == message.author.id){
+                isTarget = true
+            }
+        }
+        console.log(isTarget)
+        if(isTarget == false){
+            if(master[message.author.id].name.toLowerCase() == loan_offer[0]){
+                master[message.author.id].loans = {
+                    target: loan_offer[4],
+                    remaining: parseFloat(loan_offer[1]) * (1 + parseFloat(loan_offer[2])/100),
+                    collection: loan_offer[3],
+                    rate: loan_offer[2]
+                }
+                loan_accept = true
+                message.channel.send('Loan was accepted')
+            }else{
+                message.channel.send("You don't have a loan offer")
+            }
+        }else{
+            message.channel.send('You already have loan taken out')
+        }
+    }else{
+        message.channel.send('There is no loan offer available')
+    }
+}
+
+function Loan_Pay(message, args, master){
+    //!loan pay [number]
+    var target = false
+    var amount = parseFloat(args[2]) || 0
+    for(i in master){
+        if(master[i].loans.target == message.author.id){
+            target = true
+            var creditor_id = i
+        }
+    }
+    if(target == true){
+        if(isNaN(amount) == false && parseFloat(amount) > 0){
+            if(amount <= master[message.author.id].gbp){
+                if(master[message.author.id].loans.remaining >= amount){
+                    if(amount < master[message.author.id].loans.remaining){
+                        message.channel.send(`You payed ${amount} gbp off your loan`)
+                    }
+                    master[creditor_id].loans.remaining = master[creditor_id].loans.remaining - amount
+                    master[message.author.id].gbp = master[message.author.id].gbp - amount
+                    master[creditor_id].gbp = master[creditor_id].gbp + amount
+                }else{
+                    master[creditor_id].gbp = master[creditor_id].loans.remaining + master[creditor_id].gbp
+                    master[message.author.id].gbp = master[message.author.id].gbp - master[creditor_id].loans.remaining
+                    master[creditor_id].loans.remaining = 0
+                    message.channel.send('You payed more back than you owed. The difference was refunded to you')
+                }
+                
+                if(master[creditor_id].loans.remaining == 0){
+                    master[creditor_id].loans = {
+                        target: "",
+                        remaining: 0,
+                        collection: 0,
+                        rate: 0
+                    }
+                    message.channel.send('You have payed off your loan')
+                }
+            }else{
+                message.channel.send(`You can't pay back more than you have`)
+            }
+        }else{
+            message.channel.send('Give an amount of greater than 0 gbp')
+        }
+    }else{
+        message.channel.send(`You currently don't have a loan to pay back`)
     }
 }

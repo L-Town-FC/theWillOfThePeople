@@ -1,6 +1,7 @@
 **Bug Fixes:**
 -Fixed bug where if you didn't have enough gbp to cover a roulette bet it defaulted to saying "Derek didn't have enough gbp"
 -Changed it so !powerball help says "powerball" instead of "lottery"
+-Fixed it so r10 is valid bet for roulette
 
 **New Features/Updates:**
 **-Progressive gbp farming changes**

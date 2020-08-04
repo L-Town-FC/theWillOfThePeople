@@ -274,7 +274,8 @@ function Lottery(channel, master, unlock){
 }
 function JSON_Overwrite(master, stats_list, tracker, message){
     try{
-        fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
+        
+        fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
             }
