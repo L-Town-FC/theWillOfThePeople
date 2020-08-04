@@ -155,7 +155,6 @@ function Loan_Accept(message, master){
                 isTarget = true
             }
         }
-        console.log(isTarget)
         if(isTarget == false){
             if(master[message.author.id].name.toLowerCase() == loan_offer[0]){
                 master[message.author.id].loans = {

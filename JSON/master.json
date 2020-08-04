@@ -1,7 +1,7 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 509,
+    "gbp": null,
     "achievements": [
       34,
       3,
@@ -18,17 +18,17 @@
   },
   "497803559144914944": {
     "name": "Andrew",
-    "gbp": 576.25,
+    "gbp": 3129.25,
     "achievements": [
       7
     ],
     "simmerdown": 0,
     "account": 0,
     "loans": {
-      "target": "",
-      "remaining": 0,
+      "target": "450001712305143869",
+      "remaining": 47,
       "collection": 0,
-      "rate": 0
+      "rate": 30
     }
   },
   "499328039621230592": {

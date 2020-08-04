@@ -28,7 +28,7 @@ module.exports = {
 
         try{
             for(i in master){
-                if(master[i].gbp == null){
+                if(isNaN(master[i].gbp) == true){
                     master[i].gbp = 0;
                 }
             }
