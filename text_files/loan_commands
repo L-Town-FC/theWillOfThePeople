@@ -1,0 +1,7 @@
+!loan [person]: Shows the specified person's creditor/debtor if applicable. Defaults to user if no person is specified
+
+!loan offer [person] [amount] [interest rate] [days to collect]: Offers a loan to the specified person for the specified amount and interest rate. After [days] number of days the loan will begin to be automatically collected
+
+!loan accept: Lets you accept a loan if you have been offered one
+
+!loan pay: Lets you pay off your loan early

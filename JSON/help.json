@@ -124,14 +124,20 @@
         "name":"!roulette",
         "description":"Lets you play roulette with multiple people",
         "rules":["**!roulette bet [Time]:** Starts roulette game where betting ends after [Time] seconds",
-
             "**!roulette list:** Shows you the roulette board, basics, and payouts",
-            
             "**!roulette numbers:** Shows you the last 10 numbers called"]
     },
     "22":{
         "name": "!button",
         "description": "The button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp",
         "rules": ["**!button:** Pushes the button", "**!button stats:** Shows you stats relating to the button"]
+    },
+    "23":{
+        "name": "!loan",
+        "description": "Lets you track and take out loans with others",
+        "rules": ["**!loan [person]:** Shows the specified person's creditor/debtor if applicable. Defaults to user if no person is specified",
+        "**!loan offer [person] [amount] [interest rate] [days to collect]:** Offers a loan to the specified person for the specified amount and interest rate. After [days] number of days the loan will begin to be automatically collected",
+        "**!loan accept:** Lets you accept a loan if you have been offered one",
+        "**!loan pay:** Lets you pay off your loan early"]
     }
 }

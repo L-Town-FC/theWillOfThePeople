@@ -24,7 +24,7 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
+    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
     console.log('This bot is online')
     if(!daily_counter){
         daily_counter = 0
@@ -37,7 +37,7 @@ bot.on('ready', () => {
             Lottery(channel, master, unlock)
             gbp_farm_reset(channel)
         }
-    }, 1 * 1000)
+    }, 3600 * 1000)
     //3600
     //590585423202484227 - pugilism
     //611276436145438769 - test
@@ -207,28 +207,33 @@ function Welfare(channel, master){
             }else if(master[i].gbp + master[i].account < 250){
                 master[i].gbp = 250 - parseFloat(master[i].account)
             }
+            if(master[i].loans.collection !== 0){
+                master[i].loans.collection -= 1
+            }
         }
         for(var i = 0; i < loans.length; i ++){
-            if(master[loans[i][0]].loans.remaining >= master[loans[i][1]].gbp){
-                master[loans[i][0]].loans.remaining -= master[loans[i][1]].gbp
-                master[loans[i][0]].gbp += master[loans[i][1]].gbp
-                master[loans[i][1]].gbp -= master[loans[i].gbp] 
-            }else{
-                master[loans[i][1]].gbp -= master[loans[i][0]].loans.remaining
-                master[loans[i][0]].gbp += master[loans[i][0]].loans.remaining
-                master[loans[i][0]].loans.remaining = 0
-            }
-            if(master[loans[i][0]].loans.remaining <= 0){
-                channel.send(`${master[loans[i][1]].name} has payed off their loan`)
-                master[loans[i][0]].loans = {
-                    target: "",
-                    remaining: 0,
-                    collection: 0,
-                    rate: 0
+            if(master[loans[i][0]].loans.collection == 0){
+                if(master[loans[i][0]].loans.remaining >= master[loans[i][1]].gbp){
+                    master[loans[i][0]].loans.remaining -= master[loans[i][1]].gbp
+                    master[loans[i][0]].gbp += master[loans[i][1]].gbp
+                    master[loans[i][1]].gbp -= master[loans[i].gbp] 
+                }else{
+                    master[loans[i][1]].gbp -= master[loans[i][0]].loans.remaining
+                    master[loans[i][0]].gbp += master[loans[i][0]].loans.remaining
+                    master[loans[i][0]].loans.remaining = 0
                 }
-            }
-            if(isNaN(master[loans[i][1]].gbp) == true){
-                master[loans[i][1]].gbp = 0
+                if(master[loans[i][0]].loans.remaining <= 0){
+                    channel.send(`${master[loans[i][1]].name} has payed off their loan`)
+                    master[loans[i][0]].loans = {
+                        target: "",
+                        remaining: 0,
+                        collection: 0,
+                        rate: 0
+                    }
+                }
+                if(isNaN(master[loans[i][1]].gbp) == true){
+                    master[loans[i][1]].gbp = 0
+                }
             }
         }
         
@@ -309,7 +314,7 @@ function Lottery(channel, master, unlock){
 }
 function JSON_Overwrite(master, stats_list, tracker, message){
     try{
-        master["450001712305143869"].loans.collection = 0
+        //master["450001712305143869"].loans.collection = 0
         fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');

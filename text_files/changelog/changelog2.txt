@@ -1,1 +1,3 @@
-asd
+**New Command: !loan**
+-Lets you track and take out loans with others
+-Can only take out and recieve 1 loan at a time

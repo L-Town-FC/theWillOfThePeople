@@ -43,6 +43,9 @@ module.exports = {
                     rate: 0
                 }
             break;
+            case 'help':
+                Loan_Help(message)
+            break
             default:
                 message.channel.send('Use "!loan help" for a list of commands')
         }
@@ -221,4 +224,17 @@ function Loan_Pay(message, args, master){
     }else{
         message.channel.send(`You currently don't have a loan to pay back`)
     }
+}
+
+function Loan_Help(message){
+    const fs = require('fs')
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    var loan_help = fs.readFileSync('./text_files/loan_commands')
+    var loan_embed = new Discord.RichEmbed()
+    .setTitle('List of Commands')
+    .setColor(embed.Color(message))
+    .setDescription(loan_help)
+
+    message.channel.send(loan_embed)
 }
