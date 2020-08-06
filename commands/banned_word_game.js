@@ -6,7 +6,7 @@ module.exports = {
         const Discord = require('discord.js')
         const banned = require('./Functions/bwg_functions')
         const embed = require('./Functions/embed_functions')
-        bwg = JSON.parse(fs.readFileSync("./JSON/banned_word_game.json", "utf-8"))
+        //bwg = JSON.parse(fs.readFileSync("./JSON/banned_word_game.json", "utf-8"))
         var command = String(args[1]).toLowerCase()
         var name = args[2]
         var bet = parseFloat(args[3])
@@ -25,20 +25,21 @@ module.exports = {
             case 'bet':
                 //starts game
                 try{
-                    if(bwg[user].gamestatus == 0){
+                    if(master[user].bwg.gamestatus == 0){
                         if(typeof(name) !== 'undefined' && names.includes(name.toLowerCase()) == true){
-                            if(bwg[user].name.toLowerCase() !== name.toLowerCase()){
+                            if(master[user].name.toLowerCase() !== name.toLowerCase()){
                                 var target = banned.Target(name, master, message)
                                 if(bet > money){
                                     message.channel.send("You don't have enough gbp for that bet")
                                 }else if(typeof(bet - 0) !== 'NaN' && bet >= min_bet && bet <= max_bet){
-                                    if(bwg[target].used_words.includes(word.toLowerCase()) == true){
+                                    console.log()
+                                    if(master[target].bwg.used_words.includes(word.toLowerCase()) == true){
                                         message.channel.send(`That word has already been successfully used on ${name}`)
                                     }else if (!/[^a-zA-Z]/.test(word) && word.length >= 6){
                                         message.channel.send('Your bet is accepted')
                                         banned.purchase(bet, user, message, master)
-                                        banned.New_Game(user, target, bet, word.toLowerCase(), message, bwg)
-                                        banned.Show_Status(user, bwg, master, message)
+                                        banned.New_Game(user, target, bet, word.toLowerCase(), message, master)
+                                        banned.Show_Status(user, master, message)
                                     }else{
                                         message.channel.send('Please give a valid 6 letter word')
                                     }
@@ -63,14 +64,14 @@ module.exports = {
                 //shows who is being targeted except in dms where it will show you your current game status
                 try{
                     if(message.channel.type === 'dm'){
-                        if(bwg[user].gamestatus == 1){
-                            banned.Show_Status(user, bwg, master, message)
+                        if(master[user].bwg.gamestatus == 1){
+                            banned.Show_Status(user, master, message)
                         }else{
                             var targets = []
                             var counter = 0
-                            for(i in bwg){
-                                if(bwg[i].target !== ""){
-                                    var id = bwg[i].target
+                            for(i in master){
+                                if(master[i].bwg.target !== ""){
+                                    var id = master[i].bwg.target
                                     targets[counter] = master[id].name
                                     counter++
                                 }
@@ -86,9 +87,9 @@ module.exports = {
                         //If they are, it adds the targets name to a list to be displayed
                         var targets = []
                         var counter = 0
-                        for(i in bwg){
-                            if(bwg[i].target !== ""){
-                                var id = bwg[i].target
+                        for(i in master){
+                            if(master[i].bwg.target !== ""){
+                                var id = master[i].bwg.target
                                 targets[counter] = master[id].name
                                 counter++
                             }
@@ -107,13 +108,14 @@ module.exports = {
             case 'reset':
                 try{
                     //resets the game in case of a glitch or if you want to switch your target
-                    banned.Reset(user, bwg, message)
+                    banned.Reset(user, master, message)
                     message.channel.send("Your game has been reset")
                 }catch(err){
                     console.log(err)
                     message.channel.send("Error occurred in bwg.js reset")
                 }
             break;
+
             case 'rules':
                 //shows basic rules of banned word game
                 try{
@@ -132,16 +134,16 @@ module.exports = {
                 //shows the words that can no longer be used for a person
                 if(typeof(name) == 'undefined'){
                     const word_list = new Discord.RichEmbed()
-                    .setTitle(`Words that can't be used on ${bwg[user].name}`)
+                    .setTitle(`Words that can't be used on ${master[user].name}`)
                     .setDescription(bwg[user].used_words)
                     .setColor(embed.Color(message))
                     message.channel.send(word_list)
                 }else if(names.includes(name.toLowerCase()) == true){
                     for(i in bwg){
-                        if(name.toLowerCase() == bwg[i].name.toLowerCase()){
+                        if(name.toLowerCase() == master[i].name.toLowerCase()){
                             const word_list = new Discord.RichEmbed()
-                            .setTitle(`Words that can't be used on ${bwg[i].name}`)
-                            .setDescription(bwg[i].used_words)
+                            .setTitle(`Words that can't be used on ${master[i].name}`)
+                            .setDescription(master[i].bwg.used_words)
                             .setColor(embed.Color(message))
                             message.channel.send(word_list)
                         }

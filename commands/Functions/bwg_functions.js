@@ -1,17 +1,19 @@
-function New_Game(player, target, bet, new_word, message, bwg){
+function New_Game(player, target, bet, new_word, message, master){
     try{
         const fs = require('fs')
         var remaining_msgs = 100
-        bwg[player].target = target
-        bwg[player].bet = bet
-        bwg[player].current_word = new_word
-        bwg[player].remaining_msgs = remaining_msgs
-        bwg[player].gamestatus = 1
+        master[player].bwg.target = target
+        master[player].bwg.bet = bet
+        master[player].bwg.current_word = new_word
+        master[player].bwg.remaining_msgs = remaining_msgs
+        master[player].bwg.gamestatus = 1
+        /*
         fs.writeFileSync ("./JSON/banned_word_game.json", JSON.stringify(bwg, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
             }
         );
+        */
     }catch(err){
         console.log(err)
         message.channel.send('Error occurred in bwg_functions.js New_Game')
@@ -19,14 +21,14 @@ function New_Game(player, target, bet, new_word, message, bwg){
 }
 module.exports.New_Game = New_Game
 
-function Show_Status(player, bwg, master, message){
+function Show_Status(player, master, message){
     try{
     const Discord = require('discord.js')
     const embed = require('./embed_functions')
-    var target = master[bwg[player].target].name
-    var bet = bwg[player].bet
-    var word = bwg[player].current_word
-    var msgs = bwg[player].remaining_msgs
+    var target = master[master[player].bwg.target].name
+    var bet = master[player].bwg.bet
+    var word = master[player].bwg.current_word
+    var msgs = master[player].bwg.remaining_msgs
     const status_embed = new Discord.RichEmbed()
     .setTitle(`${bwg[player].name} Game Status`)
     .setDescription(`Target: ${target} \nCurrent Word: ${word} \nBet: ${bet} \nRemaining Messages: ${msgs}`)
@@ -54,20 +56,21 @@ function Target(name, master, message){
 }
 module.exports.Target = Target
 
-function Reset(player, bwg, message){
+function Reset(player, master, message){
     try{
         const fs = require('fs')
-        bwg[player].target = ""
-        bwg[player].current_word = ""
-        bwg[player].bet = 0
-        bwg[player].remaining_msgs = ""
-        bwg[player].gamestatus = 0
-
+        master[player].bwg.target = ""
+        master[player].bwg.bet = 0
+        master[player].bwg.current_word = ""
+        master[player].bwg.remaining_msgs = ""
+        master[player].bwg.gamestatus = 0
+        /*
         fs.writeFileSync ("./JSON/banned_word_game.json", JSON.stringify(bwg, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
             }
         );
+        */
     }catch(err){
         console.log(err)
         message.channel.send('Error occurred in bwg_functions.js Reset')

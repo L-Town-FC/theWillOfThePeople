@@ -1,7 +1,7 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 250,
+    "gbp": 220,
     "achievements": [
       34,
       3,
@@ -21,12 +21,15 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": [
+        "tester"
+      ]
     }
   },
   "497803559144914944": {
     "name": "Andrew",
-    "gbp": 5476.25,
+    "gbp": 5576.25,
     "achievements": [
       7,
       10
@@ -44,7 +47,10 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": [
+        "tester"
+      ]
     }
   },
   "499328039621230592": {
@@ -80,7 +86,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "463080062175019010": {
@@ -115,7 +122,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "210861925771247636": {
@@ -158,7 +166,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "501929393401364481": {
@@ -178,7 +187,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "509430603339399186": {
@@ -198,7 +208,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "526190184455471105": {
@@ -231,7 +242,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "462798271195119626": {
@@ -254,7 +266,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "562203622474252288": {
@@ -274,7 +287,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "501887537451630593": {
@@ -296,7 +310,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "434471986748456962": {
@@ -319,7 +334,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "497861779020578837": {
@@ -359,7 +375,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "501930484838957069": {
@@ -379,7 +396,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "581903756111773716": {
@@ -399,7 +417,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "508076579684089896": {
@@ -427,7 +446,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "525147400176664626": {
@@ -449,7 +469,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "640368746690510868": {
@@ -471,7 +492,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   },
   "498262864541515786": {
@@ -491,7 +513,8 @@
       "current_word": "",
       "bet": 0,
       "remaining_msgs": "",
-      "gamestatus": 0
+      "gamestatus": 0,
+      "used_words": []
     }
   }
 }

@@ -57,6 +57,7 @@ module.exports = {
                     "bet": 0,
                     "remaining_msgs": "",
                     "gamestatus": 0,
+                    "used_word": []
                 }
             }
 
