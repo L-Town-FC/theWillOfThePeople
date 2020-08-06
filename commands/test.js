@@ -44,12 +44,22 @@ module.exports = {
             }
             for(i in master){
                 master[i].account = 0
+
                 master[i].loans = {}
                 master[i].loans.target = ''
                 master[i].loans.remaining = 0
                 master[i].loans.collection = 0
                 master[i].loans.rate = 0
+
+                master[i].bwg = {
+                    "target": "",
+                    "current_word": "",
+                    "bet": 0,
+                    "remaining_msgs": "",
+                    "gamestatus": 0,
+                }
             }
+
             /*
             for(i in bwg){
                 bwg[i].target = ""
