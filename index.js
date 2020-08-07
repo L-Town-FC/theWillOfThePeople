@@ -167,6 +167,9 @@ bot.on('message', message =>{
                 case 'loan':
                     bot.commands.get('loan').execute(message,args, master);
                 break;
+                case 'ceelo':
+                    bot.commands.get('ceelo').execute(message, args, master, stats_list, tracker)
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;
