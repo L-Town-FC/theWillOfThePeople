@@ -1,0 +1,16 @@
+{
+  "games": {
+    "1": {
+      "participants": [
+        [
+          "450001712305143869",
+          0,
+          0
+        ]
+      ],
+      "bet": 15,
+      "game_start": false,
+      "game_over": false
+    }
+  }
+}
