@@ -1,6 +1,3 @@
-const { type } = require('os')
-const { join } = require('path')
-
 module.exports = {
     name: 'ceelo',
     description: 'lets you play ceelo with others',
@@ -10,7 +7,7 @@ module.exports = {
         const Discord = require('discord.js')
         const embed = require('./Functions/embed_functions')
         var command = args[1] || 'default'
-        ceelo = JSON.parse(fs.readFileSync('./JSON/ceelo.json', 'utf-8'))
+        var ceelo = JSON.parse(fs.readFileSync('./JSON/ceelo.json', 'utf-8'))
 
         switch(command){
             case 'start':
@@ -28,15 +25,18 @@ module.exports = {
             break;
             case 'roll':
                 //lets you roll the dice
-                Ceelo_Roll(message, args, ceelo, master)
+                Ceelo_Roll(message, ceelo, master)
             break;
             case 'wash':
                 //lets you roll the dice but they don't count
-                Ceelo_Wash(message, args, ceelo, master)
+                Ceelo_Wash(message, ceelo, master)
             break;
             case 'basics':
                 //Shows the the hand rankings
                 Ceelo_Basics(message)
+            break;
+            case 'status':
+                Ceelo_Status(message. ceelo, master)
             break;
             case 'help':
                 //List of commands
@@ -74,8 +74,9 @@ function Ceelo_Start(message, args, ceelo, master){
             message.channel.send(`You have ${time} seconds to join the game`)
             if(games == 0){
                 var i = 1
+                //participants goes [id, turn number, hand value, roll number]
                 ceelo.games[i] = {
-                    "participants" : [[message.author.id ,0 , 0]],
+                    "participants" : [[message.author.id ,0 ,0 ,0]],
                     "bet": parseFloat(bet),
                     "game_start": false,
                     "game_over": false,
@@ -90,7 +91,7 @@ function Ceelo_Start(message, args, ceelo, master){
                 if(typeof(inGame) === 'undefined'){
                     i = parseInt(i) + 1
                     ceelo.games[i] = {
-                        "participants" : [[message.author.id ,0 , 0]],
+                        "participants" : [[message.author.id ,0 ,0 ,0]],
                         "bet": parseFloat(bet),
                         "game_start": false,
                         "game_over": false
@@ -102,6 +103,7 @@ function Ceelo_Start(message, args, ceelo, master){
                     var ceelo2 = JSON.parse(fs.readFileSync('./JSON/ceelo.json', 'utf-8'))
                     if(ceelo2.games[i].participants.length > 1){
                         ceelo2.games[i].game_start = true
+                        message.channel.send(`Game started \nIt is ${master[ceelo2.games[i].participants[0][0]].name}'s turn`)
                     }else{
                         message.channel.send('Not enough players. Game cancelled')
                         delete ceelo2.games[i]
@@ -168,16 +170,72 @@ function Ceelo_Leave(message, args, ceelo, master){
     
 }
 
-function Ceelo_Roll(message, args, ceelo, master){
+function Ceelo_Roll(message, ceelo, master){
     //Starts by saying whos turn it is to roll
     //they have 15 seconds to roll or wash
     //once they roll, change the second number in the pair to 1
     //after everyone has rolled, compare scores and assign winner
     //in event of tie, reset
     //once winner has been decided, clear ceelo_players and game_start
+    const fs = require('fs')
+    var player = message.author.id
+    for(var i in ceelo.games){
+        for(var j = 0; j < ceelo.games[i].participants.length; j++){
+            if(player == ceelo.games[i].participants[j][0]){
+                var player_game = i
+                var participant_number = j
+            }
+        }
+        if(typeof(player_game) == 'undefined'){
+            message.channel.send(`You currently aren't in a game`)
+        }else if(typeof(ceelo.games[player_game].participants[participant_number-1]) == 'undefined' || ceelo.games[player_game].participants[participant_number-1][2] == 1){
+            if(ceelo.games[player_game].participants[participant_number][1] == 0){
+                //Its your turn. Roll the dice
+                //participants goes [id, turn number, hand value, roll number]
+                var roll = Roll()
+                message.channel.send(`${master[message.author.id].name} Hand: \n${roll[0]}`)
+                if(roll[1] >= 0){
+                    message.channel.send('Good Roll')
+                    ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], 0]//first 0 should become 1
+                }else{
+                    message.channel.send('Roll Again')
+                    ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], ceelo.games[player_game].participants[participant_number][3] + 1]
+                }
+
+
+
+
+                
+                //Need to introduce check for if you run out of rolls or if you get a good roll
+
+
+
+
+
+
+                fs.writeFileSync ("./JSON/ceelo.json", JSON.stringify(ceelo, null, 2), function(err) {
+                    if (err) throw err;
+                    console.log('complete');
+                    }
+                );
+            }else{
+                message.channel.send(`It isn't your turn`)
+            }
+            
+        }else{
+            console.log(typeof(ceelo.games[player_game].participants[participant_number-1]))
+            console.log(ceelo.games[player_game].participants[participant_number-1][2])
+        }
+    }
+    
+
 }
 
-function Ceelo_Wash(message, args, ceelo, master){
+function Ceelo_Wash(message, ceelo, master){
+    
+}
+
+function Ceelo_Status(message, ceelo, master){
     
 }
 
@@ -187,4 +245,36 @@ function Ceelo_Basics(message){
 
 function Ceelo_Help(message){
 
+}
+
+function Roll(){
+    //wash should be a boolean
+    var hand = []
+    for(var i = 0; i < 3; i++){
+        hand.push(Math.ceil(Math.random() * 6))
+    }
+    //
+    hand = [1,2,4]
+    //
+    orig_hand = [hand[0], hand[1], hand[2]]
+    console.log(orig_hand)
+    hand = hand.sort((a,b) => b - a)
+    var value
+    if(hand[0] == hand[1] && hand[0] !== hand[2]){
+        value = hand[2]
+    }else if(hand[1] == hand[2] && hand[0] !== hand[2]){
+        value = hand[0]
+    }else if(hand.includes(1) == true && hand.includes(2) == true && hand.includes(3) == true){
+        value = 0
+    }else if(hand[0] == hand[1] && hand[0] == hand[2]){
+        value = hand[0] + 6
+    }else if(hand.includes(4) == true && hand.includes(5) == true && hand.includes(6) == true){
+        value = 13
+    }else{
+        value = -1
+    }
+
+    console.log([orig_hand, value])
+
+    return [orig_hand, value]
 }

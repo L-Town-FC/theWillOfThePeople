@@ -1,3 +1,7 @@
 **New Command: !loan**
 -Lets you track and take out loans with others
 -Can only take out and recieve 1 loan at a time
+**-!boo now costs 500 gbp**
+**-!insults now triggers randomly instead of every 8th message**
+**-!transfer now says who initiated the transfer**
+**-!kumiko now lets you go negative**

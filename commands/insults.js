@@ -13,7 +13,7 @@ module.exports = {
         try{
             if (typeof(name) == 'undefined' ){
                 for(i in master){
-                    if(insultee_and_count[0] == i){
+                    if(insultee_and_count == i){
                         message.channel.send(`${master[i].name} is currently being insulted`)
                     }
                 }
@@ -22,9 +22,9 @@ module.exports = {
                 if(parseFloat(money) >= price){
                     for(i in master){
                         if(master[i].name.toLowerCase() == name.toLowerCase()){
-                            insultee_and_count[0] = i;
-                            insultee_and_count[1] = 1;
-                            message.channel.send(`${master[insultee_and_count[0]].name} is now being insulted`)
+                            insultee_and_count = i;
+                            //insultee_and_count[1] = 1;
+                            message.channel.send(`${master[insultee_and_count].name} is now being insulted`)
                             purchase(price, buyer, master)
                             fs.writeFileSync("./text_files/insult_counter.txt", insultee_and_count);
                             success = true
@@ -32,14 +32,14 @@ module.exports = {
                             unlock.tracker1(message.author.id, 13, 1,  message, master, tracker)
 
                             //Toxic Achievement Tracker
-                            unlock.reset2(insultee_and_count[0], 20, 1)
-                            unlock.tracker2(insultee_and_count[0], 20, 1, message, master, tracker)
+                            unlock.reset2(insultee_and_count, 20, 1)
+                            unlock.tracker2(insultee_and_count, 20, 1, message, master, tracker)
 
                             if(name.toLowerCase() == 'alex'){
                                 //As god intened it to be Achievement Tracker
                                 unlock.unlock(buyer, 19, message, master)
                             }
-                            if(buyer == insultee_and_count[0]){
+                            if(buyer == insultee_and_count){
                                 //Masochist Achievement
                                 unlock.unlock(buyer, 22, message, master)
                             }

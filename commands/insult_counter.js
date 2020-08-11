@@ -6,15 +6,15 @@ module.exports = {
             const fs = require('fs');
             const unlock = require("./Functions/Achievement_Functions")
             var insulted_counter= fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
-            var name_count = parseInt(insulted_counter[1]);
+            const insults_chance = 8
+            //var name_count = parseInt(insulted_counter[1]);
             
             if (message.content.startsWith("!") == false){
-                if (insulted_counter[0] == message.author.id){
+                if (insulted_counter == message.author.id){
                     //checks if author or message mathces the intended target
-                    if (parseInt(name_count) <= 7){
-                        name_count = name_count + 1;
-                        insulted_counter[1] = name_count;
-                    }else{
+                    var chance = Math.floor(Math.random() * insults_chance)
+                    console.log(chance)
+                    if (chance == 3){
                         var insults = ['Fuck You', 'You Fucking Troglodyte', 'Fuckin Doo Doo Brains',"You are so repulsive that even Zaid won't suck your toes",
                                         'You dumb fucking cretin, you fucking fool, absolute fucking buffoon, you bumbling idiot. Fuck you', 'Go Fuck Yourself', 'Fucking Pussy Nerd Virgin',
                                         'Read a book', 'Ok bud, bud Ok', "You're fucking 10-ply bud", "You're just spare parts aren't yah bud", 'See you next Tuesday',
@@ -51,7 +51,6 @@ module.exports = {
                                         "You are a sad strange little man, and you have my pity", "I don't like your jerk-off name. I don't like your jerk-off face. I don't like your jerk-off behavior, and I don't like you, jerk-off. Do I make myself clear?",
                                         "Nice going Ron", "What the fuck Richard","I can't believe you've done this"]
                         message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
-                        insulted_counter[1] = 1;
                         fs.writeFileSync('./text_files/insult_counter.txt', insulted_counter)
                         unlock.tracker1(message.author.id, 21, 1, message, master, tracker)
                         //console.log(insults.length)

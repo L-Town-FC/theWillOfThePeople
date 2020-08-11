@@ -5,7 +5,7 @@ module.exports = {
         const fs = require('fs')
         const unlock = require("./Functions/Achievement_Functions")
         var boo = fs.readFileSync('./text_files/boo.txt', "utf-8")
-        var price = 250;
+        var price = 500;
         var name = args[1];
         var success = false
 
