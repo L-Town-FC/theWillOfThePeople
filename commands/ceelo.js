@@ -1,4 +1,6 @@
 const { type } = require('os')
+const { count } = require('console')
+const { reset } = require('nodemon')
 
 module.exports = {
     name: 'ceelo',
@@ -199,7 +201,7 @@ function Ceelo_Roll(message, ceelo, master){
         }else if(typeof(ceelo.games[player_game].participants[participant_number-1]) == 'undefined' || ceelo.games[player_game].participants[participant_number-1][1] == 1){
             if(ceelo.games[player_game].participants[participant_number][1] == 0){
                 //Its your turn. Roll the dice
-                //participants goes [id, turn number, hand value, roll number]
+                //participants goes [id, turn number, hand value, roll number, actual hand]
                 var roll = Roll()
                 message.channel.send(`${master[message.author.id].name} Hand: \n${roll[0]}`)
                 if(roll[1] >= 0 && ceelo.games[player_game].participants[participant_number][3] < 2){
@@ -213,7 +215,7 @@ function Ceelo_Roll(message, ceelo, master){
                     ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], ceelo.games[player_game].participants[participant_number][3] + 1, roll[0]]
                 }
 
-                Round_Over(message, ceelo, master)
+                Round_Over(message, player_game, ceelo, master)
                 
                 //Need to introduce check for if everyone has rolled or not
                 //Also set persons score to 0 and their turn to -1 if they aren't involved in tie
@@ -273,8 +275,70 @@ function Roll(){
     return [orig_hand, value]
 }
 
-function Round_Over(){
+function Round_Over(message, player_game, ceelo, master){
+    //checks if the round of hands is over and if there are any ties
+    var counter = 0
+    var isOverCounter = 0
+    var hand_values = []
+    for(var i = 0;i < ceelo.games[player_game].participants.length; i++){
+        counter++
+        if(ceelo.games[player_game].participants[i][1] == 1){
+            isOverCounter++
+            hand_values.push(ceelo.games[player_game].participants[i][2])
+        }
+    }
+    if(counter == isOverCounter){
+        //games is over
+        //check for tie
+        var best = Math.max(hand_values)
+        var isTie = find_duplicate_in_array(hand_values)
+        if(isTie !== [] && Math.max(isTie) == best){
+            //There is a tie and it is with the largest value
+            //Find all users with returned value and reset them. Put everyone else at turn number = 1 and a score of -2
+            //if they have -2, don't reset them. It means there have been multiple rounds of ties
+            for(var i in hand_values){
+                if(hand_values[i] == result){
+                    ceelo.games[player_game].participants[i][1] = 0
+                    ceelo.games[player_game].participants[i][2] = 0
+                    ceelo.games[player_game].participants[i][3] = 0
+                    ceelo.games[player_game].participants[i][4] = 0
+                }else{
+                    ceelo.games[player_game].participants[i][1] = 1
+                    ceelo.games[player_game].participants[i][2] = -2
+                    ceelo.games[player_game].participants[i][3] = 0
+                    ceelo.games[player_game].participants[i][4] = 0
+                }
+            }
+            message.channel.send('There was a tie. Next round begins')
+        }else if(isTie !== []){
+            //There is a tie but it doesn't matter becaue its between lesser values
 
+        }else{
+            //There isn't a tie
+            //Find largest hand value and declare user a winner
+        }
+        
+    }else{
+        //game is not over
+        //return something that says that
+    }
+    function find_duplicate_in_array(arra1) {
+        var object = {};
+        var result = [];
+    
+        arra1.forEach(item => {
+        if(!object[item])
+            object[item] = 0;
+            object[item] += 1;
+        })
+    
+        for (const prop in object) {
+        if(object[prop] >= 2) {
+            result.push(prop);
+        }
+        }
+        return result;
+    }
 }
 
 function Ceelo_Status_All(message, ceelo, master){
