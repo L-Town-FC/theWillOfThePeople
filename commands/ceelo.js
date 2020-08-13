@@ -1,3 +1,5 @@
+const { type } = require('os')
+
 module.exports = {
     name: 'ceelo',
     description: 'lets you play ceelo with others',
@@ -8,6 +10,7 @@ module.exports = {
         const embed = require('./Functions/embed_functions')
         var command = args[1] || 'default'
         var ceelo = JSON.parse(fs.readFileSync('./JSON/ceelo.json', 'utf-8'))
+        var name = args[2]
 
         switch(command){
             case 'start':
@@ -36,7 +39,12 @@ module.exports = {
                 Ceelo_Basics(message)
             break;
             case 'status':
-                Ceelo_Status(message. ceelo, master)
+                //Make it so game is seachable for the score like how help works
+                if(typeof(name) == 'undefined'){
+                    Ceelo_Status_All(message, ceelo, master)
+                }else{
+                    Ceelo_Status_Check(message, ceelo, master)
+                }
             break;
             case 'help':
                 //List of commands
@@ -148,7 +156,8 @@ function Ceelo_Join(message, ceelo, master){
         if(typeof(inGame) == 'undefined'){
             //If you aren't in a game currently and there a joinable game exists you are here
             if(master[message.author.id].gbp >= ceelo.games[join_index].bet){
-                ceelo.games[join_index].participants.push([message.author.id ,0 , 0])
+                ceelo.games[join_index].participants.push([message.author.id ,0 , 0, 0])
+                message.channel.send(`${master[message.author.id].name} joined the game`)
                 fs.writeFileSync ("./JSON/ceelo.json", JSON.stringify(ceelo, null, 2), function(err) {
                     if (err) throw err;
                     console.log('complete');
@@ -188,15 +197,18 @@ function Ceelo_Roll(message, ceelo, master){
         }
         if(typeof(player_game) == 'undefined'){
             message.channel.send(`You currently aren't in a game`)
-        }else if(typeof(ceelo.games[player_game].participants[participant_number-1]) == 'undefined' || ceelo.games[player_game].participants[participant_number-1][2] == 1){
+        }else if(typeof(ceelo.games[player_game].participants[participant_number-1]) == 'undefined' || ceelo.games[player_game].participants[participant_number-1][1] == 1){
             if(ceelo.games[player_game].participants[participant_number][1] == 0){
                 //Its your turn. Roll the dice
                 //participants goes [id, turn number, hand value, roll number]
                 var roll = Roll()
                 message.channel.send(`${master[message.author.id].name} Hand: \n${roll[0]}`)
-                if(roll[1] >= 0){
+                if(roll[1] >= 0 && ceelo.games[player_game].participants[participant_number][3] < 2){
                     message.channel.send('Good Roll')
                     ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], 0]//first 0 should become 1
+                }else if(ceelo.games[player_game].participants[participant_number][3] >= 2){
+                    message.channel.send('You ran out of rolls')
+                    ceelo.games[player_game].participants[participant_number][1] = 1
                 }else{
                     message.channel.send('Roll Again')
                     ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], ceelo.games[player_game].participants[participant_number][3] + 1]
@@ -204,9 +216,10 @@ function Ceelo_Roll(message, ceelo, master){
 
 
 
-
+                Round_Over(message, ceelo, master)
                 
-                //Need to introduce check for if you run out of rolls or if you get a good roll
+                //Need to introduce check for if everyone has rolled or not
+                //Also set persons score to 0 and their turn to -1 if they aren't involved in tie
 
 
 
@@ -235,17 +248,6 @@ function Ceelo_Wash(message, ceelo, master){
     
 }
 
-function Ceelo_Status(message, ceelo, master){
-    
-}
-
-function Ceelo_Basics(message){
-
-}
-
-function Ceelo_Help(message){
-
-}
 
 function Roll(){
     //wash should be a boolean
@@ -277,4 +279,48 @@ function Roll(){
     console.log([orig_hand, value])
 
     return [orig_hand, value]
+}
+
+function Round_Over(){
+
+}
+
+function Ceelo_Status_All(message, ceelo, master){
+    const fs = require('fs')
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    var Status_embed = new Discord.RichEmbed()
+    .setTitle('Ceelo Game Status')
+    .setColor(embed.Color(message))
+    var embed_stuff = []
+    var names = []
+    
+    for(var i in ceelo.games){
+        if(typeof(ceelo.games[i]) !== 'undefined'){
+            for(var j = 0; j < ceelo.games[i].participants.length; j++){
+                names.push(master[ceelo.games[i].participants[j][0]].name)
+            }
+            embed_stuff.push([`${i}: ${names}`])
+            names = []
+        }
+    }
+    console.log(embed_stuff)
+    Status_embed.addField('Games',embed_stuff)
+    message.channel.send(Status_embed)
+}
+
+function Ceelo_Status_Check(message, ceelo, master){
+    const fs = require('fs')
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    
+}
+
+
+function Ceelo_Basics(message){
+
+}
+
+function Ceelo_Help(message){
+
 }
