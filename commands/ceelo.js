@@ -206,10 +206,13 @@ function Ceelo_Roll(message, ceelo, master){
                 message.channel.send(`${master[message.author.id].name} Hand: \n${roll[0]}`)
                 if(roll[1] >= 0 && ceelo.games[player_game].participants[participant_number][3] < 2){
                     message.channel.send('Good Roll')
-                    ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], 0, roll[0]]//first 0 should become 1
+                    ceelo.games[player_game].participants[participant_number] = [player, 1, roll[1], 0, roll[0]]//first 0 should become 1
                 }else if(ceelo.games[player_game].participants[participant_number][3] >= 2){
-                    message.channel.send('You ran out of rolls')
+                    ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], 3, roll[0]]
                     ceelo.games[player_game].participants[participant_number][1] = 1
+                    if(roll[1] < 0){
+                        message.channel.send('You ran out of rolls')
+                    }
                 }else{
                     message.channel.send('Roll Again')
                     ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], ceelo.games[player_game].participants[participant_number][3] + 1, roll[0]]
@@ -249,11 +252,12 @@ function Roll(){
     for(var i = 0; i < 3; i++){
         hand.push(Math.ceil(Math.random() * 6))
     }
+
     //
-    hand = [1,2,4]
+    //hand = [1,2,2]
     //
+
     orig_hand = [hand[0], hand[1], hand[2]]
-    console.log(orig_hand)
     hand = hand.sort((a,b) => b - a)
     var value
     if(hand[0] == hand[1] && hand[0] !== hand[2]){
@@ -290,14 +294,17 @@ function Round_Over(message, player_game, ceelo, master){
     if(counter == isOverCounter){
         //games is over
         //check for tie
-        var best = Math.max(hand_values)
+        var best = Math.max.apply(Math, hand_values)
         var isTie = find_duplicate_in_array(hand_values)
-        if(isTie !== [] && Math.max(isTie) == best){
+        //console.log(`hand_values is: ${hand_values}`)
+        //console.log(`isTie is: ${isTie}`)
+        //console.log(`best is: ${best}`)
+        if(isTie !== [] && Math.max.apply(Math, isTie) == best){
             //There is a tie and it is with the largest value
             //Find all users with returned value and reset them. Put everyone else at turn number = 1 and a score of -2
             //if they have -2, don't reset them. It means there have been multiple rounds of ties
             for(var i in hand_values){
-                if(hand_values[i] == result){
+                if(hand_values[i] == best){
                     ceelo.games[player_game].participants[i][1] = 0
                     ceelo.games[player_game].participants[i][2] = 0
                     ceelo.games[player_game].participants[i][3] = 0
@@ -310,12 +317,19 @@ function Round_Over(message, player_game, ceelo, master){
                 }
             }
             message.channel.send('There was a tie. Next round begins')
-        }else if(isTie !== []){
-            //There is a tie but it doesn't matter becaue its between lesser values
-
         }else{
-            //There isn't a tie
-            //Find largest hand value and declare user a winner
+            //There is a definite winner
+            console.log(best)
+            for(var i = 0; i < ceelo.games[player_game].participants.length; i++){
+                master[ceelo.games[player_game].participants[i][0]].gbp -= ceelo.games[player_game].bet
+                if(ceelo.games[player_game].participants[i][2] == best){
+                    var winner = ceelo.games[player_game].participants[i][0]
+                    var amount = parseFloat(ceelo.games[player_game].participants.length * ceelo.games[player_game].bet)
+                    master[winner].gbp += amount
+                    message.channel.send(`${master[winner].name} won. They win ${amount - ceelo.games[player_game].bet}`)
+                }
+            }
+            delete ceelo.games[player_game]
         }
         
     }else{
@@ -383,7 +397,9 @@ function Ceelo_Status_Check(message, args, ceelo, master){
         .setColor(embed.Color(message))
         for(var i in ceelo.games[index].participants){
             var player = ceelo.games[index].participants[i]
-            if(player[4] == '0'){
+            if(player[2] == -2){
+                player[4] = 'No Turn'
+            }else if(player[4] == '0'){
                 player[4] = 'None'
                 console.log(player)
             }
@@ -395,9 +411,24 @@ function Ceelo_Status_Check(message, args, ceelo, master){
 
 
 function Ceelo_Basics(message){
-
+    const fs = require('fs')
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    var ceelo_basics = new Discord.RichEmbed()
+    .setTitle('**Ceelo Basics**')
+    .addField('**Rules:**', fs.readFileSync('./text_files/ceelo/ceelo_basics', 'utf-8'))
+    .addField('**Hands from Best to Worst:**', fs.readFileSync('./text_files/ceelo/ceelo_hands', 'utf-8'))
+    .setColor(embed.Color(message))
+    message.channel.send(ceelo_basics)
 }
 
 function Ceelo_Help(message){
-
+    const fs = require('fs')
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    var ceelo_help = new Discord.RichEmbed()
+    .setTitle('Ceelo Commands')
+    .setDescription(fs.readFileSync('./text_files/ceelo/ceelo_commands.txt', 'utf-8'))
+    .setColor(embed.Color(message))
+    message.channel.send(ceelo_help)
 }

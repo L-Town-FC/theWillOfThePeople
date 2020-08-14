@@ -139,5 +139,15 @@
         "**!loan offer [person] [amount] [interest rate] [days to collect]:** Offers a loan to the specified person for the specified amount and interest rate. After [days] number of days the loan will begin to be automatically collected",
         "**!loan accept:** Lets you accept a loan if you have been offered one",
         "**!loan pay:** Lets you pay off your loan early"]
+    },
+    "24":{
+        "name": "!ceelo",
+        "description": "Lets you play ceelo with others",
+        "rules": ["**!ceelo start [bet]:** Creates a joinable game of Ceelo with for [bet] gbp. You only have 15 seconds to enter the game",
+        "**!ceelo join:** Lets you join a game",
+        "**!ceelo roll:** Lets you roll the die",
+        "**!ceelo wash:** Lets you roll the die, but the hand doesn't count",
+        "**!ceelo status [game]:** Lets you see the status of the specified game. If no game is specified, it shows a list of all actve games",
+        "**!ceelo basics:** Gives a list of basic rules and hand values"]
     }
 }
