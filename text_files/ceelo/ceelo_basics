@@ -1,5 +1,4 @@
 -Ceelo requires atleast 2 players
 -Each player rolls the die to try and get a valid hand
--Each player gets 3 rolls per turn
--A "wash" doesn't count as a roll, but the hand doesn't count either
--You have 10 messages between rolls or you lose a roll/turn
+-A "wash" doesn't count as a hand
+-You have 10 messages between rolls or you lose your turn

@@ -1,4 +1,4 @@
-!ceelo start [bet]: Creates a joinable game of Ceelo with for [bet] gbp. You only have 15 seconds to enter the game
+!ceelo start [bet]: Creates a joinable game of Ceelo for [bet] gbp. You only have 15 seconds to enter the game
 
 !ceelo join: Lets you join a game
 

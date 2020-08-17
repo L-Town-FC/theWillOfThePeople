@@ -5,3 +5,5 @@
 **-!insults now triggers randomly instead of every 8th message**
 **-!transfer now says who initiated the transfer**
 **-!kumiko now lets you go negative**
+**Added more Pugs**
+**!steal now steals between 25% and 50% of whatever you pay from your target**

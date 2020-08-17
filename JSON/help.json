@@ -102,7 +102,7 @@
     },
     "18":{
         "name":"!steal",
-        "description":["Steals a percentage of what you pay from another user","Costs a minimum of 250 gbp"],
+        "description":["Steals between 25% and 50% of what you pay from another user","Costs a minimum of 250 gbp"],
         "rules":"**!steal [user] [amount paid for heist]:** Lets you steal from the specified user, paying the specified amount"
     },
     "19":{
@@ -143,7 +143,7 @@
     "24":{
         "name": "!ceelo",
         "description": "Lets you play ceelo with others",
-        "rules": ["**!ceelo start [bet]:** Creates a joinable game of Ceelo with for [bet] gbp. You only have 15 seconds to enter the game",
+        "rules": ["**!ceelo start [bet]:** Creates a joinable game of Ceelo for [bet] gbp. You only have 15 seconds to enter the game",
         "**!ceelo join:** Lets you join a game",
         "**!ceelo roll:** Lets you roll the die",
         "**!ceelo wash:** Lets you roll the die, but the hand doesn't count",

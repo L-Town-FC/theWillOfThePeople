@@ -13,7 +13,7 @@ module.exports = {
                 if (insulted_counter == message.author.id){
                     //checks if author or message mathces the intended target
                     var chance = Math.floor(Math.random() * insults_chance)
-                    console.log(chance)
+                    //console.log(chance)
                     if (chance == 3){
                         var insults = ['Fuck You', 'You Fucking Troglodyte', 'Fuckin Doo Doo Brains',"You are so repulsive that even Zaid won't suck your toes",
                                         'You dumb fucking cretin, you fucking fool, absolute fucking buffoon, you bumbling idiot. Fuck you', 'Go Fuck Yourself', 'Fucking Pussy Nerd Virgin',

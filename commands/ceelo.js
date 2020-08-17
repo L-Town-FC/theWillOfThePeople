@@ -1,7 +1,3 @@
-const { type } = require('os')
-const { count } = require('console')
-const { reset } = require('nodemon')
-
 module.exports = {
     name: 'ceelo',
     description: 'lets you play ceelo with others',
@@ -24,9 +20,6 @@ module.exports = {
                 //lets people join the game before it closes
                 Ceelo_Join(message, ceelo, master)
             break;
-            case 'leave':
-                //lets people leave the game before it closes
-                Ceelo_Leave(message, args, ceelo, master)
             break;
             case 'roll':
                 //lets you roll the dice
@@ -54,6 +47,7 @@ module.exports = {
             break;
             case 'reset':
                 //lets me reset the game if necessary
+                Ceelo_Reset(message, args)
             break
             default:
                 message.channel.send('Use "!ceelo help" for a list of commnands')
@@ -84,17 +78,17 @@ function Ceelo_Start(message, args, ceelo, master){
             message.channel.send(`You have ${time} seconds to join the game`)
             if(games == 0){
                 var i = 1
-                //participants goes [id, turn number, hand value, roll number]
+                //participants goes [id, turn number, hand value, roll number, actual hand]
                 ceelo.games[i] = {
                     "participants" : [[message.author.id ,0 ,0 ,0, 0]],
                     "bet": parseFloat(bet),
                     "game_start": false,
-                    "game_over": false,
+                    "message_counter": 10,
                 }
             }else{
                 for(var i in ceelo.games){
                     if(ceelo.games[i].participants.includes(message.author.id)){
-                        //var inGame = true
+                        var inGame = true
                         //uncomment this out so you can only join 1 game at a time
                     }
                 }
@@ -104,7 +98,7 @@ function Ceelo_Start(message, args, ceelo, master){
                         "participants" : [[message.author.id ,0 ,0 ,0, 0]],
                         "bet": parseFloat(bet),
                         "game_start": false,
-                        "game_over": false
+                        "message_counter": 10
                     }
                 }
             }
@@ -144,7 +138,7 @@ function Ceelo_Join(message, ceelo, master){
         if(typeof(ceelo.games[i]) !== 'undefined'){    
             for(var j in ceelo.games[i].participants){
                 if(ceelo.games[i].participants[j][0] == message.author.id){
-                    //var inGame = true
+                    var inGame = true
                     //uncomment this out later so same person can't be in multiple games
                 }
             }
@@ -177,10 +171,6 @@ function Ceelo_Join(message, ceelo, master){
     
 }
 
-function Ceelo_Leave(message, args, ceelo, master){
-    
-}
-
 function Ceelo_Roll(message, ceelo, master){
     //Starts by saying whos turn it is to roll
     //once they roll, change the second number in the pair to 1
@@ -198,16 +188,22 @@ function Ceelo_Roll(message, ceelo, master){
         }
         if(typeof(player_game) == 'undefined'){
             message.channel.send(`You currently aren't in a game`)
+        }else if(ceelo.games[i].game_start == false){
+            message.channel.send(`The game hasn't started yet`)
         }else if(typeof(ceelo.games[player_game].participants[participant_number-1]) == 'undefined' || ceelo.games[player_game].participants[participant_number-1][1] == 1){
             if(ceelo.games[player_game].participants[participant_number][1] == 0){
                 //Its your turn. Roll the dice
                 //participants goes [id, turn number, hand value, roll number, actual hand]
                 var roll = Roll()
+                ceelo.games[player_game].message_counter = 10
                 message.channel.send(`${master[message.author.id].name} Hand: \n${roll[0]}`)
-                if(roll[1] >= 0 && ceelo.games[player_game].participants[participant_number][3] < 2){
+                if(roll[1] >= 0 && ceelo.games[player_game].participants[participant_number][3] < 80){
                     message.channel.send('Good Roll')
                     ceelo.games[player_game].participants[participant_number] = [player, 1, roll[1], 0, roll[0]]//first 0 should become 1
-                }else if(ceelo.games[player_game].participants[participant_number][3] >= 2){
+                    if(typeof(ceelo.games[player_game].participants[participant_number + 1]) !== 'undefined'){
+                        message.channel.send(`It is now <@${ceelo.games[player_game].participants[participant_number + 1][0]}>'s turn`)
+                    }
+                }else if(ceelo.games[player_game].participants[participant_number][3] >= 80){
                     ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], 3, roll[0]]
                     ceelo.games[player_game].participants[participant_number][1] = 1
                     if(roll[1] < 0){
@@ -242,9 +238,9 @@ function Ceelo_Roll(message, ceelo, master){
 }
 
 function Ceelo_Wash(message, ceelo, master){
-    
+    var roll = Roll()
+    message.channel.send(`${master[message.author.id].name} Hand: ${roll[0]}`)
 }
-
 
 function Roll(){
     //wash should be a boolean
@@ -274,7 +270,7 @@ function Roll(){
         value = -1
     }
 
-    console.log([orig_hand, value])
+    //console.log([orig_hand, value])
 
     return [orig_hand, value]
 }
@@ -303,8 +299,10 @@ function Round_Over(message, player_game, ceelo, master){
             //There is a tie and it is with the largest value
             //Find all users with returned value and reset them. Put everyone else at turn number = 1 and a score of -2
             //if they have -2, don't reset them. It means there have been multiple rounds of ties
+            var tied_players = []
             for(var i in hand_values){
                 if(hand_values[i] == best){
+                    tied_players.push(ceelo.games[player_game].participants[i][0])
                     ceelo.games[player_game].participants[i][1] = 0
                     ceelo.games[player_game].participants[i][2] = 0
                     ceelo.games[player_game].participants[i][3] = 0
@@ -316,7 +314,8 @@ function Round_Over(message, player_game, ceelo, master){
                     ceelo.games[player_game].participants[i][4] = 0
                 }
             }
-            message.channel.send('There was a tie. Next round begins')
+            message.channel.send(`Player pushed roll. Next round begins`)
+            message.channel.send(`It is <@${tied_players[0]}>`)
         }else{
             //There is a definite winner
             console.log(best)
@@ -333,6 +332,7 @@ function Round_Over(message, player_game, ceelo, master){
         }
         
     }else{
+        //console.log('here')
         //game is not over
         //return something that says that
     }
@@ -409,7 +409,6 @@ function Ceelo_Status_Check(message, args, ceelo, master){
     }
 }
 
-
 function Ceelo_Basics(message){
     const fs = require('fs')
     const Discord = require('discord.js')
@@ -431,4 +430,28 @@ function Ceelo_Help(message){
     .setDescription(fs.readFileSync('./text_files/ceelo/ceelo_commands.txt', 'utf-8'))
     .setColor(embed.Color(message))
     message.channel.send(ceelo_help)
+}
+
+function Ceelo_Reset(message, args){
+    const fs = require('fs')
+    var ceelo = JSON.parse(fs.readFileSync('./JSON/ceelo.json', 'utf-8'))
+    var game = args[2] || 0
+    if(450001712305143869 == message.author.id){
+        var success = false
+        for(var i in ceelo.games){
+            if(i == game){
+                delete ceelo.games[i]
+                message.channel.send(`Game ${i} was reset`)
+                var success = true
+                fs.writeFileSync ("./JSON/ceelo.json", JSON.stringify(ceelo, null, 2), function(err) {
+                    if (err) throw err;
+                    console.log('complete');
+                    }
+                );
+            }
+        }
+        if(success == false){
+            message.channel.send('No game was reset')
+        }
+    }
 }
