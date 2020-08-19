@@ -1,7 +1,7 @@
 module.exports = {
     name: 'insult_counter',
     description: 'insults specified user',
-    execute(message, master, tracker){
+    execute(message, master, tracker, stats_list){
         try{
             const fs = require('fs');
             const unlock = require("./Functions/Achievement_Functions")
@@ -49,8 +49,9 @@ module.exports = {
                                         "You ever just shut up", "Take a big step and literally FUCK YOUR OWN FACE", "Patrolling the Mojave almost makes you wish for a nuclear winter", `You should really stop talking ${master[message.author.id].name}`, "Your mother was a hamster and your father smelt of elderberries",
                                         "I fart in your general direction", "If I wanted a joke, I'd follow you into the John and watch you take a leak", "I don't give a tuppery fuck about your moral conundrum, you meat-headed shit sack",
                                         "You are a sad strange little man, and you have my pity", "I don't like your jerk-off name. I don't like your jerk-off face. I don't like your jerk-off behavior, and I don't like you, jerk-off. Do I make myself clear?",
-                                        "Nice going Ron", "What the fuck Richard","I can't believe you've done this"]
+                                        "Nice going Ron", "What the fuck Richard","I can't believe you've done this", `You've sent ${stats_list[message.author.id].total_msgs} messages and they have all been awful`, `Smooth Brain`]
                         message.channel.send(insults[Math.floor(Math.random()*insults.length)]);
+                        //message.channel.send(insults[167])
                         fs.writeFileSync('./text_files/insult_counter.txt', insulted_counter)
                         unlock.tracker1(message.author.id, 21, 1, message, master, tracker)
                         //console.log(insults.length)

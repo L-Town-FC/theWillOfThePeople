@@ -47,7 +47,7 @@ bot.on('message', message =>{
     try{
         if(message.author.bot == false){
             bot.commands.get('simmerdowncount').execute(message, master);
-            bot.commands.get('insult_counter').execute(message, master, tracker);
+            bot.commands.get('insult_counter').execute(message, master, tracker, stats_list);
             bot.commands.get('boo_trigger').execute(message);
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('bwg_counter').execute(message, master, tracker);

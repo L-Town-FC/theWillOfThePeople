@@ -14,40 +14,80 @@ module.exports = {
             case 'start':
                 //!ceelo start [bet] Initiates game with specified bet
                 //creates timer for others to join and then closes so people can't join midgame
-                Ceelo_Start(message, args, ceelo, master)
+                try{
+                    Ceelo_Start(message, args, ceelo, master)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occured in ceelo.js Start')
+                }
             break;
             case 'join':
                 //lets people join the game before it closes
-                Ceelo_Join(message, ceelo, master)
+                try{
+                    Ceelo_Join(message, ceelo, master)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occured in ceelo.js Join')
+                }
             break;
             break;
             case 'roll':
                 //lets you roll the dice
-                Ceelo_Roll(message, ceelo, master)
+                try{
+                    Ceelo_Roll(message, ceelo, master)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in ceelo.js Roll')
+                }
             break;
             case 'wash':
                 //lets you roll the dice but they don't count
-                Ceelo_Wash(message, ceelo, master)
+                try{
+                    Ceelo_Wash(message, ceelo, master)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in ceelo.js Wash')
+                }
             break;
             case 'basics':
                 //Shows the the hand rankings
-                Ceelo_Basics(message)
+                try{
+                    Ceelo_Basics(message)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in ceelo.js Basics')
+                }
             break;
             case 'status':
                 //Make it so game is seachable for the score like how help works
-                if(typeof(name) == 'undefined'){
-                    Ceelo_Status_All(message, ceelo, master)
-                }else{
-                    Ceelo_Status_Check(message, args, ceelo, master)
+                try{
+                    if(typeof(name) == 'undefined'){
+                        Ceelo_Status_All(message, ceelo, master)
+                    }else{
+                        Ceelo_Status_Check(message, args, ceelo, master)
+                    }
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in ceelo.js Status')
                 }
             break;
             case 'help':
                 //List of commands
-                Ceelo_Help(message)
+                try{
+                    Ceelo_Help(message)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in ceelo.js Help')
+                }
             break;
             case 'reset':
                 //lets me reset the game if necessary
-                Ceelo_Reset(message, args)
+                try{
+                    Ceelo_Reset(message, args)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error Occurred in ceelo.js Reset')
+                }
             break
             default:
                 message.channel.send('Use "!ceelo help" for a list of commnands')
