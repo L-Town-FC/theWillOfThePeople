@@ -24,27 +24,57 @@ module.exports = {
 
         switch(command){
             case 'person':
+                try{
                 Loan_Checker(message, user, master)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in loan.js person')
+                }
             break;
             case 'offer':
-                Loan_Offer(message, args, master)
+                try{
+                    Loan_Offer(message, args, master)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in loan.js offer')
+                }
             break;
             case 'accept':
-                Loan_Accept(message, master)
+                try{
+                    Loan_Accept(message, master)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in loan.js accept')
+                }
             break;
             case 'pay':
-               Loan_Pay(message, args, master)
+                try{
+                    Loan_Pay(message, args, master)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in loan.js pay')
+                }
             break;
             case 'cancel':
-                master[message.author.id].loans ={
-                    target: "",
-                    remaining: 0,
-                    collection: 0,
-                    rate: 0
+                try{
+                    master[message.author.id].loans ={
+                        target: "",
+                        remaining: 0,
+                        collection: 0,
+                        rate: 0
+                    }
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in loan.js cancel')
                 }
             break;
             case 'help':
-                Loan_Help(message)
+                try{
+                    Loan_Help(message)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in loan.js help')
+                }
             break
             default:
                 message.channel.send('Use "!loan help" for a list of commands')
