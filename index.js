@@ -24,7 +24,7 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
+    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
     console.log('This bot is online')
     if(!daily_counter){
         daily_counter = 0
@@ -38,7 +38,7 @@ bot.on('ready', () => {
             Lottery(channel, master, unlock)
             gbp_farm_reset(channel)
         }
-    }, 1 * 1000)
+    }, 3600 * 1000)
     //3600
     //590585423202484227 - pugilism
     //611276436145438769 - test

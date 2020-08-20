@@ -1,19 +1,33 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 19951,
+    "gbp": 11000,
     "achievements": [
-      34,
+      7,
+      5,
+      12,
+      15,
+      8,
+      30,
       3,
-      14,
-      6,
+      4,
+      9,
       13,
       22,
       21,
-      5
+      20,
+      23,
+      1,
+      2,
+      16,
+      14,
+      6,
+      35,
+      44,
+      45
     ],
     "simmerdown": 0,
-    "account": 30000,
+    "account": 0,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -21,25 +35,22 @@
       "rate": 0
     },
     "bwg": {
-      "target": "",
-      "current_word": "",
-      "bet": 0,
-      "remaining_msgs": "",
-      "gamestatus": 0,
-      "used_words": [
-        "tester"
-      ]
+      "target": "508076579684089896",
+      "current_word": "gordon",
+      "bet": 50,
+      "remaining_msgs": 86,
+      "gamestatus": 1,
+      "used_word": ["banned", "kumiko"]
     }
   },
   "497803559144914944": {
     "name": "Andrew",
-    "gbp": 5486.25,
+    "gbp": 584.25,
     "achievements": [
-      7,
-      10
+      7
     ],
     "simmerdown": 0,
-    "account": 142.92,
+    "account": 0,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -52,14 +63,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": [
-        "tester"
-      ]
+      "used_word": []
     }
   },
   "499328039621230592": {
     "name": "Wyatt",
-    "gbp": 19961.86,
+    "gbp": 19950,
     "achievements": [
       24,
       2,
@@ -75,7 +84,9 @@
       16,
       14,
       11,
-      5
+      5,
+      33,
+      32
     ],
     "simmerdown": 0,
     "account": 0,
@@ -91,12 +102,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "463080062175019010": {
     "name": "Ian",
-    "gbp": 19675,
+    "gbp": 19508,
     "achievements": [
       21,
       3,
@@ -111,7 +122,10 @@
       30,
       11,
       19,
-      8
+      8,
+      22,
+      13,
+      15
     ],
     "simmerdown": 0,
     "account": 0,
@@ -122,17 +136,17 @@
       "rate": 0
     },
     "bwg": {
-      "target": "",
-      "current_word": "",
-      "bet": 0,
-      "remaining_msgs": "",
-      "gamestatus": 0,
-      "used_words": []
+      "target": "498262864541515786",
+      "current_word": "liberals",
+      "bet": 200,
+      "remaining_msgs": 11,
+      "gamestatus": 1,
+      "used_word": []
     }
   },
   "210861925771247636": {
     "name": "Zaid",
-    "gbp": 17195,
+    "gbp": 17213,
     "achievements": [
       11,
       12,
@@ -155,7 +169,8 @@
       20,
       21,
       19,
-      35
+      35,
+      28
     ],
     "simmerdown": 0,
     "account": 0,
@@ -171,13 +186,15 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "501929393401364481": {
     "name": "Mike",
-    "gbp": 250,
-    "achievements": [],
+    "gbp": 254,
+    "achievements": [
+      3
+    ],
     "simmerdown": 0,
     "account": 0,
     "loans": {
@@ -192,13 +209,15 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "509430603339399186": {
     "name": "Brian",
-    "gbp": 1032.5,
-    "achievements": [],
+    "gbp": 1065.5,
+    "achievements": [
+      7
+    ],
     "simmerdown": 0,
     "account": 0,
     "loans": {
@@ -213,12 +232,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": ["people"]
     }
   },
   "526190184455471105": {
     "name": "Carl",
-    "gbp": 13000,
+    "gbp": 49952.76,
     "achievements": [
       24,
       15,
@@ -231,7 +250,7 @@
       23,
       1,
       6,
-      10
+      33
     ],
     "simmerdown": 0,
     "account": 0,
@@ -247,7 +266,7 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "462798271195119626": {
@@ -271,12 +290,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": ["america"]
     }
   },
   "562203622474252288": {
     "name": "Dylan",
-    "gbp": 761.5,
+    "gbp": 799.5,
     "achievements": [],
     "simmerdown": 0,
     "account": 0,
@@ -292,12 +311,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "501887537451630593": {
     "name": "Ramzi",
-    "gbp": 840,
+    "gbp": 911,
     "achievements": [
       11
     ],
@@ -315,12 +334,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "434471986748456962": {
     "name": "Chrisvan",
-    "gbp": 408,
+    "gbp": 412,
     "achievements": [
       16,
       11
@@ -339,12 +358,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "497861779020578837": {
     "name": "Hayden",
-    "gbp": 19711.26,
+    "gbp": 20943.89,
     "achievements": [
       8,
       9,
@@ -375,12 +394,12 @@
       "rate": 0
     },
     "bwg": {
-      "target": "",
-      "current_word": "",
-      "bet": 0,
-      "remaining_msgs": "",
-      "gamestatus": 0,
-      "used_words": []
+      "target": "562203622474252288",
+      "current_word": "khabib",
+      "bet": 50,
+      "remaining_msgs": 58,
+      "gamestatus": 1,
+      "used_word": []
     }
   },
   "501930484838957069": {
@@ -401,7 +420,7 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "581903756111773716": {
@@ -422,12 +441,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "508076579684089896": {
     "name": "Jacob",
-    "gbp": 23975.47,
+    "gbp": 256,
     "achievements": [
       11,
       7,
@@ -435,7 +454,10 @@
       1,
       16,
       6,
-      2
+      2,
+      33,
+      32,
+      3
     ],
     "simmerdown": 0,
     "account": 0,
@@ -451,14 +473,15 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "525147400176664626": {
     "name": "Teddy",
-    "gbp": 992.5,
+    "gbp": 1008.5,
     "achievements": [
-      24
+      24,
+      15
     ],
     "simmerdown": 0,
     "account": 0,
@@ -474,12 +497,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "640368746690510868": {
     "name": "Slim",
-    "gbp": 606,
+    "gbp": 628,
     "achievements": [
       24
     ],
@@ -497,12 +520,12 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": []
     }
   },
   "498262864541515786": {
     "name": "Derek",
-    "gbp": 704,
+    "gbp": 719,
     "achievements": [],
     "simmerdown": 0,
     "account": 0,
@@ -518,7 +541,7 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_words": []
+      "used_word": ["weekend"]
     }
   }
 }

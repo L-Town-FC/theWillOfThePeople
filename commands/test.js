@@ -30,7 +30,7 @@ module.exports = {
                 tracker[i][27] = 0
                 tracker[i][28] = 0
                 tracker[i][29] = 0
-                */
+                
                 tracker[i][31] = 0
                 tracker[i][32] = 0
                 tracker[i][33] = 0
@@ -41,6 +41,7 @@ module.exports = {
                 tracker[i][42] = [false, false, false, false, false, false, false, false]
                 tracker[i][44] = 0
                 tracker[i][45] = 0
+                */
             }
             for(i in master){
                 master[i].account = 0
@@ -74,17 +75,17 @@ module.exports = {
 
 
             for(i in stats){
-                stats[i].lottery_tickets = 0
-                stats[i].bj_wins = 0
-                stats[i].bj_pushes = 0
-                stats[i].bj_losses = 0
-                stats[i].gg_wins = 0
-                stats[i].gg_losses = 0
-                stats[i].total_msgs = 0
-                stats[i].total_commands = 0
-                stats[i].farm_messages = 0
-                stats[i].non_farm_messages = 0
-                stats[i].achievements = 0
+                //stats[i].lottery_tickets = 0
+                //stats[i].bj_wins = 0
+                //stats[i].bj_pushes = 0
+                //stats[i].bj_losses = 0
+                //stats[i].gg_wins = 0
+                //stats[i].gg_losses = 0
+                //stats[i].total_msgs = 0
+                //stats[i].total_commands = 0
+                //stats[i].farm_messages = 0
+                //stats[i].non_farm_messages = 0
+                //stats[i].achievements = 0
                 stats[i].button_presses = 0
             }
 
