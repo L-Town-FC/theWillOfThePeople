@@ -24,7 +24,7 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
+    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
     console.log('This bot is online')
     if(!daily_counter){
         daily_counter = 0
@@ -33,11 +33,12 @@ bot.on('ready', () => {
         daily_counter = daily_counter + 1
         if(daily_counter >= 24){
             daily_counter = 0
+            Interest(master)
             Welfare(channel, master)
             Lottery(channel, master, unlock)
             gbp_farm_reset(channel)
         }
-    }, 3600 * 1000)
+    }, 1 * 1000)
     //3600
     //590585423202484227 - pugilism
     //611276436145438769 - test
@@ -316,6 +317,7 @@ function Lottery(channel, master, unlock){
         channel.send('No winners')
     }
 }
+
 function JSON_Overwrite(master, stats_list, tracker, message){
     try{
         //master["450001712305143869"].loans.collection = 0
@@ -363,5 +365,29 @@ function gbp_farm_reset(channel){
     }catch(err){
         console.log(err)
         channel.send("Error occurred in gbp_farm_reset")
+    }
+}
+
+function Interest(master){
+    var tax = 1
+    for(i in master){
+        master[i].account = Math.ceil(master[i].account * 1.02 * 100)/100
+        if(master[i].account > 30000){
+            master[i].account = 30000
+        }
+        if(master[i].gbp < 20000){
+            tax = 1
+        }else if(master[i].gbp < 30000){
+            tax = .9975
+        }else if(master[i].gbp < 40000){
+            tax = .9950
+        }else if(master[i].gbp < 50000){
+            tax = .9925
+        }else if(master[i].gbp >= 50000 && master[i].gbp < 100000){
+            tax = .99
+        }else{
+            tax = .95
+        }
+        master[i].gbp = Math.ceil((master[i].gbp * tax) * 100)/100
     }
 }

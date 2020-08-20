@@ -6,4 +6,17 @@
 **-!transfer now says who initiated the transfer**
 **-!kumiko now lets you go negative**
 **Added more Pugs**
-**!steal now steals between 25% and 50% of whatever you pay from your target**
+**-!steal now steals between 25% and 50% of whatever you pay from your target**
+**-"!bank all" now displays combined gbp of everyone on server**
+**Interest Rates have been added**
+-Interest rates apply only to your bank account and are 2% daily growth
+Any interest generated over the bank cap is discarded
+**Progressive Taxes have been added**
+-Taxes only apply to your public gbp, not your bank account
+-Taxes are as follows:
+-- <20000: 0%
+-- <30000: 0.25%
+-- <40000: 0.5%
+-- <50000: 0.75%
+-- <10000: 1%
+-- >100000: 5%

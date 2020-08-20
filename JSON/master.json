@@ -1,7 +1,7 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 2391,
+    "gbp": 19951,
     "achievements": [
       34,
       3,
@@ -13,7 +13,7 @@
       5
     ],
     "simmerdown": 0,
-    "account": 0,
+    "account": 30000,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -39,7 +39,7 @@
       10
     ],
     "simmerdown": 0,
-    "account": 0,
+    "account": 142.92,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -59,7 +59,7 @@
   },
   "499328039621230592": {
     "name": "Wyatt",
-    "gbp": 20213.25,
+    "gbp": 19961.86,
     "achievements": [
       24,
       2,
@@ -427,7 +427,7 @@
   },
   "508076579684089896": {
     "name": "Jacob",
-    "gbp": 24830.5,
+    "gbp": 23975.47,
     "achievements": [
       11,
       7,

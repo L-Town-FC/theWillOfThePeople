@@ -39,7 +39,7 @@
     },
     "7":{
         "name": "!bank",
-        "description":["Displays how much gbp a user has", "Private accounts can hold upto 20000 gbp"],
+        "description":["Displays how much gbp a user has", "Private accounts can hold upto 30000 gbp"],
         "rules":["**!bank [person]:** Shows Public gbp of specified person. Defaults to user if noone is specified",
         "**!bank account:** Shows you your private bank account",
     "**!bank deposit [amount]:** Lets you deposit gbp into your private account",
