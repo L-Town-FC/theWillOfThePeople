@@ -1,7 +1,7 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 11000,
+    "gbp": 105,
     "achievements": [
       7,
       5,
@@ -24,10 +24,11 @@
       6,
       35,
       44,
-      45
+      45,
+      34
     ],
     "simmerdown": 0,
-    "account": 0,
+    "account": 11000,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -40,12 +41,15 @@
       "bet": 50,
       "remaining_msgs": 86,
       "gamestatus": 1,
-      "used_word": ["banned", "kumiko"]
+      "used_word": [
+        "banned",
+        "kumiko"
+      ]
     }
   },
   "497803559144914944": {
     "name": "Andrew",
-    "gbp": 584.25,
+    "gbp": 589.25,
     "achievements": [
       7
     ],
@@ -146,7 +150,7 @@
   },
   "210861925771247636": {
     "name": "Zaid",
-    "gbp": 17213,
+    "gbp": 250,
     "achievements": [
       11,
       12,
@@ -232,7 +236,9 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_word": ["people"]
+      "used_word": [
+        "people"
+      ]
     }
   },
   "526190184455471105": {
@@ -290,7 +296,9 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_word": ["america"]
+      "used_word": [
+        "america"
+      ]
     }
   },
   "562203622474252288": {
@@ -363,7 +371,7 @@
   },
   "497861779020578837": {
     "name": "Hayden",
-    "gbp": 20943.89,
+    "gbp": -999.11,
     "achievements": [
       8,
       9,
@@ -383,10 +391,11 @@
       20,
       21,
       15,
-      19
+      19,
+      34
     ],
     "simmerdown": 0,
-    "account": 0,
+    "account": 20244,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -541,7 +550,9 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_word": ["weekend"]
+      "used_word": [
+        "weekend"
+      ]
     }
   }
 }

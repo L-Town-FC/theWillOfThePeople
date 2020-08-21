@@ -84,8 +84,8 @@ module.exports = {
                         }
 
                         // Test Cards
-                        card[0] = 9;
-                        card[1] = 9;
+                        //card[0] = 9;
+                        //card[1] = 9;
                         //card[2] = 10;
                         //card[3] = 10;
                         //
