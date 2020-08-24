@@ -172,6 +172,9 @@ bot.on('message', message =>{
                 case 'ceelo':
                     bot.commands.get('ceelo').execute(message, args, master, stats_list, tracker)
                 break;
+                case 'info':
+                    bot.commands.get('info').execute(message, args)
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;
@@ -272,7 +275,7 @@ function Roulette_bets(message, money, master){
                     var bet = [args[0], args[1], message.author.id]
                     approved_bets.push(bet)
                     message.channel.send(`${master[message.author.id].name} Bet accepted`)
-                    if(Math.round(money) == args[0] && money >= 1000){
+                    if(Math.round(money) == args[0] && money >= 1000 && args[1].toLowerCase() == 'black'){
                         unlock.unlock(message.author.id, 38, message, master)
                     }
                 }else{

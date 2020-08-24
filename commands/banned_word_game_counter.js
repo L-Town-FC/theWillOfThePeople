@@ -37,7 +37,7 @@ module.exports = {
                                 message.channel.send(`${master[id].bwg.bet} has been taken from you and given to ${master[id].name}`)
                                 banned.purchase(-2 * master[id].bwg.bet, id, message, master)
                                 banned.purchase(1 * master[id].bwg.bet, user, message, master)
-                                master[master[id].bwg.target].bwg.used_words.push(master[id].bwg.current_word)
+                                master[master[id].bwg.target].bwg.used_word.push(word)
                                 unlock.tracker1(id, 40, 1, message, master, tracker)
                                 banned.Reset(id, master, message)
                                 //purchase/reset/add word to used words

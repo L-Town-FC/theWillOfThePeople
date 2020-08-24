@@ -1,0 +1,26 @@
+{
+    "1":{
+        "name": "Taxes",
+        "description": "Taxes are progressive with collection starting at 20000 unbanked gbp.\nThe Brackets are as follows:"
+    },
+    "2":{
+        "name": "Interest",
+        "description": "GBP in your bank account gains interest over time. The current interest rate is "
+    },
+    "3":{
+        "name": "Progressive GBP",
+        "description": "The amount of GBP you get per message is determined by how much gbp you have. Reduced farming rate doesn't affect messages sent in Non-Farming channels.The rates are as follows:"
+    },
+    "4":{
+        "name": "Daily Lottery",
+        "description": "Everyday everyone is automatically entered into the Daily lottery which gives you a 1 in 250 chance of getting 1000 gbp"
+    },
+    "5":{
+        "name": "Welfare",
+        "description": "Everyone who has less than 250 gbp in total assets (banked + unbanked gbp) qualifies for welfare\nYou are either given 250 gbp or enough gbp to reach 250 gbp in total assets"
+    },
+    "6":{
+        "name": "GBP Farm Cap",
+        "description": "If you send 1000 messages in a day your gbp farming rate is set to the 25% regadless of how much gbp you have until the next day"
+    }
+}

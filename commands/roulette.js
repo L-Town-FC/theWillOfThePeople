@@ -12,7 +12,7 @@ module.exports = {
             case 'bet':
                 try{
                     if(typeof(bets_open) == 'undefined'){
-                        if(isNaN(args[2]) == false && bet_time >= 1 && bet_time <= 60){
+                        if(isNaN(args[2]) == false && bet_time >= 15 && bet_time <= 60){
                             bets_open = true
                             Display(message, embed)
                             message.channel.send(`Bets are open. You have ${bet_time} seconds to place bets`)
@@ -50,7 +50,7 @@ module.exports = {
                                 }  
                             },bet_time * 1000)
                         }else{
-                            message.channel.send('You must choose a time between 30 and 60 seconds')
+                            message.channel.send('You must choose a time between 15 and 60 seconds')
                         }
                     }else if(bets_open = true){
                         message.channel.send("Bets are already open")

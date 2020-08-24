@@ -414,8 +414,11 @@ function Ceelo_Status_All(message, ceelo, master){
             names = []
         }
     }
-    console.log(embed_stuff)
-    Status_embed.addField('Games',embed_stuff)
+    if(embed_stuff.length == 0){
+        embed_stuff = 'None'
+    }
+    //console.log(embed_stuff)
+    Status_embed.addField('**Games:**',embed_stuff)
     message.channel.send(Status_embed)
 }
 

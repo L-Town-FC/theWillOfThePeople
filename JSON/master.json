@@ -1,7 +1,7 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 105,
+    "gbp": 100,
     "achievements": [
       7,
       5,
@@ -25,9 +25,10 @@
       35,
       44,
       45,
-      34
+      34,
+      38
     ],
-    "simmerdown": 0,
+    "simmerdown": 3,
     "account": 11000,
     "loans": {
       "target": "",
@@ -111,7 +112,7 @@
   },
   "463080062175019010": {
     "name": "Ian",
-    "gbp": 19508,
+    "gbp": 20708,
     "achievements": [
       21,
       3,
@@ -140,11 +141,11 @@
       "rate": 0
     },
     "bwg": {
-      "target": "498262864541515786",
-      "current_word": "liberals",
-      "bet": 200,
-      "remaining_msgs": 11,
-      "gamestatus": 1,
+      "target": "",
+      "current_word": "",
+      "bet": 0,
+      "remaining_msgs": "",
+      "gamestatus": 0,
       "used_word": []
     }
   },

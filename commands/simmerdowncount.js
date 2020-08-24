@@ -45,10 +45,7 @@ function counter(person, message, master) {
         if(master[person].simmerdown == null){
             master[person].simmerdown = 0;
         }
-        
-        master[person].simmerdown = parseInt(master[person].simmerdown) + 1
-        
-
+        master[person].simmerdown += + 1
     }catch(err){
         console.log(err)
         message.channel.send("Error occurred in Simmerdowncount.js Counter");

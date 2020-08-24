@@ -12,13 +12,8 @@ module.exports = {
         var success = false;
         
         try{
-
             if(typeof(name) == 'undefined'){
-                for(i in master){
-                    if(user == i){
-                        Stats(user, stats, master, message, embed)
-                    }
-                }
+                Stats(user, stats, master, message, embed)
             }else if(name.toLowerCase() == 'all'){
                 Stats_All(stats, message, embed)
             }else{
@@ -61,6 +56,7 @@ function Stats(user, stats, master, message, embed){
         `Guessgame Wins: ${stats[user].gg_wins}`,
         `Guessgame Losses: ${stats[user].gg_losses}`,
         `Powerball Tickets bought: ${stats[user].lottery_tickets}`,
+        `Button Presses: ${stats[user].button_presses}`,
         `Achievements: ${achievements_ratio}`
     ])
     message.channel.send(Stats_list)
@@ -79,17 +75,19 @@ function Stats_All(stats, message, embed){
     var total_commands = 0
     var farm_messages = 0
     var non_farm_messages = 0
+    var button_presses = 0
     for(i in stats){
         lottery_tickets = lottery_tickets + stats[i].lottery_tickets
         bj_wins = bj_wins + stats[i].bj_wins
         bj_pushes = bj_pushes + stats[i].bj_pushes
         bj_losses = bj_losses + stats[i].bj_losses
-        gg_wins = gg_wins + stats[i].gg_wins
-        gg_losses = gg_losses + stats[i].gg_losses
-        total_msgs = total_msgs + stats[i].total_msgs
-        total_commands = total_commands + stats[i].total_commands
-        farm_messages = farm_messages + stats[i].farm_messages
-        non_farm_messages = non_farm_messages + stats[i].non_farm_messages
+        gg_wins += stats[i].gg_wins
+        gg_losses += stats[i].gg_losses
+        total_msgs += stats[i].total_msgs
+        total_commands += stats[i].total_commands
+        farm_messages += stats[i].farm_messages
+        non_farm_messages += stats[i].non_farm_messages
+        button_presses += stats[i].button_presses
     }
     const Stats_list = new Discord.RichEmbed()
     .setTitle(`All Stats List`)
@@ -104,7 +102,8 @@ function Stats_All(stats, message, embed){
         `Blackjack Losses: ${bj_losses}`,
         `Guessgame Wins: ${gg_wins}`,
         `Guessgame Loses: ${gg_losses}`,
-        `Powerball Tickets bought: ${lottery_tickets}`
+        `Powerball Tickets bought: ${lottery_tickets}`,
+        `Button Presses: ${button_presses}`
     ])
     message.channel.send(Stats_list)
 }
