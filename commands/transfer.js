@@ -54,6 +54,17 @@ function give_money(initiator, recipient, amount, message, master) {
                     if(master[j].name.toLowerCase() == recipient.toLowerCase()){
                         master[j].gbp = parseFloat(master[j].gbp) + parseFloat(amount)
                         master[i].gbp = parseFloat(master[i].gbp) - parseFloat(amount)
+                        
+                        if(message.channel.type === 'dm'){
+                            var users = message.mentions._client.users.array()
+                            for(var k in users){
+                                //console.log(users[k])
+                                if(users[k].id == j){
+                                    users[k].send(`You have been transferred ${amount} gbp`)
+                                }
+                            }
+                        }
+
                         if(message.channel.id == '668600084052705290'){
                             unlock.unlock(j, 16, message, master)
                         }

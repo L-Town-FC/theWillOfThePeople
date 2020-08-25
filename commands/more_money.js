@@ -7,11 +7,8 @@ module.exports = {
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
         try{
-            //var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
             var person = message.author.id
             var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
-            var gbp_farmed = JSON.parse(fs.readFileSync("./JSON/gbp_farmer.json", "utf-8"))
-            
         }catch(err){
             try{
                 message.channel.send("Error occured in master.json. File reset")
@@ -23,6 +20,7 @@ module.exports = {
                 );
             }catch(err){
                 console.log(err)
+                message.channel.send('Error occurred retrieving back up')
             }
         }
 
@@ -57,14 +55,8 @@ module.exports = {
                     Random_Achievements(person, message, master)
                     var amount = 1
 
-                    if(gbp_farmed[person].farmed > 1000){
-                        //checks if user has sent 1000 messages today
-                        //makes it so if they have they get gbp at a reduced rate
-                        var chance = Math.random() * 100
-                        if(chance > 25){
-                            var amount = 0
-                        }
-                    }else if(total_assets < -10000){
+                    
+                    if(total_assets < -10000){
                         var amount = 50
                     }else if(total_assets < -2500){
                         var amount = 20
@@ -90,18 +82,16 @@ module.exports = {
                             var amount = 0
                         }
                     }
+                    if(amount == 0 && ['712755269863473252', '590585423202484227', '611276436145438769'].includes(message.channel.id) == false){
+                        amount = 1
+                        console.log('here')
+                    }
                     master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
 
                     if(loan_list[0] == message.author.id){
                         Loan_Stuff(message, master, amount, loan_list)
                     }
 
-                    gbp_farmed[person].farmed = gbp_farmed[person].farmed + 1
-                    fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
-                        if (err) throw err;
-                        console.log('complete');
-                        }
-                    );
                 }
             }
         }catch(err){
@@ -175,6 +165,6 @@ function Loan_Stuff(message, master, amount, loan_list){
             collection: 0,
             rate: 0
         }
-        message.channel.send('You have payed off your loan')
+        message.channel.send('You have paid off your loan')
     }
 }

@@ -10,7 +10,7 @@ const fs = require('fs');
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
-const unlock = require('./commands/Functions/Achievement_Functions')
+const unlock = require('./commands/Functions/Achievement_Functions');
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
@@ -33,10 +33,11 @@ bot.on('ready', () => {
         daily_counter = daily_counter + 1
         if(daily_counter >= 24){
             daily_counter = 0
-            Interest(master)
+            Interest(master, stats_list, channel)
             Welfare(channel, master)
             Lottery(channel, master, unlock)
             gbp_farm_reset(channel)
+            JSON_Overwrite(master, stats_list, tracker)
         }
     }, 3600 * 1000)
     //3600
@@ -174,6 +175,9 @@ bot.on('message', message =>{
                 break;
                 case 'info':
                     bot.commands.get('info').execute(message, args)
+                break;
+                case 'msg': 
+                    bot.commands.get('msg').execute(message, args, master)
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
@@ -346,20 +350,12 @@ function JSON_Overwrite(master, stats_list, tracker, message){
 }
 
 function gbp_farm_reset(channel){
-    var gbp_farmed = JSON.parse(fs.readFileSync("./JSON/gbp_farmer.json", "utf-8"))
     var deletes = JSON.parse(fs.readFileSync("./JSON/delete_tracker.json", "utf-8"))
     try{
-        for(i in gbp_farmed){
-            gbp_farmed[i].farmed = 0
-        }
+ 
         for(i in deletes){
             deletes[i].deletes = 0
         }
-        fs.writeFileSync ("./JSON/gbp_farmer.json", JSON.stringify(gbp_farmed, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
         fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
@@ -371,26 +367,38 @@ function gbp_farm_reset(channel){
     }
 }
 
-function Interest(master){
-    var tax = 1
-    for(i in master){
-        master[i].account = Math.ceil(master[i].account * 1.02 * 100)/100
+function Interest(master, stats_list, channel){
+    const fs = require('fs')
+    var tax = 0
+    var bracket = JSON.parse(fs.readFileSync('./JSON/taxes.json', 'utf-8'))
+    var interest
+    for(var i in master){
+        interest = Math.round(master[i].account * (bracket.Interest/100) * 100)/100
+        master[i].account += interest
         if(master[i].account > 30000){
             master[i].account = 30000
         }
         if(master[i].gbp < 20000){
-            tax = 1
+            tax = 0
         }else if(master[i].gbp < 30000){
-            tax = .9975
+            tax = (30000 - master[i].gbp) * bracket[1]/100
         }else if(master[i].gbp < 40000){
-            tax = .9950
+            tax = bracket[1]/100 * 10000 + (40000 - master[i].gbp) * bracket[2]/100
         }else if(master[i].gbp < 50000){
-            tax = .9925
+            tax = (bracket[1]/100 + bracket[2]/100) * 10000 + (50000 - master[i].gbp) * bracket[3]/100
         }else if(master[i].gbp >= 50000 && master[i].gbp < 100000){
-            tax = .99
+            tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (master[i].gbp - 50000) * bracket[4]/100
         }else{
-            tax = .95
+            tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (50000 * bracket[4]/100) + (master[i].gbp - 100000) * bracket[5]/100
         }
-        master[i].gbp = Math.ceil((master[i].gbp * tax) * 100)/100
+        master[i].gbp -= Math.round(tax)
+        stats_list[i].taxes += Math.round(tax)
+        stats_list[i].interest += interest
+        if(stats_list[i].taxes >= 10000){
+            unlock.index_unlock(i, 46, channel, master)
+        }
+        if(stats_list[i].interest > 10000){
+            unlock.index_unlock(i, 47, channel, master)
+        }
     }
 }

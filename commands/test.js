@@ -43,6 +43,7 @@ module.exports = {
                 tracker[i][45] = 0
                 */
             }
+            /*
             for(i in master){
                 master[i].account = 0
 
@@ -61,6 +62,7 @@ module.exports = {
                     "used_word": []
                 }
             }
+            */
 
             /*
             for(i in bwg){
@@ -87,6 +89,8 @@ module.exports = {
                 //stats[i].non_farm_messages = 0
                 //stats[i].achievements = 0
                 stats[i].button_presses = 0
+                stats[i].taxes = 0
+                stats[i].interest = 0
             }
 
             /*

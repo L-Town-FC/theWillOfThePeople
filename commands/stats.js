@@ -57,6 +57,8 @@ function Stats(user, stats, master, message, embed){
         `Guessgame Losses: ${stats[user].gg_losses}`,
         `Powerball Tickets bought: ${stats[user].lottery_tickets}`,
         `Button Presses: ${stats[user].button_presses}`,
+        `Taxes Paid: ${stats[user].taxes}`,
+        `Interest Earned: ${stats[user].interest}`,
         `Achievements: ${achievements_ratio}`
     ])
     message.channel.send(Stats_list)
@@ -76,6 +78,8 @@ function Stats_All(stats, message, embed){
     var farm_messages = 0
     var non_farm_messages = 0
     var button_presses = 0
+    var taxes = 0
+    var interest = 0
     for(i in stats){
         lottery_tickets = lottery_tickets + stats[i].lottery_tickets
         bj_wins = bj_wins + stats[i].bj_wins
@@ -88,6 +92,8 @@ function Stats_All(stats, message, embed){
         farm_messages += stats[i].farm_messages
         non_farm_messages += stats[i].non_farm_messages
         button_presses += stats[i].button_presses
+        taxes += stats[i].taxes
+        interest += stats[i].interest
     }
     const Stats_list = new Discord.RichEmbed()
     .setTitle(`All Stats List`)
@@ -103,7 +109,9 @@ function Stats_All(stats, message, embed){
         `Guessgame Wins: ${gg_wins}`,
         `Guessgame Loses: ${gg_losses}`,
         `Powerball Tickets bought: ${lottery_tickets}`,
-        `Button Presses: ${button_presses}`
+        `Button Presses: ${button_presses}`,
+        `Taxes Paid: ${taxes}`,
+        `Interest Earned: ${interest}`
     ])
     message.channel.send(Stats_list)
 }

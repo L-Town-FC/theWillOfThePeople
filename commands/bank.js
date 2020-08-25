@@ -77,6 +77,8 @@ module.exports = {
                                 message.channel.send(`You can't deposit more gbp than you currently have`)
                             }else if(account == max_amount){
                                 message.channel.send(`You are at the max account size of ${max_amount} gbp`)
+                            }else if(parseFloat(amount)%1000 !== 0){
+                                message.channel.send('You can only make deposits in increments of 1000 gbp')
                             }else if(account + amount > max_amount){
                                 message.channel.send(`Depositing the full amount would put you over the limit. Instead you deposited up to the limit of ${max_amount} gbp`)
                                 var deposited = max_amount - account

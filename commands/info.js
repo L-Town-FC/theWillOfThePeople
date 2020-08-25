@@ -6,6 +6,7 @@ module.exports = {
         const Discord = require('discord.js')
         const embed = require('./Functions/embed_functions')
         const info = JSON.parse(fs.readFileSync('./JSON/info.json', 'utf-8'))
+        const taxes = JSON.parse(fs.readFileSync('./JSON/taxes.json', 'utf-8'))
         var length = Object.keys(info).length
         try{
             if(!args[1]){
@@ -29,15 +30,31 @@ module.exports = {
                     //This will be where mutable information is added
                     case '1':
                         //Taxes
-                    
+                        var tax_field = [
+                            `20000-30000: ${taxes[1]}%`,
+                            `30000-40000: ${taxes[2]}%`,
+                            `40000-50000: ${taxes[3]}%`,
+                            `50000-100000: ${taxes[4]}%`,
+                            `>100000: ${taxes[5]}%`,
+                        ]
+                        info_embed.addField('**Tax Brackets**', tax_field)
                     break;
                     case '2':
                         //Interest
-
+                        info_embed.addField('**Information**', `Everyday your banked gbp collects interest which is added to your account. If your collected gbp puts your over the bank limit it is discarded. The current interest rate is ${taxes.Interest}%`)
                     break;
                     case '3':
                         //Progressive GBP
-
+                        var progressive_gbp = [
+                            `<-10000: 50 gbp`,
+                            `<-2500: 25 gbp`,
+                            `<-1000: 10 gbp`,
+                            `<0: 5 gbp`,
+                            `<250: 3 gbp`,
+                            `<750: 1 gbp`,
+                            `<750: The chance of getting 1 gbp per message decreases until it reaches 25% at 1500 gbp`
+                        ]
+                        info_embed.addField('**Info**', progressive_gbp)
                     break;
                 }
 

@@ -7,12 +7,14 @@
     "bj_losses": 26,
     "gg_wins": 0,
     "gg_losses": 0,
-    "total_msgs": 450,
-    "total_commands": 308,
+    "total_msgs": 608,
+    "total_commands": 447,
     "achievements": 0,
     "farm_messages": 14,
-    "non_farm_messages": 128,
-    "button_presses": 2
+    "non_farm_messages": 147,
+    "button_presses": 0,
+    "taxes": 23100,
+    "interest": 8050.949999999999
   },
   "497803559144914944": {
     "name": "Andrew",
@@ -27,7 +29,9 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 8,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "499328039621230592": {
     "name": "Wyatt",
@@ -37,12 +41,14 @@
     "bj_losses": 50,
     "gg_wins": 0,
     "gg_losses": 0,
-    "total_msgs": 350,
+    "total_msgs": 351,
     "total_commands": 309,
     "achievements": 0,
     "farm_messages": 8,
-    "non_farm_messages": 33,
-    "button_presses": 0
+    "non_farm_messages": 34,
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 5989.629999999999
   },
   "463080062175019010": {
     "name": "Ian",
@@ -52,12 +58,14 @@
     "bj_losses": 0,
     "gg_wins": 0,
     "gg_losses": 0,
-    "total_msgs": 113,
+    "total_msgs": 114,
     "total_commands": 13,
     "achievements": 0,
     "farm_messages": 4,
-    "non_farm_messages": 96,
-    "button_presses": 0
+    "non_farm_messages": 97,
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "210861925771247636": {
     "name": "Zaid",
@@ -72,7 +80,9 @@
     "achievements": 0,
     "farm_messages": 2,
     "non_farm_messages": 113,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "501929393401364481": {
     "name": "Mike",
@@ -87,7 +97,9 @@
     "achievements": 0,
     "farm_messages": 4,
     "non_farm_messages": 2,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "509430603339399186": {
     "name": "Brian",
@@ -102,7 +114,9 @@
     "achievements": 0,
     "farm_messages": 1,
     "non_farm_messages": 47,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "526190184455471105": {
     "name": "Carl",
@@ -117,7 +131,9 @@
     "achievements": 0,
     "farm_messages": 5,
     "non_farm_messages": 61,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 7800
   },
   "462798271195119626": {
     "name": "Alex",
@@ -132,7 +148,9 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 0,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "562203622474252288": {
     "name": "Dylan",
@@ -147,7 +165,9 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 39,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "501887537451630593": {
     "name": "Ramzi",
@@ -162,7 +182,9 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 85,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "434471986748456962": {
     "name": "Chrisvan",
@@ -177,7 +199,9 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 2,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "497861779020578837": {
     "name": "Hayden",
@@ -192,7 +216,9 @@
     "achievements": 0,
     "farm_messages": 120,
     "non_farm_messages": 47,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 5769.4
   },
   "501930484838957069": {
     "name": "Tom",
@@ -207,7 +233,9 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 0,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "581903756111773716": {
     "name": "Justin",
@@ -222,7 +250,9 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 0,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "508076579684089896": {
     "name": "Jacob",
@@ -237,7 +267,9 @@
     "achievements": 0,
     "farm_messages": 2,
     "non_farm_messages": 14,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "525147400176664626": {
     "name": "Teddy",
@@ -252,7 +284,9 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 22,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "640368746690510868": {
     "name": "Slim",
@@ -267,7 +301,9 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 22,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   },
   "498262864541515786": {
     "name": "Derek",
@@ -282,6 +318,8 @@
     "achievements": 0,
     "farm_messages": 0,
     "non_farm_messages": 15,
-    "button_presses": 0
+    "button_presses": 0,
+    "taxes": 0,
+    "interest": 0
   }
 }

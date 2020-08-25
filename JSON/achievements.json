@@ -223,5 +223,15 @@
     "name": "Achievement Hunter",
     "description": "Use !achievements 15 times",
     "threshold": 15
+  },
+  "46":{
+    "name": "Libertarian Nightmare",
+    "description": "Pay 10000 gbp in taxes",
+    "threshold": 10000
+  },
+  "47":{
+    "name": "Free Money",
+    "description": "Collect 10000 gbp in interest",
+    "threshold": 10000
   }
 }
