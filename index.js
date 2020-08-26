@@ -7,6 +7,7 @@ if(typeof(daily_counter) == 'undefined'){
 }
 
 const fs = require('fs');
+const cron = require('cron')
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
@@ -22,13 +23,31 @@ for(const file of commandFiles){
     bot.commands.set(command.name, command);
 }
 
+new cron.CronJob('30 9 * * * ', function(){
+    stocks_open = true
+}, null, true)
+
 
 bot.on('ready', () => {
     var channel = bot.channels.find(channel => channel.id === '590585423202484227')
+    var stonks = bot.channels.find(channel => channel.id === '611276436145438769')
     console.log('This bot is online')
     if(!daily_counter){
         daily_counter = 0
     }
+    stocks_open = false
+
+    new cron.CronJob('30 9 * * * ', function(){
+        stocks_open = true
+        stonks.send('The Stonk market is now Open')
+    }, null, true)
+
+    new cron.CronJob('0 16 * * * ', function(){
+        stocks_open = false
+        stonks.send('The Stonk market is now Closed')
+    }, null, true)
+
+
     setInterval(function(){
         daily_counter = daily_counter + 1
         if(daily_counter >= 24){
@@ -54,6 +73,7 @@ bot.on('message', message =>{
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('bwg_counter').execute(message, master, tracker);
             bot.commands.get('ceelo_counter').execute(message, master)
+            bot.commands.get('stonks').execute(message)
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
                 stats.tracker(message.author.id, 7, 1, stats_list)
             }
