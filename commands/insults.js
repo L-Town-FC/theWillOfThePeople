@@ -51,7 +51,7 @@ module.exports = {
                                 unlock.tracker1(message.author.id, 13, 1,  message, master, tracker)
 
                                 //Toxic Achievement Tracker
-                                unlock.reset2(message.author.id, 20, 1)
+                                //unlock.reset2(message.author.id, 20, 1, tracker)
                                 unlock.tracker2(message.author.id, 20, 1, message, master, tracker)
                             }
                             var success = true

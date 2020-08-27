@@ -1,13 +1,10 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 7000,
+    "gbp": 2308,
     "achievements": [
       45,
-      6,
-      22,
-      13,
-      5
+      13
     ],
     "simmerdown": 0,
     "account": 16097.690000000002,
@@ -100,7 +97,7 @@
   },
   "463080062175019010": {
     "name": "Ian",
-    "gbp": 250,
+    "gbp": 217,
     "achievements": [
       21,
       3,
@@ -138,7 +135,7 @@
       "gamestatus": 1,
       "used_word": []
     },
-    "insulted": false
+    "insulted": true
   },
   "210861925771247636": {
     "name": "Zaid",

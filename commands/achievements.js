@@ -1,3 +1,5 @@
+const { parse } = require('path');
+
 module.exports = {
     name: 'achievements',
     description: 'shows achievements',
@@ -12,7 +14,7 @@ module.exports = {
         var command = ""
         var success = false;
         unlock.tracker1(user, 45, 1, message, master, tracker)
-
+        
         try{
             for(var i in master){
                 if(name.toLowerCase() == master[i].name.toLowerCase()){
@@ -39,20 +41,33 @@ module.exports = {
                         all_achievements.push(i)
                     }
                     if(all_achievements.includes(String(args[2])) == true){
-                        var tracker1 = [4,5,7,8,9,13,14,17,18,21,23,25,26,27,28,29,31,32,33,36,37,40,44,45]
+                        var tracker1 = [4,5,8,9,13,14,17,18,21,23,25,26,27,28,29,31,32,33,36,37,40,44,45]
                         //Special cases to look at 8,
                         var tracker2 = [15,20,42]
                         //check each tracker for unique bar
                         //If no tracker its either a full or an empty bar
-                        if(tracker1.includes(args[2]) == true){
-
-                        }else if(tracker2.includes(args[2]) == true){
-
+                        var tracker3 = [39]
+                        if(tracker1.includes(parseInt(args[2])) == true){
+                            var number = 'tracker1'
+                        }else if(tracker2.includes(parseInt(args[2])) == true){
+                            var number = 'tracker2'
+                        }else if(tracker3.includes(parseInt(args[2])) == true){
+                            var number = 'tracker3'
                         }
-                        var number = String(args[2])
-                        Achievement_Tracker1(message, args[2], master, tracker)
+                        //var number = String(args[2])
+                        
                         switch(number){
-
+                            case 'tracker1':
+                                Achievement_Tracker1(message, args[2], master, tracker)
+                            break;
+                            case 'tracker2':
+                                Achievement_Tracker2(message, args[2], master, tracker)
+                            break;
+                            case 'tracker3':
+                                Achievement_Tracker3(message, args[2], master, tracker)
+                            break;
+                            default:
+                                Achievement_Tracker(message, args[2], master, tracker)
                         }
                     }else{
                         var achievements_list = new Discord.RichEmbed()
@@ -98,6 +113,46 @@ function Achievements(user, master, message, embed){
     message.channel.send(achievement_embed)
 }
 
+function Achievement_Tracker(message, achievement_num, master, tracker){
+    //Gives bar for achievements that only track 1 number
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    const fs = require('fs')
+    var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
+    if(master[message.author.id].achievements.includes(parseInt(achievement_num))== true){
+        var hasAchievement = 1
+    }else{
+        var hasAchievement = 0
+    }
+    
+    const bar_length = 64
+    var bar = "["
+    for(var i = 0; i < bar_length; i++){
+        if(i == bar_length/4 || i == bar_length/2 || i == bar_length * 3/4){
+            bar += '|'
+        }else
+        if(hasAchievement == 1){
+            bar += 'l'
+        }else{
+            bar += '.'
+        }
+    }
+    bar += ']'
+    var description
+    if(achievements[achievement_num].secret == true){
+        description = 'Secret Achievement'
+    }else{
+        description = achievements[achievement_num].description
+    }
+
+    var achievement = new Discord.RichEmbed()
+    .setTitle(`${achievements[achievement_num].name}`)
+    .setColor(embed.Color(message))
+    .setDescription(description)
+    .addField(`Progress: (${hasAchievement}/${1})`, bar)
+    message.channel.send(achievement)
+}
+
 function Achievement_Tracker1(message, achievement_num, master, tracker){
     //Gives bar for achievements that only track 1 number
     const Discord = require('discord.js')
@@ -109,11 +164,70 @@ function Achievement_Tracker1(message, achievement_num, master, tracker){
     if(current >= threshold){
         current = threshold
     }
-    const bar_length = 79
+    const bar_length = 64
+
+    if(master[message.author.id].achievements.includes(parseInt(achievement_num)) == true){
+        current = threshold
+    }
+
     var ratio = Math.floor((current/threshold) * bar_length)
     var bar = "["
     for(var i = 0; i < bar_length; i++){
-        if(i <= ratio){
+        if(i == bar_length/4 || i == bar_length/2 || i == bar_length * 3/4){
+            bar += '|'
+        }else
+        if(i < ratio){
+            bar += 'l'
+        }else{
+            bar += '.'
+        }
+    }
+    bar += ']'
+    var description
+    if(achievements[achievement_num].secret == true){
+        description = 'Secret Achievement'
+    }else{
+        description = achievements[achievement_num].description
+    }
+
+    var achievement = new Discord.RichEmbed()
+    .setTitle(`${achievements[achievement_num].name}`)
+    .setColor(embed.Color(message))
+    .setDescription(description)
+    .addField(`Progress: (${current}/${threshold})`, bar)
+    /*
+    .setDescription(bar)
+    .addField('Progress:', `(${current}/${threshold})`)
+    .addField('Description', description)
+    */
+    message.channel.send(achievement)
+}
+
+function Achievement_Tracker2(message, achievement_num, master, tracker){
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    const fs = require('fs')
+    var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
+    var total = tracker[message.author.id][achievement_num].length
+    var counter = 0
+    for(var j in tracker[message.author.id][achievement_num]){
+        if(tracker[message.author.id][achievement_num][j] == true){
+            counter++
+        }
+    }
+
+    if(master[message.author.id].achievements.includes(parseInt(achievement_num))== true){
+        counter = total
+    }
+
+    const bar_length = 64
+    var ratio = Math.floor((counter/total) * bar_length)
+    var bar = "["
+    for(var i = 0; i < bar_length; i++){
+        if(i == bar_length/4 || i == bar_length/2 || i == bar_length * 3/4){
+            bar += '|'
+        }else
+        if(i < ratio){
             bar += 'l'
         }else{
             bar += '.'
@@ -121,10 +235,67 @@ function Achievement_Tracker1(message, achievement_num, master, tracker){
     }
     bar += ']'
 
+    var description
+    if(achievements[achievement_num].secret == true){
+        description = 'Secret Achievement'
+    }else{
+        description = achievements[achievement_num].description
+    }
+
     var achievement = new Discord.RichEmbed()
     .setTitle(`${achievements[achievement_num].name}`)
     .setColor(embed.Color(message))
     .setDescription(bar)
-    .addField('Progress:', `(${current}/${threshold})`)
+    .addField('Progress:', `(${counter}/${total})`)
+    .addField('Description', description)
     message.channel.send(achievement)
+}
+
+function Achievement_Tracker3(message, achievement_num, master, tracker){
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    const fs = require('fs')
+    var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
+    var total = tracker[message.author.id][achievement_num].length
+    var threshold = achievements[achievement_num].threshold
+    const bar_length = 64
+    var current
+    var counter = 0
+    var list = []
+    for(var j = 0; j < total; j++){
+        current = tracker[message.author.id][achievement_num][j]
+        if(current >= threshold){
+            current = threshold
+            counter++
+        }
+        //console.log(current/threshold)
+        var ratio = Math.floor((current/threshold) * bar_length)
+        list[j] = "["
+        for(var k = 0; k < bar_length; k++){
+            if(k == bar_length/4 || k == bar_length/2 || k == bar_length * 3/4){
+                list[j] += '|'
+            }else
+            if(k < ratio){
+                list[j] += 'l'
+            }else{
+                list[j] += '.'
+            }
+        }
+        list[j] += ']'
+    }
+    //console.log(list)
+    var description
+    if(achievements[achievement_num].secret == true){
+        description = 'Secret Achievement'
+    }else{
+        description = achievements[achievement_num].description
+    }
+
+    var achievement = new Discord.RichEmbed()
+    .setTitle(`${achievements[achievement_num].name}`)
+    .setColor(embed.Color(message))
+    .setDescription(description)
+    .addField(`Progress: (${counter}/${total})`, list)
+    message.channel.send(achievement)
+
 }
