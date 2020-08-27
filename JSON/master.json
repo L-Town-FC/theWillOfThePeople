@@ -1,33 +1,13 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 1003,
+    "gbp": 7000,
     "achievements": [
-      7,
-      5,
-      12,
-      15,
-      8,
-      30,
-      3,
-      4,
-      9,
-      13,
-      22,
-      21,
-      20,
-      23,
-      1,
-      2,
-      16,
-      14,
-      6,
-      35,
-      44,
       45,
-      34,
-      46,
-      47
+      6,
+      22,
+      13,
+      5
     ],
     "simmerdown": 0,
     "account": 16097.690000000002,
@@ -47,7 +27,8 @@
         "banned",
         "kumiko"
       ]
-    }
+    },
+    "insulted": true
   },
   "497803559144914944": {
     "name": "Andrew",
@@ -70,7 +51,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "499328039621230592": {
     "name": "Wyatt",
@@ -113,7 +95,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "463080062175019010": {
     "name": "Ian",
@@ -154,7 +137,8 @@
       "remaining_msgs": 5,
       "gamestatus": 1,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "210861925771247636": {
     "name": "Zaid",
@@ -201,7 +185,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "501929393401364481": {
     "name": "Mike",
@@ -225,7 +210,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "509430603339399186": {
     "name": "Brian",
@@ -250,7 +236,8 @@
       "used_word": [
         "people"
       ]
-    }
+    },
+    "insulted": false
   },
   "526190184455471105": {
     "name": "Carl",
@@ -285,14 +272,16 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "462798271195119626": {
     "name": "Alex",
     "gbp": 1549.5,
     "achievements": [
       11,
-      17
+      17,
+      19
     ],
     "simmerdown": 0,
     "account": 0,
@@ -311,7 +300,8 @@
       "used_word": [
         "america"
       ]
-    }
+    },
+    "insulted": true
   },
   "562203622474252288": {
     "name": "Dylan",
@@ -332,7 +322,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "501887537451630593": {
     "name": "Ramzi",
@@ -355,7 +346,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "434471986748456962": {
     "name": "Chrisvan",
@@ -379,7 +371,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "497861779020578837": {
     "name": "Hayden",
@@ -422,7 +415,8 @@
       "remaining_msgs": 55,
       "gamestatus": 1,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "501930484838957069": {
     "name": "Tom",
@@ -443,7 +437,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "581903756111773716": {
     "name": "Justin",
@@ -464,7 +459,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "508076579684089896": {
     "name": "Jacob",
@@ -496,7 +492,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "525147400176664626": {
     "name": "Teddy",
@@ -521,7 +518,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "640368746690510868": {
     "name": "Slim",
@@ -544,7 +542,8 @@
       "remaining_msgs": "",
       "gamestatus": 0,
       "used_word": []
-    }
+    },
+    "insulted": false
   },
   "498262864541515786": {
     "name": "Derek",
@@ -567,6 +566,7 @@
       "used_word": [
         "weekend"
       ]
-    }
+    },
+    "insulted": false
   }
 }

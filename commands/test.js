@@ -43,8 +43,9 @@ module.exports = {
                 tracker[i][45] = 0
                 */
             }
-            /*
+            
             for(i in master){
+                /*
                 master[i].account = 0
 
                 master[i].loans = {}
@@ -61,8 +62,10 @@ module.exports = {
                     "gamestatus": 0,
                     "used_word": []
                 }
+                */
+                master[i].insulted = false
             }
-            */
+            
 
             /*
             for(i in bwg){

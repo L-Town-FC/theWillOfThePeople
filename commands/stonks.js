@@ -2,7 +2,7 @@ module.exports = {
     name: 'stonks',
     description: 'only lets you post in the stonks channel during opening bell',
     execute(message){
-        if(message.channel.id == '611276436145438769'){
+        if(message.channel.id == '743269381768872087'){
         //stonks- 743269381768872087
         //test - 611276436145438769
             if(message.author.bot == true){

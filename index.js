@@ -23,10 +23,6 @@ for(const file of commandFiles){
     bot.commands.set(command.name, command);
 }
 
-new cron.CronJob('30 9 * * * ', function(){
-    stocks_open = true
-}, null, true)
-
 
 bot.on('ready', () => {
     var channel = bot.channels.find(channel => channel.id === '590585423202484227')
@@ -62,13 +58,14 @@ bot.on('ready', () => {
     //3600
     //590585423202484227 - pugilism
     //611276436145438769 - test
+    //743269381768872087 - stonks
 })
 
 bot.on('message', message =>{
     try{
         if(message.author.bot == false){
             bot.commands.get('simmerdowncount').execute(message, master);
-            bot.commands.get('insult_counter').execute(message, master, tracker, stats_list);
+            bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
             bot.commands.get('boo_trigger').execute(message);
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('bwg_counter').execute(message, master, tracker);

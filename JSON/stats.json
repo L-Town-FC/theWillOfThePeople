@@ -7,14 +7,14 @@
     "bj_losses": 26,
     "gg_wins": 0,
     "gg_losses": 0,
-    "total_msgs": 621,
-    "total_commands": 447,
+    "total_msgs": 823,
+    "total_commands": 559,
     "achievements": 0,
     "farm_messages": 14,
-    "non_farm_messages": 161,
+    "non_farm_messages": 252,
     "button_presses": 0,
-    "taxes": 23100,
-    "interest": 8050.949999999999
+    "taxes": 0,
+    "interest": 0
   },
   "497803559144914944": {
     "name": "Andrew",
@@ -48,7 +48,7 @@
     "non_farm_messages": 34,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 5989.629999999999
+    "interest": 0
   },
   "463080062175019010": {
     "name": "Ian",
@@ -133,7 +133,7 @@
     "non_farm_messages": 61,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 7800
+    "interest": 0
   },
   "462798271195119626": {
     "name": "Alex",
@@ -218,7 +218,7 @@
     "non_farm_messages": 47,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 5769.4
+    "interest": 0
   },
   "501930484838957069": {
     "name": "Tom",

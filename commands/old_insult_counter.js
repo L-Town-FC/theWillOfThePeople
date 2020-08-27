@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'insult_counter',
+    name: 'old_insult_counter',
     description: 'insults specified user',
     execute(message, master, tracker, stats_list){
         try{

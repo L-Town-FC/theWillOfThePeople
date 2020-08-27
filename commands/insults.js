@@ -1,70 +1,94 @@
 module.exports = {
     name: 'insults',
-    description: 'shows who is being insulted and lets you change who it is',
+    description: 'lets you insults people',
     execute(message,args,money, master, tracker){
-        const fs = require('fs');
+        const fs = require('fs')
+        const Discord = require('discord.js')
+        const embed = require('./Functions/embed_functions')
         const unlock = require('./Functions/Achievement_Functions')
-        var insultee_and_count = fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
-        var price = 1500;
-        var name = args[1];
-        var success = false;
-        var buyer = message.author.id;
-
-        try{
-            if (typeof(name) == 'undefined' ){
-                for(i in master){
-                    if(insultee_and_count == i){
-                        message.channel.send(`${master[i].name} is currently being insulted`)
-                    }
-                }
-                //If no name is given, it returns who is being insulted
-            }else{
-                if(parseFloat(money) >= price){
-                    for(i in master){
-                        if(master[i].name.toLowerCase() == name.toLowerCase()){
-                            insultee_and_count = i;
-                            //insultee_and_count[1] = 1;
-                            message.channel.send(`${master[insultee_and_count].name} is now being insulted`)
-                            purchase(price, buyer, master)
-                            fs.writeFileSync("./text_files/insult_counter.txt", insultee_and_count);
-                            success = true
-                            //Professional Asshole  Achievement Tracker
-                            unlock.tracker1(message.author.id, 13, 1,  message, master, tracker)
-
-                            //Toxic Achievement Tracker
-                            unlock.reset2(insultee_and_count, 20, 1)
-                            unlock.tracker2(insultee_and_count, 20, 1, message, master, tracker)
-
-                            if(name.toLowerCase() == 'alex'){
-                                //As god intened it to be Achievement Tracker
-                                unlock.unlock(buyer, 19, message, master)
-                            }
-                            if(buyer == insultee_and_count){
-                                //Masochist Achievement
-                                unlock.unlock(buyer, 22, message, master)
-                            }
-                        }
-                    }
-                    if(success == false){
-                        message.channel.send("Please use a valid name")
-                    }
-                }else{
-                    message.channel.send(`You must have atleast ${price} gbp for this command`)
-                }
-            }
-        }catch(err){
-            console.log(err)
-            message.channel.send("Error occurred in Insults.js");
+        const price = 1500
+        var command
+        if(!args[1]){
+            command = 'list'
+        }else{
+            command = String(args[1]).toLowerCase()
         }
 
-    }
-}
+        switch(command){
+            case 'list':
+                var insulted = []
+                for(var i in master){
+                    if(master[i].insulted == true){
+                        insulted.push(master[i].name)
+                    }
+                }
+                var insulted_list = new Discord.RichEmbed()
+                .setTitle('List of People being insulted')
+                .setColor(embed.Color(message))
+                insulted_list.setDescription(insulted)
+                message.channel.send(insulted_list)
+            break;
+            case 'on':
+                var name = args[2] || 'none'
+                if(money < price){
+                    message.channel.send(`You need atleast ${price} gbp to use this command`)
+                }else{
+                    for(var i in master){
+                        if(master[i].name.toLowerCase() == String(name).toLowerCase()){
+                            if(master[i].insulted == true){
+                                message.channel.send(`${master[i].name} is already being insulted`)
+                            }else{
+                                message.channel.send(`${master[i].name} is now being insulted`)
+                                master[i].insulted = true
+                                master[message.author.id].gbp -= price
+                                if(i == message.author.id){
+                                    unlock.unlock(i, 22, message, master)
+                                }
+                                if(i == '462798271195119626'){
+                                    unlock.unlock(i, 19, message, master)
+                                }
+                                //Professional Asshole  Achievement Tracker
+                                unlock.tracker1(message.author.id, 13, 1,  message, master, tracker)
 
-function purchase(bet_value, player, master) {
-    try{
-        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value);
-    }catch(err){
-        console.log(err)
-        message.channel.send("Error occurred in Insults.js Purchase");
+                                //Toxic Achievement Tracker
+                                unlock.reset2(message.author.id, 20, 1)
+                                unlock.tracker2(message.author.id, 20, 1, message, master, tracker)
+                            }
+                            var success = true
+                        }
+                    }
+                    if(typeof(success) == 'undefined'){
+                        message.channel.send(`The specified person doesn't exist`)
+                    }
+                }
+            break;
+            case 'off':
+                var name = args[2] || 'none'
+                if(money < price){
+                    message.channel.send(`You need atleast ${price} gbp to use this command`)
+                }else{
+                    for(var i in master){
+                        if(master[i].name.toLowerCase() == String(name).toLowerCase()){
+                            if(master[i].insulted == false){
+                                message.channel.send(`${master[i].name} is not being insulted`)
+                            }else{
+                                message.channel.send(`${master[i].name} is no longer being insulted`)
+                                master[i].insulted = false
+                                master[message.author.id].gbp -= price
+                            }
+                            var success = true
+                        }
+                    }
+                    if(typeof(success) == 'undefined'){
+                        message.channel.send(`The specified person doesn't exist`)
+                    }
+                }
+            break;
+            case 'help':
+
+            break;
+            default:
+                message.channel.send('Use "!insults help" for a list of commands')
+        }
     }
 }
