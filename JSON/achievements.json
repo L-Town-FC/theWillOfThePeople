@@ -230,7 +230,8 @@
     "name": "Jack of All Trades",
     "description": "Win 5000 gbp in blackjack, guessgame, and roulette",
     "threshold": 5000,
-    "secret": false
+    "secret": false,
+    "labels": ["Blackjack", "Guess Game", "Roulette"]
   },
   "40": {
     "name": "So Predictable",

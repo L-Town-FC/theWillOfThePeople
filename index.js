@@ -169,6 +169,9 @@ bot.on('message', message =>{
                 case 'steal':
                     bot.commands.get('steal').execute(message,args,master[message.author.id].gbp, master, tracker);
                 break;
+                case 'newsteal':
+                    bot.commands.get('newsteal').execute(message,args, master, tracker);
+                break;
                 case 'backup':
                     bot.commands.get('backup').execute(message,args);
                 break;

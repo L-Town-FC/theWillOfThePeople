@@ -259,17 +259,18 @@ function Achievement_Tracker3(message, achievement_num, master, tracker){
     var total = tracker[message.author.id][achievement_num].length
     var threshold = achievements[achievement_num].threshold
     const bar_length = 64
-    var current
+    var achievement = new Discord.RichEmbed()
+    var current = []
     var counter = 0
     var list = []
     for(var j = 0; j < total; j++){
-        current = tracker[message.author.id][achievement_num][j]
-        if(current >= threshold){
-            current = threshold
+        current[j] = tracker[message.author.id][achievement_num][j]
+        if(current[j] >= threshold){
+            current[j] = threshold
             counter++
         }
         //console.log(current/threshold)
-        var ratio = Math.floor((current/threshold) * bar_length)
+        var ratio = Math.floor((current[j]/threshold) * bar_length)
         list[j] = "["
         for(var k = 0; k < bar_length; k++){
             if(k == bar_length/4 || k == bar_length/2 || k == bar_length * 3/4){
@@ -282,6 +283,8 @@ function Achievement_Tracker3(message, achievement_num, master, tracker){
             }
         }
         list[j] += ']'
+        console.log(list[j])
+        achievement.addField(`${achievements[achievement_num].labels[j]}: (${current[j]}/${threshold})`, list[j])
     }
     //console.log(list)
     var description
@@ -291,11 +294,10 @@ function Achievement_Tracker3(message, achievement_num, master, tracker){
         description = achievements[achievement_num].description
     }
 
-    var achievement = new Discord.RichEmbed()
+    achievement
     .setTitle(`${achievements[achievement_num].name}`)
     .setColor(embed.Color(message))
     .setDescription(description)
-    .addField(`Progress: (${counter}/${total})`, list)
     message.channel.send(achievement)
 
 }
