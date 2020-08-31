@@ -84,8 +84,28 @@ module.exports = {
                     }
                 }
             break;
+            case 'suggest':
+                var suggestion = message.cleanContent.split('!insults suggest')
+                if(suggestion[1] !== ""){
+                    var suggested = JSON.parse(fs.readFileSync('./JSON/insults_suggestions.json', 'utf-8'))
+                    suggested.suggestions.push(suggestion[1])
+                    message.channel.send('Your suggestion has been logged')
+                    fs.writeFileSync ("./JSON/insults_suggestions.json", JSON.stringify(suggested, null, 2), function(err) {
+                        if (err) throw err;
+                        console.log('complete');
+                        }
+                    );
+                }else{
+                    message.channel.send(`You didn't suggest anything`)
+                }
+            break;
             case 'help':
-
+                var help = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')
+                var insults_commands = new Discord.RichEmbed()
+                .setTitle('List of Commands')
+                .setColor(embed.Color(message))
+                insults_commands.setDescription(help)
+                message.channel.send(insults_commands)
             break;
             default:
                 message.channel.send('Use "!insults help" for a list of commands')

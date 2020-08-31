@@ -92,6 +92,7 @@ module.exports = {
                 //stats[i].non_farm_messages = 0
                 //stats[i].achievements = 0
                 stats[i].button_presses = 0
+                stats[i].button_losses = 0
                 stats[i].taxes = 0
                 stats[i].interest = 0
             }

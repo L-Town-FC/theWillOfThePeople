@@ -7,14 +7,15 @@
     "bj_losses": 27,
     "gg_wins": 1,
     "gg_losses": 0,
-    "total_msgs": 1012,
-    "total_commands": 723,
+    "total_msgs": 1065,
+    "total_commands": 776,
     "achievements": 0,
     "farm_messages": 14,
     "non_farm_messages": 277,
-    "button_presses": 0,
+    "button_presses": 5,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 1
   },
   "497803559144914944": {
     "name": "Andrew",
@@ -31,7 +32,8 @@
     "non_farm_messages": 8,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "499328039621230592": {
     "name": "Wyatt",
@@ -48,7 +50,8 @@
     "non_farm_messages": 34,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "463080062175019010": {
     "name": "Ian",
@@ -65,7 +68,8 @@
     "non_farm_messages": 128,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "210861925771247636": {
     "name": "Zaid",
@@ -82,7 +86,8 @@
     "non_farm_messages": 113,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "501929393401364481": {
     "name": "Mike",
@@ -99,7 +104,8 @@
     "non_farm_messages": 2,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "509430603339399186": {
     "name": "Brian",
@@ -116,7 +122,8 @@
     "non_farm_messages": 47,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "526190184455471105": {
     "name": "Carl",
@@ -133,7 +140,8 @@
     "non_farm_messages": 61,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "462798271195119626": {
     "name": "Alex",
@@ -150,7 +158,8 @@
     "non_farm_messages": 0,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "562203622474252288": {
     "name": "Dylan",
@@ -167,7 +176,8 @@
     "non_farm_messages": 39,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "501887537451630593": {
     "name": "Ramzi",
@@ -184,7 +194,8 @@
     "non_farm_messages": 85,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "434471986748456962": {
     "name": "Chrisvan",
@@ -201,7 +212,8 @@
     "non_farm_messages": 2,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "497861779020578837": {
     "name": "Hayden",
@@ -218,7 +230,8 @@
     "non_farm_messages": 47,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "501930484838957069": {
     "name": "Tom",
@@ -235,7 +248,8 @@
     "non_farm_messages": 0,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "581903756111773716": {
     "name": "Justin",
@@ -252,7 +266,8 @@
     "non_farm_messages": 0,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "508076579684089896": {
     "name": "Jacob",
@@ -269,7 +284,8 @@
     "non_farm_messages": 14,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "525147400176664626": {
     "name": "Teddy",
@@ -286,7 +302,8 @@
     "non_farm_messages": 22,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "640368746690510868": {
     "name": "Slim",
@@ -303,7 +320,8 @@
     "non_farm_messages": 22,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   },
   "498262864541515786": {
     "name": "Derek",
@@ -320,6 +338,7 @@
     "non_farm_messages": 15,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": 0,
+    "button_losses": 0
   }
 }

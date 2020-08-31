@@ -37,7 +37,7 @@ function ButtonPress(message, master, stats_list, tracker, button_stats){
     var user = message.author.id
     var win = 100
     var lose = 1000
-    console.log(chance)
+    //console.log(chance)
     /*
     For testing
     var test_win = 0
@@ -56,6 +56,7 @@ function ButtonPress(message, master, stats_list, tracker, button_stats){
         master[user].gbp = master[user].gbp - lose
         button_stats.Total_Losses = button_stats.Total_Losses + 1
         button_stats.Last_loss = 0
+        stats_list[user].button_losses += 1
         message.channel.send(`You lose ${lose} gbp`)
     }else{
         master[user].gbp = master[user].gbp + win

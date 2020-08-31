@@ -1,7 +1,7 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 6310,
+    "gbp": 4710,
     "achievements": [
       45,
       13,
@@ -26,7 +26,7 @@
         "kumiko"
       ]
     },
-    "insulted": true
+    "insulted": false
   },
   "497803559144914944": {
     "name": "Andrew",
@@ -136,7 +136,7 @@
       "gamestatus": 1,
       "used_word": []
     },
-    "insulted": true
+    "insulted": false
   },
   "210861925771247636": {
     "name": "Zaid",
@@ -299,7 +299,7 @@
         "america"
       ]
     },
-    "insulted": true
+    "insulted": false
   },
   "562203622474252288": {
     "name": "Dylan",
