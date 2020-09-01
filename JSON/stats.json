@@ -7,15 +7,15 @@
     "bj_losses": 27,
     "gg_wins": 1,
     "gg_losses": 0,
-    "total_msgs": 1065,
-    "total_commands": 776,
+    "total_msgs": 1245,
+    "total_commands": 936,
     "achievements": 0,
     "farm_messages": 14,
-    "non_farm_messages": 277,
-    "button_presses": 5,
-    "taxes": 0,
-    "interest": 0,
-    "button_losses": 1
+    "non_farm_messages": 297,
+    "button_presses": 11,
+    "taxes": 10500,
+    "interest": 2030.91,
+    "button_losses": 2
   },
   "497803559144914944": {
     "name": "Andrew",
@@ -50,7 +50,7 @@
     "non_farm_messages": 34,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0,
+    "interest": 3329.39,
     "button_losses": 0
   },
   "463080062175019010": {
@@ -61,11 +61,11 @@
     "bj_losses": 0,
     "gg_wins": 0,
     "gg_losses": 0,
-    "total_msgs": 149,
+    "total_msgs": 150,
     "total_commands": 17,
     "achievements": 0,
     "farm_messages": 4,
-    "non_farm_messages": 128,
+    "non_farm_messages": 129,
     "button_presses": 0,
     "taxes": 0,
     "interest": 0,
@@ -140,7 +140,7 @@
     "non_farm_messages": 61,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0,
+    "interest": 3600,
     "button_losses": 0
   },
   "462798271195119626": {
@@ -230,7 +230,7 @@
     "non_farm_messages": 47,
     "button_presses": 0,
     "taxes": 0,
-    "interest": 0,
+    "interest": 3206.95,
     "button_losses": 0
   },
   "501930484838957069": {

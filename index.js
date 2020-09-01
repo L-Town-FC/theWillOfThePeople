@@ -26,7 +26,7 @@ for(const file of commandFiles){
 
 bot.on('ready', () => {
     var channel = bot.channels.find(channel => channel.id === '590585423202484227')
-    var stonks = bot.channels.find(channel => channel.id === '611276436145438769')
+    var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
     console.log('This bot is online')
     if(!daily_counter){
         daily_counter = 0
@@ -35,12 +35,16 @@ bot.on('ready', () => {
 
     new cron.CronJob('30 9 * * * ', function(){
         stocks_open = true
-        stonks.send('The Stonk market is now Open')
+        if(stonks == '743269381768872087'){
+            stonks.send('The Stonk market is now Open')
+        }
     }, null, true)
 
     new cron.CronJob('0 16 * * * ', function(){
         stocks_open = false
-        stonks.send('The Stonk market is now Closed')
+        if(stonks == '743269381768872087'){
+            stonks.send('The Stonk market is now Closed')
+        }
     }, null, true)
 
 
@@ -48,7 +52,7 @@ bot.on('ready', () => {
         daily_counter = daily_counter + 1
         if(daily_counter >= 24){
             daily_counter = 0
-            Interest(master, stats_list, channel)
+            Interest(master, stats_list, channel, tracker)
             Welfare(channel, master)
             Lottery(channel, master, unlock)
             gbp_farm_reset(channel)
@@ -198,6 +202,9 @@ bot.on('message', message =>{
                 break;
                 case 'msg': 
                     bot.commands.get('msg').execute(message, args, master)
+                break;
+                case 'election':
+                    bot.commands.get('election').execute(message, args, master)
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
@@ -387,8 +394,9 @@ function gbp_farm_reset(channel){
     }
 }
 
-function Interest(master, stats_list, channel){
+function Interest(master, stats_list, channel, tracker){
     const fs = require('fs')
+    const unlock = require('./commands/Functions/Achievement_Functions')
     var tax = 0
     var bracket = JSON.parse(fs.readFileSync('./JSON/taxes.json', 'utf-8'))
     var interest
@@ -414,11 +422,11 @@ function Interest(master, stats_list, channel){
         master[i].gbp -= Math.round(tax)
         stats_list[i].taxes += Math.round(tax)
         stats_list[i].interest += interest
-        if(stats_list[i].taxes >= 10000){
-            unlock.index_unlock(i, 46, channel, master)
-        }
-        if(stats_list[i].interest > 10000){
-            unlock.index_unlock(i, 47, channel, master)
-        }
+        //Achievement 46 Libertarian Nightmare
+        unlock.index_tracker(i, 46, Math.round(tax), channel, master, tracker)
+
+        //Achievement 47 Free Money
+        unlock.index_tracker(i, 47, interest, channel, master, tracker)
+
     }
 }

@@ -76,6 +76,13 @@ function steal(initiator, recipient, amount, stolen_percent, message, master, po
                             unlock.unlock(initiator, 35, message, master)
                         }
                         unlock.tracker1(initiator, 37, (stolen_percent * parseFloat(amount)), message, master, tracker)
+                        var users = message.mentions._client.users.array()
+                        for(var k in users){
+                            //console.log(users[k])
+                            if(users[k].id == j){
+                                users[k].send(`${amount} gbp has been stolen from you`)
+                            }
+                        }
                     }
                 }
             }

@@ -19,6 +19,7 @@ function unlock(user, achievement_num, message, master){
 module.exports.unlock = unlock
 
 function index_unlock(user, achievement_num, channel, master){
+    //unlocks stuff in index.js
     const fs = require ('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     for(i in master){
@@ -32,6 +33,28 @@ function index_unlock(user, achievement_num, channel, master){
 }
 
 module.exports.index_unlock = index_unlock
+
+function index_tracker(user, achievement_num, increment, channel, master, tracker){
+    const fs = require('fs')
+    var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
+    try{
+        if(tracker == 'undefined'){
+            tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+        }
+
+        threshold = achievements[achievement_num].threshold
+        tracker[user][achievement_num] = tracker[user][achievement_num] + increment;
+        if(tracker[user][achievement_num] >= threshold){
+            index_unlock(user, achievement_num, channel, master)
+        }
+    }catch(err){
+        console.log(err)
+        channel.send('Error occurred in Achievement Tracker1')
+        channel.send(`Achievement number: ${achievement_num}`)
+    }
+}
+
+module.exports.index_tracker = index_tracker
 
 function reset1(user, achievement_num, tracker){
     const fs = require('fs')

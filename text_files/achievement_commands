@@ -2,4 +2,4 @@
 
 !achievements [name]: List achievements of given person
 
-!achievements list: Lists all possible achievements
+!achievements list [number]: Lists all possible achievements. If a number is given it shows you progress on the chosen number

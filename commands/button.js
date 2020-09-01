@@ -33,6 +33,7 @@ module.exports = {
 }
 function ButtonPress(message, master, stats_list, tracker, button_stats){
     const fs = require('fs')
+    const unlock = require('./Functions/Achievement_Functions')
     var chance = Math.floor(Math.random() * 10)
     var user = message.author.id
     var win = 100
@@ -65,6 +66,7 @@ function ButtonPress(message, master, stats_list, tracker, button_stats){
     }
     stats_list[user].button_presses = stats_list[user].button_presses + 1
     button_stats.Total_Presses = button_stats.Total_Presses + 1
+    unlock.tracker1(message.author.id, 48, 1, message, master, tracker)
 
     fs.writeFileSync ("./JSON/button_stats.json", JSON.stringify(button_stats, null, 2), function(err) {
         if (err) throw err;

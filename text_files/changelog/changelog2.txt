@@ -1,23 +1,12 @@
-**New Command: !loan**
--Lets you track and take out loans with others
--Can only take out and recieve 1 loan at a time
-**-!boo now costs 500 gbp**
-**-!insults now triggers randomly instead of every 8th message**
-**-!transfer now says who initiated the transfer**
-**-!kumiko now lets you go negative**
-**Added more Pugs**
-**-!steal now steals between 25% and 50% of whatever you pay from your target**
-**-"!bank all" now displays combined gbp of everyone on server**
-**New Command: !ceelo**
-**Interest Rates have been added**
--Interest rates apply only to your bank account and are 2% daily growth
-Any interest generated over the bank cap is discarded
-**Progressive Taxes have been added**
--Taxes only apply to your public gbp, not your bank account
--Taxes are as follows:
--- <20000: 0%
--- <30000: 0.25%
--- <40000: 0.5%
--- <50000: 0.75%
--- <10000: 1%
--- >100000: 5%
+**-!transfer now messages the recipient if sent in dms**
+**-!steal now alerts the person stolen from in their dms, but it doesn't say who did it**
+**-New Command: !msg**
+-Pay the bot to dm someone a message
+-- <50 characters costs 50gbp
+-- >50 character costs 100 gbp
+-Only works with Text, no images or attachments
+**-!insults Improvements**
+-Multiple people can now be insulted
+-!insults suggest [suggestion] logs an insult suggestion that could be added later
+**-New Achievements**
+**-Achievements progression can now be displayed**

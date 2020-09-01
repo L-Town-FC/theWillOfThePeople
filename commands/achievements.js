@@ -26,6 +26,8 @@ module.exports = {
                 command = 'person'
             }else if(name.toLowerCase() == 'list'){
                 command = 'list'
+            }else if(name.toLowerCase() == 'help'){
+                command = 'help'
             }
             switch(command){
                 case 'person':
@@ -41,9 +43,12 @@ module.exports = {
                         all_achievements.push(i)
                     }
                     if(all_achievements.includes(String(args[2])) == true){
-                        var tracker1 = [4,5,8,9,13,14,17,18,21,23,25,26,27,28,29,31,32,33,36,37,40,44,45]
-                        //Special cases to look at 8,
+                        //tracker(default) - Simple unlock achievements that don't need to be tracker
+                        var tracker1 = [4,5,8,9,13,14,17,18,21,23,25,26,27,28,29,31,32,33,36,37,40,44,45,46,47,48]
+                        //tracker 1 - Achivements that are a single number increasing
                         var tracker2 = [15,20,42]
+                        //tracker 2 - Achievements that use multiple true/false
+                        //tracker 3 - Achievements that use multiple numbers to tracker
                         //check each tracker for unique bar
                         //If no tracker its either a full or an empty bar
                         var tracker3 = [39]

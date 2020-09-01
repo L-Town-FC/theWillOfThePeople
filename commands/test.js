@@ -42,6 +42,9 @@ module.exports = {
                 tracker[i][44] = 0
                 tracker[i][45] = 0
                 */
+               tracker[i][46] = 0
+               tracker[i][47] = 0
+               tracker[i][48] = 0
             }
             
             for(i in master){

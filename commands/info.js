@@ -60,7 +60,7 @@ module.exports = {
 
                 message.channel.send(info_embed)
             }else{
-                message.channel.send('Use !nfo for a list of all commands. Use !info [topic number] for more information about the specified topic')
+                message.channel.send('Use !info for a list of all commands. Use !info [topic number] for more information about the specified topic')
             }
         }catch(err){
             console.log(err)

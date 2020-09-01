@@ -110,7 +110,7 @@
         "description":"Lets you track achievements gotten in the server",
         "rules":["**!achievements:** Lists your personal achievements",
             "**!achievements [name]:** List achievements of given person",
-            "**!achievements list:** Lists all possible achievements"]
+            "**!achievements list [number]:** Lists all possible achievements. If a number is given it shows you progress on the chosen number"]
     },
     "20":{
         "name":"!bwg",
@@ -149,5 +149,19 @@
         "**!ceelo wash:** Lets you roll the die, but the hand doesn't count",
         "**!ceelo status [game]:** Lets you see the status of the specified game. If no game is specified, it shows a list of all actve games",
         "**!ceelo basics:** Gives a list of basic rules and hand values"]
+    },
+    "25":{
+        "name": "!info",
+        "description": "Gives you info about the bot",
+        "rules": [
+            "**!info [topic number]:** If no topic number is specified, a list of topics is given. Choosing a topic number gives information about the chosen topic"
+        ]
+    },
+    "26":{
+        "name": "!msg",
+        "description": ["Lets you pay the bot to dm people", "50 gbp if less than 50 character, 100 gbp if more"],
+        "rules": [
+            "**!msg [name] [message]:** Sends your message to the specified person"
+        ]
     }
 }

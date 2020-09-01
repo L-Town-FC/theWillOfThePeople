@@ -7,7 +7,6 @@ module.exports = {
             if(message.content.length > 54){
                 var cost = 100
             }else{
-                message.channel.send('Under 50')
                 var cost = 50
             }
 
@@ -34,6 +33,7 @@ module.exports = {
                             users[k].send(new_msg)
                         }
                     }
+                    master[message.author.id].gbp -= cost
                 }else{
                     message.channel.send(`You can't send an empty message`)
                 }

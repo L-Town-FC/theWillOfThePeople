@@ -280,5 +280,11 @@
     "description": "Collect 10000 gbp in interest",
     "threshold": 10000,
     "secret": false
+  },
+  "48":{
+    "name": "Wyatt",
+    "description": "Press the button 500 times",
+    "threshold": 500,
+    "secret": false
   }
 }

@@ -1,23 +1,24 @@
 **Bug Fixes:**
--Fixed bug where if you didn't have enough gbp to cover a roulette bet it defaulted to saying "Derek didn't have enough gbp"
--Changed it so !powerball help says "powerball" instead of "lottery"
--Fixed it so r10 is valid bet for roulette
--Fixed bug where some kumikos wouldn't send
+-Fixed bug that let users use !bank in bot tinkering
+-Fixed "Bet it all on Black" achievement that could trigger when you bet on red
+-"!ceelo status" no longer returns an error when there are no games
+-Fixed !bank commands being case specific
+-Fix error in bwg where you couldn't start a game
+-Fixed bug in bwg where you couldn't win the game as the bettor
+-"!bwg status" works in your dms again
 
 **New Features/Updates:**
-**-Progressive gbp farming changes**
---50 per msg > -10000
---20 per msg > -2500
---10 per msg > -1000
---reverted it back to 3 per msg > 250
-**-Added Banking**
---You can now deposit and withdraw gbp into a private account that only you can see
---The account maxes out at 30000 gbp
---Welfare and Progressive gbp check your private account to give out accurate gbp
-**-!21 improvements**
---Added suits to the cards
---Matching can now have suited and double match the dealers
-**-!help improvements**
---Each command is now easily searchable by using '!help [number]'
-**New Command: !button**
--Has a 90% chance of giving you 100 gbp and a 10% chance of taking 1000 gbp away
+**-Removed the GBP Farming Cap**
+**-Taxes are now progressive instead of tax hitting your entire wallet**
+**Stat Improvements**
+-The Following are now being tracked:
+--Button Presses
+--Button Losses
+--Taxes Paid
+--Interest Gained
+**-You now always get gbp when messaging in Non-Farm channels**
+**-You can now only deposit gbp in 1000 gbp increments**
+**-New Command: !info**
+--Gives info about the bot
+**-Stonks Channel Now has Opening and Closing Bell**
+--You can now only messages the channel between 9:30am and 4pm

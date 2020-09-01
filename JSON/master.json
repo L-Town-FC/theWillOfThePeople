@@ -1,14 +1,19 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 4710,
+    "gbp": 192400,
     "achievements": [
       45,
       13,
-      4
+      4,
+      12,
+      11,
+      36,
+      48,
+      46
     ],
     "simmerdown": 0,
-    "account": 16097.690000000002,
+    "account": 18128.600000000002,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -16,10 +21,10 @@
       "rate": 0
     },
     "bwg": {
-      "target": "508076579684089896",
-      "current_word": "gordon",
-      "bet": 50,
-      "remaining_msgs": 84,
+      "target": "509430603339399186",
+      "current_word": "tested",
+      "bet": 500,
+      "remaining_msgs": 100,
       "gamestatus": 1,
       "used_word": [
         "banned",
@@ -79,7 +84,7 @@
       47
     ],
     "simmerdown": 0,
-    "account": 26389.629999999997,
+    "account": 29719.019999999993,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -98,7 +103,7 @@
   },
   "463080062175019010": {
     "name": "Ian",
-    "gbp": 217,
+    "gbp": 250,
     "achievements": [
       21,
       3,
@@ -399,7 +404,7 @@
       47
     ],
     "simmerdown": 0,
-    "account": 25419.280000000002,
+    "account": 28626.23,
     "loans": {
       "target": "",
       "remaining": 0,
