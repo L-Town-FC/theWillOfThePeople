@@ -86,6 +86,7 @@ bot.on('message', message =>{
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('bwg_counter').execute(message, master, tracker);
             bot.commands.get('ceelo_counter').execute(message, master)
+            bot.commands.get('word_checker').execute(message, master, tracker)
             bot.commands.get('stonks').execute(message)
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
                 stats.tracker(message.author.id, 7, 1, stats_list)

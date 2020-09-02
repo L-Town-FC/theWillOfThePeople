@@ -34,7 +34,7 @@ module.exports = {
             case 'roll':
                 //lets you roll the dice
                 try{
-                    Ceelo_Roll(message, ceelo, master)
+                    Ceelo_Roll(message, ceelo, master, tracker)
                 }catch(err){
                     console.log(err)
                     message.channel.send('Error occurred in ceelo.js Roll')
@@ -211,7 +211,7 @@ function Ceelo_Join(message, ceelo, master){
     
 }
 
-function Ceelo_Roll(message, ceelo, master){
+function Ceelo_Roll(message, ceelo, master, tracker){
     //Starts by saying whos turn it is to roll
     //once they roll, change the second number in the pair to 1
     //after everyone has rolled, compare scores and assign winner
@@ -254,7 +254,7 @@ function Ceelo_Roll(message, ceelo, master){
                     ceelo.games[player_game].participants[participant_number] = [player, 0, roll[1], ceelo.games[player_game].participants[participant_number][3] + 1, roll[0]]
                 }
 
-                Round_Over(message, player_game, ceelo, master)
+                Round_Over(message, player_game, ceelo, master, tracker)
                 
                 //Need to introduce check for if everyone has rolled or not
                 //Also set persons score to 0 and their turn to -1 if they aren't involved in tie
@@ -315,8 +315,9 @@ function Roll(){
     return [orig_hand, value]
 }
 
-function Round_Over(message, player_game, ceelo, master){
+function Round_Over(message, player_game, ceelo, master, tracker){
     //checks if the round of hands is over and if there are any ties
+    const unlock = require('./Functions/Achievement_Functions')
     var counter = 0
     var isOverCounter = 0
     var hand_values = []
@@ -366,6 +367,9 @@ function Round_Over(message, player_game, ceelo, master){
                     var amount = parseFloat(ceelo.games[player_game].participants.length * ceelo.games[player_game].bet)
                     master[winner].gbp += amount
                     message.channel.send(`${master[winner].name} won. They win ${amount - ceelo.games[player_game].bet}`)
+                    unlock.tracker1(winner, 53, 1, message, master, tracker)
+                }else{
+                    unlock.reset1(ceelo.games[player_game].participants[i][0], 53, tracker)
                 }
             }
             delete ceelo.games[player_game]
@@ -444,7 +448,7 @@ function Ceelo_Status_Check(message, args, ceelo, master){
                 player[4] = 'No Turn'
             }else if(player[4] == '0'){
                 player[4] = 'None'
-                console.log(player)
+                //console.log(player)
             }
             Status_embed.addField(`**${master[ceelo.games[index].participants[i][0]].name}:**`, `Hand: ${player[4]} \nRoll Number: ${player[3]}`)    
         }    

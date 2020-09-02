@@ -1,3 +1,5 @@
+**-Stonks Channel Now has Opening and Closing Bell**
+--You can now only messages the channel between 9:30am and 4pm
 **-!transfer now messages the recipient if sent in dms**
 **-!steal now alerts the person stolen from in their dms, but it doesn't say who did it**
 **-New Command: !msg**

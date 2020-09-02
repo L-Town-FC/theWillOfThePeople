@@ -7,13 +7,13 @@ module.exports = {
         const unlock = require('./Functions/Achievement_Functions')
         const dir = './pug_pics'
         var max_pugs = fs.readdirSync(dir).length
-        var pug = Math.ceil(Math.random()*max_pugs);
+        var pug = Math.floor(Math.random()*max_pugs);
         //console.log(pug)
         //var pug = 2;
 
 
         try{
-            var pug_image = new Attachment('./pug_pics/pug'+ pug +'.jpg')
+            var pug_image = new Attachment(`./pug_pics/${fs.readdirSync(dir)[pug]}`)
             message.channel.send(pug_image)
             unlock.tracker1(message.author.id, 5, 1, message, master, tracker)
         }catch(err){

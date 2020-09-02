@@ -126,7 +126,7 @@ function Achievement_Tracker(message, achievement_num, master, tracker){
     }
     bar += ']'
     var description
-    if(achievements[achievement_num].secret == true){
+    if(achievements[achievement_num].secret == true && hasAchievement == 0){
         description = 'Secret Achievement'
     }else{
         description = achievements[achievement_num].description
@@ -171,7 +171,7 @@ function Achievement_Tracker1(message, achievement_num, master, tracker){
     }
     bar += ']'
     var description
-    if(achievements[achievement_num].secret == true){
+    if(achievements[achievement_num].secret == true && master[message.author.id].achievements.includes(parseInt(achievement_num)) == false){
         description = 'Secret Achievement'
     }else{
         description = achievements[achievement_num].description
@@ -223,7 +223,7 @@ function Achievement_Tracker2(message, achievement_num, master, tracker){
     bar += ']'
 
     var description
-    if(achievements[achievement_num].secret == true){
+    if(achievements[achievement_num].secret == true && master[message.author.id].achievements.includes(parseInt(achievement_num))== false){
         description = 'Secret Achievement'
     }else{
         description = achievements[achievement_num].description

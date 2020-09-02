@@ -47,6 +47,9 @@ module.exports = {
                tracker[i][48] = 0
                tracker[i][51] = 0
                tracker[i][52] = 0
+               tracker[i][53] = 0
+               tracker[i][54] = 0
+               tracker[i][55] = 0
             }
             /*
             for(var i in achievements){

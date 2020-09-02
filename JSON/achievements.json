@@ -135,6 +135,7 @@
   "20": {
     "name": "Toxic",
     "description": "Have both !boo and !insults on you at the same time",
+    "secret": false,
     "threshold": 0,
     "tracker": 2
   },
@@ -365,6 +366,27 @@
     "description": "Play the 'Match the Dealer' bet 50 times",
     "threshold": 50,
     "secret": false,
+    "tracker": 1
+  },
+  "53": {
+    "name": "Hot Hand",
+    "description": "Win Ceelo 5 times in a row",
+    "threshold": 5,
+    "secret": false,
+    "tracker": 1
+  },
+  "54": {
+    "name": "Glizzy Gladiator",
+    "description": "Say glizzy 5 times",
+    "threshold": 5,
+    "secret": true,
+    "tracker": 1
+  },
+  "55": {
+    "name": "Sneaky Sneaky",
+    "description": "Send 50 messages in your dms",
+    "threshold": 50,
+    "secret": true,
     "tracker": 1
   }
 }

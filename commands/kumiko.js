@@ -7,11 +7,10 @@ module.exports = {
         const unlock = require('./Functions/Achievement_Functions')
         const dir = './kumiko_pics'
         var max_kumikos = fs.readdirSync(dir).length
-        var kumiko = Math.ceil(Math.random()*max_kumikos);
+        var kumiko = Math.floor(Math.random()*max_kumikos);
         var price = 15
-
         try{
-            var kumiko_image = new Attachment('./kumiko_pics/kumiko'+ kumiko +'.jpg')
+            var kumiko_image = new Attachment(`./kumiko_pics/${fs.readdirSync(dir)[kumiko]}`)
             purchase(price, message.author.id, message, master) 
             if(message.channel.id !== '711634711281401867'){
                 message.channel.send(kumiko_image)
