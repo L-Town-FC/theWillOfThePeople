@@ -42,33 +42,15 @@ module.exports = {
                         counter = counter + 1
                         all_achievements.push(i)
                     }
-                    if(all_achievements.includes(String(args[2])) == true){
-                        //tracker(default) - Simple unlock achievements that don't need to be tracker
-                        var tracker1 = [4,5,8,9,13,14,17,18,21,23,25,26,27,28,29,31,32,33,36,37,40,44,45,46,47,48]
-                        //tracker 1 - Achivements that are a single number increasing
-                        var tracker2 = [15,20,42]
-                        //tracker 2 - Achievements that use multiple true/false
-                        //tracker 3 - Achievements that use multiple numbers to tracker
-                        //check each tracker for unique bar
-                        //If no tracker its either a full or an empty bar
-                        var tracker3 = [39]
-                        if(tracker1.includes(parseInt(args[2])) == true){
-                            var number = 'tracker1'
-                        }else if(tracker2.includes(parseInt(args[2])) == true){
-                            var number = 'tracker2'
-                        }else if(tracker3.includes(parseInt(args[2])) == true){
-                            var number = 'tracker3'
-                        }
-                        //var number = String(args[2])
-                        
-                        switch(number){
-                            case 'tracker1':
+                    if(all_achievements.includes(String(args[2])) == true){         
+                        switch(achievements[args[2]].tracker){
+                            case 1:
                                 Achievement_Tracker1(message, args[2], master, tracker)
                             break;
-                            case 'tracker2':
+                            case 2:
                                 Achievement_Tracker2(message, args[2], master, tracker)
                             break;
-                            case 'tracker3':
+                            case 3:
                                 Achievement_Tracker3(message, args[2], master, tracker)
                             break;
                             default:

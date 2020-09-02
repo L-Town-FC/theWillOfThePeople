@@ -106,6 +106,7 @@ module.exports = {
                         var suggested = JSON.parse(fs.readFileSync('./JSON/insults_suggestions.json', 'utf-8'))
                         suggested.suggestions.push(suggestion[1])
                         message.channel.send('Your suggestion has been logged')
+                        unlock.unlock(message.author.id, 49, message, master)
                         fs.writeFileSync ("./JSON/insults_suggestions.json", JSON.stringify(suggested, null, 2), function(err) {
                             if (err) throw err;
                             console.log('complete');

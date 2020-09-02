@@ -3,288 +3,368 @@
     "name": "High Roller",
     "description": "Win a hand of blackjack for 1000 or more",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "2": {
     "name": "Buster",
     "description": "Lose a hand of blackjack for 1000 or more",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "3": {
     "name": "L",
     "description": "Be at or below 0 gbp",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "4": {
     "name": "Psychic",
     "description": "Win guess game 5 times",
     "threshold": 5,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "5": {
     "name": "Master Pugilist",
     "description": "Use !pug 25 times",
     "threshold": 25,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "6": {
     "name": "Too Big To Fail",
     "description": "Have 10000 gbp at one time",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "7": {
     "name": "Your a Dumbass",
     "description": "Use !bank or !transer in the bot tinkering channel",
     "threshold": 0,
-    "secret": true
+    "secret": true,
+    "tracker": 0
   },
   "8": {
     "name": "This Bot is Rigged",
     "description": "Lose 5 hands of blackjack in a row",
     "threshold": 5,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "9": {
     "name": "It aint Easy but its Honest Work",
     "description": "Send 250 farm messages",
     "threshold": 250,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "10": {
     "name": "JACKPOT",
     "description": "Win the Lottery",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "11": {
     "name": "Trust Nobody",
     "description": "Be stolen from",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "12": {
     "name": "Better to ask for Forgiveness than Permission",
     "description": "Steal from someone",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "13": {
     "name": "Professional Asshole",
     "description": "Move !insults or !boo 3 times",
     "threshold": 3,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "14": {
     "name": "Kumiko Connoisseur",
     "description": "Use !kumiko 25 times",
     "threshold": 25,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "15": {
     "name": "Fetishist",
     "description": "Post in both the doban and the feet chat",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 2
   },
   "16": {
     "name": "Easy Money",
     "description": "Be transferred money in the stack your family chat",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "17": {
     "name": "Fucking Liberal",
     "description": "Send 100 messages in the politics chat",
     "threshold": 100,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "18": {
     "name": "I Serve the Realm",
     "description": "Use !council 5 times",
     "threshold": 5,
-    "secret": true
+    "secret": true,
+    "tracker": 1
   },
   "19": {
     "name": "As God Intended it",
     "description": "Use !insults on Alex",
     "threshold": 0,
-    "secret": true
+    "secret": true,
+    "tracker": 0
   },
   "20": {
     "name": "Toxic",
     "description": "Have both !boo and !insults on you at the same time",
-    "threshold": 0
+    "threshold": 0,
+    "tracker": 2
   },
   "21": {
     "name": "There is Only So Much Abuse You Can Take",
     "description": "Be insulted by the bot 10 times",
     "threshold": 10,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "22": {
     "name": "Masochist",
     "description": "Put !insults or !boo on yourself",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "23": {
     "name": "Psycho",
     "description": "Play 50 hands of 21 for atleast 200 gbp",
     "threshold": 50,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "24": {
     "name": "Large and In Charge",
     "description": "Hold an elected position",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "25": {
     "name": "History is Written by the Victors",
     "description": "Use !delete 5 times",
     "threshold": 5,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "26": {
     "name": "Massive Dobonhokeros",
     "description": "Post in the doban chat 25 times",
     "threshold": 25,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "27": {
     "name": "I Love Some Porkie Piggies",
     "description": "Post in the feet chat 25 times",
     "threshold": 25,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "28": {
     "name": "We Live in a Society",
     "description": "Post in the gamer chat 100 times",
     "threshold": 100,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "29": {
     "name": "Enlightened",
     "description": "Post in the anime chat 100 times",
     "threshold": 100,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "30": {
     "name": "Trickle Down Economics",
     "description": "Steal from the poorest person on the server",
     "threshold": 0,
-    "secret": true
+    "secret": true,
+    "tracker": 0
   },
   "31": {
     "name": "Sorry. Try Again",
     "description": "Buy 500 Powerball tickets",
     "threshold": 500,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "32": {
     "name": "The House Always Wins",
     "description": "Lose 25000 gbp across all forms of gambling",
     "threshold": 25000,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "33": {
     "name": "Professional Gambler",
     "description": "Win 25000 gbp across all forms of gambling",
     "threshold": 25000,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "34": {
     "name": "Deep Dark Hole",
     "description": "Have -250 gbp or less",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "35": {
     "name": "Robinhood",
     "description": "Steal from the richest person on the server",
     "threshold": 0,
-    "secret": true
+    "secret": true,
+    "tracker": 0
   },
   "36": {
     "name": "Kleptomaniac",
     "description": "Steal 5 times",
     "threshold": 5,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "37": {
     "name": "Master Thief",
     "description": "Steal over 1000 gbp total",
     "threshold": 1000,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "38": {
     "name": "Bet it all on Black",
     "description": "Bet all your gbp (at least 1000) on black ",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 0
   },
   "39": {
     "name": "Jack of All Trades",
     "description": "Win 5000 gbp in blackjack, guessgame, and roulette",
     "threshold": 5000,
     "secret": false,
-    "labels": ["Blackjack", "Guess Game", "Roulette"]
+    "labels": [
+      "Blackjack",
+      "Guess Game",
+      "Roulette"
+    ],
+    "tracker": 3
   },
   "40": {
     "name": "So Predictable",
     "description": "Win bwg 5 times",
     "threshold": 5,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
   "41": {
     "name": "Nice",
     "description": "Have 69 gbp",
     "threshold": 0,
-    "secret": true
+    "secret": true,
+    "tracker": 0
   },
   "42": {
     "name": "Roulette Completionist",
     "description": "Win every payout in Roulette at least once",
     "threshold": 0,
-    "secret": false
+    "secret": false,
+    "tracker": 2
   },
   "43": {
     "name": "Classic Zaid",
     "description": "Send a twitch clip",
     "threshold": 0,
-    "secret": true
+    "secret": true,
+    "tracker": 0
   },
   "44": {
     "name": "50/50",
     "description": "Flip a coin 10 times",
     "threshold": 10,
-    "secret": true
+    "secret": true,
+    "tracker": 1
   },
   "45": {
     "name": "Achievement Hunter",
     "description": "Use !achievements 15 times",
     "threshold": 15,
-    "secret": true
+    "secret": true,
+    "tracker": 1
   },
-  "46":{
+  "46": {
     "name": "Libertarian Nightmare",
     "description": "Pay 10000 gbp in taxes",
     "threshold": 10000,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
-  "47":{
+  "47": {
     "name": "Free Money",
     "description": "Collect 10000 gbp in interest",
     "threshold": 10000,
-    "secret": false
+    "secret": false,
+    "tracker": 1
   },
-  "48":{
+  "48": {
     "name": "Wyatt",
     "description": "Press the button 500 times",
     "threshold": 500,
-    "secret": false
+    "secret": false,
+    "tracker": 1
+  },
+  "49": {
+    "name": "Thank You for Being a Dick",
+    "description": "Suggest an insult to the bot",
+    "threshold": 0,
+    "secret": false,
+    "tracker": 0
+  },
+  "50": {
+    "name": "Schizophrenic",
+    "description": "Send a message to yourself",
+    "threshold": 0,
+    "secret": true,
+    "tracker": 0
+  },
+  "51": {
+    "name": "Gambling Addict",
+    "description": "Use gambling commands 1000 times",
+    "threshold": 1000,
+    "secret": false,
+    "tracker": 1
+  },
+  "52": {
+    "name": "A Fool's Bet",
+    "description": "Play the 'Match the Dealer' bet 50 times",
+    "threshold": 50,
+    "secret": false,
+    "tracker": 1
   }
 }

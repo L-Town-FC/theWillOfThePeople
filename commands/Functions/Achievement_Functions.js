@@ -91,6 +91,7 @@ function reset2(user, achievement_num, index, tracker){
 module.exports.reset2 = reset2
 
 function tracker1(user, achievement_num, increment, message, master, tracker){
+    //Used for tracking basic achievements that are a single number
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     try{
@@ -112,6 +113,7 @@ function tracker1(user, achievement_num, increment, message, master, tracker){
 module.exports.tracker1 = tracker1
 
 function tracker2(user, achievement_num, index, message, master, tracker){
+    //achievements that track booleans
     const fs = require('fs')
     try{
         if(tracker == 'undefined'){
@@ -131,6 +133,7 @@ function tracker2(user, achievement_num, index, message, master, tracker){
 module.exports.tracker2 = tracker2
 
 function tracker3(user, achievement_num, index, increment, message, master, tracker){
+    //achievmenets that track multiple numbers
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     try{

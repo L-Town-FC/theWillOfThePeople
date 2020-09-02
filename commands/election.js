@@ -41,6 +41,7 @@ function Vote(message, args, master, reactions, election_roles){
     }else{
         var poll = new Discord.RichEmbed()
         var list = []
+        var time = 20
         for(var k = 2; k < args.length; k++){
             list.push(`${reactions[k -2]}. ${args[k]}`)
         }
@@ -89,21 +90,19 @@ function Vote(message, args, master, reactions, election_roles){
                 .setTitle(`${election_roles[parseInt(args[1]) - 1].split(":")[1]} Poll Results`)
                 .setDescription(final_list)
                 .setColor(embed.Color(message))
+                var counter = 0
                 var max = -1
                 var index = 0
                 for(var k = 0; k < list2.length; k++){
                     if(list2[k] > max){
                         max = list2[k]
                         index = k
-                    }
-                }
-                var counter = 0
-                for(var k = 0; k < list2.length; k++){
-                    if(list2[k] == max){
+                        counter = 0
+                    }else if(list2[k] == max){
                         counter++
                     }
                 }
-                if(counter > 1){
+                if(counter > 0){
                     results.addField(`Winner:`, `Tie`)
                 }else{
                     results.addField(`Winner: `, args[index + 2])
@@ -111,7 +110,7 @@ function Vote(message, args, master, reactions, election_roles){
                 message.channel.send(results)
 
                 //console.log(message.reactions.array()[0]._emoji)
-            },45 * 1000)
+            },time * 1000)
         })
     }
 }

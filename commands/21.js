@@ -64,6 +64,7 @@ module.exports = {
                         if(isNaN(match) == false){
                             if(master[message.author.id].gbp >= match){
                                 message.channel.send(`Your "Match the Dealer" bet was accepted`)
+                                unlock.tracker1(master_list[player].id, 52, 1, message, master, tracker)
                                 purchase(parseFloat(match), master_list[player].id, message, master)
                                 var match_good = true
                             }else{
@@ -118,7 +119,7 @@ module.exports = {
                         Display_Status(master_list[player],message, embed)
                         if(match_good == true){
                             var temp_hands = [master_list[player].player_dummy_hand1[0].split(':'), master_list[player].player_dummy_hand1[1].split(':'), master_list[player].dealer_dummy_hand[0].split(':')]
-                            console.log(temp_hands)
+                            //console.log(temp_hands)
                             var match_winnings = 0 //winnings with original bet included
                             var true_winnings = 0 //winnings without original bet included
                             match = parseFloat(match)
@@ -146,7 +147,7 @@ module.exports = {
                                 true_winnings = true_winnings
                                 match_winnings = match_winnings
                             }
-                            console.log(match_winnings)
+                            //console.log(match_winnings)
                             if(match_winnings > 0){
                                 message.channel.send(`You matched the dealer`)
                                 message.channel.send(`You win ${true_winnings} gbp`)

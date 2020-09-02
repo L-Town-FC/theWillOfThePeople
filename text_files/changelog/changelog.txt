@@ -10,12 +10,13 @@
 **New Features/Updates:**
 **-Removed the GBP Farming Cap**
 **-Taxes are now progressive instead of tax hitting your entire wallet**
-**Stat Improvements**
--The Following are now being tracked:
+**-The Following Stats are now being tracked:**
 --Button Presses
 --Button Losses
 --Taxes Paid
 --Interest Gained
+--Roulette Bets Placed
+--Roulette Bets Won
 **-You now always get gbp when messaging in Non-Farm channels**
 **-You can now only deposit gbp in 1000 gbp increments**
 **-New Command: !info**

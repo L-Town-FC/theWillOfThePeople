@@ -2,6 +2,7 @@ module.exports = {
     name: 'msg',
     description: 'lets you anonymously dm people through the bot',
     execute(message, args, master){
+        const unlock =require('./Functions/Achievement_Functions')
         try{
             var name = args[1] || 'none'
             if(message.content.length > 54){
@@ -31,9 +32,13 @@ module.exports = {
                         //console.log(users[k])
                         if(users[k].id == person){
                             users[k].send(new_msg)
+                            master[message.author.id].gbp -= cost
+                        }
+                        if(person == message.author.id){
+                            unlock.unlock(person, 50, message, master)
                         }
                     }
-                    master[message.author.id].gbp -= cost
+
                 }else{
                     message.channel.send(`You can't send an empty message`)
                 }

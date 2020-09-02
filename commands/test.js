@@ -45,7 +45,15 @@ module.exports = {
                tracker[i][46] = 0
                tracker[i][47] = 0
                tracker[i][48] = 0
+               tracker[i][51] = 0
+               tracker[i][52] = 0
             }
+            /*
+            for(var i in achievements){
+                delete achievements[i].Tracker_Number
+                achievements[i].tracker = 1
+            }
+            */
             
             for(i in master){
                 /*
@@ -96,38 +104,12 @@ module.exports = {
                 //stats[i].achievements = 0
                 stats[i].button_presses = 0
                 stats[i].button_losses = 0
+                stats[i].roulette_bets = 0
+                stats[i].roulette_wins = 0
                 stats[i].taxes = 0
                 stats[i].interest = 0
             }
 
-            /*
-            for(i in roulette){
-                if(i % 2 == 0){
-                    roulette[i].even = true
-                }else{
-                    roulette[i].even = false
-                }
-                if(i <= 12){
-                    roulette[i].third = 1
-                }else if(i >= 25){
-                    roulette[i].third = 3
-                }else{
-                    roulette[i].third = 2
-                }
-                if(i <= 18){
-                    roulette[i].half = 1
-                }else{
-                    roulette[i].half = 2
-                }
-                if((i + 2) % 3 == 0){
-                    roulette[i].row = 1
-                }else if((i + 1) % 3 == 0){
-                    roulette[i].row = 2
-                }else{
-                    roulette[i].row = 3
-                }
-            }
-            */
 
            fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), function(err) {
             if (err) throw err;
@@ -144,13 +126,11 @@ module.exports = {
                 console.log('complete');
                 }
             );
-            /*
-            fs.writeFileSync ("./JSON/roulette.json", JSON.stringify(roulette, null, 2), function(err) {
+            fs.writeFileSync ("./JSON/achievements.json", JSON.stringify(achievements, null, 2), function(err) {
                 if (err) throw err;
                 console.log('complete');
                 }
             );
-            */
         }
     }
 

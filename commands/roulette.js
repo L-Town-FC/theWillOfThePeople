@@ -1,7 +1,7 @@
 module.exports = {
     name: 'roulette',
     description: 'lets multiple people play roulette',
-    execute(message, args, master, tracker){
+    execute(message, args, master, tracker, stats_list){
         const fs = require('fs')
         const roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
         const embed = require('./Functions/embed_functions')
@@ -12,7 +12,7 @@ module.exports = {
             case 'bet':
                 try{
                     if(typeof(bets_open) == 'undefined'){
-                        if(isNaN(args[2]) == false && bet_time >= 15 && bet_time <= 60){
+                        if(isNaN(args[2]) == false && bet_time >= 15 && bet_time <= 120){
                             bets_open = true
                             Display(message, embed)
                             message.channel.send(`Bets are open. You have ${bet_time} seconds to place bets`)
@@ -36,7 +36,7 @@ module.exports = {
                                         try{
                                             message.channel.send(`The number is: \n${number}${color}`)
                                             counter = 0
-                                            bet_checker(approved_bets, number, roulette, message, master, tracker)
+                                            bet_checker(approved_bets, number, roulette, message, master, tracker, stats_list)
                                             delete counter
                                             delete approved_bets
                                         }catch(err){
@@ -108,7 +108,7 @@ function purchase(bet_value, player, master) {
     }
 }
 
-function bet_checker(approved_bets, picked_number, roulette, message, master, tracker){
+function bet_checker(approved_bets, picked_number, roulette, message, master, tracker, stats_list){
     const fs = require('fs')
     const unlock = require('./Functions/Achievement_Functions')
     var winnings = 0
@@ -248,6 +248,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
             if(win_checker !== 0){
                 unlock.tracker1(user, 33, parseFloat(-winnings - bet), message, master, tracker)
                 unlock.tracker3(user, 39, 2, parseFloat(-winnings - bet), message, master, tracker)
+                stats_list[user].roulette_wins += 1
             }else{
                 unlock.tracker1(user, 32, parseFloat(bet), message, master, tracker)
             }

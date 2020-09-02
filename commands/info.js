@@ -51,8 +51,9 @@ module.exports = {
                             `<-1000: 10 gbp`,
                             `<0: 5 gbp`,
                             `<250: 3 gbp`,
+                            '<500: 2 gbp',
                             `<750: 1 gbp`,
-                            `<750: The chance of getting 1 gbp per message decreases until it reaches 25% at 1500 gbp`
+                            `>750: The chance of getting 1 gbp per message decreases until it reaches 25% at 1500 gbp`
                         ]
                         info_embed.addField('**Info**', progressive_gbp)
                     break;

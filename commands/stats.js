@@ -58,6 +58,8 @@ function Stats(user, stats, master, message, embed){
         `Powerball Tickets bought: ${stats[user].lottery_tickets}`,
         `Button Presses: ${stats[user].button_presses}`,
         `Button Losses: ${stats[user].button_losses}`,
+        `Roulette Bets Placed: ${stats[user].roulette_bets}`,
+        `Roulette Bets Won: ${stats[user].roulette_wins}`,
         `Taxes Paid: ${stats[user].taxes}`,
         `Interest Earned: ${stats[user].interest}`,
         `Achievements: ${achievements_ratio}`
@@ -80,6 +82,8 @@ function Stats_All(stats, message, embed){
     var non_farm_messages = 0
     var button_presses = 0
     var button_losses = 0
+    var roulette_bets = 0
+    var roulette_wins = 0
     var taxes = 0
     var interest = 0
     for(i in stats){
@@ -97,6 +101,8 @@ function Stats_All(stats, message, embed){
         taxes += stats[i].taxes
         interest += stats[i].interest
         button_losses += stats[i].button_losses
+        roulette_bets += stats[i].roulette_bets
+        roulette_wins += stats[i].roulette_wins
     }
     const Stats_list = new Discord.RichEmbed()
     .setTitle(`All Stats List`)
@@ -114,6 +120,8 @@ function Stats_All(stats, message, embed){
         `Powerball Tickets bought: ${lottery_tickets}`,
         `Button Presses: ${button_presses}`,
         `Button Losses: ${button_losses}`,
+        `Roulette Bets Placed: ${roulette_bets}`,
+        `Roulette Bets Won: ${roulette_wins}`,
         `Taxes Paid: ${taxes}`,
         `Interest Earned: ${interest}`
     ])

@@ -25,7 +25,8 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
+    //var channel = bot.channels.find(channel => channel.id === '590585423202484227')
+    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
     var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
     console.log('This bot is online')
     if(!daily_counter){
@@ -47,7 +48,17 @@ bot.on('ready', () => {
         }
     }, null, true)
 
-
+    new cron.CronJob('0 13 * * *', function(){
+        Interest(master, stats_list, channel, tracker)
+        Welfare(channel, master)
+        Lottery(channel, master, unlock)
+        gbp_farm_reset(channel)
+        JSON_Overwrite(master, stats_list, tracker)
+        //590585423202484227 - pugilism
+        //611276436145438769 - test
+        //743269381768872087 - stonks
+    }, null, true)
+    /*
     setInterval(function(){
         daily_counter = daily_counter + 1
         if(daily_counter >= 24){
@@ -63,6 +74,7 @@ bot.on('ready', () => {
     //590585423202484227 - pugilism
     //611276436145438769 - test
     //743269381768872087 - stonks
+    */
 })
 
 bot.on('message', message =>{
@@ -81,7 +93,7 @@ bot.on('message', message =>{
 
             ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true
             if(typeof(bets_open) !== 'undefined' && ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true){
-                Roulette_bets(message, master[message.author.id].gbp, master)
+                Roulette_bets(message, master[message.author.id].gbp, master, stats_list)
             }
         }
         //console.log(message)
@@ -102,7 +114,7 @@ bot.on('message', message =>{
             }
             switch(args[0].toLowerCase()){
                 case 'ping':
-                    bot.commands.get('ping').execute(message);
+                    bot.commands.get('ping').execute(message, bot);
                 break;
                 case 'pug':
                     bot.commands.get('pug').execute(message,master, tracker); 
@@ -112,6 +124,7 @@ bot.on('message', message =>{
                 break;
                 case '21':
                     bot.commands.get('21').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
+                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'flip':
                     bot.commands.get('flip').execute(message, master, tracker);
@@ -133,6 +146,7 @@ bot.on('message', message =>{
                 break;
                 case 'gg':
                     bot.commands.get('gg').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
+                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'transfer':
                     bot.commands.get('transfer').execute(message,args,master[message.author.id].gbp, master);
@@ -142,6 +156,7 @@ bot.on('message', message =>{
                 break;
                 case 'powerball':
                     bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list, tracker)
+                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'herald':
                     bot.commands.get('herald').execute(message,args, master[message.author.id].gbp, master)
@@ -159,7 +174,8 @@ bot.on('message', message =>{
                     bot.commands.get('changelog').execute(message)
                 break;
                 case 'roulette':
-                    bot.commands.get('roulette').execute(message,args,master, tracker, Roulette_bets(message, master[message.author.id].gbp, master))
+                    bot.commands.get('roulette').execute(message,args,master, tracker, stats_list)
+                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'help':
                     bot.commands.get('help').execute(message, args);
@@ -190,12 +206,14 @@ bot.on('message', message =>{
                 break;
                 case 'button':
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker);
+                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'loan':
                     bot.commands.get('loan').execute(message,args, master);
                 break;
                 case 'ceelo':
                     bot.commands.get('ceelo').execute(message, args, master, stats_list, tracker)
+                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'info':
                     bot.commands.get('info').execute(message, args)
@@ -288,7 +306,7 @@ function Welfare(channel, master){
     }
 }
 
-function Roulette_bets(message, money, master){
+function Roulette_bets(message, money, master, stats_list){
     var args = message.content.split(" ")
     var possible_bets = fs.readFileSync('./text_files/roulette/roulette_bets','utf-8').split(",")
     var min_bet = 10;
@@ -306,6 +324,7 @@ function Roulette_bets(message, money, master){
                     var bet = [args[0], args[1], message.author.id]
                     approved_bets.push(bet)
                     message.channel.send(`${master[message.author.id].name} Bet accepted`)
+                    stats_list[message.author.id].roulette_bets += 1
                     if(Math.round(money) == args[0] && money >= 1000 && args[1].toLowerCase() == 'black'){
                         unlock.unlock(message.author.id, 38, message, master)
                     }
