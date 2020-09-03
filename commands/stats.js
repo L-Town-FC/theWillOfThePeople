@@ -64,6 +64,10 @@ function Stats(user, stats, master, message, embed){
         `Interest Earned: ${stats[user].interest}`,
         `Achievements: ${achievements_ratio}`
     ])
+    var chance = Math.floor(Math.random() * 10)
+    if(chance == 5){
+        Stats_list.addField('===============', 'END OF MESSAGE \n===============')
+    }
     message.channel.send(Stats_list)
 }
 
@@ -125,6 +129,12 @@ function Stats_All(stats, message, embed){
         `Taxes Paid: ${taxes}`,
         `Interest Earned: ${interest}`
     ])
+
+    var chance = Math.floor(Math.random() * 10)
+    if(chance == 5){
+        Stats_list.addField('===============', 'END OF MESSAGE \n===============')
+    }
+
     message.channel.send(Stats_list)
 }
 

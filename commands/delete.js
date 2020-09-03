@@ -36,7 +36,7 @@ module.exports = {
                     if (total_money >= total_cost){
                         purchase(total_cost, message.author.id, message, master);
                         message.channel.bulkDelete(parseInt(num) + 1);
-                        message.channel.send(`${num} messages have been deleted`);
+                        message.channel.send(`${num} message(s) has/have been deleted`);
                         unlock.tracker1(message.author.id, 25, num, message, master, tracker)
                         deletes[message.author.id].deletes = deletes[message.author.id].deletes + num
                         fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {

@@ -1,14 +1,13 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 180070.5,
+    "gbp": 100001,
     "achievements": [
       45,
       13,
       4,
       12,
       11,
-      36,
       48,
       46,
       6,
@@ -19,10 +18,14 @@
       53,
       54,
       50,
-      14
+      14,
+      35,
+      30,
+      36,
+      37
     ],
     "simmerdown": 0,
-    "account": 18860.99,
+    "account": 0,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -40,7 +43,12 @@
         "kumiko"
       ]
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 2,
+      "caught": false
+    }
   },
   "497803559144914944": {
     "name": "Andrew",
@@ -64,11 +72,16 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "499328039621230592": {
     "name": "Wyatt",
-    "gbp": 3000,
+    "gbp": 1500,
     "achievements": [
       24,
       2,
@@ -108,7 +121,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "463080062175019010": {
     "name": "Ian",
@@ -150,7 +168,12 @@
       "gamestatus": 1,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "210861925771247636": {
     "name": "Zaid",
@@ -198,11 +221,16 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "501929393401364481": {
     "name": "Mike",
-    "gbp": 250,
+    "gbp": 275,
     "achievements": [
       3,
       8
@@ -223,7 +251,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "509430603339399186": {
     "name": "Brian",
@@ -249,7 +282,12 @@
         "people"
       ]
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "526190184455471105": {
     "name": "Carl",
@@ -285,7 +323,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "462798271195119626": {
     "name": "Alex",
@@ -313,7 +356,12 @@
         "america"
       ]
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "562203622474252288": {
     "name": "Dylan",
@@ -335,7 +383,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "501887537451630593": {
     "name": "Ramzi",
@@ -359,7 +412,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "434471986748456962": {
     "name": "Chrisvan",
@@ -384,7 +442,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "497861779020578837": {
     "name": "Hayden",
@@ -413,7 +476,7 @@
       47
     ],
     "simmerdown": 0,
-    "account": 29782.73,
+    "account": 30000,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -428,7 +491,12 @@
       "gamestatus": 1,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "501930484838957069": {
     "name": "Tom",
@@ -450,7 +518,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "581903756111773716": {
     "name": "Justin",
@@ -472,7 +545,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "508076579684089896": {
     "name": "Jacob",
@@ -505,7 +583,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "525147400176664626": {
     "name": "Teddy",
@@ -531,7 +614,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "640368746690510868": {
     "name": "Slim",
@@ -555,7 +643,12 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   },
   "498262864541515786": {
     "name": "Derek",
@@ -579,6 +672,11 @@
         "weekend"
       ]
     },
-    "insulted": false
+    "insulted": false,
+    "steal": {
+      "insurance": 0,
+      "attempts": 0,
+      "caught": false
+    }
   }
 }

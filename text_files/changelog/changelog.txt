@@ -6,7 +6,7 @@
 -Fixed error in bwg where you couldn't start a game
 -Fixed bug in bwg where you couldn't win the game as the bettor
 -"!bwg status" works in your dms again
--Kumikos and Pugs are now always sent upon command
+-Kumikos and Pugs and roulette.jpg are now always sent upon command
 
 **New Features/Updates:**
 **-Removed the GBP Farming Cap**

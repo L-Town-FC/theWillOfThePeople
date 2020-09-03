@@ -16,13 +16,32 @@ module.exports = {
         
         switch(command){
             case 'number':
-                Vote(message, args, master, reactions, election_roles)
+                try{
+                    if(message.member.roles.find(r => r.name === "Junior Representative Assistant") || message.member.roles.find(r => r.name === "Senior Representative Assistant") || message.member.roles.find(r => r.name === "The People's Representative") ||message.member.roles.find(r => r.name === "The People's Leader")){
+                        Vote(message, args, master, reactions, election_roles)
+                    }else{
+                        message.channel.send('You must me a mod to call an election')
+                    }
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in election.js Number')
+                }
             break;
             case 'roles':
-                Roles(message, election_roles)
+                try{
+                    Roles(message, election_roles)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error Occurred in election.js Roles')
+                }
             break;
             case 'help':
-                Help(message)
+                try{
+                    Help(message)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in election.js help')
+                }
             break;
             default:
                 message.channel.send(`Use "!election help" for a list of commands`)
@@ -41,7 +60,8 @@ function Vote(message, args, master, reactions, election_roles){
     }else{
         var poll = new Discord.RichEmbed()
         var list = []
-        var time = 20
+        const sec_per_hour = 3600
+        var time = 24 * sec_per_hour
         for(var k = 2; k < args.length; k++){
             list.push(`${reactions[k -2]}. ${args[k]}`)
         }
@@ -53,19 +73,24 @@ function Vote(message, args, master, reactions, election_roles){
             for(var j = 0; j < args.length - 2; j++){
                 message.react(reactions[j])
             }
+            return message
+        }).then(message => {
             setTimeout(function(){
                 var emojis = message.reactions.array()
-                //console.log(args)
-                var list2 = [0,0,0,0,0]
-                for(var i in emojis){
+                var list2 = []
+                //console.log(emojis)
+                for(var i = 0; i < emojis.length; i++){
+    
                     switch(emojis[i]._emoji.name){
                         case '1️⃣':
                             //message.channel.send(`${emojis[i].count} for 1`)
                             list2[0] = emojis[i].count - 1
+                            //console.log(`2,${emojis[i].count}`)
                         break;
                         case '2️⃣':
                             //message.channel.send(`${emojis[i].count} for 2`)
                             list2[1] = emojis[i].count -1
+                            //console.log(`2,${emojis[i].count}`)
                         break;
                         case '3️⃣':
                             //message.channel.send(`${emojis[i].count} for 3`)
@@ -80,6 +105,7 @@ function Vote(message, args, master, reactions, election_roles){
                             list2[4] = emojis[i].count - 1
                         break;
                     }
+                    
                 }
                 //console.log(list2)
                 var final_list = []
@@ -108,8 +134,6 @@ function Vote(message, args, master, reactions, election_roles){
                     results.addField(`Winner: `, args[index + 2])
                 }
                 message.channel.send(results)
-
-                //console.log(message.reactions.array()[0]._emoji)
             },time * 1000)
         })
     }

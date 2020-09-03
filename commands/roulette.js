@@ -277,7 +277,14 @@ function Display(message, embed){
     const fs = require('fs')
     var basics = fs.readFileSync('./text_files/roulette/roulette_basics')
     var payouts = fs.readFileSync('./text_files/roulette/roulette_payouts')
-    var board = new Discord.Attachment('./text_files/roulette/roulette.jpg')
+
+    const dir = './text_files/roulette/'
+    if(fs.readdirSync(dir).includes('roulette.jpg') == true){
+        var board = new Discord.Attachment('./text_files/roulette/roulette.jpg')
+    }else if(fs.readdirSync(dir).includes('roulette.JPG') == true){
+        var board = new Discord.Attachment('./text_files/roulette/roulette.JPG')
+    }
+
     const display = new Discord.RichEmbed()
     .setTitle('**Roulette**')
     .addField("Basics:",basics)

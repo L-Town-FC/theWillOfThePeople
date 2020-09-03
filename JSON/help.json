@@ -163,5 +163,14 @@
         "rules": [
             "**!msg [name] [message]:** Sends your message to the specified person"
         ]
+    },
+    "27":{
+        "name": "!election",
+        "description": ["Lets elections be run", "Each poll is open for 24 Hrs"],
+        "rules": [
+            "**!election [role number] [candidate 1] [candidate 2] ... :** Lets you start a poll between the listed candidates",
+
+            "**!election roles:** Lists the electable roles and their numbers"
+        ]
     }
 }

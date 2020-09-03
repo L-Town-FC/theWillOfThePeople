@@ -1,0 +1,3 @@
+!steal [Target] [Amount]: Lets you steal attempt to steal the designated amount from the specified person
+
+!steal insurance [Amount]: Lets you buy insurance to significantly reduce the chance of being stolen from for [Amount] of days. If [Amount] is left empty it tells you how many days you have left

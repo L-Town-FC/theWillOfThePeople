@@ -52,7 +52,7 @@ bot.on('ready', () => {
         Interest(master, stats_list, channel, tracker)
         Welfare(channel, master)
         Lottery(channel, master, unlock)
-        gbp_farm_reset(channel)
+        gbp_farm_reset(channel, master)
         JSON_Overwrite(master, stats_list, tracker)
         //590585423202484227 - pugilism
         //611276436145438769 - test
@@ -396,11 +396,21 @@ function JSON_Overwrite(master, stats_list, tracker, message){
     }
 }
 
-function gbp_farm_reset(channel){
+function gbp_farm_reset(channel, master){
     var deletes = JSON.parse(fs.readFileSync("./JSON/delete_tracker.json", "utf-8"))
     try{
+        for(var j in master){
+            master[j].steal.insurance -= 1
+            if(master[j].steal.insurance < 0){
+                master[j].steal.insurance = 0
+            }
+            if(master[j].steal.caught == true){
+                master[j].steal.caught = false
+                master[j].steal.attempts = 0
+            }
+        }
  
-        for(i in deletes){
+        for(var i in deletes){
             deletes[i].deletes = 0
         }
         fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {
@@ -450,3 +460,4 @@ function Interest(master, stats_list, channel, tracker){
 
     }
 }
+

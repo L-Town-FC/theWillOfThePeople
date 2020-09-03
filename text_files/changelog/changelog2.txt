@@ -12,3 +12,7 @@
 -!insults suggest [suggestion] logs an insult suggestion that could be added later
 **-New Achievements**
 **-Achievements progression can now be displayed**
+**-New Command: !election**
+-Lets the server hold elections
+**!steal Changes**
+-Use "!steal basics" to see how it works now

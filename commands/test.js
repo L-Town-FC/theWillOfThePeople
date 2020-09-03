@@ -78,6 +78,11 @@ module.exports = {
                 }
                 */
                 master[i].insulted = false
+                master[i].steal = {
+                    "insurance": 0,
+                    "attempts": 0,
+                    "caught": false
+                }
             }
             
 
