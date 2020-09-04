@@ -35,15 +35,18 @@ module.exports = {
                             var everyone = [];
                             var counter = 0
                             var total = 0
+                            var total_private = 0
                             for(i in master){
                                 everyone[counter] = `${master[i].name}: ${master[i].gbp}`;
                                 counter = counter + 1;
                                 total = total + master[i].gbp
+                                total_private += master[i].account
                             }
                             const message_embed = new Discord.RichEmbed()
                             .setTitle("List of all Public accounts on Server")
                             .setDescription(everyone)
                             .addField(`Total Public GBP on Server`, total)
+                            .addField(`Total Private GBP on Server`, total_private)
                             .setColor(embed.Color(message))
                             message.channel.send(message_embed)
                         }catch(err){

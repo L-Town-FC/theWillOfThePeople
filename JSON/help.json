@@ -102,9 +102,13 @@
     },
     "18":{
         "name":"!steal",
-        "description":["Steals between 25% and 50% of what you pay from another user","Costs a minimum of 250 gbp"],
-        "rules":"**!steal [user] [amount paid for heist]:** Lets you steal from the specified user, paying the specified amount"
-    },
+        "description":["Steals from selected user"],
+        "rules":["**!steal [user] [amount to steal]:** Lets you attempt to steal from designated amount from the specified user",
+            "**!steal insurance [amount]:** Lets you buy insurance  for [amount] days that drastically reduces the chance of getting being stolen from. If not amount is specified, it tells you how many days you have of insurance",
+            "**!steal basics:** Gives more information about !steal",
+            "**!steal odds [target] [amount]:** Gives you the odds of failure for a specific target at a specific amount"
+        ]
+        },
     "19":{
         "name":"!achievements",
         "description":"Lets you track achievements gotten in the server",

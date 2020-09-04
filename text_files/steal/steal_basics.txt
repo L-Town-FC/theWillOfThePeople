@@ -1,8 +1,8 @@
 The chance to steal from someone is affected by several factors:
--Amount of times you've stolen since last caught
--Amount of gbp you are stealing
--Percentage of the Target's total public and private gbp you are stealing
+-Amount of times you've stolen since last caught (%5 per attempt)
+-If the amount you are stealing is greater than 100 gbp (% = (amount - 100)/250 * 10)
+-Percentage of the Target's total public and private gbp you are stealing (% = (amount/targets total) * 10)
 
-If you get caught stealing from someone, you can't steal for the rest of the day and the amount you were trying to steal gets taken from you and given to your target
+If you get caught stealing from someone, you can't steal for the rest of the day and the  1.1x amount you were trying to steal gets taken from you and given to your target
 
 Steal Insurance doesn't fully get rid of the chance of being stolen from, it just reduces it to 1%
