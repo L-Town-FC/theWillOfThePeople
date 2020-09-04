@@ -25,8 +25,8 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    //var channel = bot.channels.find(channel => channel.id === '590585423202484227')
-    var channel = bot.channels.find(channel => channel.id === '611276436145438769')
+    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
+    //var channel = bot.channels.find(channel => channel.id === '611276436145438769')
     var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
     console.log('This bot is online')
     if(!daily_counter){
