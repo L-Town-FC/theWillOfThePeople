@@ -31,7 +31,12 @@ module.exports = {
                 }
             break;
             case 'odds':
-                Steal_Odds(message, args, master)
+                try{
+                    Steal_Odds(message, args, master)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error occurred in steal.js odds')
+                }
             break;
             case 'help':
                 try{
