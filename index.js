@@ -222,6 +222,9 @@ bot.on('message', message =>{
                 case 'election':
                     bot.commands.get('election').execute(message, args, master)
                 break;
+                case '=':
+                    bot.commands.get('=').execute(message, args, master)
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;

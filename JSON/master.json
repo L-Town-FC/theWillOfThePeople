@@ -1,7 +1,7 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 310,
+    "gbp": 125,
     "achievements": [
       7,
       5,
@@ -31,7 +31,7 @@
       18
     ],
     "simmerdown": 0,
-    "account": 18762.8,
+    "account": 22423.33,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -42,7 +42,7 @@
       "target": "508076579684089896",
       "current_word": "gordon",
       "bet": 50,
-      "remaining_msgs": 57,
+      "remaining_msgs": 49,
       "gamestatus": 1,
       "used_word": [
         "banned",
@@ -58,7 +58,7 @@
   },
   "497803559144914944": {
     "name": "Andrew",
-    "gbp": 1604.25,
+    "gbp": 1607.25,
     "achievements": [
       7,
       10
@@ -88,7 +88,7 @@
   },
   "499328039621230592": {
     "name": "Wyatt",
-    "gbp": 878,
+    "gbp": 5,
     "achievements": [
       24,
       2,
@@ -113,7 +113,7 @@
       41
     ],
     "simmerdown": 0,
-    "account": 0,
+    "account": 1171.7,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -137,7 +137,7 @@
   },
   "463080062175019010": {
     "name": "Ian",
-    "gbp": 5,
+    "gbp": 258,
     "achievements": [
       21,
       3,
@@ -177,7 +177,7 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": true,
+    "insulted": false,
     "steal": {
       "insurance": 0,
       "attempts": 0,
@@ -186,7 +186,7 @@
   },
   "210861925771247636": {
     "name": "Zaid",
-    "gbp": 513,
+    "gbp": 284,
     "achievements": [
       11,
       12,
@@ -241,14 +241,14 @@
   },
   "501929393401364481": {
     "name": "Mike",
-    "gbp": 418.41,
+    "gbp": 419.41,
     "achievements": [
       3,
       8,
       34
     ],
     "simmerdown": 0,
-    "account": 20233.65,
+    "account": 24181.14,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -272,14 +272,14 @@
   },
   "509430603339399186": {
     "name": "Brian",
-    "gbp": -530.65,
+    "gbp": -527.65,
     "achievements": [
       7,
       11,
       34
     ],
     "simmerdown": 0,
-    "account": 1057.36,
+    "account": 1263.7,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -305,7 +305,7 @@
   },
   "526190184455471105": {
     "name": "Carl",
-    "gbp": 14503.3,
+    "gbp": 14507.3,
     "achievements": [
       24,
       15,
@@ -346,7 +346,7 @@
   },
   "462798271195119626": {
     "name": "Alex",
-    "gbp": 1593.5,
+    "gbp": 1595.5,
     "achievements": [
       11,
       17
@@ -378,7 +378,7 @@
   },
   "562203622474252288": {
     "name": "Dylan",
-    "gbp": 846.5,
+    "gbp": 848.5,
     "achievements": [],
     "simmerdown": 0,
     "account": 0,
@@ -405,7 +405,7 @@
   },
   "501887537451630593": {
     "name": "Ramzi",
-    "gbp": 288,
+    "gbp": 360,
     "achievements": [
       11,
       3,
@@ -466,7 +466,7 @@
   },
   "497861779020578837": {
     "name": "Hayden",
-    "gbp": 0,
+    "gbp": 250,
     "achievements": [
       8,
       9,
@@ -579,7 +579,7 @@
   },
   "508076579684089896": {
     "name": "Jacob",
-    "gbp": 272,
+    "gbp": 250,
     "achievements": [
       11,
       7,
@@ -617,11 +617,12 @@
   },
   "525147400176664626": {
     "name": "Teddy",
-    "gbp": 1277.5,
+    "gbp": 2279.5,
     "achievements": [
       24,
       15,
-      16
+      16,
+      10
     ],
     "simmerdown": 0,
     "account": 0,
@@ -648,7 +649,7 @@
   },
   "640368746690510868": {
     "name": "Slim",
-    "gbp": 714,
+    "gbp": 724,
     "achievements": [
       24
     ],
@@ -677,8 +678,10 @@
   },
   "498262864541515786": {
     "name": "Derek",
-    "gbp": 767,
-    "achievements": [],
+    "gbp": 1775,
+    "achievements": [
+      10
+    ],
     "simmerdown": 0,
     "account": 0,
     "loans": {

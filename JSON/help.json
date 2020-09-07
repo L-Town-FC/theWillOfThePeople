@@ -176,5 +176,10 @@
 
             "**!election roles:** Lists the electable roles and their numbers"
         ]
+    },
+    "28":{
+        "name": "!=",
+        "description": "Lets you do basic, 2 term math",
+        "rules": ["!= [number] [operator] [number]. Operators are [+,-,*,/,^]"]
     }
 }

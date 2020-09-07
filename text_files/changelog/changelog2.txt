@@ -16,3 +16,5 @@
 -Lets the server hold elections
 **!steal Changes**
 -Use "!steal basics" to see how it works now
+**-New Command: !=**
+-Lets you do basic math
