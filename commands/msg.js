@@ -27,10 +27,11 @@ module.exports = {
                 for(var i = 0; i < cut_args.length; i++){
                     new_msg += cut_args[i] + " "
                 }
-                if(new_msg !== ""){
+                if(new_msg !== "" && new_msg.startsWith("!") == false){
                     for(var k in users){
                         //console.log(users[k])
                         if(users[k].id == person){
+                            message.channel.send('Your message was sent')
                             users[k].send(new_msg)
                             master[message.author.id].gbp -= cost
                         }
@@ -38,7 +39,8 @@ module.exports = {
                             unlock.unlock(person, 50, message, master)
                         }
                     }
-
+                }else if(new_msg.startsWith("!") == true){
+                    message.channel.send(`You can't message someone a command`)
                 }else{
                     message.channel.send(`You can't send an empty message`)
                 }

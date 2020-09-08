@@ -2,9 +2,6 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const token = process.env.BOTTOKEN;
 const PREFIX = "!";
-if(typeof(daily_counter) == 'undefined'){
-    daily_counter = 0
-}
 
 const fs = require('fs');
 const cron = require('cron')
@@ -29,9 +26,6 @@ bot.on('ready', () => {
     //var channel = bot.channels.find(channel => channel.id === '611276436145438769')
     var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
     console.log('This bot is online')
-    if(!daily_counter){
-        daily_counter = 0
-    }
     stocks_open = false
 
     new cron.CronJob('30 9 * * * ', function(){
@@ -321,7 +315,7 @@ function Roulette_bets(message, money, master, stats_list){
         if(isNaN(args[0]) == false && args[0] >= min_bet){
             if(possible_bets.includes(args[1].toLowerCase()) == true){
                 if(money >= args[0]){
-                    purchase(args[0], message.author.id, master)
+                    purchase(args[0], message.author.id, master, message)
                     var bet = [args[0], args[1], message.author.id]
                     approved_bets.push(bet)
                     message.channel.send(`${master[message.author.id].name} Bet accepted`)
@@ -337,11 +331,11 @@ function Roulette_bets(message, money, master, stats_list){
         }
     }catch(err){
         console.log(err)
-        message.channel.send('Error Occured in Roulette_bets.js')
+        channel.send('Error Occured in Roulette_bets.js')
     }
 }
 
-function purchase(bet_value, player, master) {
+function purchase(bet_value, player, master, message) {
     try{
         master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
 
@@ -430,34 +424,39 @@ function Interest(master, stats_list, channel, tracker){
     var tax = 0
     var bracket = JSON.parse(fs.readFileSync('./JSON/taxes.json', 'utf-8'))
     var interest
-    for(var i in master){
-        interest = Math.round(master[i].account * (bracket.Interest/100) * 100)/100
-        master[i].account += interest
-        if(master[i].account > 30000){
-            master[i].account = 30000
-        }
-        if(master[i].gbp < 20000){
-            tax = 0
-        }else if(master[i].gbp < 30000){
-            tax = (30000 - master[i].gbp) * bracket[1]/100
-        }else if(master[i].gbp < 40000){
-            tax = bracket[1]/100 * 10000 + (40000 - master[i].gbp) * bracket[2]/100
-        }else if(master[i].gbp < 50000){
-            tax = (bracket[1]/100 + bracket[2]/100) * 10000 + (50000 - master[i].gbp) * bracket[3]/100
-        }else if(master[i].gbp >= 50000 && master[i].gbp < 100000){
-            tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (master[i].gbp - 50000) * bracket[4]/100
-        }else{
-            tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (50000 * bracket[4]/100) + (master[i].gbp - 100000) * bracket[5]/100
-        }
-        master[i].gbp -= Math.round(tax)
-        stats_list[i].taxes += Math.round(tax)
-        stats_list[i].interest += interest
-        //Achievement 46 Libertarian Nightmare
-        unlock.index_tracker(i, 46, Math.round(tax), channel, master, tracker)
+    try{
+        for(var i in master){
+            interest = Math.round(master[i].account * (bracket.Interest/100) * 100)/100
+            master[i].account += interest
+            if(master[i].account > 30000){
+                master[i].account = 30000
+            }
+            if(master[i].gbp < 20000){
+                tax = 0
+            }else if(master[i].gbp < 30000){
+                tax = (30000 - master[i].gbp) * bracket[1]/100
+            }else if(master[i].gbp < 40000){
+                tax = bracket[1]/100 * 10000 + (40000 - master[i].gbp) * bracket[2]/100
+            }else if(master[i].gbp < 50000){
+                tax = (bracket[1]/100 + bracket[2]/100) * 10000 + (50000 - master[i].gbp) * bracket[3]/100
+            }else if(master[i].gbp >= 50000 && master[i].gbp < 100000){
+                tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (master[i].gbp - 50000) * bracket[4]/100
+            }else{
+                tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (50000 * bracket[4]/100) + (master[i].gbp - 100000) * bracket[5]/100
+            }
+            master[i].gbp -= Math.round(tax)
+            stats_list[i].taxes += Math.round(tax)
+            stats_list[i].interest += interest
+            //Achievement 46 Libertarian Nightmare
+            unlock.index_tracker(i, 46, Math.round(tax), channel, master, tracker)
 
-        //Achievement 47 Free Money
-        unlock.index_tracker(i, 47, interest, channel, master, tracker)
+            //Achievement 47 Free Money
+            unlock.index_tracker(i, 47, interest, channel, master, tracker)
 
+        }
+    }catch(err){
+        console.log(err)
+        channel.send('Error occured in interest')
     }
 }
 

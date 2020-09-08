@@ -50,7 +50,7 @@ module.exports = {
                                 }  
                             },bet_time * 1000)
                         }else{
-                            message.channel.send('You must choose a time between 15 and 60 seconds')
+                            message.channel.send('You must choose a time between 15 and 120 seconds')
                         }
                     }else if(bets_open = true){
                         message.channel.send("Bets are already open")
