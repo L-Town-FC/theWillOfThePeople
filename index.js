@@ -28,6 +28,7 @@ bot.on('ready', () => {
     console.log('This bot is online')
     stocks_open = false
 
+    /*
     new cron.CronJob('30 9 * * * ', function(){
         stocks_open = true
         if(stonks == '743269381768872087'){
@@ -41,7 +42,7 @@ bot.on('ready', () => {
             stonks.send('The Stonk market is now Closed')
         }
     }, null, true)
-
+    */
     new cron.CronJob('0 13 * * *', function(){
         Interest(master, stats_list, channel, tracker)
         Welfare(channel, master)
@@ -81,7 +82,7 @@ bot.on('message', message =>{
             bot.commands.get('bwg_counter').execute(message, master, tracker);
             bot.commands.get('ceelo_counter').execute(message, master)
             bot.commands.get('word_checker').execute(message, master, tracker)
-            bot.commands.get('stonks').execute(message)
+            //bot.commands.get('stonks').execute(message)
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
                 stats.tracker(message.author.id, 7, 1, stats_list)
             }
@@ -308,6 +309,7 @@ function Roulette_bets(message, money, master, stats_list){
     var bet = false
 
     try{
+
         if(typeof(approved_bets) == 'undefined'){
             approved_bets = []
         }
@@ -331,7 +333,7 @@ function Roulette_bets(message, money, master, stats_list){
         }
     }catch(err){
         console.log(err)
-        channel.send('Error Occured in Roulette_bets.js')
+        message.channel.send('Error Occured in Roulette_bets.js')
     }
 }
 

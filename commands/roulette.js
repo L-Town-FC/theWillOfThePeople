@@ -20,7 +20,7 @@ module.exports = {
                                 //console.log(approved_bets)
                                 //bets go, [bet amount, bet placement, bettor id]
                                 //make special case for 0 not being even/odd or red/black
-                                if(approved_bets ? approved_bets.length : 0 > 0){  
+                                if(typeof(approved_bets) !== 'undefined' && approved_bets.length > 0){  
                                     delete bets_open
                                     message.channel.send('Bets are closed')
                                     var number = Math.floor(Math.random()*37)
@@ -38,6 +38,9 @@ module.exports = {
                                             counter = 0
                                             bet_checker(approved_bets, number, roulette, message, master, tracker, stats_list)
                                             delete counter
+                                            if(typeof(approved_bets) == 'undefined'){
+                                                approved_bets = []
+                                            }
                                             delete approved_bets
                                         }catch(err){
                                             console.log(err)
