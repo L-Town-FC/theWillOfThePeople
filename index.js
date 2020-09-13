@@ -25,6 +25,9 @@ bot.on('ready', () => {
     var channel = bot.channels.find(channel => channel.id === '590585423202484227')
     //var channel = bot.channels.find(channel => channel.id === '611276436145438769')
     var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
+    var bot_tinkering = bot.channels.find(channel => channel.id === '611276436145438769') //test server
+    //var bot_tinkering = bot.channels.find(channel => channel.id === '711634711281401867') //actual server
+    bot_tinkering.send('The bot is online')
     console.log('This bot is online')
     stocks_open = false
 
@@ -53,23 +56,6 @@ bot.on('ready', () => {
         //611276436145438769 - test
         //743269381768872087 - stonks
     }, null, true)
-    /*
-    setInterval(function(){
-        daily_counter = daily_counter + 1
-        if(daily_counter >= 24){
-            daily_counter = 0
-            Interest(master, stats_list, channel, tracker)
-            Welfare(channel, master)
-            Lottery(channel, master, unlock)
-            gbp_farm_reset(channel)
-            JSON_Overwrite(master, stats_list, tracker)
-        }
-    }, 3600 * 1000)
-    //3600
-    //590585423202484227 - pugilism
-    //611276436145438769 - test
-    //743269381768872087 - stonks
-    */
 })
 
 bot.on('message', message =>{
@@ -219,6 +205,9 @@ bot.on('message', message =>{
                 break;
                 case '=':
                     bot.commands.get('=').execute(message, args, master)
+                break;
+                case 'img':
+                    bot.commands.get('img').execute(message, args)
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);

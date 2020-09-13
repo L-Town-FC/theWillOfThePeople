@@ -126,7 +126,7 @@ function Steal(message, args, target, master, tracker){
                     for(var k in users){
                         //console.log(users[k])
                         if(users[k].id == target){
-                            users[k].send(`${master[message.author.id].name} tried to steal from you but failed. They paid ${args[2]} in damages`)
+                            users[k].send(`${master[message.author.id].name} tried to steal from you but failed. They paid ${amount} gbp in damages`)
                         }
                     }
                     

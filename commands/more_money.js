@@ -38,7 +38,7 @@ module.exports = {
                             unlock.unlock(message.author.id, 24, message, master)
                         }
                     }
-                    if(['590585423202484227','712755269863473252', '672846614410428416'].includes(message.channel.id) == true){
+                    if(['590585423202484227','712755269863473252', '672846614410428416'].includes(message.channel.id) == true || message.channel.type === 'dm'){
                         stats.tracker(person, 9, 1, stats_list)
                     }else{
                         stats.tracker(person, 10, 1, stats_list)
@@ -84,7 +84,6 @@ module.exports = {
                     }
                     if(amount == 0 && ['712755269863473252', '590585423202484227', '611276436145438769'].includes(message.channel.id) == false){
                         amount = 1
-                        console.log('here')
                     }
                     master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
 
