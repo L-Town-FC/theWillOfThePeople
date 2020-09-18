@@ -2,8 +2,14 @@ module.exports = {
     name: 'election',
     description: 'lets you vote in elections',
     execute(message, args, master){
-        const reactions = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣']
-        const election_roles = [`1: The People's Representative`, `2: Senior Representative Assistant`, `3: Junior Representative Assistant`, `4: Dog Catcher`, `5: Soup Maker`]
+        const fs = require('fs')
+        const reactions = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣','6️⃣','7️⃣','8️⃣','9️⃣']
+        var roles = JSON.parse(fs.readFileSync("./JSON/roles.json", "utf-8"))
+        var election_roles = []
+        for(var i in roles){
+            election_roles.push(`${i}. ${roles[i].role}`)
+        }
+        //const election_roles = [`1: The People's Representative`, `2: Senior Representative Assistant`, `3: Junior Representative Assistant`, `4: Dog Catcher`, `5: Soup Maker`]
         var command = String(args[1]).toLowerCase() || 'None'
         //console.log(command < election_roles.length)
         if(parseInt(command) > 0 && parseInt(command) <= election_roles.length){
@@ -65,7 +71,8 @@ function Vote(message, args, master, reactions, election_roles){
         for(var k = 2; k < args.length; k++){
             list.push(`${reactions[k -2]}. ${args[k]}`)
         }
-        poll.setTitle(`${election_roles[parseInt(args[1]) - 1].split(":")[1]} Poll`)
+        
+        poll.setTitle(`${election_roles[parseInt(args[1]) - 1].split(".")[1]} Poll`)
         .setDescription(list)
         .setColor(embed.Color(message))
         .addField('How to Vote:','Select the emoji corresponding to the name you want to vote for')
@@ -113,7 +120,7 @@ function Vote(message, args, master, reactions, election_roles){
                     final_list.push(`${args[h]}: ${list2[h - 2]}`)
                 }
                 var results = new Discord.RichEmbed()
-                .setTitle(`${election_roles[parseInt(args[1]) - 1].split(":")[1]} Poll Results`)
+                .setTitle(`${election_roles[parseInt(args[1]) - 1].split(".")[1]} Poll Results`)
                 .setDescription(final_list)
                 .setColor(embed.Color(message))
                 var counter = 0

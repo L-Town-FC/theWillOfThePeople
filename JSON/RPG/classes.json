@@ -1,0 +1,39 @@
+{
+    "Default":{
+        "battle_stats": {
+            "m_hp": 100,
+            "c_hp": 100,
+            "c_mp": 100,
+            "m_mp": 100
+        },
+        "changeable_stats": {
+            "vitality": 12,
+            "intelligence": 12,
+            "speech": 12,
+            "strength": 12,
+            "dexterity": 12,
+            "agility": 12,
+            "tolerance": 12,
+            "luck": 12
+        },
+        "sub_stats": {
+            "unarmed": "",
+            "melee": "",
+            "ranged": "",
+            "defense": "",
+            "accurracy": "",
+            "special_attack": "",
+            "special_defense": "",
+            "status_resistances": {
+                "frost": "",
+                "burn": "",
+                "posion": "",
+                "allure": "",
+                "stun": "",
+                "sleep": "",
+                "high_af": "",
+                "schlossed": ""
+            }
+        }
+    }
+}

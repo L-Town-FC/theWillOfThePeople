@@ -5,8 +5,7 @@ module.exports = {
         const fs = require('fs')
         const unlock = require('./Functions/Achievement_Functions')
         const embed = require('./Functions/embed_functions')
-        var roles = fs.readFileSync('./text_files/roles.txt','utf8');
-        var split_roles = roles.split(",")
+        var roles = JSON.parse(fs.readFileSync("./JSON/roles.json", "utf-8"))
         var names = [];
         var counter = 0
 
@@ -15,6 +14,7 @@ module.exports = {
             if(typeof(args[1] !== 'undefined')){
                 if(String(args[1]).toLowerCase() === master[i].name.toLowerCase()){
                     var name_index = counter 
+                    var person = i
                 }
             }
             counter = counter + 1
@@ -24,7 +24,11 @@ module.exports = {
             try{
                 const Discord = require('discord.js');
                 const help_embed = new Discord.RichEmbed()
-                .addField('List of Electable Roles', split_roles)
+                var roles_list = []
+                for(var i in roles){
+                    roles_list.push(`${i}. ${roles[i].role} - ${roles[i].person}`)
+                }
+                help_embed.addField('List of Electable Roles', roles_list)
                 .setColor(embed.Color(message))
                 message.channel.send(help_embed);
             }catch(err){
@@ -32,32 +36,26 @@ module.exports = {
                 message.channel.send("Error occurred in Roles.js");
             }
         }else if(typeof(name_index) !== 'undefined'){
-            if(message.author.id == '434471986748456962'){
-                if([1,2,3,4,5].includes(parseInt(args[2])) == true){
-                    switch(parseInt(args[2])){
-                        case 1:
-                            split_roles[parseInt(args[2] - 1)] = `1. The People's Representative - ${names[name_index]}`
-                        break;
-                        case 2:
-                            split_roles[parseInt(args[2] - 1)] = `2. Senior Representative Assistant - ${names[name_index]}`
-                        break;
-                        case 3:
-                            split_roles[parseInt(args[2] - 1)] = `3. Junior Representative Assistant - ${names[name_index]}`
-                        break;
-                        case 4:
-                            split_roles[parseInt(args[2] - 1)] = `4. Dog Catcher - ${names[name_index]}`
-                        break;
-                        case 5:
-                            split_roles[parseInt(args[2] - 1)] = `5. Soup Maker - ${names[name_index]}`
-                        break;
+            try{
+                if(message.member.roles.find(r => r.name === "Junior Representative Assistant") || message.member.roles.find(r => r.name === "Senior Representative Assistant") || message.member.roles.find(r => r.name === "The People's Representative") || message.member.roles.find(r => r.name === "The People's Leader")){
+                    console.log(Object.keys(roles).length)
+                    if(parseInt(args[2]) >= 1 && parseInt(args[2]) <= Object.keys(roles).length ){
+                        roles[args[2]].person = master[person].name
+                        message.channel.send('Roles has been updated')
+                        fs.writeFile ("./JSON/roles.json", JSON.stringify(roles, null, 2), function(err) {
+                            if (err) throw err;
+                            console.log('complete');
+                            }
+                        );
+                    }else{
+                        message.channel.send('Please select a role number that exists')
                     }
-                    fs.writeFileSync("./text_files/roles.txt", split_roles)
-                    message.channel.send("Role Updated")
                 }else{
-                    message.channel.send("Choose a valid role number")
+                    message.channel.send('You must be a mod to update the roles')
                 }
-            }else{
-                message.channel.send("Only the Supreme Leader may change roles")
+            }catch(err){
+                console.log(err)
+                message.channel.send('Error Occurred in Roles.js update')
             }
         }else{
             message.channel.send("Use !roles [names of person] [role number]")

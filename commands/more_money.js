@@ -83,7 +83,11 @@ module.exports = {
                         }
                     }
                     if(amount == 0 && ['712755269863473252', '590585423202484227', '611276436145438769'].includes(message.channel.id) == false){
-                        amount = 1
+                        if(message.channel.type === 'dm'){
+
+                        }else{
+                            amount = 1
+                        }
                     }
                     master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
 

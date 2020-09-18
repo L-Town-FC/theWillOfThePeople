@@ -41,7 +41,7 @@ module.exports = {
                 tracker[i][42] = [false, false, false, false, false, false, false, false]
                 tracker[i][44] = 0
                 tracker[i][45] = 0
-                */
+                
                tracker[i][46] = 0
                tracker[i][47] = 0
                tracker[i][48] = 0
@@ -50,6 +50,7 @@ module.exports = {
                tracker[i][53] = 0
                tracker[i][54] = 0
                tracker[i][55] = 0
+               */
             }
             /*
             for(var i in achievements){
@@ -76,13 +77,14 @@ module.exports = {
                     "gamestatus": 0,
                     "used_word": []
                 }
-                */
+               
                 master[i].insulted = false
                 master[i].steal = {
                     "insurance": 0,
                     "attempts": 0,
                     "caught": false
                 }
+                */
             }
             
 
@@ -110,12 +112,12 @@ module.exports = {
                 //stats[i].farm_messages = 0
                 //stats[i].non_farm_messages = 0
                 //stats[i].achievements = 0
-                stats[i].button_presses = 0
-                stats[i].button_losses = 0
-                stats[i].roulette_bets = 0
-                stats[i].roulette_wins = 0
-                stats[i].taxes = 0
-                stats[i].interest = 0
+                //stats[i].button_presses = 0
+                //stats[i].button_losses = 0
+                //stats[i].roulette_bets = 0
+                //stats[i].roulette_wins = 0
+                //stats[i].taxes = 0
+                //stats[i].interest = 0
             }
 
 

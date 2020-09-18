@@ -12,6 +12,7 @@ const unlock = require('./commands/Functions/Achievement_Functions');
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+players = JSON.parse(fs.readFileSync("./JSON/RPG/players.json","utf-8"))
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -22,14 +23,28 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '590585423202484227')
-    //var channel = bot.channels.find(channel => channel.id === '611276436145438769')
+    var channel = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '590585423202484227')
     var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
-    var bot_tinkering = bot.channels.find(channel => channel.id === '611276436145438769') //test server
-    //var bot_tinkering = bot.channels.find(channel => channel.id === '711634711281401867') //actual server
+    var bot_tinkering = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '711634711281401867')
+    
     bot_tinkering.send('The bot is online')
     console.log('This bot is online')
     stocks_open = false
+
+    if(typeof(cron_job) == 'undefined'){
+        cron_job = 'something'
+        new cron.CronJob('0 13 * * *', function(){
+            Interest(master, stats_list, channel, tracker)
+            Welfare(channel, master)
+            Lottery(channel, master, unlock)
+            gbp_farm_reset(channel, master)
+            JSON_Overwrite(master, stats_list, tracker)
+            //590585423202484227 - pugilism
+            //611276436145438769 - test
+            //743269381768872087 - stonks
+            //711634711281401867 bot-tinkering            
+        }, null, true)
+    }
 
     /*
     new cron.CronJob('30 9 * * * ', function(){
@@ -46,16 +61,6 @@ bot.on('ready', () => {
         }
     }, null, true)
     */
-    new cron.CronJob('0 13 * * *', function(){
-        Interest(master, stats_list, channel, tracker)
-        Welfare(channel, master)
-        Lottery(channel, master, unlock)
-        gbp_farm_reset(channel, master)
-        JSON_Overwrite(master, stats_list, tracker)
-        //590585423202484227 - pugilism
-        //611276436145438769 - test
-        //743269381768872087 - stonks
-    }, null, true)
 })
 
 bot.on('message', message =>{
@@ -86,8 +91,7 @@ bot.on('message', message =>{
 })
 
 
-bot.on('message', message =>{
-    
+bot.on('message', message =>{    
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
         if (message.content.startsWith("!") == true){
@@ -206,9 +210,12 @@ bot.on('message', message =>{
                 case '=':
                     bot.commands.get('=').execute(message, args, master)
                 break;
-                case 'img':
-                    bot.commands.get('img').execute(message, args)
+                case 'kumikosays':
+                    bot.commands.get('kumikosays').execute(message, args)
                 break;
+                case 'rpg':
+                    bot.commands.get('rpg').execute(message, args, master, stats_list, tracker, players)
+                break
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;
@@ -437,7 +444,7 @@ function Interest(master, stats_list, channel, tracker){
             }
             master[i].gbp -= Math.round(tax)
             stats_list[i].taxes += Math.round(tax)
-            stats_list[i].interest += interest
+            stats_list[i].interest += interest.toFixed(2)
             //Achievement 46 Libertarian Nightmare
             unlock.index_tracker(i, 46, Math.round(tax), channel, master, tracker)
 

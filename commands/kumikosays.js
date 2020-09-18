@@ -1,8 +1,5 @@
-const { background } = require('jimp')
-const { FONT_SANS_10_BLACK } = require('jimp')
-
 module.exports = {
-    name: 'img',
+    name: 'kumikosays',
     description: 'does stuff with images',
     execute(message, args){
         const jimp = require('jimp')
@@ -63,8 +60,8 @@ async function Single_Image_Text(message, args){
             await template.print(font, 35, 105 + (j * 32), text[j]);
         }
 
-        await template.writeAsync('test.png')
-        const meme = await new Discord.Attachment('test.png')
+        await template.writeAsync('kumiko_says.png')
+        const meme = await new Discord.Attachment('kumiko_says.png')
         await message.channel.send(meme)
     }
 }

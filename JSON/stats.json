@@ -7,17 +7,17 @@
     "bj_losses": 65,
     "gg_wins": 0,
     "gg_losses": 1,
-    "total_msgs": 1209,
-    "total_commands": 801,
+    "total_msgs": 1265,
+    "total_commands": 851,
     "achievements": 0,
-    "farm_messages": 77,
-    "non_farm_messages": 331,
+    "farm_messages": 78,
+    "non_farm_messages": 337,
     "button_presses": 0,
     "button_losses": 0,
     "roulette_bets": 7,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "457.44466.58475.92"
   },
   "497803559144914944": {
     "name": "Andrew",
@@ -37,7 +37,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "499328039621230592": {
     "name": "Wyatt",
@@ -57,7 +57,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "23.924.3824.87"
   },
   "463080062175019010": {
     "name": "Ian",
@@ -77,7 +77,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "210861925771247636": {
     "name": "Zaid",
@@ -97,7 +97,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "501929393401364481": {
     "name": "Mike",
@@ -117,7 +117,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "493.3503.16513.22"
   },
   "509430603339399186": {
     "name": "Brian",
@@ -137,7 +137,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "25.7826.3026.82"
   },
   "526190184455471105": {
     "name": "Carl",
@@ -157,7 +157,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "600600.00600.00"
   },
   "462798271195119626": {
     "name": "Alex",
@@ -177,7 +177,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "562203622474252288": {
     "name": "Dylan",
@@ -197,7 +197,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "501887537451630593": {
     "name": "Ramzi",
@@ -217,7 +217,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "434471986748456962": {
     "name": "Chrisvan",
@@ -237,7 +237,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "497861779020578837": {
     "name": "Hayden",
@@ -257,7 +257,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "501930484838957069": {
     "name": "Tom",
@@ -277,7 +277,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "581903756111773716": {
     "name": "Justin",
@@ -297,7 +297,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "508076579684089896": {
     "name": "Jacob",
@@ -317,7 +317,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "525147400176664626": {
     "name": "Teddy",
@@ -337,7 +337,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "640368746690510868": {
     "name": "Slim",
@@ -357,7 +357,7 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   },
   "498262864541515786": {
     "name": "Derek",
@@ -377,6 +377,6 @@
     "roulette_bets": 0,
     "roulette_wins": 0,
     "taxes": 0,
-    "interest": 0
+    "interest": "00.000.00"
   }
 }
