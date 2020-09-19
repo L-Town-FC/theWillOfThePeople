@@ -9,7 +9,13 @@ module.exports = {
         //var stats = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
         var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         //var roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
+        var classes = JSON.parse(fs.readFileSync('./JSON/RPG/classes.json'))
         if(message.author.id == '450001712305143869' && message.channel.id == '611276436145438769'){
+            for(var i in classes){
+                delete classes[i].sub_stats.accurracy
+                classes[i].sub_stats.accuracy = ""
+            }
+            
             for(i in tracker){
                 /*
                 tracker[i][4] = 0
@@ -121,6 +127,11 @@ module.exports = {
             }
 
 
+            fs.writeFileSync ("./JSON/RPG/classes.json", JSON.stringify(classes, null, 2), function(err) {
+                if (err) throw err;
+                console.log('complete');
+                }
+                );
            fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), function(err) {
             if (err) throw err;
             console.log('complete');

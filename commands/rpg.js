@@ -17,6 +17,7 @@ module.exports = {
             break;
             case 'classes':
                 //lets you check the different stats and classes
+                rpg.classes(message, args, master, players)
             break;
             case 'status':
                 //brings up a menu for whatever you are currently doing

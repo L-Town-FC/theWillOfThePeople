@@ -1,39 +1,338 @@
 {
-    "Default":{
-        "battle_stats": {
-            "m_hp": 100,
-            "c_hp": 100,
-            "c_mp": 100,
-            "m_mp": 100
-        },
-        "changeable_stats": {
-            "vitality": 12,
-            "intelligence": 12,
-            "speech": 12,
-            "strength": 12,
-            "dexterity": 12,
-            "agility": 12,
-            "tolerance": 12,
-            "luck": 12
-        },
-        "sub_stats": {
-            "unarmed": "",
-            "melee": "",
-            "ranged": "",
-            "defense": "",
-            "accurracy": "",
-            "special_attack": "",
-            "special_defense": "",
-            "status_resistances": {
-                "frost": "",
-                "burn": "",
-                "posion": "",
-                "allure": "",
-                "stun": "",
-                "sleep": "",
-                "high_af": "",
-                "schlossed": ""
-            }
-        }
-    }
+  "Warrior": {
+    "battle_stats": {
+      "m_hp": 90,
+      "c_hp": 90,
+      "c_mp": 25,
+      "m_mp": 25
+    },
+    "changeable_stats": {
+      "vitality": 20,
+      "intelligence": 10,
+      "speech": 10,
+      "strength": 20,
+      "dexterity": 18,
+      "agility": 14,
+      "tolerance": 8,
+      "luck": 5
+    },
+    "sub_stats": {
+      "unarmed": 44.5,
+      "melee": 41.25,
+      "ranged": 30.25,
+      "defense": 21.75,
+      "special_attack": 23.5,
+      "special_defense": 20.5,
+      "status_resistances": {
+        "frost": 19.5,
+        "burn": 19.5,
+        "posion": 19.5,
+        "allure": 19.5,
+        "stun": 19.5,
+        "sleep": 19.5,
+        "high_af": 19.5,
+        "schlossed": 19.5
+      },
+      "status_resistance": 19.5,
+      "accuracy": 35.5
+    },
+    "Description": [
+      "Strengths: Health, Unarmed, Melee",
+      "Weaknesses: Defense, Special Stats"
+    ]
+  },
+  "Thief": {
+    "battle_stats": {
+      "m_hp": 50,
+      "c_hp": 50,
+      "c_mp": 25,
+      "m_mp": 25
+    },
+    "changeable_stats": {
+      "vitality": 10,
+      "intelligence": 10,
+      "speech": 12,
+      "strength": 8,
+      "dexterity": 20,
+      "agility": 20,
+      "tolerance": 10,
+      "luck": 14
+    },
+    "sub_stats": {
+      "unarmed": 32.2,
+      "melee": 35.2,
+      "ranged": 48.7,
+      "defense": 26,
+      "special_attack": 26.2,
+      "special_defense": 26.2,
+      "status_resistances": {
+        "frost": 26.2,
+        "burn": 26.2,
+        "posion": 26.2,
+        "allure": 26.2,
+        "stun": 26.2,
+        "sleep": 26.2,
+        "high_af": 26.2,
+        "schlossed": 26.2
+      },
+      "status_resistance": 26.2,
+      "accuracy": 56.2
+    },
+    "Description": [
+      "Strengths: Ranged, Accuracy, Defense",
+      "Weaknesses: Health, MP, Special Stats"
+    ]
+  },
+  "Mage": {
+    "battle_stats": {
+      "m_hp": 70,
+      "c_hp": 70,
+      "c_mp": 85,
+      "m_mp": 85
+    },
+    "changeable_stats": {
+      "vitality": 15,
+      "intelligence": 30,
+      "speech": 10,
+      "strength": 10,
+      "dexterity": 10,
+      "agility": 12,
+      "tolerance": 6,
+      "luck": 10
+    },
+    "sub_stats": {
+      "unarmed": 27,
+      "melee": 25,
+      "ranged": 25,
+      "defense": 21,
+      "special_attack": 60,
+      "special_defense": 54,
+      "status_resistances": {
+        "frost": 17,
+        "burn": 17,
+        "posion": 17,
+        "allure": 17,
+        "stun": 17,
+        "sleep": 17,
+        "high_af": 17,
+        "schlossed": 17
+      },
+      "status_resistance": 17,
+      "accuracy": 28
+    },
+    "Description": [
+      "Strengths: MP, Special Stats",
+      "Weaknesses: Unarmed, Melee, Defense"
+    ]
+  },
+  "Sociopath": {
+    "battle_stats": {
+      "m_hp": 50,
+      "c_hp": 50,
+      "c_mp": 49,
+      "m_mp": 49
+    },
+    "changeable_stats": {
+      "vitality": 10,
+      "intelligence": 18,
+      "speech": 20,
+      "strength": 15,
+      "dexterity": 12,
+      "agility": 15,
+      "tolerance": 3,
+      "luck": 12
+    },
+    "sub_stats": {
+      "unarmed": 40.6,
+      "melee": 36.85,
+      "ranged": 30.1,
+      "defense": 18.5,
+      "special_attack": 39.6,
+      "special_defense": 29.1,
+      "status_resistances": {
+        "frost": 11.6,
+        "burn": 11.6,
+        "posion": 11.6,
+        "allure": 11.6,
+        "stun": 11.6,
+        "sleep": 11.6,
+        "high_af": 11.6,
+        "schlossed": 11.6
+      },
+      "status_resistance": 11.6,
+      "accuracy": 36.1
+    },
+    "Description": [
+      "Strengths: Everything Average",
+      "Weaknesses: HP, Defense, Status Resistances"
+    ]
+  },
+  "Faith Healer": {
+    "battle_stats": {
+      "m_hp": 66,
+      "c_hp": 66,
+      "c_mp": 43,
+      "m_mp": 43
+    },
+    "changeable_stats": {
+      "vitality": 14,
+      "intelligence": 16,
+      "speech": 25,
+      "strength": 7,
+      "dexterity": 7,
+      "agility": 14,
+      "tolerance": 1,
+      "luck": 20
+    },
+    "sub_stats": {
+      "unarmed": 26,
+      "melee": 19,
+      "ranged": 21.25,
+      "defense": 18.5,
+      "special_attack": 38.5,
+      "special_defense": 25,
+      "status_resistances": {
+        "frost": 10,
+        "burn": 10,
+        "posion": 10,
+        "allure": 10,
+        "stun": 10,
+        "sleep": 10,
+        "high_af": 10,
+        "schlossed": 10
+      },
+      "status_resistance": 10,
+      "accuracy": 29.5
+    },
+    "Description": [
+      "Strengths: MP, Special Attack, Speech",
+      "Weaknesses: Unarmed, Melee, Defense, Status Resistances"
+    ]
+  },
+  "Berserker": {
+    "battle_stats": {
+      "m_hp": 110,
+      "c_hp": 110,
+      "c_mp": 10,
+      "m_mp": 10
+    },
+    "changeable_stats": {
+      "vitality": 25,
+      "intelligence": 5,
+      "speech": 5,
+      "strength": 30,
+      "dexterity": 5,
+      "agility": 6,
+      "tolerance": 20,
+      "luck": 4
+    },
+    "sub_stats": {
+      "unarmed": 59.2,
+      "melee": 51.95,
+      "ranged": 11.95,
+      "defense": 26,
+      "special_attack": 14.45,
+      "special_defense": 29.45,
+      "status_resistances": {
+        "frost": 43.2,
+        "burn": 43.2,
+        "posion": 43.2,
+        "allure": 43.2,
+        "stun": 43.2,
+        "sleep": 43.2,
+        "high_af": 43.2,
+        "schlossed": 43.2
+      },
+      "status_resistance": 43.2,
+      "accuracy": 9.7
+    },
+    "Description": [
+      "Strengths: Health, Unarmed, Melee, Defense, Status Resistance",
+      "Weaknesses: MP, Ranged, Accuracy, Speech"
+    ]
+  },
+  "Bard": {
+    "battle_stats": {
+      "m_hp": 42,
+      "c_hp": 42,
+      "c_mp": 49,
+      "m_mp": 49
+    },
+    "changeable_stats": {
+      "vitality": 8,
+      "intelligence": 18,
+      "speech": 20,
+      "strength": 8,
+      "dexterity": 20,
+      "agility": 12,
+      "tolerance": 16,
+      "luck": 2
+    },
+    "sub_stats": {
+      "unarmed": 20.6,
+      "melee": 31.6,
+      "ranged": 45.1,
+      "defense": 29,
+      "special_attack": 36.6,
+      "special_defense": 45.6,
+      "status_resistances": {
+        "frost": 34.6,
+        "burn": 34.6,
+        "posion": 34.6,
+        "allure": 34.6,
+        "stun": 34.6,
+        "sleep": 34.6,
+        "high_af": 34.6,
+        "schlossed": 34.6
+      },
+      "status_resistance": 34.6,
+      "accuracy": 40.6
+    },
+    "Description": [
+      "Strengths: Ranged, Accuracy, Special Stats, Status Resistances",
+      "Weaknesses: Health, Unarmed, Melee"
+    ]
+  },
+  "Crackhead": {
+    "battle_stats": {
+      "m_hp": 110,
+      "c_hp": 110,
+      "c_mp": 4,
+      "m_mp": 4
+    },
+    "changeable_stats": {
+      "vitality": 25,
+      "intelligence": 3,
+      "speech": 5,
+      "strength": 18,
+      "dexterity": 5,
+      "agility": 20,
+      "tolerance": 20,
+      "luck": 1
+    },
+    "sub_stats": {
+      "unarmed": 48.3,
+      "melee": 30.05,
+      "ranged": 11.05,
+      "defense": 32.75,
+      "special_attack": 10.05,
+      "special_defense": 25.05,
+      "status_resistances": {
+        "frost": 42.3,
+        "burn": 42.3,
+        "posion": 42.3,
+        "allure": 42.3,
+        "stun": 42.3,
+        "sleep": 42.3,
+        "high_af": 42.3,
+        "schlossed": 42.3
+      },
+      "status_resistance": 42.3,
+      "accuracy": 29.8
+    },
+    "Description": [
+      "Strengths: Health, Unarmed, Status Resistances",
+      "Weaknesses: MP, Ranged, Special Stats"
+    ]
+  }
 }
