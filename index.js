@@ -30,7 +30,6 @@ bot.on('ready', () => {
     bot_tinkering.send('The bot is online')
     console.log('This bot is online')
     stocks_open = false
-
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
         new cron.CronJob('0 13 * * *', function(){
@@ -425,7 +424,7 @@ function Interest(master, stats_list, channel, tracker){
     try{
         for(var i in master){
             interest = Math.round(master[i].account * (bracket.Interest/100) * 100)/100
-            master[i].account += interest
+            master[i].account += parseFloat(interest.toFixed(2))
             if(master[i].account > 30000){
                 master[i].account = 30000
             }
@@ -444,7 +443,7 @@ function Interest(master, stats_list, channel, tracker){
             }
             master[i].gbp -= Math.round(tax)
             stats_list[i].taxes += Math.round(tax)
-            stats_list[i].interest += interest.toFixed(2)
+            stats_list[i].interest += parseFloat(interest.toFixed(2))
             //Achievement 46 Libertarian Nightmare
             unlock.index_tracker(i, 46, Math.round(tax), channel, master, tracker)
 

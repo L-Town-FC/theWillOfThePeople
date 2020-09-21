@@ -10,14 +10,24 @@ module.exports = {
             case 'create':
                 //lets you make your character
                 //adds your name to players.json if not already there
-                rpg.create(message, args, master, players)
+                try{
+                    rpg.create(message, args, master, players)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error Occurred in rpg.js create')
+                }
             break;
             case 'delete':
                 //lets you delete your character
             break;
             case 'classes':
                 //lets you check the different stats and classes
-                rpg.classes(message, args, master, players)
+                try{
+                    rpg.classes(message, args, master, players)
+                }catch(err){
+                    console.log(err)
+                    message.channel.send('Error Occurred in rpg.js classes')
+                }
             break;
             case 'status':
                 //brings up a menu for whatever you are currently doing

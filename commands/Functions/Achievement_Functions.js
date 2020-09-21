@@ -56,7 +56,7 @@ function index_tracker(user, achievement_num, increment, channel, master, tracke
 
 module.exports.index_tracker = index_tracker
 
-function reset1(user, achievement_num, tracker){
+function reset1(user, achievement_num, tracker, message){
     const fs = require('fs')
     try{
         if(tracker == 'undefined'){
@@ -71,7 +71,7 @@ function reset1(user, achievement_num, tracker){
 }
 module.exports.reset1 = reset1
 
-function reset2(user, achievement_num, index, tracker){
+function reset2(user, achievement_num, index, tracker, message){
     const fs = require("fs");
     try{
         if(tracker == 'undefined'){

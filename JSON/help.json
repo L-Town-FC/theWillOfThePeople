@@ -181,5 +181,10 @@
         "name": "!=",
         "description": "Lets you do basic, 2 term math",
         "rules": ["!= [number] [operator] [number]. Operators are [+,-,*,/,^]"]
+    },
+    "29":{
+        "name": "!kumikosays",
+        "description": "Lets you make an image where kumiko says something",
+        "rules": "**!kumikosays [message]:** Sends and image with a specified message"
     }
 }

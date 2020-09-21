@@ -685,7 +685,7 @@ module.exports = {
                             case 10:
                                 purchase(-0.5 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
                                 message.channel.send(`You recieved ${.5 * parseFloat(master_list[player].bet[0])} gbp back`)
-                                unlock.reset1(master_list[player].id, 8)
+                                unlock.reset1(master_list[player].id, 8, tracker, message)
                                 stats.tracker(master_list[player].id, 4, 1, stats_list)
                             break;
 
@@ -813,7 +813,7 @@ function Win(master_list, split_index, message, master, stats_list){
     if(master_list.bet[split_index] >= 1000){
         unlock.unlock(master_list.id, 1, message, master)
     }
-    unlock.reset1(master_list.id, 8, tracker)
+    unlock.reset1(master_list.id, 8, tracker, message)
     unlock.tracker1(master_list.id, 33, 1.5 * parseFloat(master_list.bet[split_index]), message, master, tracker)
     unlock.tracker3(master_list.id, 39, 0, parseFloat(master_list.bet[split_index]), message, master, tracker)
     stats.tracker(master_list.id, 2, 1, stats_list)
@@ -835,6 +835,6 @@ function Push(master_list, split_index, message, master, stats_list){
     const unlock = require('./Functions/Achievement_Functions')
     const stats = require('./Functions/stats_functions')
 
-    unlock.reset1(master_list.id, 8, tracker)
+    unlock.reset1(master_list.id, 8, tracker, message)
     stats.tracker(master_list.id, 3, 1, stats_list, tracker)
 }

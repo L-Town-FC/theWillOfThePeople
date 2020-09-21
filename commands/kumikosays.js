@@ -4,7 +4,12 @@ module.exports = {
     execute(message, args){
         const jimp = require('jimp')
         const Discord = require('discord.js')
-        Single_Image_Text(message, args)
+        try{
+            Single_Image_Text(message, args)
+        }catch(err){
+            console.log(err)
+            message.channel.send('Error Occurred in kumikosays.js')
+        }
         
     }
 }

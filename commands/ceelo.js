@@ -369,7 +369,7 @@ function Round_Over(message, player_game, ceelo, master, tracker){
                     message.channel.send(`${master[winner].name} won. They win ${amount - ceelo.games[player_game].bet}`)
                     unlock.tracker1(winner, 53, 1, message, master, tracker)
                 }else{
-                    unlock.reset1(ceelo.games[player_game].participants[i][0], 53, tracker)
+                    unlock.reset1(ceelo.games[player_game].participants[i][0], 53, tracker, message)
                 }
             }
             delete ceelo.games[player_game]

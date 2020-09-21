@@ -1,5 +1,3 @@
-const achievements = require('./achievements');
-
 module.exports = {
     name: 'boo',
     description: 'custom emoji test',
@@ -26,9 +24,7 @@ module.exports = {
                         unlock.tracker1(message.author.id, 13, 1, message, master, tracker)
 
                         //Toxic Achievement Tracker
-                        console.log(tracker[message.author.id]['20'])
-                        unlock.reset2(id, 20, 0, tracker)
-                        console.log(tracker[message.author.id]['20'])
+                        unlock.reset2(id, 20, 0, tracker, message)
                         unlock.tracker2(id, 20, 0, message, master, tracker)
 
                         var success = true

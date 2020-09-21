@@ -14,7 +14,7 @@ module.exports = {
                     counter++
                 }
             }
-            if(counter > 4){
+            if(counter > 3){
                 var chance = 10
             }else{
                 var chance = 8
