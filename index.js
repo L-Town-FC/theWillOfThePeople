@@ -215,6 +215,9 @@ bot.on('message', message =>{
                 case 'rpg':
                     bot.commands.get('rpg').execute(message, args, master, stats_list, tracker, players)
                 break
+                case 'upload':
+                    bot.commands.get('upload').execute(message, args)
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;

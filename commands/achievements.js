@@ -66,7 +66,7 @@ module.exports = {
                     }
                 break;
                 case 'help':
-                    var help = fs.readFileSync('./text_files/achievement_commands', 'utf-8')
+                    var help = fs.readFileSync('./text_files/achievement_commands.txt', 'utf-8')
                     var command_list = new Discord.RichEmbed()
                     .setTitle("List of Commands")
                     .setDescription(help)
