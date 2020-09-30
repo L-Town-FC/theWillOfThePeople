@@ -1,5 +1,0 @@
-!achievements: Lists your personal achievements
-
-!achievements [name]: List achievements of given person
-
-!achievements list [number]: Lists all possible achievements. If a number is given it shows you progress on the chosen number

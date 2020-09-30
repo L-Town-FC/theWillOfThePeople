@@ -366,7 +366,7 @@ function Lottery(channel, master, unlock){
     }
 }
 
-function JSON_Overwrite(master, stats_list, tracker, message){
+async function JSON_Overwrite(master, stats_list, tracker, message){
     try{
         //master["450001712305143869"].loans.collection = 0
         fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {

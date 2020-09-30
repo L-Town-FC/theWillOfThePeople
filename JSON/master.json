@@ -1,7 +1,7 @@
 {
   "450001712305143869": {
     "name": "Colin",
-    "gbp": 8704.68,
+    "gbp": 11184,
     "achievements": [
       7,
       5,
@@ -38,10 +38,11 @@
       37,
       42,
       47,
-      19
+      19,
+      48
     ],
     "simmerdown": 0,
-    "account": 27500,
+    "account": 29183.22,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -49,11 +50,11 @@
       "rate": 0
     },
     "bwg": {
-      "target": "210861925771247636",
-      "current_word": "lakers",
-      "bet": 150,
-      "remaining_msgs": 53,
-      "gamestatus": 1,
+      "target": "",
+      "current_word": "",
+      "bet": 0,
+      "remaining_msgs": "",
+      "gamestatus": 0,
       "used_word": [
         "banned",
         "kumiko"
@@ -62,13 +63,13 @@
     "insulted": false,
     "steal": {
       "insurance": 0,
-      "attempts": 1,
-      "caught": false
+      "attempts": 0,
+      "caught": true
     }
   },
   "497803559144914944": {
     "name": "Andrew",
-    "gbp": 1640.25,
+    "gbp": 1666.25,
     "achievements": [
       7,
       10
@@ -98,7 +99,7 @@
   },
   "499328039621230592": {
     "name": "Wyatt",
-    "gbp": -9950,
+    "gbp": 1863,
     "achievements": [
       24,
       2,
@@ -127,7 +128,7 @@
       55
     ],
     "simmerdown": 0,
-    "account": 11040.81,
+    "account": 0.6499999999991906,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -142,16 +143,16 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": true,
+    "insulted": false,
     "steal": {
       "insurance": 0,
-      "attempts": 2,
+      "attempts": 0,
       "caught": false
     }
   },
   "463080062175019010": {
     "name": "Ian",
-    "gbp": 159,
+    "gbp": 272,
     "achievements": [
       21,
       3,
@@ -173,7 +174,9 @@
       33,
       32,
       41,
-      20
+      20,
+      24,
+      7
     ],
     "simmerdown": 0,
     "account": 0,
@@ -200,7 +203,7 @@
   },
   "210861925771247636": {
     "name": "Zaid",
-    "gbp": 3009,
+    "gbp": 1645,
     "achievements": [
       11,
       12,
@@ -245,9 +248,11 @@
       "bet": 0,
       "remaining_msgs": "",
       "gamestatus": 0,
-      "used_word": []
+      "used_word": [
+        "lakers"
+      ]
     },
-    "insulted": true,
+    "insulted": false,
     "steal": {
       "insurance": 0,
       "attempts": 0,
@@ -256,13 +261,15 @@
   },
   "501929393401364481": {
     "name": "Mike",
-    "gbp": 1130.41,
+    "gbp": 1132.41,
     "achievements": [
       3,
       8,
       34,
       11,
-      47
+      47,
+      12,
+      35
     ],
     "simmerdown": 0,
     "account": 30000,
@@ -283,21 +290,22 @@
     "insulted": false,
     "steal": {
       "insurance": 0,
-      "attempts": 0,
+      "attempts": 1,
       "caught": false
     }
   },
   "509430603339399186": {
     "name": "Brian",
-    "gbp": 324.65,
+    "gbp": 38.65000000000009,
     "achievements": [
       7,
       11,
       34,
-      10
+      10,
+      24
     ],
     "simmerdown": 0,
-    "account": 2156.9599999999996,
+    "account": 1088.9799999999996,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -323,7 +331,7 @@
   },
   "526190184455471105": {
     "name": "Carl",
-    "gbp": 7602.3,
+    "gbp": 5121.3,
     "achievements": [
       24,
       15,
@@ -356,7 +364,7 @@
       "gamestatus": 0,
       "used_word": []
     },
-    "insulted": false,
+    "insulted": true,
     "steal": {
       "insurance": 0,
       "attempts": 0,
@@ -365,7 +373,7 @@
   },
   "462798271195119626": {
     "name": "Alex",
-    "gbp": 1716.5,
+    "gbp": 1728.5,
     "achievements": [
       11,
       17,
@@ -398,7 +406,7 @@
   },
   "562203622474252288": {
     "name": "Dylan",
-    "gbp": 860.5,
+    "gbp": 869.5,
     "achievements": [],
     "simmerdown": 0,
     "account": 0,
@@ -425,7 +433,7 @@
   },
   "501887537451630593": {
     "name": "Ramzi",
-    "gbp": 542,
+    "gbp": 608,
     "achievements": [
       11,
       3,
@@ -456,7 +464,7 @@
   },
   "434471986748456962": {
     "name": "Chrisvan",
-    "gbp": 294,
+    "gbp": 250,
     "achievements": [
       16,
       11
@@ -486,7 +494,7 @@
   },
   "497861779020578837": {
     "name": "Hayden",
-    "gbp": 2877.1400000000003,
+    "gbp": 124.13999999999987,
     "achievements": [
       8,
       9,
@@ -528,7 +536,7 @@
       25
     ],
     "simmerdown": 22,
-    "account": 7206.879999999999,
+    "account": 6648,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -579,7 +587,7 @@
   },
   "581903756111773716": {
     "name": "Justin",
-    "gbp": 520,
+    "gbp": 525,
     "achievements": [],
     "simmerdown": 0,
     "account": 0,
@@ -606,7 +614,7 @@
   },
   "508076579684089896": {
     "name": "Jacob",
-    "gbp": 537,
+    "gbp": 552,
     "achievements": [
       11,
       7,
@@ -621,7 +629,7 @@
       49
     ],
     "simmerdown": 0,
-    "account": 2208.17,
+    "account": 2343.33,
     "loans": {
       "target": "",
       "remaining": 0,
@@ -647,7 +655,7 @@
   },
   "525147400176664626": {
     "name": "Teddy",
-    "gbp": 2246.5,
+    "gbp": 2248.5,
     "achievements": [
       24,
       15,
@@ -680,7 +688,7 @@
   },
   "640368746690510868": {
     "name": "Slim",
-    "gbp": 753,
+    "gbp": 772,
     "achievements": [
       24,
       17
@@ -710,7 +718,7 @@
   },
   "498262864541515786": {
     "name": "Derek",
-    "gbp": 1787,
+    "gbp": 1811,
     "achievements": [
       10
     ],
