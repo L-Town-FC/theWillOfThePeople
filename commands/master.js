@@ -6,17 +6,15 @@ module.exports = {
         const {Discord, Attachment} = require('discord.js')
         
         var money = new Attachment('./JSON/master.json');
-        var lottery = new Attachment('./text_files/lottery_stats.txt')
-        var boo = new Attachment('./text_files/boo.txt')
         var tracker = new Attachment('./JSON/achievements_tracker.json')
         var stats = new Attachment('./JSON/stats.json')
         var insults = new Attachment('./JSON/insults_suggestions.json')
+        var command_stats = new Attachment('./JSON/command_stats.json')
         message.channel.send(money)
-        message.channel.send(lottery)
-        message.channel.send(boo)
         message.channel.send(tracker)
         message.channel.send(stats)
         message.channel.send(insults)
+        message.channel.send(command_stats)
     }
 
 }

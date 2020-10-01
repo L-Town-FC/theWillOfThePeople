@@ -117,7 +117,7 @@
             "**!achievements list [number]:** Lists all possible achievements. If a number is given it shows you progress on the chosen number"]
     },
     "20":{
-        "name":"!bwg",
+        "name":"!bwg (Banned Word Game)",
         "description":["Lets you play the Banned Word Game","Can bet between 50 and 500 gbp"],
         "rules":["**!bwg bet [target] [bet] [word]:** Starts the banned word game",
             "**!bwg status:** If sent to the group chat, it displays everyone who is currently being targeted. If sent to the bot through dms it displays your current game",
@@ -186,5 +186,11 @@
         "name": "!kumikosays",
         "description": "Lets you make an image where kumiko says something",
         "rules": "**!kumikosays [message]:** Sends and image with a specified message"
+    },
+    "30":{
+        "name": "!roles",
+        "description": ["Let users check roles", "Lets mods update roles"],
+        "rules": ["**!roles:** Shows you the elecable roles and who currently has them",
+        "**!roles [roles number] [name]:** Lets you update the role list"]
     }
 }

@@ -1,19 +1,18 @@
 module.exports = {
     name: 'button',
     description: 'Either gives you 50 gbp or -1500 gbp on use',
-    execute(message, args, master, stats_list, tracker){
+    execute(message, args, master, stats_list, tracker, command_stats){
         const fs = require('fs')
-        var button_stats = JSON.parse(fs.readFileSync('./JSON/button_stats.json', 'utf-8'))
         if(!args[1]){
             try{
-                ButtonPress(message, master, stats_list, tracker, button_stats)
+                ButtonPress(message, master, stats_list, tracker, command_stats)
             }catch(err){
                 console.log(err)
                 message.channel.send('Error occurred in button.js')
             }
         }else if(args[1].toLowerCase() == 'stats'){
             try{
-                ButtonStats(message, button_stats)
+                ButtonStats(message, command_stats)
             }catch(err){
                 console.log(err)
                 message.channel.send('Error occurred in button.js stats')
@@ -31,7 +30,7 @@ module.exports = {
         }
     }
 }
-function ButtonPress(message, master, stats_list, tracker, button_stats){
+function ButtonPress(message, master, stats_list, tracker, commmand_stats){
     const fs = require('fs')
     const unlock = require('./Functions/Achievement_Functions')
     var chance = Math.floor(Math.random() * 10)
@@ -55,33 +54,35 @@ function ButtonPress(message, master, stats_list, tracker, button_stats){
     */
     if(chance == 5){
         master[user].gbp = master[user].gbp - lose
-        button_stats.Total_Losses = button_stats.Total_Losses + 1
-        button_stats.Last_loss = 0
+        command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
+        command_stats.button.Last_loss = 0
         stats_list[user].button_losses += 1
         message.channel.send(`You lose ${lose} gbp`)
     }else{
         master[user].gbp = master[user].gbp + win
-        button_stats.Last_loss = button_stats.Last_loss + 1
+        command_stats.button.Last_loss = command_stats.button.Last_loss + 1
         message.channel.send(`You win ${win} gbp`)
     }
     stats_list[user].button_presses = stats_list[user].button_presses + 1
-    button_stats.Total_Presses = button_stats.Total_Presses + 1
+    command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
     unlock.tracker1(message.author.id, 48, 1, message, master, tracker)
 
-    fs.writeFileSync ("./JSON/button_stats.json", JSON.stringify(button_stats, null, 2), function(err) {
+    /*
+    fs.writeFileSync ("./JSON/command_stats.json", JSON.stringify(command_stats, null, 2), function(err) {
         if (err) throw err;
         console.log('complete');
         }
     );
+    */
 }
 
-function ButtonStats(message, button_stats){
+function ButtonStats(message, command_stats){
     const Discord = require('discord.js')
     const fs = require('fs')
     const embed = require('./Functions/embed_functions')
     var stats_embed = new Discord.RichEmbed()
     .setTitle('Button Stats')
-    .setDescription(`Total Presses: ${button_stats.Total_Presses} \nPresses since last loss: ${button_stats.Last_loss} \nTotal Losses: ${button_stats.Total_Losses}`)
+    .setDescription(`Total Presses: ${command_stats.button.Total_Presses} \nPresses since last loss: ${command_stats.button.Last_loss} \nTotal Losses: ${command_stats.button.Total_Losses}`)
     .setColor(embed.Color(message))
     message.channel.send(stats_embed)
 }

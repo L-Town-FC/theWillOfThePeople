@@ -1,7 +1,7 @@
 module.exports = {
     name: 'powerball',
     description: 'enters you into the lottery for big money',
-    execute(message,args,total_money, master, stats_list, tracker){
+    execute(message,args,total_money, master, stats_list, tracker, command_stats){
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         const fs = require('fs');
@@ -12,7 +12,6 @@ module.exports = {
         var amount = args[2];
         var price = 5;
         var money_spent = price * parseInt(amount);
-        var lottery_stats = fs.readFileSync('./text_files/lottery_stats.txt','utf8').split(",");
 
         switch(command){
             case 'buy':
@@ -25,9 +24,9 @@ module.exports = {
                             purchase(price, message.author.id, master);
                             stats.tracker(message.author.id, 1, 1,stats_list)
                             unlock.tracker1(message.author.id, 31, 1, message, master, tracker)
-                            if(attempt(1, price) == true){
-                                message.channel.send(`Congradulations. You won Powerball. It took ${lottery_stats[0]} tickets to win. Your prize is ${lottery_stats[1]}`)
-                                purchase(-1 * lottery_stats[1], message.author.id, master);
+                            if(attempt(1, price, command_stats, message) == true){
+                                message.channel.send(`Congradulations. You won Powerball. It took ${command_stats.powerball.tickets} tickets to win. Your prize is ${command_stats.powerball.pot}`)
+                                purchase(-1 * command_stats.powerball.pot, message.author.id, master);
                                 fs.writeFileSync('./text_files/lottery_stats.txt', `0,${base_winnings}`);
                                 unlock.unlock(message.author.id, 10, message, master)
                             }else{
@@ -44,9 +43,9 @@ module.exports = {
                             stats.tracker(message.author.id, 1, parseFloat(amount), stats_list)
                             unlock.tracker1(message.author.id, 31, parseInt(amount), message, master, tracker)
                             purchase(amount*price, message.author.id, master);
-                            if(attempt(amount, money_spent) == true){
-                                message.channel.send(`Congradulations. You won Powerball. It took ${lottery_stats[0]} tickets to win. Your prize is ${lottery_stats[1]} gbp`)
-                                purchase(-1 * lottery_stats[1], message.author.id, master);
+                            if(attempt(amount, money_spent, command_stats, message) == true){
+                                message.channel.send(`Congradulations. You won Powerball. It took ${command_stats.powerball.tickets} tickets to win. Your prize is ${command_stats.powerball.pot} gbp`)
+                                purchase(-1 * command_stats.powerball.pot, message.author.id, master);
                                 fs.writeFileSync('./text_files/lottery_stats.txt', `0,${base_winnings}`);
                                 unlock.unlock(message.author.id, 10, message, master)
                             }else{
@@ -64,8 +63,8 @@ module.exports = {
 
             case 'stats':
                 try{
-                    var num_of_guesses = lottery_stats[0];
-                    var total_pot = lottery_stats[1];
+                    var num_of_guesses = command_stats.powerball.tickets;
+                    var total_pot = command_stats.powerball.pot;
                     message.channel.send(`The pot is currently at ${total_pot} gbp. ${num_of_guesses} tickets have been bought.`)
                 }catch(err){
                     console.log(err)
@@ -93,14 +92,13 @@ module.exports = {
 
 }
 
-function attempt(amount, money_spent){
+function attempt(amount, money_spent, command_stats, message){
     try{
         const fs = require('fs');
         const Discord = require('discord.js');
-        var lottery_stats = fs.readFileSync('./text_files/lottery_stats.txt','utf8').split(",");
         var tickets = [];
         var max_guesses = 10000
-        var remaining_numbers = parseInt(max_guesses) - parseInt(lottery_stats[0]);
+        var remaining_numbers = parseInt(max_guesses) - parseInt(command_stats.powerball.tickets);
 
         for(i = 0; i < amount; i++){
             tickets[i] = Math.ceil(Math.random()*remaining_numbers);
@@ -116,14 +114,12 @@ function attempt(amount, money_spent){
         }
 
         if(tickets.includes(1) == true){
-            lottery_stats[0] = parseInt(lottery_stats[0]) + parseInt(amount);
-            lottery_stats[1] = parseInt(lottery_stats[1]) + (parseInt(money_spent) * (4/5));
-            fs.writeFileSync('./text_files/lottery_stats.txt', lottery_stats);
+            command_stats.powerball.tickets = parseInt(command_stats.powerball.tickets) + parseInt(amount);
+            command_stats.powerball.pot = parseInt(command_stats.powerball.pot) + (parseInt(money_spent) * (4/5));
             return true
         }else{
-            lottery_stats[0] = parseInt(lottery_stats[0]) + parseInt(amount);
-            lottery_stats[1] = parseInt(lottery_stats[1]) + (parseInt(money_spent) * (4/5));
-            fs.writeFileSync('./text_files/lottery_stats.txt', lottery_stats);
+            command_stats.powerball.tickets = parseInt(command_stats.powerball.tickets) + parseInt(amount);
+            command_stats.powerball.pot = parseInt(command_stats.powerball.pot) + (parseInt(money_spent) * (4/5));
             return false
         }
 

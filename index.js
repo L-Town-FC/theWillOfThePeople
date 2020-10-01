@@ -13,6 +13,7 @@ master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
 players = JSON.parse(fs.readFileSync("./JSON/RPG/players.json","utf-8"))
+command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -27,21 +28,23 @@ bot.on('ready', () => {
     var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
     var bot_tinkering = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '711634711281401867')
     
-    bot_tinkering.send('The bot is online')
     console.log('This bot is online')
     stocks_open = false
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
+        bot_tinkering.send('The bot is online')
         new cron.CronJob('0 13 * * *', function(){
             Interest(master, stats_list, channel, tracker)
             Welfare(channel, master)
             Lottery(channel, master, unlock)
             gbp_farm_reset(channel, master)
-            JSON_Overwrite(master, stats_list, tracker)
             //590585423202484227 - pugilism
             //611276436145438769 - test
             //743269381768872087 - stonks
             //711634711281401867 bot-tinkering            
+        }, null, true)
+        new cron.CronJob('0 * * * *', function(){
+            JSON_Overwrite(master, stats_list, tracker, command_stats, players, bot_tinkering)
         }, null, true)
     }
 
@@ -140,7 +143,7 @@ bot.on('message', message =>{
                     bot.commands.get('kumiko').execute(message,master[message.author.id].gbp, master, tracker);
                 break;
                 case 'powerball':
-                    bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list, tracker)
+                    bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list, tracker, command_stats)
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'herald':
@@ -187,7 +190,7 @@ bot.on('message', message =>{
                     bot.commands.get('stats').execute(message,args, master);
                 break;
                 case 'button':
-                    bot.commands.get('button').execute(message,args, master, stats_list, tracker);
+                    bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'loan':
@@ -227,11 +230,13 @@ bot.on('message', message =>{
         }
         
         //Only time Major JSONs should be overwritten
+        /*
         if(message.author.bot == false){
-            setTimeout(function(){
-                JSON_Overwrite(master, stats_list, tracker, message)
+            setTimeout(async function(){
+                JSON_Overwrite(master, stats_list, tracker, command_stats, message)
             },50)
         }
+        */
 
     }catch(err){
         console.log(err)
@@ -366,7 +371,7 @@ function Lottery(channel, master, unlock){
     }
 }
 
-async function JSON_Overwrite(master, stats_list, tracker, message){
+async function JSON_Overwrite(master, stats_list, tracker, command_stats, players, channel){
     try{
         //master["450001712305143869"].loans.collection = 0
         fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
@@ -384,9 +389,19 @@ async function JSON_Overwrite(master, stats_list, tracker, message){
             console.log('complete');
             }
         );
+        fs.writeFileSync ("./JSON/command_stats.json", JSON.stringify(command_stats, null, 2), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+        fs.writeFileSync ("./JSON/RPG/player.json", JSON.stringify(players, null, 2), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
     }catch(err){
         console.log(err)
-        message.channel.send('Error Occured in JSON_Overwrite')
+        channel.send('Error Occured in JSON_Overwrite')
     }
 }
 

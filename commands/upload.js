@@ -10,7 +10,6 @@ module.exports = {
             const Discord = require('discord.js')         
             test = new MessageAttachment(message, message.attachments)
             url = test.message.attachments.array()[0].url
-            name = test.message.attachments.array()[0].filename
             try{
             download(url, args[1])
             }catch(err){
@@ -43,6 +42,10 @@ function download(url, name){
             console.log('tracker')
             path = 'JSON/achievements_tracker.json'
         break;
+        case 'commands':
+            console.log('commands')
+            path = 'JSON/command_stats.json'
+        break;
         default:
             path = 'none'
     }
@@ -53,7 +56,7 @@ function download(url, name){
 
         setTimeout(function(){
             var_overwrite(path, name)
-        },3000)
+        },5000)
     }else{
         message.channel.send('No file uploaded')
     }
@@ -74,6 +77,9 @@ function var_overwrite(path, name){
         case 'stats':
             stats_list = JSON.parse(fs.readFileSync(`./${path}`, 'utf-8'))
         break;
+        case 'commands':
+            command_stats = JSON.parse(fs.readFileSync(`./${path}`, 'utf-8'))
+        break
 
     }
 }
