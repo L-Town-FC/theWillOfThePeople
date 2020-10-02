@@ -25,6 +25,9 @@ module.exports = {
         }
 
         try{
+            if(!master[person]){
+                addPerson(message, master, tracker, stats_list)
+            }
             for(i in master){
                 if(isNaN(master[i].gbp) == true){
                     master[i].gbp = 0;
@@ -43,6 +46,7 @@ module.exports = {
                     }else{
                         stats.tracker(person, 10, 1, stats_list)
                     }
+                   
                     var total_assets = master[person].gbp + master[person].account
                     var scaling_modifier = -0.1 * master[person].gbp + 175
                     var loan_list = []
@@ -169,5 +173,94 @@ function Loan_Stuff(message, master, amount, loan_list){
             rate: 0
         }
         message.channel.send('You have paid off your loan')
+    }
+}
+
+function addPerson(message, master, tracker, stats_list){
+    master[message.author.id] =  {
+        name: "Default",
+        gbp: 250,
+        achievements: [],
+        simmerdown: 0,
+        account: 0,
+        loans: {
+          target: "",
+          remaining: 0,
+          collection: 0,
+          rate: 0
+        },
+        bwg: {
+          target: "",
+          current_word: "",
+          bet: 0,
+          remaining_msgs: "",
+          gamestatus: 0,
+          used_word: []
+        },
+        insulted: false,
+        steal: {
+          insurance: 0,
+          attempts: 0,
+          caught: false
+        }
+    }
+    tracker[message.author.id] = {
+        name: "Default",
+        [4]: 0,
+        [5]: 0,
+        [7]: 0,
+        [8]: 0,
+        [9]: 0,
+        [13]: 0,
+        [14]: 0,
+        [15]: [false, false],
+        [17]: 0,
+        [18]: 0,
+        [20]: [false, false],
+        [21]: 0,
+        [23]: 0,
+        [25]: 0,
+        [26]: 0,
+        [27]: 0,
+        [28]: 0,
+        [29]: 0,
+        [31]: 0,
+        [32]: 0,
+        [33]: 0,
+        [36]: 0,
+        [37]: 0,
+        [40]: 0,
+        [39]: [0,0,0],
+        [42]: [false, false, false, false, false, false, false, false],
+        [44]: 0,
+        [45]: 0,
+        [46]: 0,
+        [47]: 0,
+        [48]: 0,
+        [51]: 0,
+        [52]: 0,
+        [53]: 0,
+        [54]: 0,
+        [55]: 0
+    }
+    stats_list[message.author.id] = {
+        name:"Default",
+        lottery_tickets : 0,
+        bj_wins : 0,
+        bj_pushes : 0,
+        bj_losses : 0,
+        gg_wins : 0,
+        gg_losses : 0,
+        total_msgs : 0,
+        total_commands : 0,
+        farm_messages : 0,
+        non_farm_messages : 0,
+        achievements : 0,
+        button_presses : 0,
+        button_losses : 0,
+        roulette_bets : 0,
+        roulette_wins : 0,
+        taxes : 0,
+        interest : 0
     }
 }

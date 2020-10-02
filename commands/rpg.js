@@ -3,7 +3,8 @@ module.exports = {
     description: 'lets you play the rpg',
     execute(message, args, master, stats_list, tracker, players){
         const fs = require('fs')
-        const rpg = require('./Functions/rpg_functions')
+        const rpg_classes = require('./Functions/RPG_Functions/rpg_classes')
+        const rpg_general = require('./Functions/RPG_Functions/rpg_general')
         var command = String(args[1]).toLowerCase() || 'none'
 
         switch(command){
@@ -11,7 +12,7 @@ module.exports = {
                 //lets you make your character
                 //adds your name to players.json if not already there
                 try{
-                    rpg.create(message, args, master, players)
+                    rpg_classes.create(message, args, master, players)
                 }catch(err){
                     console.log(err)
                     message.channel.send('Error Occurred in rpg.js create')
@@ -20,10 +21,13 @@ module.exports = {
             case 'delete':
                 //lets you delete your character
             break;
+            case 'players':
+                rpg_general.rpg_players(message, players)
+            break;
             case 'classes':
                 //lets you check the different stats and classes
                 try{
-                    rpg.classes(message, args, master, players)
+                    rpg_classes.classes(message, args, master, players)
                 }catch(err){
                     console.log(err)
                     message.channel.send('Error Occurred in rpg.js classes')

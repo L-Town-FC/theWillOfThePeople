@@ -1,12 +1,42 @@
 function create(message, args, master, players){
     const fs = require('fs')
     const Discord = require('discord.js')
+    var classes = JSON.parse(fs.readFileSync('./JSON/RPG/classes.json', 'utf-8'))
+
+    var created = false
 
     for(var i in players){
         if(i == message.author.id){
             message.channel.send('You have already created a character')
+            var created = true
         }
     }
+
+    if(created == false){
+        var player_list = []
+        for(var i in players){
+            player_list.push(players[i].name.toLowerCase())
+        }
+        if(parseInt(args[2]) >= 1 && parseInt(args[2]) <= Object.keys(classes).length){
+            if(!args[3]){
+                message.channel.send('You must choose a name')
+            }else if(player_list.includes(String(message.content.substring(14)).toLowerCase()) == true){
+                message.channel.send('That name is already taken')
+            }else{
+                players[message.author.id] = classes[Object.keys(classes)[args[2] - 1]]
+                players[message.author.id].name = message.content.substring(14)
+                delete players[message.author.id].Description
+                fs.writeFileSync ("./JSON/RPG/players.json", JSON.stringify(players, null, 2), function(err) {
+                    if (err) throw err;
+                    console.log('complete');
+                    }
+                );
+            }
+        }else{
+            message.channel.send('You must choose one of the preset classes')
+        }
+    }
+
 
 }
 module.exports.create = create
@@ -26,7 +56,7 @@ function classes(message, args, master, players){
 function Classes_All(message, args, master, players){
     const fs = require('fs')
     const Discord = require('discord.js')
-    const embed = require('./embed_functions')
+    const embed = require('../embed_functions')
     const rpg_classes = JSON.parse(fs.readFileSync('./JSON/RPG/classes.json', 'utf-8'))
     const classes_embed = new Discord.RichEmbed()
     .setTitle('**List of Classes**')
@@ -46,7 +76,7 @@ function Classes_All(message, args, master, players){
 function Classes_Specific(message, index, master, players){
     const fs = require('fs')
     const Discord = require('discord.js')
-    const embed = require('./embed_functions')
+    const embed = require('../embed_functions')
     const rpg_classes = JSON.parse(fs.readFileSync('./JSON/RPG/classes.json', 'utf-8'))
     var class_name = Object.keys(rpg_classes)[index]
     var _class = rpg_classes[class_name].changeable_stats

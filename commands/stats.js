@@ -1,12 +1,11 @@
 module.exports = {
     name: 'stats',
     description: 'shows stats of player',
-    execute(message,args, master){
+    execute(message,args, master, stats){
         const fs = require('fs');
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
-        stats = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
         var user = message.author.id;
         var name = args[1];
         var success = false;

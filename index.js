@@ -68,10 +68,11 @@ bot.on('ready', () => {
 bot.on('message', message =>{
     try{
         if(message.author.bot == false){
+            bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('simmerdowncount').execute(message, master);
             bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
             bot.commands.get('boo_trigger').execute(message);
-            bot.commands.get('more_money').execute(message, master, stats_list, tracker);
+            //bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('bwg_counter').execute(message, master, tracker);
             bot.commands.get('ceelo_counter').execute(message, master)
             bot.commands.get('word_checker').execute(message, master, tracker)
@@ -187,7 +188,7 @@ bot.on('message', message =>{
                     bot.commands.get('bwg').execute(message,args, master[message.author.id].gbp, master)
                 break;
                 case 'stats':
-                    bot.commands.get('stats').execute(message,args, master);
+                    bot.commands.get('stats').execute(message,args, master, stats_list);
                 break;
                 case 'button':
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
@@ -221,6 +222,9 @@ bot.on('message', message =>{
                 case 'upload':
                     bot.commands.get('upload').execute(message, args)
                 break;
+                case 'changename':
+                    bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;
@@ -228,16 +232,6 @@ bot.on('message', message =>{
                     message.channel.send('Use command !help for a list of commands');
             }
         }
-        
-        //Only time Major JSONs should be overwritten
-        /*
-        if(message.author.bot == false){
-            setTimeout(async function(){
-                JSON_Overwrite(master, stats_list, tracker, command_stats, message)
-            },50)
-        }
-        */
-
     }catch(err){
         console.log(err)
         message.channel.send("Error Occured in Index.js Comand Handler");
