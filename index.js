@@ -71,8 +71,7 @@ bot.on('message', message =>{
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('simmerdowncount').execute(message, master);
             bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
-            bot.commands.get('boo_trigger').execute(message);
-            //bot.commands.get('more_money').execute(message, master, stats_list, tracker);
+            bot.commands.get('boo_trigger').execute(message, command_stats);
             bot.commands.get('bwg_counter').execute(message, master, tracker);
             bot.commands.get('ceelo_counter').execute(message, master)
             bot.commands.get('word_checker').execute(message, master, tracker)
@@ -173,7 +172,7 @@ bot.on('message', message =>{
                     bot.commands.get('set').execute(message,args, master);
                 break;
                 case 'boo':
-                    bot.commands.get('boo').execute(message,args,master[message.author.id].gbp, master, tracker);
+                    bot.commands.get('boo').execute(message,args,master[message.author.id].gbp, master, tracker, command_stats);
                 break;
                 case 'steal':
                     bot.commands.get('steal').execute(message,args, master, tracker);

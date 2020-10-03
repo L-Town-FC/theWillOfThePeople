@@ -1,10 +1,10 @@
 module.exports = {
     name: 'boo',
-    description: 'custom emoji test',
-    execute(message,args,money, master, tracker){
+    description: 'lets you boo people',
+    execute(message,args,money, master, tracker, command_stats){
         const fs = require('fs')
         const unlock = require("./Functions/Achievement_Functions")
-        var boo = fs.readFileSync('./text_files/boo.txt', "utf-8")
+        var boo = command_stats.boo
         var price = 500;
         var name = args[1];
         var success = false
@@ -18,7 +18,7 @@ module.exports = {
                 for(i in master){
                     if(name.toLowerCase() == master[i].name.toLowerCase()){
                         var id = i
-                        fs.writeFileSync('./text_files/boo.txt', id)
+                        command_stats.boo = id
                         purchase(price, message.author.id, message, master)
                         //Professional Asshole Achievement Tracker
                         unlock.tracker1(message.author.id, 13, 1, message, master, tracker)
