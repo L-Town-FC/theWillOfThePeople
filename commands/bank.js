@@ -62,6 +62,7 @@ module.exports = {
                             message.channel.send('Error occurred in bank.js name')
                         }
                     break;
+                    /*
                     case 'account':
                         try{
                             message.channel.send(`You currently have ${master[message.author.id].account} gbp in your private account`)
@@ -115,12 +116,13 @@ module.exports = {
                             message.channel.send('Error occurred in bank.js withdraw')
                         }
                     break;
+                    */
                     case 'help':
                         try{
-                            var help = fs.readFileSync('text_files/bank_commands.txt', 'utf-8')
+                            var help = fs.readFileSync('text_files/bank_commands.txt', 'utf-8').split("\n")
                             const help_list = new Discord.RichEmbed()
                             .setTitle("List of Commands")
-                            .setDescription(help)
+                            .setDescription(help[0])
                             .setColor(embed.Color(message))
                             message.channel.send(help_list)
                         }catch(err){

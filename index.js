@@ -34,7 +34,7 @@ bot.on('ready', () => {
         cron_job = 'something'
         bot_tinkering.send('The bot is online')
         new cron.CronJob('0 13 * * *', function(){
-            Interest(master, stats_list, channel, tracker)
+            //Interest(master, stats_list, channel, tracker)
             Welfare(channel, master)
             Lottery(channel, master, unlock)
             gbp_farm_reset(channel, master)
@@ -223,6 +223,9 @@ bot.on('message', message =>{
                 break;
                 case 'changename':
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
+                break;
+                case 'leaderboards':
+                    bot.commands.get('leaderboards').execute(message, args, master, stats_list, tracker)
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
