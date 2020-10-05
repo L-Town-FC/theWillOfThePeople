@@ -22,5 +22,14 @@ module.exports = {
 }
 
 async function Trigger(message){
-    await message.react('591022023489355787').catch(message.react('👎'))
+    try{
+        await message.react('591022023489355787')
+    }catch(err){
+        try{
+            await message.react('👎')
+        }catch(err){
+            console.log(err)
+            message.channel.send('Error Occurred in Boo Trigger')
+        }
+    }
 }

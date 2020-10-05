@@ -12,10 +12,12 @@
   "dependencies": {
     "canvas": "^2.6.1",
     "chart.js": "^2.9.3",
+    "chartjs-node-canvas": "^3.0.6",
     "cheerio": "^1.0.0-rc.3",
     "cron": "^1.8.2",
     "discord.js": "^11.5.1",
     "downloadify": "^1.0.2",
+    "image-data-uri": "^2.0.1",
     "jimp": "^0.16.1",
     "merge-images": "^2.0.0",
     "request": "^2.88.0"

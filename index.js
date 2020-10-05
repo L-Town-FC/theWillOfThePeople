@@ -224,8 +224,8 @@ bot.on('message', message =>{
                 case 'changename':
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
                 break;
-                case 'leaderboards':
-                    bot.commands.get('leaderboards').execute(message, args, master, stats_list, tracker)
+                case 'chart':
+                    bot.commands.get('chart').execute(message, args, master, stats_list, tracker)
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
