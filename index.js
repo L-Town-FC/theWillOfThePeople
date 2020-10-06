@@ -34,10 +34,12 @@ bot.on('ready', () => {
         cron_job = 'something'
         bot_tinkering.send('The bot is online')
         new cron.CronJob('0 13 * * *', function(){
+            //'0 13 * * *'
             //Interest(master, stats_list, channel, tracker)
             Welfare(channel, master)
             Lottery(channel, master, unlock)
             gbp_farm_reset(channel, master)
+            daily_gbp(channel, master)
             //590585423202484227 - pugilism
             //611276436145438769 - test
             //743269381768872087 - stonks
@@ -45,6 +47,7 @@ bot.on('ready', () => {
         }, null, true)
         new cron.CronJob('0 * * * *', function(){
             JSON_Overwrite(master, stats_list, tracker, command_stats, players, bot_tinkering)
+            hourly_gbp(channel, master)
         }, null, true)
     }
 
@@ -426,6 +429,74 @@ function gbp_farm_reset(channel, master){
     }catch(err){
         console.log(err)
         channel.send("Error occurred in gbp_farm_reset")
+    }
+}
+
+function hourly_gbp(channel, master){
+    try{
+        for(var i in master){
+            if(!master[i].historical_gbp){
+                var day_list = []
+                var week_list = []
+                for(var k = 0; k < 24; k++){
+                    day_list.push(0)
+                }
+                for(var k = 0; k < 7; k++){
+                    week_list.push(0)
+                }
+                master[i].historical_gbp = {
+                    "day": day_list,
+                    "week": week_list
+                }
+            }
+            var temp_list = master[i].historical_gbp.day
+            var new_list = []
+            for(var j = 0; j < 24; j++){
+                if(j < 23){
+                    new_list.push(temp_list[j + 1])
+                }else{
+                    new_list.push(master[i].gbp)   
+                }
+            }
+            master[i].historical_gbp.day = new_list
+        }
+    }catch(err){
+        console.log(err)
+        channel.send('Error Occurred in index.js hourly gbp')
+    }
+}
+
+function daily_gbp(channel, master){
+    try{
+        for(var i in master){
+            if(!master[i].historical_gbp){
+                var day_list = []
+                var week_list = []
+                for(var k = 0; k < 24; k++){
+                    day_list.push(0)
+                }
+                for(var k = 0; k < 7; k++){
+                    week_list.push(0)
+                }
+                master[i].historical_gbp = {
+                    "day": day_list,
+                    "week": week_list
+                }
+            }
+            var temp_list = master[i].historical_gbp.week
+            var new_list = []
+            for(var j = 0; j < 7; j++){
+                if(j < 6){
+                    new_list.push(temp_list[j + 1])
+                }else{
+                    new_list.push(master[i].gbp)   
+                }
+            }
+            master[i].historical_gbp.day = new_list
+        }
+    }catch(err){
+        console.log(err)
+        channel.send('Error Occurred in index.js hourly gbp')
     }
 }
 

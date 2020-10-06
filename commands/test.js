@@ -12,8 +12,8 @@ module.exports = {
         var classes = JSON.parse(fs.readFileSync('./JSON/RPG/classes.json'))
         if(message.author.id == '450001712305143869' && message.channel.id == '611276436145438769'){
             for(var i in classes){
-                delete classes[i].sub_stats.accurracy
-                classes[i].sub_stats.accuracy = ""
+                //delete classes[i].sub_stats.accurracy
+                //classes[i].sub_stats.accuracy = ""
             }
             
             for(i in tracker){
@@ -64,8 +64,20 @@ module.exports = {
                 achievements[i].tracker = 1
             }
             */
+           var day_list = []
+           var week_list = []
+           for(var i = 0; i < 24; i++){
+               day_list.push(0)
+           }
+           for(var i = 0; i < 7; i++){
+               week_list.push(0)
+           }
             
             for(i in master){
+                master[i].historical_gbp = {
+                    day: day_list,
+                    week: week_list
+                }
                 /*
                 master[i].account = 0
 
@@ -131,11 +143,11 @@ module.exports = {
                 if (err) throw err;
                 console.log('complete');
                 }
-                );
-           fs.writeFileSync ("./JSON/master.json", JSON.stringify(master), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
+            );
+            fs.writeFileSync ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
+                if (err) throw err;
+                console.log('complete');
+                }
             );
             fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats, null, 2), function(err) {
                 if (err) throw err;
