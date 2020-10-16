@@ -51,13 +51,13 @@ module.exports = {
                                         unlock.unlock(i, 22, message, master)
                                     }
                                     if(i == '462798271195119626'){
-                                        unlock.unlock(i, 19, message, master)
+                                        unlock.unlock(message.author.id, 19, message, master)
                                     }
                                     //Professional Asshole  Achievement Tracker
                                     unlock.tracker1(message.author.id, 13, 1,  message, master, tracker)
 
                                     //Toxic Achievement Tracker
-                                    unlock.tracker2(message.author.id, 20, 1, message, master, tracker)
+                                    unlock.tracker2(i, 20, 1, message, master, tracker)
                                 }
                                 var success = true
                             }

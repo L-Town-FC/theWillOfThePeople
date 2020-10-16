@@ -207,6 +207,8 @@ function Odds(message, args, master, target, amount){
     chance += (parseFloat(amount)/targeted_gbp) * 100 *  percent_multiplier
     if(chance > 75){
         chance = 75
+    }else if(chance <= 0){
+        chance = 75
     }
     chance_list[0] = Math.round((chance - base_chance) * 100)/100
 

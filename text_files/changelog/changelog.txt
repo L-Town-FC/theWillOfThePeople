@@ -1,24 +1,6 @@
 **Bug Fixes:**
--Fixed bug that let users use !bank in bot tinkering
--Fixed "Bet it all on Black" achievement that could trigger when you bet on red
--"!ceelo status" no longer returns an error when there are no games
--Fixed !bank commands being case specific
--Fixed error in bwg where you couldn't start a game
--Fixed bug in bwg where you couldn't win the game as the bettor
--"!bwg status" works in your dms again
--Kumikos and Pugs and roulette.jpg are now always sent upon command
+
 
 **New Features/Updates:**
-**-Removed the GBP Farming Cap**
-**-Taxes are now progressive instead of tax hitting your entire wallet**
-**-The Following Stats are now being tracked:**
---Button Presses
---Button Losses
---Taxes Paid
---Interest Gained
---Roulette Bets Placed
---Roulette Bets Won
-**-You now always get gbp when messaging in Non-Farm channels**
-**-You can now only deposit gbp in 1000 gbp increments**
-**-New Command: !info**
---Gives info about the bot
+-msg price change, 50->25, 100->50, attachemnts: 75
+-msg can now send a single attachemnt

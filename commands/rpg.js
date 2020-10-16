@@ -45,9 +45,9 @@ module.exports = {
                 //brings up a map
                 //map defaults to small square where you are
                 //"map world" shows world map
+                //will move using this
             break;
-            case 'move':
-                //lets you move in different direction
+            case 'battle':
 
             break;
         }

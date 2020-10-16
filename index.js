@@ -96,7 +96,7 @@ bot.on('message', message =>{
 })
 
 
-bot.on('message', message =>{    
+bot.on('message', async message =>{    
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
         if (message.content.startsWith("!") == true){
@@ -229,6 +229,16 @@ bot.on('message', message =>{
                 break;
                 case 'chart':
                     bot.commands.get('chart').execute(message, args, master, stats_list, tracker)
+                break;
+                case 'voice':
+                    const tts = require('discord-tts')
+                    const voiceChannel = message.member.voiceChannel;
+                    voiceChannel.join().then(connection => {
+                        const stream = tts.getVoiceStream("this is a test cookie");
+                        const dispatcher = connection.play(stream);
+                        dispatcher.on("finish",()=>voiceChannel.leave())
+                    });   
+                
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);

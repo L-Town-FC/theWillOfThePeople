@@ -4,9 +4,9 @@ module.exports = {
     execute(message, master, tracker){
         const fs = require('fs')
         if(message.author.bot == true){
-
+            return
         }else if (message.content.startsWith("!") == true){
-
+            return
         }else if(master[message.author.id].insulted == true){
             var counter = 0
             for(i in master){

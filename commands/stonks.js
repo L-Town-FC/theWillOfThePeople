@@ -1,6 +1,6 @@
 module.exports = {
     name: 'stonks',
-    description: 'only lets you post in the stonks channel during opening bell',
+    description: 'lets you check out the stonks market',
     execute(message){
         if(message.channel.id == '743269381768872087'){
         //stonks- 743269381768872087
