@@ -234,8 +234,8 @@ bot.on('message', async message =>{
                     const tts = require('discord-tts')
                     const voiceChannel = message.member.voiceChannel;
                     voiceChannel.join().then(connection => {
-                        const stream = tts.getVoiceStream("this is a test cookie");
-                        const dispatcher = connection.play(stream);
+                        const stream = tts.getVoiceStream("fuck you you lil bitch");
+                        const dispatcher = connection.playArbitraryInput(stream)
                         dispatcher.on("finish",()=>voiceChannel.leave())
                     });   
                 
