@@ -231,14 +231,7 @@ bot.on('message', async message =>{
                     bot.commands.get('chart').execute(message, args, master, stats_list, tracker)
                 break;
                 case 'voice':
-                    const tts = require('discord-tts')
-                    const voiceChannel = message.member.voiceChannel;
-                    voiceChannel.join().then(connection => {
-                        const stream = tts.getVoiceStream("fuck you you lil bitch");
-                        const dispatcher = connection.playArbitraryInput(stream)
-                        dispatcher.on("finish",()=>voiceChannel.leave())
-                    });   
-                
+                   bot.commands.get('voice').execute(message, args)
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
