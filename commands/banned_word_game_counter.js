@@ -34,7 +34,7 @@ module.exports = {
                             }
                             if(win > 0){
                                 message.channel.send(`${master[id].name} bet ${master[id].bwg.bet} gbp that you would say "${master[id].bwg.current_word}"`)
-                                message.channel.send(`${master[id].bwg.bet} has been taken from you and given to ${master[id].name}`)
+                                message.channel.send(`${master[id].bwg.bet} gbp has been taken from you and given to ${master[id].name}`)
                                 banned.purchase(-2 * master[id].bwg.bet, id, message, master)
                                 banned.purchase(1 * master[id].bwg.bet, user, message, master)
                                 master[master[id].bwg.target].bwg.used_word.push(word)

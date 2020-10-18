@@ -68,6 +68,15 @@ bot.on('ready', () => {
     */
 })
 
+bot.on('guildMemberRemove', member =>{
+    try{
+    var channel = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '590585423202484227')
+    channel.send(`${master[member.id].name} has left the server`)
+    }catch(err){
+        console.log('Error occured in user remover log')
+    }
+})
+
 bot.on('message', message =>{
     try{
         if(message.author.bot == false){
