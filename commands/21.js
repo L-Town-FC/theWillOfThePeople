@@ -45,6 +45,10 @@ module.exports = {
                 player = i;
             }
         }
+
+        if(String(new_bet).toLowerCase() == 'all'){
+            new_bet = master[message.author.id].gbp
+        }
         
         switch (String(command).toLowerCase()){
             case 'deal':

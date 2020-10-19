@@ -2,7 +2,7 @@ module.exports = {
     name: 'oldsteal',
     description: 'allows stealing of gbp from one person',
     execute(message,args,total_money, master, tracker){
-        const unlock = require('./Functions/Achievement_Functions')
+        const unlock = require('../Functions/Achievement_Functions')
 
         var recipient = args[1];
         var amount = args[2];
@@ -59,7 +59,7 @@ module.exports = {
 function steal(initiator, recipient, amount, stolen_percent, message, master, poorest, richest) {
     try{
         const fs = require('fs');
-        const unlock = require('./Functions/Achievement_Functions')
+        const unlock = require('../Functions/Achievement_Functions')
 
         for(i in master){
             if(initiator == i){

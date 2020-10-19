@@ -32,22 +32,21 @@ bot.on('ready', () => {
     stocks_open = false
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
-        bot_tinkering.send('The bot is online')
+        //bot_tinkering.send('The bot is online')
         new cron.CronJob('0 13 * * *', function(){
             //'0 13 * * *'
-            //Interest(master, stats_list, channel, tracker)
-            Welfare(channel, master)
-            Lottery(channel, master, unlock)
-            gbp_farm_reset(channel, master)
-            daily_gbp(channel, master)
+            Daily_Functions(channel, master, unlock)
             //590585423202484227 - pugilism
             //611276436145438769 - test
             //743269381768872087 - stonks
             //711634711281401867 bot-tinkering            
         }, null, true)
         new cron.CronJob('0 * * * *', function(){
-            JSON_Overwrite(master, stats_list, tracker, command_stats, players, bot_tinkering)
-            hourly_gbp(channel, master)
+            //'0 * * * * *'
+            setTimeout(function(){
+                hourly_gbp(channel, master)
+                JSON_Overwrite(master, stats_list, tracker, command_stats, players, bot_tinkering)
+            },2000)
         }, null, true)
     }
 
@@ -70,8 +69,8 @@ bot.on('ready', () => {
 
 bot.on('guildMemberRemove', member =>{
     try{
-    var channel = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '590585423202484227')
-    channel.send(`${master[member.id].name} has left the server`)
+        var channel = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '590585423202484227')
+        channel.send(`${master[member.id].name} has left the server`)
     }catch(err){
         console.log('Error occured in user remover log')
     }
@@ -165,7 +164,7 @@ bot.on('message', async message =>{
                     bot.commands.get('names').execute(message,master)
                 break;
                 case 'master':
-                    bot.commands.get('master').execute(message,args)
+                    bot.commands.get('master').execute(message,args, master, stats_list, tracker, command_stats)
                 break;
                 case 'roles':
                     bot.commands.get('roles').execute(message, args, master)
@@ -342,7 +341,17 @@ function Roulette_bets(message, money, master, stats_list){
                 }else{
                     message.channel.send(`${master[message.author.id].name} doesn't have enough gbp for that bet`)
                 }
-                
+            }
+        }else if(args[0].toLowerCase() == 'all' && master[message.author.id].gbp >= min_bet){
+            if(possible_bets.includes(args[1].toLowerCase()) == true){
+                purchase(args[0], message.author.id, master, message)
+                var bet = [args[0], args[1], message.author.id]
+                approved_bets.push(bet)
+                message.channel.send(`${master[message.author.id].name} Bet accepted`)
+                stats_list[message.author.id].roulette_bets += 1
+                if(args[1].toLowerCase() == 'black'){
+                    unlock.unlock(message.author.id, 38, message, master)
+                }
             }
         }
     }catch(err){
@@ -460,16 +469,13 @@ function hourly_gbp(channel, master){
                     "day": day_list,
                     "week": week_list
                 }
+                
             }
             var temp_list = master[i].historical_gbp.day
             var new_list = []
-            for(var j = 0; j < 24; j++){
-                if(j < 23){
-                    new_list.push(temp_list[j + 1])
-                }else{
-                    new_list.push(master[i].gbp)   
-                }
-            }
+            temp_list.shift()
+            temp_list.push(master[i].gbp)
+            new_list = temp_list
             master[i].historical_gbp.day = new_list
         }
     }catch(err){
@@ -494,17 +500,14 @@ function daily_gbp(channel, master){
                     "day": day_list,
                     "week": week_list
                 }
+                
             }
             var temp_list = master[i].historical_gbp.week
             var new_list = []
-            for(var j = 0; j < 7; j++){
-                if(j < 6){
-                    new_list.push(temp_list[j + 1])
-                }else{
-                    new_list.push(master[i].gbp)   
-                }
-            }
-            master[i].historical_gbp.day = new_list
+            temp_list.shift()
+            temp_list.push(master[i].gbp)
+            new_list = temp_list
+            master[i].historical_gbp.week = new_list
         }
     }catch(err){
         console.log(err)
@@ -554,3 +557,9 @@ function Interest(master, stats_list, channel, tracker){
     }
 }
 
+async function Daily_Functions(channel, master, unlock){
+    await Welfare(channel, master)
+    await Lottery(channel, master, unlock)
+    await gbp_farm_reset(channel, master)
+    await daily_gbp(channel, master)
+}

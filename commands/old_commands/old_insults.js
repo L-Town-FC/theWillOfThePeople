@@ -3,7 +3,7 @@ module.exports = {
     description: 'shows who is being insulted and lets you change who it is',
     execute(message,args,money, master, tracker){
         const fs = require('fs');
-        const unlock = require('./Functions/Achievement_Functions')
+        const unlock = require('../Functions/Achievement_Functions')
         var insultee_and_count = fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
         var price = 1500;
         var name = args[1];

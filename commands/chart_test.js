@@ -36,8 +36,8 @@ async function Chart(gbp_data, labels, message){
 
     const canvas = new CanvasRenderService(width, height, chartCallback);
 
-    console.log(gbp_data)
-    console.log(labels)
+    //console.log(gbp_data)
+    //console.log(labels)
     const configuration = {
         type: 'line',
         data: {

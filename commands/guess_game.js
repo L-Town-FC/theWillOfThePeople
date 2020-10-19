@@ -10,24 +10,33 @@ module.exports = {
         const min_bet = 5;
         var bet = args[2];
         var person = message.author.id;
-        var guess = args[2];
         var magic_number = fs.readFileSync('./text_files/guessgame/guessgame.txt','utf8').split(" ")[1];
         var bet2 = fs.readFileSync('./text_files/guessgame/guessgame.txt','utf8').split(" ")[3];
         var result = false;
         var num_of_guesses = fs.readFileSync('./text_files/guessgame/guessgame.txt','utf8').split(" ")[0];
+        var payout = 20
+        var command = args[1] || 'none'
+        if(parseFloat(args[1]) == parseInt(args[1])){
+            if(parseInt(args[1]) > 0 && parseInt(args[1]) < 100){
+                command = 'guess'
+            }
+        }
 
-
-        switch(args[1]){
+        switch(command){
             case 'bet':
                 try{
-                    if (is_Ongoing()[0] == true){
+                    if(is_Ongoing()[0] == true){
                         message.channel.send(`${master[is_Ongoing()[1]].name} is currently playing and is on guess ${is_Ongoing()[2]}`)
-                    }else if (typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) <= parseFloat(total_money)){
+                    }else if(typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) <= parseFloat(total_money)){
                         message.channel.send("Your bet is accepted. Please guess the number between 0 and 100. You have 3 guesses");
                         first_guess(person, bet);
                         purchase(bet, message.author.id, master);
                     }else if(parseFloat(total_money) < parseFloat(bet)){
                         message.channel.send("You don't have enough gbp for that bet")
+                    }else if(String(bet).toLowerCase() == 'all'){
+                        message.channel.send(`Your bet was ${master[person].gbp}. Please guess the number between 0 and 100. You have 3 guesses`);
+                        first_guess(person, parseFloat(master[person].gbp));
+                        purchase(parseFloat(master[person].gbp), person, master);
                     }else{
                         message.channel.send(`Please place a valid bet of ${min_bet} gbp or greater`)
                     }
@@ -40,7 +49,7 @@ module.exports = {
             case 'guess':
                 try{
                     if (is_Ongoing()[0] == true){
-                        result = update_guesses(guess,message);
+                        result = update_guesses(parseFloat(args[1]),message);
                     }else{
                         message.channel.send('Noone is currently playing');
                     }
@@ -87,12 +96,12 @@ module.exports = {
                     stats.tracker(message.author.id, 6, 1, stats_list)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                 }else{
-                    message.channel.send(`You win ${15 * parseFloat(bet2)} gbp`);
-                    purchase((-15 * parseFloat(bet2)), message.author.id, master);
-                    unlock.tracker1(message.author.id, 33, parseFloat(15 * bet2), message, master, tracker)
+                    message.channel.send(`You win ${20 * parseFloat(bet2)} gbp`);
+                    purchase((-20 * parseFloat(bet2)), message.author.id, master);
+                    unlock.tracker1(message.author.id, 33, parseFloat(20 * bet2), message, master, tracker)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                     unlock.tracker1(message.author.id, 4, 1, message, master, tracker)
-                    unlock.tracker3(message.author.id, 39, 1, 15 * parseFloat(bet2), message, master, tracker)
+                    unlock.tracker3(message.author.id, 39, 1, 20 * parseFloat(bet2), message, master, tracker)
                     stats.tracker(message.author.id, 5, 1, stats_list)
                 }
             }

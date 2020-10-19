@@ -4,3 +4,11 @@
 **New Features/Updates:**
 -msg price change, 50->25, 100->50, attachemnts: 75
 -msg can now send a single attachemnt
+
+can now use "all" as a bet instead of having to type in amount
+
+-guessgame improvements
+--no longer need to use "guess"
+--20X payout now
+
+-bot announces when someone leaves the server

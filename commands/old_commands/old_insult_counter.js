@@ -4,7 +4,7 @@ module.exports = {
     execute(message, master, tracker, stats_list){
         try{
             const fs = require('fs');
-            const unlock = require("./Functions/Achievement_Functions")
+            const unlock = require("../Functions/Achievement_Functions")
             var insulted_counter= fs.readFileSync('./text_files/insult_counter.txt','utf8').split(",");
             const insults_chance = 8
             //var name_count = parseInt(insulted_counter[1]);
