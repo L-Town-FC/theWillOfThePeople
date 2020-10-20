@@ -27,7 +27,8 @@ module.exports = {
                             if(attempt(1, price, command_stats, message) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${command_stats.powerball.tickets} tickets to win. Your prize is ${command_stats.powerball.pot}`)
                                 purchase(-1 * command_stats.powerball.pot, message.author.id, master);
-                                fs.writeFileSync('./text_files/lottery_stats.txt', `0,${base_winnings}`);
+                                command_stats.powerball.tickets = 0
+                                command_stats.powerball.pot = base_winnings
                                 unlock.unlock(message.author.id, 10, message, master)
                             }else{
                                 message.channel.send("Sorry. Try again");
@@ -46,7 +47,8 @@ module.exports = {
                             if(attempt(amount, money_spent, command_stats, message) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${command_stats.powerball.tickets} tickets to win. Your prize is ${command_stats.powerball.pot} gbp`)
                                 purchase(-1 * command_stats.powerball.pot, message.author.id, master);
-                                fs.writeFileSync('./text_files/lottery_stats.txt', `0,${base_winnings}`);
+                                command_stats.powerball.tickets = 0
+                                command_stats.powerball.pot = base_winnings
                                 unlock.unlock(message.author.id, 10, message, master)
                             }else{
                                 message.channel.send("Sorry. Try again");

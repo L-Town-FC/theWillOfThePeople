@@ -241,6 +241,9 @@ bot.on('message', async message =>{
                 case 'voice':
                    bot.commands.get('voice').execute(message, args)
                 break;
+                case 'remind':
+                    bot.commands.get('remind').execute(message, args)
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;

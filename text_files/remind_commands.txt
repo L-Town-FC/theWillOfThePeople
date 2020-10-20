@@ -1,0 +1,4 @@
+!remind XY [Reminder]: Sets a reminder. Y is the units (seconds(s), minutes(m), hours(h), or days(d)) and X is the amount
+ex. "!remind 24h Make fun of Derek" would set a 24 hour reminder to make fun of Derek
+
+!remind list: Shows a list of all your reminders

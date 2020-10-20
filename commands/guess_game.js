@@ -17,7 +17,7 @@ module.exports = {
         var payout = 20
         var command = args[1] || 'none'
         if(parseFloat(args[1]) == parseInt(args[1])){
-            if(parseInt(args[1]) > 0 && parseInt(args[1]) < 100){
+            if(parseInt(args[1]) > 0 && parseInt(args[1]) <= 100){
                 command = 'guess'
             }
         }
@@ -96,12 +96,12 @@ module.exports = {
                     stats.tracker(message.author.id, 6, 1, stats_list)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                 }else{
-                    message.channel.send(`You win ${20 * parseFloat(bet2)} gbp`);
-                    purchase((-20 * parseFloat(bet2)), message.author.id, master);
-                    unlock.tracker1(message.author.id, 33, parseFloat(20 * bet2), message, master, tracker)
+                    message.channel.send(`You win ${payout * parseFloat(bet2)} gbp`);
+                    purchase((-payout * parseFloat(bet2)), message.author.id, master);
+                    unlock.tracker1(message.author.id, 33, parseFloat(payout * bet2), message, master, tracker)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                     unlock.tracker1(message.author.id, 4, 1, message, master, tracker)
-                    unlock.tracker3(message.author.id, 39, 1, 20 * parseFloat(bet2), message, master, tracker)
+                    unlock.tracker3(message.author.id, 39, 1, payout * parseFloat(bet2), message, master, tracker)
                     stats.tracker(message.author.id, 5, 1, stats_list)
                 }
             }

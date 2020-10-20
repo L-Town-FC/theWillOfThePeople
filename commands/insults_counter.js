@@ -56,7 +56,7 @@ module.exports = {
                             "I fart in your general direction", "If I wanted a joke, I'd follow you into the John and watch you take a leak", "I don't give a tuppery fuck about your moral conundrum, you meat-headed shit sack",
                             "You are a sad strange little man, and you have my pity", "I don't like your jerk-off name. I don't like your jerk-off face. I don't like your jerk-off behavior, and I don't like you, jerk-off. Do I make myself clear?",
                             "Nice going Ron", "What the fuck Richard","I can't believe you've done this", `You've sent ${stats_list[message.author.id].total_msgs} messages and they have all been awful`, `Smooth Brain`, `Math sucks and so do you`,
-                            "Achievement Unlock: You Suck Ass", "Cockass pee pee sucka"]
+                            "Achievement Unlock: You Suck Ass", "Cockass pee pee sucka", "I don't know what dumber, that post or how Derek watches movies"]
                 var insult = insults[Math.ceil(Math.random() * insults.length)]
             message.channel.send(insult)
             }
