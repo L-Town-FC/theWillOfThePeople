@@ -9,11 +9,13 @@ bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
+const remind = require('./commands/remind');
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
 players = JSON.parse(fs.readFileSync("./JSON/RPG/players.json","utf-8"))
 command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
+reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json"))
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -48,6 +50,10 @@ bot.on('ready', () => {
                 JSON_Overwrite(master, stats_list, tracker, command_stats, players, bot_tinkering)
             },2000)
         }, null, true)
+        new cron.CronJob('* * * * *', function(){
+            //reminder checker
+            var current_date = Date().split(" ")
+        },null, true)
     }
 
     /*

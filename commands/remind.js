@@ -1,15 +1,12 @@
 module.exports = {
     name: 'remind',
     description: 'lets you set reminders',
-    execute(message, args){
+    execute(message, args,reminder_list){
         
         var command = String(args[1]).toLowerCase() || 'none'
         var unit = command[command.length - 1]
         var amount = command.substring(0, command.length - 1)
-        if(typeof(reminder_list) == 'undefined'){
-            reminder_list = {}
-        }
-
+        
         if(parseInt(amount) == parseInt(amount) && isNaN(amount) == false && amount > 0){
             if(['s','m','h','d'].includes(unit) == true){
                 command = 'reminder'
@@ -24,7 +21,7 @@ module.exports = {
 
         switch(command){
             case 'reminder':
-                Reminder(message, amount, unit, reminder_list)
+                Reminder(message, args, amount, unit, reminder_list)
             break;
             case 'list':
                 Reminder_List(message, args, reminder_list)
@@ -38,12 +35,54 @@ module.exports = {
     }
 }
 
-async function Reminder(message, amount, units, reminder_list){
+async function Reminder(message, args, amount, units, reminder_list){
     //creates array with following format
-    //[user id, random number, actual reminder]
+    //[user id, actual reminder]
     //this is added to the global reminder list
     //setTimeout is created using the specified amount and units
+    const cron = require('cron')
+    var reminder = ""
+    for(var j = 2; j < args.length; j++){
+        reminder = reminder +  " " + args[j] 
+    }
+    var used = []
+    for(var i in reminder_list){
+        used.push(i)
+    }
+    if(isNaN(i) == true){
+        i = 0
+    }
+    var new_units
+    var multiplier
+    switch(units){
+        case 's':
+            new_units = 'seconds'
+            multiplier = 1
+        break;
+        case 'm':
+            new_units = 'minutes'
+            multiplier = 60
+        break;
+        case 'h':
+            new_units = 'hours'
+            multiplier = 3600
+        break;
+        case 'd':
+            new_units = 'days'
+            multiplier = 3600 * 24
+        break;
+    }
 
+    if(amount > 1){
+        new_units += 's'
+    }
+
+    var new_id = parseInt(i) + 1
+    reminder_job = new cron.CronJob('* * * * *', function(){
+        //'0 * * * * *'
+        
+    }, null, true)
+    reminder_list[new_id] = [message.author.id, reminder]
 }
 
 async function Reminder_List(message, args, reminder_list){
