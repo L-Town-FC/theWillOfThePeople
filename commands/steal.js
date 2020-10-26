@@ -115,7 +115,7 @@ function Steal(message, args, target, master, tracker){
                     
                 }else{
                     //steal failure
-                    var amount = Math.round(args[2] *110)/100
+                    var amount = Math.round(args[2] *125)/100
                     master[message.author.id].gbp -= amount
                     master[target].gbp += amount
                     message.channel.send(`You were caught stealing from ${master[target].name}. You paid ${amount} gbp in damages`)
@@ -212,7 +212,7 @@ function Odds(message, args, master, target, amount){
     }
     chance_list[0] = Math.round((chance - base_chance) * 100)/100
 
-    chance += master[message.author.id].steal.attempts * 5
+    chance += master[message.author.id].steal.attempts * 7.5
     chance_list[1] = Math.round((chance - (chance_list[0] + base_chance))*100)/100
     
     var amount_checker = (amount - 100)
@@ -280,7 +280,7 @@ function Chance(message, master, amount, target){
         chance = 75
     }
 
-    chance += master[message.author.id].steal.attempts * 5
+    chance += master[message.author.id].steal.attempts * 7.5
     //console.log(chance)
     
     var amount_checker = (amount - 100)

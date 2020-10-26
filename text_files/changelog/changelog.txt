@@ -2,15 +2,28 @@
 
 
 **New Features/Updates:**
--msg price change, 50->25, 100->50, attachemnts: 75
--msg can now send a single attachemnt
 
-can now use "all" as a bet instead of having to type in amount
+**!msg changes**
+-You can now send single attachemnts
+-msg price change:
+-- < 50 character messages = 25 gbp
+-- >= 50 character = 50 gbp
+--  attachemnts = 75 gbp
 
--guessgame improvements
---no longer need to use "guess"
+**-"all" is now recognized as amount in the following commands**
+--!21 (ex. 21 bet all)
+--!gg (ex. gg bet all)
+--!roulette (ex. all black)
+--!transfer (ex. transfer Chrisvan all)
+
+**!gg improvements**
+--no longer need to use "guess" when guessing a number (ex. !gg [guess])
 --20X payout now
 
--bot announces when someone leaves the server
+**-bot announces when someone leaves the server**
 
--
+-**!steal balances**
+--each attempt causes chance to get caught to go up by 7.5% instead of 5%
+--getting caught results in paying 1.25X instead of 1.10X damages
+
+-**!kumikosays now deletes the original message**

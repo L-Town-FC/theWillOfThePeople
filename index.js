@@ -255,9 +255,6 @@ bot.on('message', async message =>{
                 break;
                 default:
                     message.channel.send('Use command !help for a list of commands');
-                    const tts = require('discord-tts')
-                    const voiceChannel = message.member.voiceChannel;
-                    
             }
         }
     }catch(err){

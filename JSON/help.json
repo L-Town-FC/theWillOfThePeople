@@ -59,7 +59,7 @@
         "name": "!gg",
         "description":["Try to guess a number between 1 and 100 with 3 guesses","Gives a 20X payout"],
         "rules":["**!gg bet [bet amount]:** Starts game with specified bet",
-        "**!gg guess [guess number]:** Use 1 of your guesses to try and guess the correct number",
+        "**!gg [guess number]:** Use 1 of your guesses to try and guess the correct number",
     "**!gg status:** Names if anyone is playing and what guess they are on"]
     },
     "11":{

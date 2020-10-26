@@ -6,9 +6,12 @@ module.exports = {
         const unlock = require('./Functions/Achievement_Functions')
 
         var recipient = args[1];
-        var amount = args[2];
+        var amount = args[2] || 'none';
         var initiator = message.author.id;
         var names = [];
+        if(String(args[2].toLowerCase()) == 'all'){
+            amount = master[message.author.id].gbp
+        }
 
         try{
             var counter = 0
