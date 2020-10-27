@@ -52,7 +52,7 @@ bot.on('ready', () => {
         }, null, true)
         new cron.CronJob('* * * * *', function(){
             //reminder checker
-            var current_date = Date().split(" ")
+            Reminder_Checker(bot, reminder_list)
         },null, true)
     }
 
@@ -248,7 +248,7 @@ bot.on('message', async message =>{
                    bot.commands.get('voice').execute(message, args, master)
                 break;
                 case 'remind':
-                    bot.commands.get('remind').execute(message, args)
+                    bot.commands.get('remind').execute(message, args, reminder_list, bot, master)
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
@@ -571,4 +571,29 @@ async function Daily_Functions(channel, master, unlock){
     await Lottery(channel, master, unlock)
     await gbp_farm_reset(channel, master)
     await daily_gbp(channel, master)
+}
+
+async function Reminder_Checker(bot, reminder_list){
+    const fs = require('fs')
+    var current_date = Date().split(" ")
+    var change = false
+    //console.log("Reminder Check")
+    for(var i in reminder_list){
+        var date_stuff = reminder_list[i][3]
+        if(date_stuff !== []){
+            if(date_stuff[0] == current_date[1].toLowerCase() && date_stuff[1] == current_date[2] && date_stuff[2] == current_date[3] && parseInt(date_stuff[3]) == parseInt(current_date[4].split(":")[0])){
+                var channel = bot.channels.find(channel => channel.id === reminder_list[i][2])
+                channel.send(`<@${reminder_list[i][0]}> Reminder: \n${reminder_list[i][1]}`)
+                delete reminder_list[i]
+                change = true
+            }
+        }
+    }
+    if(change == true){
+        fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
+    }
 }
