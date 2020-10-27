@@ -1,8 +1,9 @@
 **2 Different Ways to set Reminders**
 
-!remind XY [Reminder]: Sets a reminder. Y is the units (seconds(s), minutes(m), hours(h), or days(d)) and X is the amount
-ex. "!remind 24h Make fun of Derek" would set a 24 hour reminder to make fun of Derek
+!remind XY [Reminder]: Sets a reminder. X is the amount and Y is the units (seconds(s), minutes(m), hours(h), or days(d))
+-ex. "!remind 24h Make fun of Derek" would set a 24 hour reminder to make fun of Derek
 
 !remind [month] [day] [year] [Hour (24hr time)] [reminder]: Month is the first 3 letters of the month (october -> oct), military time is used (0 -> 12am, 13 -> 1pm)
+-ex. "!remind oct 10 2020 7 Derek" would set a reminder to go off on 10/10/2020 at 7am with the description of "Derek"
 
 !remind list: Shows a list of all your reminders

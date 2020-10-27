@@ -91,7 +91,7 @@ async function Reminder(message, args, amount, units, reminder_list, bot){
 
         var new_id = parseInt(i) + 1
         reminder_list[new_id] = [message.author.id, reminder, message.channel.id, []]
-
+        message.channel.send('Reminder Set')
         fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
@@ -209,6 +209,7 @@ async function Months(message, args, reminder_list){
         }
         var new_id = parseInt(i) + 1
         reminder_list[new_id] = [message.author.id, reminder, message.channel.id, date_stuff]
+        message.channel.send('Reminder Set')
         fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
@@ -227,7 +228,7 @@ function Help(message, args){
     .setTitle('List of Commands:')
     .setDescription(commands)
     .setColor(embed.Color(message))
-    .addField('**Disclaimer:**', 'Reminders will disappear when the bot restarts. Use at your own risk')
+    .addField('**Disclaimer:**', 'Short Term Reminders will disappear when the bot restarts. Use at your own risk')
     message.channel.send(help_embed)
 
 }
