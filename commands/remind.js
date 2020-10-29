@@ -84,37 +84,41 @@ async function Reminder(message, args, amount, units, reminder_list, bot){
                 multiplier = 3600 * 24
             break;
         }
-
+        var time = multiplier * amount
+        console.log(time)
         if(amount > 1){
             new_units += 's'
         }
 
         var new_id = parseInt(i) + 1
-        reminder_list[new_id] = [message.author.id, reminder, message.channel.id, []]
-        message.channel.send('Reminder Set')
-        fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-
-        setTimeout(() => {
-            var channel = bot.channels.find(channel => channel.id === message.channel.id)
-            channel.send(`<@${message.author.id}> Reminder: \n${reminder}`)
-            for(var j in reminder_list){
-                if(reminder_list[j][0] == message.author.id){
-                    if(reminder_list[j][1] == reminder){
-                        delete reminder_list[j]
-                    }
-                }
-            }
+        if(time <= 259200){
+            reminder_list[new_id] = [message.author.id, reminder, message.channel.id, []]
+            message.channel.send('Reminder Set')
             fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
                 if (err) throw err;
                 console.log('complete');
                 }
             );
-            reminder_list = JSON.parse(fs.readFileSync('./JSON/reminders.json','utf-8'))
-        }, 1000 * multiplier * amount)
+
+            setTimeout(() => {
+                var channel = bot.channels.find(channel => channel.id === message.channel.id)
+                channel.send(`<@${message.author.id}> Reminder: \n${reminder}`)
+                for(var j in reminder_list){
+                    if(reminder_list[j][0] == message.author.id){
+                        if(reminder_list[j][1] == reminder){
+                            delete reminder_list[j]
+                        }
+                    }
+                }
+                fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
+                    if (err) throw err;
+                    console.log('complete');
+                    }
+                );
+            }, 1000 * time)
+        }else{
+            message.channel.send('The max time on short term reminders is 3 days')
+        }
     }else{
         message.channel.send(`You can't set an empty reminder`)
     }
@@ -226,7 +230,15 @@ function Help(message, args){
     var commands = fs.readFileSync('./text_files/remind_commands.txt')
     var help_embed = new Discord.RichEmbed()
     .setTitle('List of Commands:')
-    .setDescription(commands)
+    .setDescription('!remind list: Lists your current reminders')// \n\n**Two Ways to Set Reminders**')
+    .addField('**Short Term: 3 Days max**', `!remind XY [reminder]: X = amount, Y = units (s,m,h,d)
+    -ex. "!remind 24h Make fun of Derek" would set a 24 hour reminder to make fun of Derek`)
+    .addField('**Long Term:**', `!remind [month] [day] [year] [hour] [reminder]: 
+    -Month = first 3 letters of the month: (october -> oct)
+    -military time: (0 -> 12am, 13 -> 1pm)
+    -can only set the hour
+    
+    -ex. "!remind oct 10 2020 14 Derek" would set a reminder "Derek" to go off on 10/10/2020 at 2pm`)
     .setColor(embed.Color(message))
     .addField('**Disclaimer:**', 'Short Term Reminders will disappear when the bot restarts. Use at your own risk')
     message.channel.send(help_embed)

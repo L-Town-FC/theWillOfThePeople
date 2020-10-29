@@ -6,7 +6,7 @@ function unlock(user, achievement_num, message, master){
             if(user == i){
                 if(master[i].achievements.includes(achievement_num) == false){
                     master[i].achievements.push(achievement_num)
-                    message.channel.send(`${master[i].name} Achievement Unlock: ${achievements[achievement_num].name}`)
+                    message.channel.send(`${master[i].name} Achievement Unlock: ${achievements[achievement_num].name} \nDescription: ${achievements[achievement_num].description}`)
                 }
             }
         }

@@ -27,3 +27,5 @@
 --getting caught results in paying 1.25X instead of 1.10X damages
 
 -**!kumikosays now deletes the original message**
+
+-**Achievements now display desciption when you unlock them**

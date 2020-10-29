@@ -35,6 +35,16 @@ bot.on('ready', () => {
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
         //bot_tinkering.send('The bot is online')
+        for(var i in reminder_list){
+            if(reminder_list[i][3].length  == 0){
+                delete reminder_list[i]
+            }
+        }
+        fs.writeFileSync ("JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
+            if (err) throw err;
+            console.log('complete');
+            }
+        );
         new cron.CronJob('0 13 * * *', function(){
             //'0 13 * * *'
             Daily_Functions(channel, master, unlock)
