@@ -260,6 +260,9 @@ bot.on('message', async message =>{
                 case 'remind':
                     bot.commands.get('remind').execute(message, args, reminder_list, bot, master)
                 break;
+                case 'poll':
+                    bot.commands.get('poll').execute(message, args)
+                break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;

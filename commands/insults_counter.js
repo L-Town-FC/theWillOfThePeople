@@ -15,9 +15,9 @@ module.exports = {
                 }
             }
             if(counter > 3){
-                var chance = 10
+                var chance = 12
             }else{
-                var chance = 8
+                var chance = 10
             }
             var chance_check = Math.ceil(Math.random() * chance)
             if(chance_check == 6){

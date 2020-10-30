@@ -29,3 +29,5 @@
 -**!kumikosays now deletes the original message**
 
 -**Achievements now display desciption when you unlock them**
+
+-**insult rate decreased from 1/8 messages to 1/10 messages**
