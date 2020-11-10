@@ -45,14 +45,13 @@ bot.on('ready', () => {
             console.log('complete');
             }
         );
-        new cron.CronJob('0 13 * * *', function(){
-            //'0 13 * * *'
+        new cron.CronJob('0 9 * * *', function(){
             Daily_Functions(channel, master, unlock)
             //590585423202484227 - pugilism
             //611276436145438769 - test
             //743269381768872087 - stonks
             //711634711281401867 bot-tinkering            
-        }, null, true)
+        }, null, true, 'America/New_York')
         new cron.CronJob('0 * * * *', function(){
             //'0 * * * * *'
             setTimeout(function(){
@@ -588,13 +587,31 @@ async function Daily_Functions(channel, master, unlock){
 
 async function Reminder_Checker(bot, reminder_list){
     const fs = require('fs')
-    var current_date = Date().split(" ")
+    var offset = new Date().getTimezoneOffset()/60
+    var current_date = new Date().toUTCString().split(" ")
+    var c_month = current_date[2].toLowerCase()
+    var c_day = current_date[1]
+    var c_year = current_date[3]
+    var c_hour = parseFloat(current_date[4].split(":")[0]) - offset
+
+    if(c_hour < 0){
+        c_hour = c_chour + 24
+    }
+
     var change = false
     //console.log("Reminder Check")
+    //date_stuff = [Month Day Year Hour]
+
     for(var i in reminder_list){
+
         var date_stuff = reminder_list[i][3]
+        var r_month = date_stuff[0]
+        var r_day = date_stuff[1]
+        var r_year = date_stuff[2]
+        var r_hour = date_stuff[3]
+
         if(date_stuff !== []){
-            if(date_stuff[0] == current_date[1].toLowerCase() && date_stuff[1] == current_date[2] && date_stuff[2] == current_date[3] && parseInt(date_stuff[3]) == parseInt(current_date[4].split(":")[0])){
+            if(r_month == c_month && r_day == c_day && r_year == c_year && parseInt(r_hour) == parseInt(c_hour)){
                 var channel = bot.channels.find(channel => channel.id === reminder_list[i][2])
                 channel.send(`<@${reminder_list[i][0]}> Reminder: \n${reminder_list[i][1]}`)
                 delete reminder_list[i]

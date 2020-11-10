@@ -39,11 +39,9 @@
     },
     "7":{
         "name": "!bank",
-        "description":["Displays how much gbp a user has", "Private accounts can hold upto 30000 gbp"],
+        "description":["Displays how much gbp a user has", "Can display gbp over time"],
         "rules":["**!bank [person]:** Shows Public gbp of specified person. Defaults to user if noone is specified",
-        "**!bank account:** Shows you your private bank account",
-    "**!bank deposit [amount]:** Lets you deposit gbp into your private account",
-"**!bank withdraw [amount]:** Lets you withdraw gbp from your private account"]
+"**!bank [name] [day or week]:** Generates a chart of the given person over the past day/week"]
     },
     "8":{
         "name": "!insults",
@@ -76,7 +74,8 @@
     "13":{
         "name": "!transfer",
         "description":"Allows a user to transfer gbp to another user",
-        "rules":"**!transfer [user] [amount]:** Transfer the specified amount of gpb to the specified user"
+        "rules":["**!transfer [user] [amount]:** Transfer the specified amount of gpb to the specified user",
+        "**!transfer [split] [amount] [name 1] [name 2] ...: Lets you split the specified amount evenly between multiple people"]
     },
     "14":{
         "name": "!herald",

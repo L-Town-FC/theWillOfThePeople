@@ -22,12 +22,18 @@
 
 **-bot announces when someone leaves the server**
 
--**!steal balances**
+**-!steal balances**
 --each attempt causes chance to get caught to go up by 7.5% instead of 5%
 --getting caught results in paying 1.25X instead of 1.10X damages
 
--**!kumikosays now deletes the original message**
+**-!kumikosays now deletes the original message**
 
--**Achievements now display desciption when you unlock them**
+**-Achievements now display desciption when you unlock them**
 
--**insult rate decreased from 1/8 messages to 1/10 messages**
+**-insult rate decreased from 1/8 messages to 1/10 messages**
+
+**-New Command: !remind**
+--Lets you make reminders
+
+**-!transfer improvements**
+--You can now split your transfer payment between multiple people with "!transfer split ..."

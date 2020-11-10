@@ -27,13 +27,6 @@ module.exports = {
         );
 
 
-
-
-
-
-
-
-
         var money = new Attachment('./JSON/master.json');
         var tracker = new Attachment('./JSON/achievements_tracker.json')
         var stats = new Attachment('./JSON/stats.json')
