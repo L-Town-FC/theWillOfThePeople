@@ -36,4 +36,4 @@
 --Lets you make reminders
 
 **-!transfer improvements**
---You can now split your transfer payment between multiple people with "!transfer split ..."
+--You can now split your transfer payment between multiple people with "!transfer split amount..."

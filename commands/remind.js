@@ -92,7 +92,6 @@ async function Reminder(message, args, amount, units, reminder_list, bot){
                 break;
             }
             var time = multiplier * amount
-            console.log(time)
             if(amount > 1){
                 new_units += 's'
             }
