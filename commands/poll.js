@@ -109,7 +109,7 @@ function Poll_Vote(message, args, polls){
     //!poll vote [poll number] [choice 1] [choice 2] ...
     if(Object.keys(polls).includes(args[2]) == true){
         var index = args[2]
-        if(polls[index].voters.includes(message.author.id) == false){
+        if(polls[index].voters.includes(message.author.id) == 1/*false*/){
             var choices = []
             var problems = false
             for(var i = 3; i < args.length; i++){
@@ -188,5 +188,9 @@ function Time_calc(args){
 }
 
 function Vote_Count(message, polls){
+    var temp_data = [[1,2,3], [2,3],[2,1],[3],[1,3],[2],[3],[2]]
+    var count = [0,0,0]
+    for(var i = 0; i < temp_data; i++){
 
+    }
 }
