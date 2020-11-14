@@ -200,6 +200,8 @@ function Vote_Count(message, polls, poll_index){
     var removed_choice
     var removed_index = 0
     var already_voted = false
+    var run_off_counter = 1
+    
     
     while (run_off == true){
         for(var i = 0; i < temp_data.length; i++){
@@ -229,19 +231,22 @@ function Vote_Count(message, polls, poll_index){
             }
         }
         if(winner == 1){
-            message.channel.send(`${count[winning_choice][0]} was the winner`)
+            //message.channel.send(`${count[winning_choice][0]} was the winner`)
+            Results(message, count, polls[poll_index], 'none', count[winning_choice][0])
             run_off = false
         }else if(winner == 2){
             if(winning_choice == 99){
-                message.channel.send(`There is a tie`)
+                //message.channel.send(`There is a tie`)
+                Results(message, count, polls[poll_index], 'none', 'tie')
                 run_off = false
             }else{
-                message.channel.send(`${count[winning_choice][0]} was the winner`)
+                Results(message, count, polls[poll_index], 'none', count[winning_choice][0])
                 run_off = false
             }
         }else{
             //run off
-            message.channel.send('Run Off')
+            Results(message, count, polls[poll_index], run_off_counter, 'runoff')
+            run_off_counter++
             var sorted_array = count.sort(function(a,b){return a[1] - b[1]})
             removed_choice = sorted_array[removed_index][0]
             removed_index++
@@ -260,4 +265,31 @@ function Vote_Count(message, polls, poll_index){
             }
         }
     }
+}
+
+function Results(message, count, poll, number, winner){
+    const embed = require('./Functions/embed_functions')
+    const Discord = require('discord.js')
+    var results_field = []
+
+    var results = new Discord.RichEmbed()
+    .setColor(embed.Color(message))
+    .setTitle(poll.title)
+    if(isNaN(number) == false){
+        results.setDescription(`Results require a runoff`)
+    }else{
+        results.setDescription(`Final Results`)
+    }
+    for(var i = 0; i < count.length;i++){
+        results_field.push(`${poll.options[i].substring(2)}: ${count[i][1]}`)
+    }
+    results.addField('Results:', results_field)
+    if(String(winner).toLowerCase() == 'tie'){
+        results.addField('Outcome:', 'Tie')
+    }else if(String(winner).toLowerCase() == 'runoff'){
+
+    }else{
+        results.addField('Outcome', `Winner: ${poll.options[winner - 1].substring(2)}`)
+    }
+    message.channel.send(results)
 }
