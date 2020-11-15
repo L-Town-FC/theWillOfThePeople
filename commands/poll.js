@@ -18,6 +18,8 @@ module.exports = {
             command = 'list'
         }else if(args[1].toLowerCase() == 'vote'){
             command = 'vote'
+        }else if(args[1].toLowerCase() == 'help'){
+            command = 'help'
         }
 
         //!poll 5m Should Zaid stop using Discord? "Yes" "No"
@@ -32,6 +34,9 @@ module.exports = {
             break;
             case 'list':
                 Poll_List(message, args, polls)
+            break;
+            case 'help':
+                Poll_Help(message)
             break;
             default:
                 message.channel.send('Use "!poll help" for a list of commands')
@@ -274,22 +279,37 @@ function Results(message, count, poll, number, winner){
 
     var results = new Discord.RichEmbed()
     .setColor(embed.Color(message))
-    .setTitle(poll.title)
+    .setTitle(`**${poll.title}**`)
+    /*
     if(isNaN(number) == false){
         results.setDescription(`Results require a runoff`)
     }else{
         results.setDescription(`Final Results`)
     }
+    */
     for(var i = 0; i < count.length;i++){
-        results_field.push(`${poll.options[i].substring(2)}: ${count[i][1]}`)
+        results_field.push(`${poll.options[i].substring(3)}: ${count[i][1]}`)
     }
-    results.addField('Results:', results_field)
+    results.addField('**Results:**', results_field, true)
     if(String(winner).toLowerCase() == 'tie'){
-        results.addField('Outcome:', 'Tie')
+        results.addField('**Outcome:**', 'Tie')
     }else if(String(winner).toLowerCase() == 'runoff'){
-
+        results.addField('**Outcome:**', `Run off needed`)
     }else{
-        results.addField('Outcome', `Winner: ${poll.options[winner - 1].substring(2)}`)
+        results.addField('**Outcome:**', `Winner: ${poll.options[winner - 1].substring(2)}`)
     }
     message.channel.send(results)
+}
+
+function Poll_Help(message){
+    const embed = require('./Functions/embed_functions')
+    const Discord = require('discord.js')
+    const fs = require('fs')
+    var command_list = fs.readFileSync('./text_files/poll_commands.txt')
+
+    var help_embed = new Discord.RichEmbed()
+    .setTitle('List of Poll Commands')
+    .setColor(embed.Color(message))
+    .setDescription(command_list)
+    message.channel.send(help_embed)
 }
