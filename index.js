@@ -595,7 +595,7 @@ async function Reminder_Checker(bot, reminder_list){
     var c_hour = parseFloat(current_date[4].split(":")[0]) - offset
 
     if(c_hour < 0){
-        c_hour = c_chour + 24
+        c_hour = c_hour + 24
     }
 
     var change = false
