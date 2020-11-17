@@ -141,6 +141,8 @@ function Poll_Vote(message, args, polls){
         }else{
             message.channel.send('You already voted in this poll')
         }
+    }else if(args[2].toLowerCase() == 'help'){
+        message.channel.send('Voting Format is: !poll vote [poll number] [choice 1] [choice 2]...')
     }else{
         message.channel.send(`That poll doesn't exist`)
     }
@@ -156,8 +158,22 @@ function Poll_List(message, args, polls){
 
     if(Object.keys(polls).includes(selection) == true){
         poll_list.setTitle(polls[selection].title)
-        .setDescription(polls[selection].options)
         .setColor(embed.Color(message))
+
+        var tally_list = []
+        var current_tally = []
+
+        for(var i = 0; i < polls[selection].options.length; i++){
+            tally_list[i] = [i+1,0]
+        }
+        for(var i = 0; i < polls[selection].votes.length; i++){
+            tally_list[polls[selection].votes[i][0] - 1][1] += 1
+        }
+        for(var i = 0; i < tally_list.length; i++){
+            current_tally.push(polls[selection].options[i] + `: ${tally_list[i][1]}`)
+        }
+        poll_list.setDescription(current_tally)
+        
         message.channel.send(poll_list)
     }else if(Object.keys(polls).length > 0){
         poll_list.setTitle('Current Polls')
