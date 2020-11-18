@@ -251,7 +251,7 @@ bot.on('message', async message =>{
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
                 break;
                 case 'teams':
-                    bot.commands.get('teams').execute(message, args, master, stats_list, tracker)
+                    bot.commands.get('teams').execute(message, args)
                 break;
                 case 'voice':
                    bot.commands.get('voice').execute(message, args, master)
