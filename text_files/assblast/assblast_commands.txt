@@ -1,5 +1,0 @@
-!assblast standings: Lists the current standings for the assblast league
-
-!assblast clear: Clears the assblast standings
-
-!assblast points [Player] [Amount of Points]: Adds or subtracts the specified amount of points from the specified player

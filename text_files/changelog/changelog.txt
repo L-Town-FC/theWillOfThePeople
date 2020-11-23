@@ -3,6 +3,9 @@
 
 **New Features/Updates:**
 
+**New Command: !teams**
+-lets you create randomized teams
+
 **!msg changes**
 -You can now send single attachemnts
 -msg price change:
@@ -37,3 +40,5 @@
 
 **-!transfer improvements**
 --You can now split your transfer payment between multiple people with "!transfer split amount..."
+
+**-!assblast was removed**

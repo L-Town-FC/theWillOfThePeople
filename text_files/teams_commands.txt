@@ -1,4 +1,4 @@
-!teams add [person 1] [person]... : Lets you add people to the teams list. Can be done multiple times
+!teams add [person 1] [person 2]... : Lets you add people to the teams list. Can be done multiple times
 
 !teams people: Gives you a list of everyone slated to join a team
 

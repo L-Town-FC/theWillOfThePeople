@@ -146,9 +146,6 @@ bot.on('message', async message =>{
                 case 'council':
                     bot.commands.get('council').execute(message,master,tracker);
                 break;
-                case 'assblast':
-                    bot.commands.get('assblast').execute(message,args);
-                break;
                 case 'bank':
                     bot.commands.get('bank').execute(message,args, master);
                 break;

@@ -31,11 +31,12 @@
         "rules":""
     },
     "6":{
-        "name": "!assblast",
-        "description":"Displays and updates assblast standings",
-        "rules":["**!assblast standings:** Lists the current standings for the assblast league",
-        "**!assblast clear:** Clears the assblast standings",
-    "**!assblast points [Player] [Amount of Points]:** Adds or subtracts the specified amount of points from the specified player"]
+        "name": "!teams",
+        "description":"Lets you create randomized teams",
+        "rules":["**!teams add [person 1] [person 2]... :** Lets you add people to the teams list. Can be done multiple times",
+        "**!teams people:**Gives you a list of everyone slated to join a team",
+        "**!teams [number of desired teams]:** Splits the list of people into the desired number of teams",
+        "**!teams clear: ** Clears the list of people"]
     },
     "7":{
         "name": "!bank",
