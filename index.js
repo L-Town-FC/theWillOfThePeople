@@ -9,7 +9,6 @@ bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
-const remind = require('./commands/remind');
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
@@ -55,31 +54,15 @@ bot.on('ready', () => {
         new cron.CronJob('0 * * * *', function(){
             //'0 * * * * *'
             setTimeout(function(){
-                hourly_gbp(channel, master)
+                daily_historical_gbp(channel, master)
                 JSON_Overwrite(master, stats_list, tracker, command_stats, players, bot_tinkering)
             },2000)
         }, null, true)
-        new cron.CronJob('* * * * *', function(){
+        new cron.CronJob('0 * * * *', function(){
             //reminder checker
             Reminder_Checker(bot, reminder_list)
         },null, true)
     }
-
-    /*
-    new cron.CronJob('30 9 * * * ', function(){
-        stocks_open = true
-        if(stonks == '743269381768872087'){
-            stonks.send('The Stonk market is now Open')
-        }
-    }, null, true)
-
-    new cron.CronJob('0 16 * * * ', function(){
-        stocks_open = false
-        if(stonks == '743269381768872087'){
-            stonks.send('The Stonk market is now Closed')
-        }
-    }, null, true)
-    */
 })
 
 bot.on('guildMemberRemove', member =>{
@@ -176,7 +159,7 @@ bot.on('message', async message =>{
                     bot.commands.get('names').execute(message,master)
                 break;
                 case 'master':
-                    bot.commands.get('master').execute(message,args, master, stats_list, tracker, command_stats)
+                    bot.commands.get('master').execute(message,args, master, stats_list, tracker, command_stats, reminder_list)
                 break;
                 case 'roles':
                     bot.commands.get('roles').execute(message, args, master)
@@ -471,7 +454,7 @@ function gbp_farm_reset(channel, master){
     }
 }
 
-function hourly_gbp(channel, master){
+function daily_historical_gbp(channel, master){
     try{
         for(var i in master){
             if(!master[i].historical_gbp){
@@ -502,7 +485,7 @@ function hourly_gbp(channel, master){
     }
 }
 
-function daily_gbp(channel, master){
+function weekly_historical_gbp(channel, master){
     try{
         for(var i in master){
             if(!master[i].historical_gbp){
@@ -579,7 +562,7 @@ async function Daily_Functions(channel, master, unlock){
     await Welfare(channel, master)
     await Lottery(channel, master, unlock)
     await gbp_farm_reset(channel, master)
-    await daily_gbp(channel, master)
+    await weekly_historical_gbp(channel, master)
 }
 
 async function Reminder_Checker(bot, reminder_list){

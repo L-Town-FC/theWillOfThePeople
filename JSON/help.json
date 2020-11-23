@@ -192,5 +192,44 @@
         "description": ["Let users check roles", "Lets mods update roles"],
         "rules": ["**!roles:** Shows you the elecable roles and who currently has them",
         "**!roles [roles number] [name]:** Lets you update the role list"]
+    },
+    "31": {
+        "name": "!remind",
+        "description": "Lets you set reminders",
+        "rules": ["**2 Different Ways to set Reminders**",
+            "**Short Term: 3 Day max**",
+            "!remind XY [reminder]: X = amount, Y = units (s,m,h,d)",
+            "-ex. '!remind 24h Make fun of Derek' would set a 24 hour reminder to make fun of Derek",
+            " ",
+            "**Long Term:**",
+            "!remind [month] [day] [year] [hour] [reminder]:", 
+            "-Month = first 3 letters of the month: (october -> oct)",
+            "-military time: (0 -> 12am, 13 -> 1pm)",
+            "-can only set the hour",
+            " ",
+            "-ex. '!remind oct 10 2020 14 Derek' would set a reminder 'Derek' to go off on 10/10/2020 at 2pm",
+            " ",
+            "!remind list: Shows a list of all your reminders"]
+    },
+    "32":{
+        "name": "!poll",
+        "description": "Lets you create and vote on ranked choice polls",
+        "rules": [
+            "!poll [time] [Question]? [option1], [option2],...: Creates a poll that lasts a specified time",
+            "--time = [amount][units] (ex. 5m would be a time of 5 min)",
+            "--The question MUST end in a question mark otherwise it won't work",
+            "--options must be separated by a comma or it won't work",
+            " ",
+            "**--ex. !poll 2h Is this a good poll? Yes, No, Maybe**",
+            " ",
+            "!poll vote [poll number] [option1] [option2] ...: Lets you cast your vote on a specific poll",
+            "--poll number is listed in the poll before the question or can be found using '!poll list'",
+            "--You don't need to rank every choice for your vote to count",
+            " ",
+            "**--!poll vote 1 1 3 2 (Would be a valid vote for a poll with 3 or more options)**",
+            " ",
+            "!poll list: Gives you a list of all current polls",
+            "--can use '!poll list [poll number]' to see the poll's specific choices"
+        ]
     }
 }

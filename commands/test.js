@@ -1,3 +1,5 @@
+const { parse } = require('path')
+
 module.exports = {
     name: 'test',
     description: 'custom emoji test',
@@ -78,6 +80,8 @@ module.exports = {
                     day: day_list,
                     week: week_list
                 }
+                master[i].gbp = parseFloat((parseFloat(master[i].gbp) + parseFloat(master[i].account)).toFixed(2))
+                master[i].account = 0
                 /*
                 master[i].account = 0
 

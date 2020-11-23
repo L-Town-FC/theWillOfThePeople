@@ -15,9 +15,9 @@ module.exports = {
                 }
             }
             if(counter > 3){
-                var chance = 12
-            }else{
                 var chance = 10
+            }else{
+                var chance = 8
             }
             var chance_check = Math.ceil(Math.random() * chance)
             if(chance_check == 6){
@@ -56,11 +56,29 @@ module.exports = {
                             "I fart in your general direction", "If I wanted a joke, I'd follow you into the John and watch you take a leak", "I don't give a tuppery fuck about your moral conundrum, you meat-headed shit sack",
                             "You are a sad strange little man, and you have my pity", "I don't like your jerk-off name. I don't like your jerk-off face. I don't like your jerk-off behavior, and I don't like you, jerk-off. Do I make myself clear?",
                             "Nice going Ron", "What the fuck Richard","I can't believe you've done this", `You've sent ${stats_list[message.author.id].total_msgs} messages and they have all been awful`, `Smooth Brain`, `Math sucks and so do you`,
-                            "Achievement Unlock: You Suck Ass", "Cockass pee pee sucka", "I don't know what dumber, that post or how Derek watches movies"]
-                var insult = insults[Math.ceil(Math.random() * insults.length)]
-            message.channel.send(insult)
+                            "Achievement Unlock: You Suck Ass", "Cockass pee pee sucka", "I don't know what dumber, that post or how Derek watches movies", "I find your tastes shallow and pedantic", "I've met some pricks before, but you're the whole cactus", "Oh, so now the talking cheese is gonna preach to us",
+                            "You're a bigger COCKSUCKA than Derek. Now that's saying something!", "I hear you can't even flash send a 5.8 campus!", "I bet you eat corn the long way", `I'm going to start reffering to you as "my pants" because you are full of shit`, "WRONG", "This is why events scare and confuse you, whereas the only scare me",
+                            "Write it in your diary Samantha, no one cares", "I don't know whats sadder, that post, or Derek's inability to scroll up", 1,1,1]
+                var index = Math.ceil(Math.random() * insults.length)
+                var insult = insults[index]
+                //console.log(insults.length)
+                if(isNaN(insult) == false){
+                    Pictures(message, insult)
+                }else{
+                    message.channel.send(insult) 
+                }
             }
         }
     }
 }
 
+function Pictures(message, insult){
+    const Discord = require('discord.js')
+    const fs = require('fs')
+    const dir = './insult_pics'
+    var max_insults = fs.readdirSync(dir).length
+    var insult = Math.floor(Math.random()*max_insults);
+    var insult_image = new Discord.Attachment(`${dir}/${fs.readdirSync(dir)[insult]}`)
+
+    message.channel.send(insult_image)
+}

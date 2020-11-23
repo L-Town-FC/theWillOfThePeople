@@ -50,7 +50,6 @@ module.exports = {
                                     .setTitle("List of all Public accounts on Server")
                                     .setDescription(everyone)
                                     .addField(`Total Public GBP on Server`, total.toFixed(2))
-                                    .addField(`Total Private GBP on Server`, total_private.toFixed(2))
                                     .setColor(embed.Color(message))
                                     message.channel.send(message_embed)
                                 }else{
@@ -187,7 +186,7 @@ async function All_Chart(message, args ,master){
                 }
             }
             for(var k = 0; k < day.length; k++){
-                day[k] = parseFloat(day[k].toFixed(2))
+                day[k] = parseFloat(day[k]).toFixed(2)
             }
             Chart(day, labels, message, "Hours")
         }
