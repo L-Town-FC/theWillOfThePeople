@@ -33,7 +33,7 @@ bot.on('ready', () => {
     stocks_open = false
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
-        //bot_tinkering.send('The bot is online')
+        bot_tinkering.send('The bot is online')
         for(var i in reminder_list){
             if(reminder_list[i][3].length  == 0){
                 delete reminder_list[i]
