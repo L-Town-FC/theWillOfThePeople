@@ -9,4 +9,9 @@
 **-!transfer improvements**
 --You can now split your transfer payment between multiple people with "!transfer split amount [person] [person]..."
 
+**-!bank changes**
+--No more private gbp
+--No more interest/taxes
+--!bank [person] [day or week]: Lets you see gbp over a given day/week
+
 **-!assblast was removed**
