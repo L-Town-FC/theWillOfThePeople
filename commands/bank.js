@@ -49,7 +49,7 @@ module.exports = {
                                     const message_embed = new Discord.RichEmbed()
                                     .setTitle("List of all Public accounts on Server")
                                     .setDescription(everyone)
-                                    .addField(`Total Public GBP on Server`, total.toFixed(2))
+                                    .addField(`Total GBP on Server`, total.toFixed(2))
                                     .setColor(embed.Color(message))
                                     message.channel.send(message_embed)
                                 }else{
