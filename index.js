@@ -210,7 +210,7 @@ bot.on('message', async message =>{
                     bot.commands.get('info').execute(message, args)
                 break;
                 case 'msg': 
-                    bot.commands.get('msg').execute(message, args, master)
+                    bot.commands.get('msg').execute(message, args, master, bot)
                 break;
                 case 'election':
                     bot.commands.get('election').execute(message, args, master)

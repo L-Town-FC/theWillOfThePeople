@@ -1,7 +1,7 @@
 module.exports = {
     name: 'msg',
     description: 'lets you anonymously dm people through the bot',
-    execute(message, args, master){
+    execute(message, args, master,bot){
         const unlock =require('./Functions/Achievement_Functions')
         const Discord = require('discord.js')
         try{
@@ -29,23 +29,18 @@ module.exports = {
             }else if(typeof(person) == 'undefined'){
                 message.channel.send(`The recipient doesn't exist`)
             }else{
-                var users = message.mentions._client.users.array()
+                var recipient = bot.users.find(user => user.id === person)
                 var cut_args = args.splice(2, args.length - 2)
                 var new_msg = ""
                 for(var i = 0; i < cut_args.length; i++){
                     new_msg += cut_args[i] + " "
                 }
                 if(new_msg !== "" && new_msg.startsWith("!") == false && message.attachments.size == 0){
-                    for(var k in users){
-                        //console.log(users[k])
-                        if(users[k].id == person){
-                            message.channel.send('Your message was sent')
-                            users[k].send(new_msg)
-                            master[message.author.id].gbp -= cost
-                        }
-                        if(person == message.author.id){
-                            unlock.unlock(person, 50, message, master)
-                        }
+                    message.channel.send('Your message was sent')
+                    recipient.send(new_msg)
+                    master[message.author.id].gbp -= cost
+                    if(person == message.author.id){
+                        unlock.unlock(person, 50, message, master)
                     }
                 }else if(new_msg.startsWith("!") == true){
                     message.channel.send(`You can't message someone a command`)
@@ -54,11 +49,6 @@ module.exports = {
                     var test = new Discord.MessageAttachment(message, message.attachments)
                     var url = test.message.attachments.array()[0].url
                     master[message.author.id].gbp -= cost
-                    for(var k in users){
-                        if(users[k].id == person){
-                            var recipient = users[k]
-                        }
-                    }
                     download(url, file_extension, recipient, new_msg, message)
                 }else if(message.attachments.size > 1){
                     message.channel.send(`You can't send more than 1 attachment in a message`)
