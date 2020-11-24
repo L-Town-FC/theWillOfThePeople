@@ -1,5 +1,3 @@
-const { POINT_CONVERSION_COMPRESSED } = require('constants')
-
 module.exports = {
     name: 'msg',
     description: 'lets you anonymously dm people through the bot',
@@ -61,7 +59,7 @@ module.exports = {
                             var recipient = users[k]
                         }
                     }
-                    download(url, file_extension, recipient, new_msg)
+                    download(url, file_extension, recipient, new_msg, message)
                 }else if(message.attachments.size > 1){
                     message.channel.send(`You can't send more than 1 attachment in a message`)
                 }else{
@@ -75,22 +73,27 @@ module.exports = {
     }
 }
 
-async function download(url, name, recipient, new_msg){
-    let request = require(`request`);   
-    const Discord = require('discord.js')
-    const fs = require('fs')
-    var path
-    if(path !== 'none'){
-        var file = request.get(url)
-        .on('error', console.error)
-        .pipe(fs.createWriteStream(`msg_formats/msg.${name}`));
-        setTimeout(function(){
-            var attach = new Discord.Attachment(`msg_formats/msg.${name}`)
-            recipient.send(`${new_msg}`,attach)
-        },3000)
-        
-    }else{
-        message.channel.send('No file uploaded')
+async function download(url, name, recipient, new_msg, message){
+    try{
+        let request = require(`request`);   
+        const Discord = require('discord.js')
+        const fs = require('fs')
+        var path
+        if(path !== 'none'){
+            var file = request.get(url)
+            .on('error', console.error)
+            .pipe(fs.createWriteStream(`msg_formats/msg.${name}`));
+            setTimeout(function(){
+                var attach = new Discord.Attachment(`msg_formats/msg.${name}`)
+                recipient.send(`${new_msg}`,attach)
+            },1000 * 7)
+            
+        }else{
+            message.channel.send('No file uploaded')
+        }
+    }catch(err){
+        console.log(err)
+        message.channel.send('Error occurred in msg.js download')
     }
 }
 
