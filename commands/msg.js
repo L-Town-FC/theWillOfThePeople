@@ -79,6 +79,9 @@ async function download(url, name, recipient, new_msg, message){
         const Discord = require('discord.js')
         const fs = require('fs')
         var path
+        if(typeof(new_msg) == 'undefined'){
+            new_msg = `You've got mail`
+        }
         if(path !== 'none'){
             var file = request.get(url)
             .on('error', console.error)
