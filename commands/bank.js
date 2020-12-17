@@ -286,24 +286,28 @@ async function Chart(gbp_data, labels, message, time_scale){
             position: 'right'
             },
             scales: {
-            xAxes: [{
-                stacked: true,
-                scaleLabel:{
-                    display: true,
-                    labelString: `${time_scale} in the Past`
+                xAxes: [{
+                    stacked: true,
+                    scaleLabel:{
+                        display: true,
+                        labelString: `${time_scale} in the Past`
+                    }
+                }],
+                yAxes: [{
+                    stacked: true,
+                    scaleLabel:{
+                        display: true,
+                        labelString: `Amount of GBP`
+                    },
+                    ticks: {
+                        beginAtZero: false,
+                    }
+                }]
                 }
-            }],
-            yAxes: [{
-                stacked: true,
-                scaleLabel:{
-                    display: true,
-                    labelString: `Amount of GBP`
-                }
-            }]
             }
-        }
         
     };
+
     const dataUrl = await canvas.renderToDataURL(configuration).then(dataUrl => ImageDataURI.outputFile(dataUrl, 'chart.png').then(() => 
         {
             var image = new Discord.Attachment('chart.png');

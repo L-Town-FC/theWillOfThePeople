@@ -8,8 +8,11 @@ module.exports = {
             if(typeof(polls) == 'undefined'){
                 polls = {}
             }
-
-            var units = String(args[1][args[1].length - 1]).toLowerCase()
+            if(typeof(args[1]) != 'undefined'){
+                var units = String(args[1][args[1].length - 1]).toLowerCase()
+            }else{
+                args.push('none')
+            }
 
             if(['m','h','d'].includes(units) == true){
                 if(parseInt(args[1].substring(0, args[1].length - 1)) > 0){
@@ -21,6 +24,8 @@ module.exports = {
                 command = 'vote'
             }else if(args[1].toLowerCase() == 'help'){
                 command = 'help'
+            }else{
+                command = 'none'
             }
 
             //!poll 5m Should Zaid stop using Discord? "Yes" "No"

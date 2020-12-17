@@ -6,7 +6,7 @@ module.exports = {
             const unlock = require('./Functions/Achievement_Functions')
             var command
             var recipient = args[1].toLowerCase() || 'none';
-            var amount = args[2] || 'none';
+            var amount = parseFloat(args[2]) || 'none';
             if(String(amount).toLowerCase() == 'all'){
                 amount = master[message.author.id].gbp
             }
