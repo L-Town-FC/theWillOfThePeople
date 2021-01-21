@@ -6,10 +6,13 @@ module.exports = {
             const unlock = require('./Functions/Achievement_Functions')
             var command
             var recipient = args[1].toLowerCase() || 'none';
-            var amount = parseFloat(args[2]) || 'none';
+            var amount = args[2] || 'none';
             if(String(amount).toLowerCase() == 'all'){
-                amount = master[message.author.id].gbp
+                amount = parseFloat(master[message.author.id].gbp)
+            }else{
+                amount = parseFloat(amount)
             }
+            
             for(i in master){
                 if(master[i].name.toLowerCase() == recipient){
                     var recipient_id = i
@@ -53,6 +56,7 @@ module.exports = {
 
 function Standard(message, master, args, recipient_id, amount){
     try{
+        const unlock = require('./Functions/Achievement_Functions')
         if(isNaN(amount) == true || amount <= 0){
             message.channel.send('You must choose a valid amount greater than 0')
         }else if(amount > master[message.author.id].gbp){

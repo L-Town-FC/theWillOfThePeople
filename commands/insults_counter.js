@@ -21,7 +21,7 @@ module.exports = {
             }
             var chance_check = Math.ceil(Math.random() * chance)
             if(chance_check == 6){
-                var insults = ['Fuck You', 'You Fucking Troglodyte', 'Fuckin Doo Doo Brains',"You are so repulsive that even Zaid won't suck your toes",
+                insults = ['Fuck You', 'You Fucking Troglodyte', 'Fuckin Doo Doo Brains',"You are so repulsive that even Zaid won't suck your toes",
                             'You dumb fucking cretin, you fucking fool, absolute fucking buffoon, you bumbling idiot. Fuck you', 'Go Fuck Yourself', 'Fucking Pussy Nerd Virgin',
                             'Read a book', 'Ok bud, bud Ok', "You're fucking 10-ply bud", "You're just spare parts aren't yah bud", 'See you next Tuesday',
                             'You fat cheeky wanker', "You're a fucking retard", 'Suck my dick', 'You pasty twat', "If I was stuck in a room with you, Hitler, and Stalin, I would shoot you twice",
@@ -58,7 +58,12 @@ module.exports = {
                             "Nice going Ron", "What the fuck Richard","I can't believe you've done this", `You've sent ${stats_list[message.author.id].total_msgs} messages and they have all been awful`, `Smooth Brain`, `Math sucks and so do you`,
                             "Achievement Unlock: You Suck Ass", "Cockass pee pee sucka", "I don't know what dumber, that post or how Derek watches movies", "I find your tastes shallow and pedantic", "I've met some pricks before, but you're the whole cactus", "Oh, so now the talking cheese is gonna preach to us",
                             "You're a bigger COCKSUCKA than Derek. Now that's saying something!", "I hear you can't even flash send a 5.8 campus!", "I bet you eat corn the long way", `I'm going to start referring to you as "my pants" because you are full of shit`, "WRONG", "This is why events scare and confuse you, whereas the only scare me",
-                            "Write it in your diary Samantha, no one cares", "I don't know whats sadder, that post, or Derek's inability to scroll up", 1,1,1,fs.readFileSync('./text_files/copypastas/cancer.txt','utf-8'), 'You have a room temperature IQ']
+                            "Write it in your diary Samantha, no one cares", "I don't know whats sadder, that post, or Derek's inability to scroll up", 1,1,1,fs.readFileSync('./text_files/copypastas/cancer.txt','utf-8'), 'You have a room temperature IQ', 'You car wash cunt',
+                            "What'dya think of that Mr.Pajama wearing, Basket-face, Slipper wielding, clype deep bachle, gather uping blate maw, blethering gomeril Jessie, Oaf-lookin' schtooner, Nyaff plookie shan, Milk-drinking Soy-face shilpit, Mim-moothed, sniveling worm-eyed hotten blaugh, vile stoochie, cally-breek tattie!", 
+                            "You'll never be nothin", "I'd call you as dumb as a rock, but at least a rock can hold a door open", "I bet your parents change the subject when their friends ask about you", "I envy the people who haven't met you yet", "I wish for just one time you could stand in my shoes so you could know what a drag it is to see you",
+                            "You're impossible to underestimate", "If you're here, who's home disappointing your parents?", "Everyone who ever loved you was wrong", "Youre about as useful as the 9 on a microwave", "You're the physical embodiement of a wet sock", "I don't have the patience or the crayons to explain this to you", "Bozo", "First off, Brush your teeth",
+                            "Pathetic", "No thanks, I'm full because I eat pussies like you for breakfast", "Scram weirdo", "This pysche is not big enough for 2 metaphysical seekers", "You're about as deep as a bowl of soup and your tongue is about as sharp as a soup spoon"
+                        ]
                 var index = Math.ceil(Math.random() * insults.length)
                 var insult = insults[index]
                 //console.log(insults.length)
