@@ -233,8 +233,8 @@ bot.on('message', async message =>{
                 case 'teams':
                     bot.commands.get('teams').execute(message, args)
                 break;
-                case 'voice':
-                   bot.commands.get('voice').execute(message, args, master)
+                case 'fish':
+                   bot.commands.get('fish').execute(message, args, master)
                 break;
                 case 'remind':
                     bot.commands.get('remind').execute(message, args, reminder_list, bot, master)
