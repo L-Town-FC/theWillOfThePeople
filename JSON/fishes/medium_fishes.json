@@ -1,0 +1,12 @@
+{
+    "Bluefish":{
+        "rarity": "U",
+        "type": "S",
+        "size": "medium"
+    },
+    "Striped Bass":{
+        "rarity": "C",
+        "type": "S",
+        "size": "medium"
+    }
+}

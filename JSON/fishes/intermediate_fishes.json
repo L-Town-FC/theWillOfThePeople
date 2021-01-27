@@ -1,0 +1,22 @@
+{
+    "Sunfish":{
+     "rarity": "C",
+     "type": "F",
+     "size": "intermediate"
+    },
+    "Bluegill":{
+        "rarity": "C",
+        "type": "F",
+        "size": "intermediate"
+    },
+    "Cut throat Trout":{
+        "rarity": "U",
+        "type": "F",
+        "size": "intermediate"
+    },
+    "Small Mouth Bass":{
+        "rarity": "U",
+        "type": "F",
+        "size": "intermediate"
+    }
+}

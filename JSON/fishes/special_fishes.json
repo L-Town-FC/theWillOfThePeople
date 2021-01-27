@@ -1,0 +1,27 @@
+{
+    "Whale Shark":{
+        "rarity": "E",
+        "type": "S",
+        "size": "special"
+    },
+    "Blue Whale":{
+        "rarity": "E",
+        "type": "S",
+        "size": "special"
+    },
+    "Fin Whale":{
+        "rarity": "E",
+        "type": "S",
+        "size": "special"
+    },
+    "Megaladon":{
+        "rarity": "X",
+        "type": "S",
+        "size": "special"
+    },
+    "Lioplurodon":{
+        "rarity": "X",
+        "type": "S",
+        "size": "special"
+    }
+}

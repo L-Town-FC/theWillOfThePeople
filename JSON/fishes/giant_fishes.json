@@ -1,0 +1,37 @@
+{
+    "Great White Shark":{
+        "rarity": "R",
+        "type": "S",
+        "size": "giant"
+    },
+    "Ocean Sunfish":{
+        "rarity": "L",
+        "type": "S",
+        "size": "giant"
+    },
+    "Mega Mouth Shark":{
+        "rarity": "L",
+        "type": "S",
+        "size": "giant"
+    },
+    "Greenland Shark":{
+        "rarity": "L",
+        "type": "S",
+        "size": "giant"
+    },
+    "Kaluga":{
+        "rarity": "L",
+        "type": "F",
+        "size": "giant"
+    },
+    "Colassal Squid":{
+        "rarity": "L",
+        "type": "S",
+        "size": "giant"
+    },
+    "Leatherback Sea Turtle":{
+        "rarity": "R",
+        "type": "S",
+        "size": "giant"
+    }
+}
