@@ -1,72 +1,22 @@
 {
-   "Fathead Minnow":{
-    "rarity": "C",
-    "type": "F",
-    "size": "Small"
-   },
-   "Cray Fish":{
-    "rarity": "C",
-    "type": "F",
-    "size": "Small"
-   },
-   "Anchovy":{
-    "rarity": "C",
-    "type": "S",
-    "size": "Small"
-   },
-   "Goldfish":{
-    "rarity": "C",
-    "type": "F",
-    "size": "Small"
-   },
-   "Herring":{
-    "rarity": "C",
-    "type": "S",
-    "size": "Small"
-   },
-   "Sardine":{
-    "rarity": "C",
-    "type": "S",
-    "size": "Small"
-   },
-   "Killifish":{
-    "rarity": "C",
-    "type": "F",
-    "size": "Small"
-   },
-   "River Herring":{
-    "rarity": "C",
-    "type": "F",
-    "size": "Small"
-   },
-   "Neon Tetra":{
-    "rarity": "U",
-    "type": "F",
-    "size": "Small"
-   },
-   "Fancy Guppy":{
-    "rarity": "R",
-    "type": "F",
-    "size": "Small"
-   },
-   "Zebra Danios":{
-    "rarity": "U",
-    "type": "F",
-    "size": "Small"
-   },
-   "Gourami":{
-    "rarity": "C",
-    "type": "F",
-    "size": "Small"
-   },
-   "Dwarf Catfish":{
-    "rarity": "R",
-    "type": "F",
-    "size": "Small"
-   },
-   "Clownfish":{
-    "rarity": "E",
-    "type": "S",
-    "size": "Small"
-   }
+    "Sunfish":{
+     "rarity": "C",
+     "type": "F",
+     "size": "intermediate"
+    },
+    "Bluegill":{
+        "rarity": "C",
+        "type": "F",
+        "size": "intermediate"
+    },
+    "Cut throat Trout":{
+        "rarity": "U",
+        "type": "F",
+        "size": "intermediate"
+    },
+    "Small Mouth Bass":{
+        "rarity": "U",
+        "type": "F",
+        "size": "intermediate"
+    }
 }

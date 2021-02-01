@@ -7,6 +7,12 @@ module.exports = {
         const random = require('random')
 
         switch(command){
+            case 'start':
+                //creates a profile
+            break;
+            case 'move':
+                //moves your character to different locations
+            break;
             case 'cast':
                 var dist = random.normal(15,5)(0)
             break
@@ -23,4 +29,8 @@ module.exports = {
                 message.channel.send('Use "!fish help" for a list of commands')
         }
     }
+}
+
+function Start(message, master){
+    
 }

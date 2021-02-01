@@ -49,12 +49,6 @@ module.exports = {
                    
                     var total_assets = master[person].gbp + master[person].account
                     var scaling_modifier = -0.1 * master[person].gbp + 175
-                    var loan_list = []
-                    for(i in master){
-                        if(master[i].loans.target == message.author.id && master[i].loans.collection == 0){
-                            loan_list = [message.author.id, i]
-                        }
-                    }
                     Achievement_Switch(person, message.channel.id, message, master)
                     Random_Achievements(person, message, master)
                     var amount = 1
@@ -94,11 +88,6 @@ module.exports = {
                         }
                     }
                     master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
-
-                    if(loan_list[0] == message.author.id){
-                        Loan_Stuff(message, master, amount, loan_list)
-                    }
-
                 }
             }
         }catch(err){
@@ -158,21 +147,6 @@ function Random_Achievements(user, message, master){
     }
     if(message.content.toLowerCase().includes('twitch.tv/') == true){
         unlock.unlock(user, 43, message, master)
-    }
-}
-
-function Loan_Stuff(message, master, amount, loan_list){
-    master[loan_list[1]].gbp += amount
-    master[loan_list[1]].loans.remaining -= amount
-    master[loan_list[0]].gbp -= amount
-    if(master[loan_list[1]].loans.remaining <= 0){
-        master[loan_list[1]].loans = {
-            target: "",
-            remaining: 0,
-            collection: 0,
-            rate: 0
-        }
-        message.channel.send('You have paid off your loan')
     }
 }
 

@@ -82,7 +82,6 @@ bot.on('message', message =>{
             bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
             bot.commands.get('boo_trigger').execute(message, command_stats);
             bot.commands.get('bwg_counter').execute(message, master, tracker);
-            bot.commands.get('ceelo_counter').execute(message, master)
             bot.commands.get('word_checker').execute(message, master, tracker)
             //bot.commands.get('stonks').execute(message)
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
@@ -152,9 +151,6 @@ bot.on('message', async message =>{
                     bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list, tracker, command_stats)
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
-                case 'herald':
-                    bot.commands.get('herald').execute(message,args, master[message.author.id].gbp, master)
-                break;
                 case 'names':
                     bot.commands.get('names').execute(message,master)
                 break;
@@ -197,13 +193,6 @@ bot.on('message', async message =>{
                 break;
                 case 'button':
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
-                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
-                break;
-                case 'loan':
-                    bot.commands.get('loan').execute(message,args, master);
-                break;
-                case 'ceelo':
-                    bot.commands.get('ceelo').execute(message, args, master, stats_list, tracker)
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'info':
@@ -260,50 +249,17 @@ bot.login(token);
 
 function Welfare(channel, master){
     const fs = require('fs')
-    var loans = []
     try{
         for(i in master){
             if(isNaN(master[i].gbp) == true){
                 master[i].gbp = 0;
-            }
-            if(master[i].loans.target !== ""){
-                loans.push([i, master[i].loans.target])
             }
             if(master[i].gbp + master[i].account < 0){
                 master[i].gbp = master[i].gbp + 250
             }else if(master[i].gbp + master[i].account < 250){
                 master[i].gbp = 250 - parseFloat(master[i].account)
             }
-            if(master[i].loans.collection !== 0){
-                master[i].loans.collection -= 1
-            }
         }
-        for(var i = 0; i < loans.length; i ++){
-            if(master[loans[i][0]].loans.collection == 0){
-                if(master[loans[i][0]].loans.remaining >= master[loans[i][1]].gbp){
-                    master[loans[i][0]].loans.remaining -= master[loans[i][1]].gbp
-                    master[loans[i][0]].gbp += master[loans[i][1]].gbp
-                    master[loans[i][1]].gbp -= master[loans[i].gbp] 
-                }else{
-                    master[loans[i][1]].gbp -= master[loans[i][0]].loans.remaining
-                    master[loans[i][0]].gbp += master[loans[i][0]].loans.remaining
-                    master[loans[i][0]].loans.remaining = 0
-                }
-                if(master[loans[i][0]].loans.remaining <= 0){
-                    channel.send(`${master[loans[i][1]].name} has payed off their loan`)
-                    master[loans[i][0]].loans = {
-                        target: "",
-                        remaining: 0,
-                        collection: 0,
-                        rate: 0
-                    }
-                }
-                if(isNaN(master[loans[i][1]].gbp) == true){
-                    master[loans[i][1]].gbp = 0
-                }
-            }
-        }
-        
         channel.send("Welfare has been distributed")
         fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
             if (err) throw err;
@@ -454,115 +410,10 @@ function gbp_farm_reset(channel, master){
     }
 }
 
-function daily_historical_gbp(channel, master){
-    try{
-        for(var i in master){
-            if(!master[i].historical_gbp){
-                var day_list = []
-                var week_list = []
-                for(var k = 0; k < 24; k++){
-                    day_list.push(0)
-                }
-                for(var k = 0; k < 7; k++){
-                    week_list.push(0)
-                }
-                master[i].historical_gbp = {
-                    "day": day_list,
-                    "week": week_list
-                }
-                
-            }
-            var temp_list = master[i].historical_gbp.day
-            var new_list = []
-            temp_list.shift()
-            temp_list.push(master[i].gbp)
-            new_list = temp_list
-            master[i].historical_gbp.day = new_list
-        }
-    }catch(err){
-        console.log(err)
-        channel.send('Error Occurred in index.js hourly gbp')
-    }
-}
-
-function weekly_historical_gbp(channel, master){
-    try{
-        for(var i in master){
-            if(!master[i].historical_gbp){
-                var day_list = []
-                var week_list = []
-                for(var k = 0; k < 24; k++){
-                    day_list.push(0)
-                }
-                for(var k = 0; k < 7; k++){
-                    week_list.push(0)
-                }
-                master[i].historical_gbp = {
-                    "day": day_list,
-                    "week": week_list
-                }
-                
-            }
-            var temp_list = master[i].historical_gbp.week
-            var new_list = []
-            temp_list.shift()
-            temp_list.push(master[i].gbp)
-            new_list = temp_list
-            master[i].historical_gbp.week = new_list
-        }
-    }catch(err){
-        console.log(err)
-        channel.send('Error Occurred in index.js hourly gbp')
-    }
-}
-
-function Interest(master, stats_list, channel, tracker){
-    const fs = require('fs')
-    const unlock = require('./commands/Functions/Achievement_Functions')
-    var tax = 0
-    var bracket = JSON.parse(fs.readFileSync('./JSON/taxes.json', 'utf-8'))
-    var interest
-    try{
-        for(var i in master){
-            interest = Math.round(master[i].account * (bracket.Interest/100) * 100)/100
-            master[i].account += parseFloat(interest.toFixed(2))
-            if(master[i].account > 30000){
-                master[i].account = 30000
-            }
-            if(master[i].gbp < 20000){
-                tax = 0
-            }else if(master[i].gbp < 30000){
-                tax = (30000 - master[i].gbp) * bracket[1]/100
-            }else if(master[i].gbp < 40000){
-                tax = bracket[1]/100 * 10000 + (40000 - master[i].gbp) * bracket[2]/100
-            }else if(master[i].gbp < 50000){
-                tax = (bracket[1]/100 + bracket[2]/100) * 10000 + (50000 - master[i].gbp) * bracket[3]/100
-            }else if(master[i].gbp >= 50000 && master[i].gbp < 100000){
-                tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (master[i].gbp - 50000) * bracket[4]/100
-            }else{
-                tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (50000 * bracket[4]/100) + (master[i].gbp - 100000) * bracket[5]/100
-            }
-            master[i].gbp -= Math.round(tax)
-            stats_list[i].taxes += Math.round(tax)
-            stats_list[i].interest += parseFloat(interest.toFixed(2))
-            //Achievement 46 Libertarian Nightmare
-            unlock.index_tracker(i, 46, Math.round(tax), channel, master, tracker)
-
-            //Achievement 47 Free Money
-            unlock.index_tracker(i, 47, interest, channel, master, tracker)
-
-        }
-    }catch(err){
-        console.log(err)
-        channel.send('Error occured in interest')
-    }
-}
-
 async function Daily_Functions(channel, master, unlock){
     await Welfare(channel, master)
     await Lottery(channel, master, unlock)
     await gbp_farm_reset(channel, master)
-    await weekly_historical_gbp(channel, master)
 }
 
 async function Reminder_Checker(bot, reminder_list){
