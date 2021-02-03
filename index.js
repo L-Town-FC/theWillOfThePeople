@@ -14,7 +14,8 @@ stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
 players = JSON.parse(fs.readFileSync("./JSON/RPG/players.json","utf-8"))
 command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
-reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json"))
+reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json", "utf-8"))
+profiles = JSON.parse(fs.readFileSync("./JSON/fishes/fishing_profiles.json", "utf-8"))
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -223,7 +224,7 @@ bot.on('message', async message =>{
                     bot.commands.get('teams').execute(message, args)
                 break;
                 case 'fish':
-                   bot.commands.get('fish').execute(message, args, master)
+                   bot.commands.get('fish').execute(message, args, master, stats_list, tracker, profiles)
                 break;
                 case 'remind':
                     bot.commands.get('remind').execute(message, args, reminder_list, bot, master)

@@ -1,22 +1,38 @@
 module.exports = {
     name: 'fish',
     description: 'lets you catch and track fish',
-    execute(message, args, master, stats, tracker){
+    execute(message, args, master, stats, tracker, profiles){
         const fs = require('fs')
         var command = String(args[1]).toLowerCase() || 'none'
-        const random = require('random')
+        var user
+        
+        for(var i in profiles){
+            if(i == message.author.id){
+                user = message.author.id
+            }
+        }
+
+        if(typeof(user) =='undefined'){
+            profiles[message.author.id] = {
+                items: [],
+                inventory:[],
+                location: "",
+                rod: "",
+                bait: "",
+                tackle: "",
+                fishes:"",
+                biggest_fish:""
+            }
+        }
 
         switch(command){
-            case 'start':
-                //creates a profile
-            break;
             case 'move':
                 //moves your character to different locations
             break;
             case 'cast':
-                var dist = random.normal(15,5)(0)
-            break
-            case 'upgrade':
+                Cast(message, master, profiles, user, tracker, stats)
+            break;
+            case 'shop':
 
             break;
             case 'stats':
@@ -31,6 +47,12 @@ module.exports = {
     }
 }
 
-function Start(message, master){
-    
+function Cast(message, master, profiles, user, tracker, stats){
+    const random = require('random')
+
+    var dist = random.normal(15,5)(0)
+}
+
+function Size_Selector(){
+    //looks at your boat and chooses which size fish you can catch
 }
