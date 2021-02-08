@@ -13,14 +13,15 @@ module.exports = {
         }
 
         if(typeof(user) =='undefined'){
-            profiles[message.author.id] = {
-                items: [],
-                inventory:[],
-                location: "",
-                rod: "",
+            user = message.author.id
+            profiles[user] = {
+                items: ['stick and bobber'],
+                boats: ["inflatable tube"],
+                boat: "inflatable tube",
+                rod: "stick and bobber",
                 bait: "",
                 tackle: "",
-                fishes:"",
+                fishes:[],
                 biggest_fish:""
             }
         }
@@ -50,9 +51,41 @@ module.exports = {
 function Cast(message, master, profiles, user, tracker, stats){
     const random = require('random')
 
-    var dist = random.normal(15,5)(0)
+    //var dist = random.normal(15,5)(0)
+    //rarity is determined by rod, bait, and tackle
+    var sizes = Size_Selector(profiles[user].boat.toLowerCase())
+    console.log(sizes)
+    //After a size is chosen, the corresponding json is read. Then it randomly selects a fish from the list or junk
+    //Based on the rarity of the fish it decides if it should keep it or move on to the next fish
+    //ex. Epic rarity fish is first selected. 5% chance it keeps it. 95% chance it generates another fish
 }
 
-function Size_Selector(){
+function Size_Selector(boat){
     //looks at your boat and chooses which size fish you can catch
+    //size of fish is determined only by boat
+    var sizes = []
+    switch(boat){
+        case 'inflatable tube':
+            sizes = ['b']
+        break;
+        case 'river canoe':
+            sizes = ['b','s']
+        break;
+        case 'ocean kayak':
+            sizes = ['b','s','m']
+        break;
+        case 'dinghy':
+            sizes = ['s','m','l']
+        break;
+        case 'boston whaler':
+            sizes = ['l', 'xl']
+        break;
+        case 'the orca ii':
+            sizes = ['xl', 'g']
+        break;
+        case 'queen anne`s revenge':
+            sizes = ['e']
+        break;
+    } 
+    return sizes
 }

@@ -55,7 +55,6 @@ bot.on('ready', () => {
         new cron.CronJob('0 * * * *', function(){
             //'0 * * * * *'
             setTimeout(function(){
-                daily_historical_gbp(channel, master)
                 JSON_Overwrite(master, stats_list, tracker, command_stats, players, bot_tinkering)
             },2000)
         }, null, true)
