@@ -15,7 +15,7 @@ tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"
 players = JSON.parse(fs.readFileSync("./JSON/RPG/players.json","utf-8"))
 command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
 reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json", "utf-8"))
-profiles = JSON.parse(fs.readFileSync("./JSON/fishes/fishing_profiles.json", "utf-8"))
+profiles = JSON.parse(fs.readFileSync("./JSON/fish/fishing_profiles.json", "utf-8"))
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
