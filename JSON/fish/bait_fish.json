@@ -1,72 +1,86 @@
 {
-   "Fathead Minnow":{
+  "Fathead Minnow": {
     "rarity": "C",
     "type": "F",
-    "size": "Small"
-   },
-   "Cray Fish":{
+    "size": "Small",
+    "name": "Fathead Minnow"
+  },
+  "Cray Fish": {
     "rarity": "C",
     "type": "F",
-    "size": "Small"
-   },
-   "Anchovy":{
+    "size": "Small",
+    "name": "Cray Fish"
+  },
+  "Anchovy": {
     "rarity": "C",
     "type": "S",
-    "size": "Small"
-   },
-   "Goldfish":{
+    "size": "Small",
+    "name": "Anchovy"
+  },
+  "Goldfish": {
     "rarity": "C",
     "type": "F",
-    "size": "Small"
-   },
-   "Herring":{
+    "size": "Small",
+    "name": "Goldfish"
+  },
+  "Herring": {
     "rarity": "C",
     "type": "S",
-    "size": "Small"
-   },
-   "Sardine":{
+    "size": "Small",
+    "name": "Herring"
+  },
+  "Sardine": {
     "rarity": "C",
     "type": "S",
-    "size": "Small"
-   },
-   "Killifish":{
+    "size": "Small",
+    "name": "Sardine"
+  },
+  "Killifish": {
     "rarity": "C",
     "type": "F",
-    "size": "Small"
-   },
-   "River Herring":{
+    "size": "Small",
+    "name": "Killifish"
+  },
+  "River Herring": {
     "rarity": "C",
     "type": "F",
-    "size": "Small"
-   },
-   "Neon Tetra":{
+    "size": "Small",
+    "name": "River Herring"
+  },
+  "Neon Tetra": {
     "rarity": "U",
     "type": "F",
-    "size": "Small"
-   },
-   "Fancy Guppy":{
+    "size": "Small",
+    "name": "Neon Tetra"
+  },
+  "Fancy Guppy": {
     "rarity": "R",
     "type": "F",
-    "size": "Small"
-   },
-   "Zebra Danios":{
+    "size": "Small",
+    "name": "Fancy Guppy"
+  },
+  "Zebra Danios": {
     "rarity": "U",
     "type": "F",
-    "size": "Small"
-   },
-   "Gourami":{
+    "size": "Small",
+    "name": "Zebra Danios"
+  },
+  "Gourami": {
     "rarity": "C",
     "type": "F",
-    "size": "Small"
-   },
-   "Dwarf Catfish":{
+    "size": "Small",
+    "name": "Gourami"
+  },
+  "Dwarf Catfish": {
     "rarity": "R",
     "type": "F",
-    "size": "Small"
-   },
-   "Clownfish":{
+    "size": "Small",
+    "name": "Dwarf Catfish"
+  },
+  "Clownfish": {
     "rarity": "E",
     "type": "S",
-    "size": "Small"
-   }
+    "size": "Small",
+    "name": "Clownfish"
+  }
 }

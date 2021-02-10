@@ -1,22 +1,26 @@
 {
-    "Sunfish":{
-     "rarity": "C",
-     "type": "F",
-     "size": "intermediate"
-    },
-    "Bluegill":{
-        "rarity": "C",
-        "type": "F",
-        "size": "intermediate"
-    },
-    "Cut throat Trout":{
-        "rarity": "U",
-        "type": "F",
-        "size": "intermediate"
-    },
-    "Small Mouth Bass":{
-        "rarity": "U",
-        "type": "F",
-        "size": "intermediate"
-    }
+  "Sunfish": {
+    "rarity": "C",
+    "type": "F",
+    "size": "intermediate",
+    "name": "Sunfish"
+  },
+  "Bluegill": {
+    "rarity": "C",
+    "type": "F",
+    "size": "intermediate",
+    "name": "Bluegill"
+  },
+  "Cut throat Trout": {
+    "rarity": "U",
+    "type": "F",
+    "size": "intermediate",
+    "name": "Cut throat Trout"
+  },
+  "Small Mouth Bass": {
+    "rarity": "U",
+    "type": "F",
+    "size": "intermediate",
+    "name": "Small Mouth Bass"
+  }
 }

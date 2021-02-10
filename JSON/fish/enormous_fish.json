@@ -1,27 +1,32 @@
 {
-    "Whale Shark":{
-        "rarity": "E",
-        "type": "S",
-        "size": "special"
-    },
-    "Blue Whale":{
-        "rarity": "E",
-        "type": "S",
-        "size": "special"
-    },
-    "Fin Whale":{
-        "rarity": "E",
-        "type": "S",
-        "size": "special"
-    },
-    "Megaladon":{
-        "rarity": "X",
-        "type": "S",
-        "size": "special"
-    },
-    "Lioplurodon":{
-        "rarity": "X",
-        "type": "S",
-        "size": "special"
-    }
+  "Whale Shark": {
+    "rarity": "E",
+    "type": "S",
+    "size": "special",
+    "name": "Whale Shark"
+  },
+  "Blue Whale": {
+    "rarity": "E",
+    "type": "S",
+    "size": "special",
+    "name": "Blue Whale"
+  },
+  "Fin Whale": {
+    "rarity": "E",
+    "type": "S",
+    "size": "special",
+    "name": "Fin Whale"
+  },
+  "Megaladon": {
+    "rarity": "X",
+    "type": "S",
+    "size": "special",
+    "name": "Megaladon"
+  },
+  "Lioplurodon": {
+    "rarity": "X",
+    "type": "S",
+    "size": "special",
+    "name": "Lioplurodon"
+  }
 }

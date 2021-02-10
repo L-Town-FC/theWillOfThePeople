@@ -64,11 +64,13 @@ function Cast(message, master, profiles, user, tracker, stats){
 
 function Junk_or_Fish(profiles, user){
     //This function will look at the different bait/tackles and determine if you caught junk or a fish
-    var default_chance = .30
+    var default_chance = .90
     var chance = Math.random()
     if(chance > default_chance){
+        //junk
         return true
     }else{
+        //fish
         return false
     }
 }
@@ -85,47 +87,56 @@ function Fish(message, profiles, user){
     //Based on the rarity of the fish it decides if it should keep it or move on to the next fish
     //ex. Epic rarity fish is first selected. 5% chance it keeps it. 95% chance it generates another fish
     var fish_weight = random.normal(sizes[0], sizes[1])(0).toFixed(2)
-    var range = JSON.parse(fs.readFileSync(`./JSON/fish/${sizes[2]}_fish.json`,'utf-8'))
+    var range = JSON.parse(fs.readFileSync(`./JSON/fish/${sizes[2]}_fish.json`,'utf-8'))    
 
-    var caught = false
-    while (caught == false){
-        var index = Math.floor(Math.random()*Object.keys(range).length)
-        var fish = Object.keys(range)[index]
-        var fish_chance = Rarity(range[fish].rarity)
-        console.log(fish)
-
-        if(Math.random() <= fish_chance){
-            message.channel.send(`You caught a ${fish} weighing ${fish_weight} lbs`)
-            caught = true
-        }
+    var test = []
+    for(var i in range){
+        test.push(range[i])
     }
 
-    function Rarity(rarity){
-        var chance
-        switch(rarity){
-            case 'C':
-                chance = 0.5
-            break;
-            case 'U':
-                chance = 0.25
-            break;
-            case 'R':
-                chance = 0.13
-            break;
-            case 'E':
-                chance = 0.06
-            break;
-            case 'L':
-                chance = 0.03
-            break;
-            case 'X':
-                chance = 0.02
-            break;
-            case 'G':
-                chance = 0.01
-            break;
+    test.filter(function(fish){
+        return fish.rarity == Rarity(profiles, user)
+    })
+
+
+    function Rarity(profiles, user){
+
+        //always return common right now
+        var C = 300
+        var U = 150
+        var R = 75
+        var E = 30
+        var L = 12
+        var X = 7
+        var G = 1
+
+        var total = C + U + R + E + L + X + G
+        var count = 0
+        for(var i = 0; i < 10000; i++){
+            var outcome = ""
+            var chance = Math.random() * total
+            if(chance <= G){
+                outcome = "G"
+            }else if(chance <= G + X){
+                outcome = "X"
+            }else if(chance <= G + X + L){
+                outcome = "L"
+            }else if(chance <= G + X + L + E){
+                outcome = "E"
+            }else if(chance <= G + X + L + E + R){
+                outcome = "R"
+            }else if(chance <= G + X + L + E + R + U){
+                outcome = "U"
+            }else{
+                outcome = "C"
+            } 
+
+            if(outcome == 'G'){
+                count++
+            }
         }
-        return chance
+        console.log(count * 100/10000)
+        return "C"
     }
 }
 

@@ -1,12 +1,14 @@
 {
-    "Goliath Grouper":{
-        "rarity": "C",
-        "type": "S",
-        "size": "xl"
-    },
-    "Green Sea Turtle":{
-        "rarity": "R",
-        "type": "S",
-        "size": "xl"
-    }
+  "Goliath Grouper": {
+    "rarity": "C",
+    "type": "S",
+    "size": "xl",
+    "name": "Goliath Grouper"
+  },
+  "Green Sea Turtle": {
+    "rarity": "R",
+    "type": "S",
+    "size": "xl",
+    "name": "Green Sea Turtle"
+  }
 }
