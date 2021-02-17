@@ -3,12 +3,88 @@
     "rarity": "U",
     "type": "S",
     "size": "medium",
-    "name": "Bluefish"
+    "name": "Bluefish",
+    "mean": 10,
+    "std": 3
   },
   "Striped Bass": {
     "rarity": "C",
     "type": "S",
     "size": "medium",
-    "name": "Striped Bass"
+    "name": "Striped Bass",
+    "mean": 10,
+    "std": 3
+  },
+  "Amberjack": {
+    "rarity": "U",
+    "type": "S",
+    "size": "medium",
+    "name": "Amberjack",
+    "mean": 10,
+    "std": 3
+  },
+  "Anglerfish": {
+    "rarity": "E",
+    "type": "S",
+    "size": "medium",
+    "name": "Anglerfish",
+    "mean": 10,
+    "std": 3
+  },
+  "Cod": {
+    "rarity": "C",
+    "type": "S",
+    "size": "medium",
+    "name": "Cod",
+    "mean": 10,
+    "std": 3
+  },
+  "Atlantic Salmon": {
+    "rarity": "C",
+    "type": "B",
+    "size": "medium",
+    "name": "Atlantic Salmon",
+    "mean": 10,
+    "std": 3
+  },
+  "Lungfish": {
+    "rarity": "E",
+    "type": "F",
+    "size": "medium",
+    "name": "Lungfish",
+    "mean": 10,
+    "std": 3
+  },
+  "Bamboo Shark": {
+    "rarity": "R",
+    "type": "S",
+    "size": "medium",
+    "name": "Bamboo Shark",
+    "mean": 10,
+    "std": 3
+  },
+  "Walleye": {
+    "rarity": "R",
+    "type": "F",
+    "size": "medium",
+    "name": "Walleye",
+    "mean": 10,
+    "std": 3
+  },
+  "Mahi-Mahi": {
+    "rarity": "R",
+    "type": "S",
+    "size": "medium",
+    "name": "Mahi-Mahi",
+    "mean": 10,
+    "std": 3
+  },
+  "Sting Ray": {
+    "rarity": "U",
+    "type": "S",
+    "size": "medium",
+    "name": "Sting Ray",
+    "mean": 10,
+    "std": 3
   }
 }

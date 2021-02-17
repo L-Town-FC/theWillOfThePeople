@@ -2,31 +2,105 @@
   "Whale Shark": {
     "rarity": "E",
     "type": "S",
-    "size": "special",
-    "name": "Whale Shark"
+    "size": "enormous",
+    "name": "Whale Shark",
+    "mean": 700,
+    "std": 150
   },
   "Blue Whale": {
     "rarity": "E",
     "type": "S",
-    "size": "special",
-    "name": "Blue Whale"
+    "size": "enormous",
+    "name": "Blue Whale",
+    "mean": 700,
+    "std": 150
   },
   "Fin Whale": {
     "rarity": "E",
     "type": "S",
-    "size": "special",
-    "name": "Fin Whale"
+    "size": "enormous",
+    "name": "Fin Whale",
+    "mean": 700,
+    "std": 150
   },
   "Megaladon": {
     "rarity": "X",
     "type": "S",
-    "size": "special",
-    "name": "Megaladon"
+    "size": "enormous",
+    "name": "Megaladon",
+    "mean": 700,
+    "std": 150
   },
   "Lioplurodon": {
     "rarity": "X",
     "type": "S",
-    "size": "special",
-    "name": "Lioplurodon"
+    "size": "enormousl",
+    "name": "Lioplurodon",
+    "mean": 700,
+    "std": 150
+  },
+  "Lion Turtle": {
+    "rarity": "G",
+    "type": "S",
+    "size": "enormous",
+    "name": "Lion Turtle",
+    "mean": 700,
+    "std": 150
+  },
+  "Kraken": {
+    "rarity": "G",
+    "type": "S",
+    "size": "enormous",
+    "name": "Kraken",
+    "mean": 700,
+    "std": 150
+  },
+  "Jörmungandr": {
+    "rarity": "G",
+    "type": "S",
+    "size": "enormous",
+    "name": "Jörmungandr",
+    "mean": 700,
+    "std": 150
+  },
+  "Delago": {
+    "rarity": "G",
+    "type": "F",
+    "size": "enormous",
+    "name": "Delago",
+    "mean": 700,
+    "std": 150
+  },
+  "Basking Shark": {
+    "rarity": "L",
+    "type": "S",
+    "size": "enormous",
+    "name": "Basking Shark",
+    "mean": 700,
+    "std": 150
+  },
+  "Leviathan": {
+    "rarity": "G",
+    "type": "S",
+    "size": "enormous",
+    "name": "Leviathan",
+    "mean": 700,
+    "std": 150
+  },
+  "Leedsichthys": {
+    "rarity": "X",
+    "type": "S",
+    "size": "enormous",
+    "name": "Leedsichthys",
+    "mean": 700,
+    "std": 150
+  },
+  "Hydrus": {
+    "rarity": "G",
+    "type": "F",
+    "size": "enormous",
+    "name": "Hydrus",
+    "mean": 700,
+    "std": 150
   }
 }

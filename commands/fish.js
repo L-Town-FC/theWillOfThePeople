@@ -86,18 +86,21 @@ function Fish(message, profiles, user){
     //After a size is chosen, the corresponding json is read. Then it randomly selects a fish from the list or junk
     //Based on the rarity of the fish it decides if it should keep it or move on to the next fish
     //ex. Epic rarity fish is first selected. 5% chance it keeps it. 95% chance it generates another fish
-    var fish_weight = random.normal(sizes[0], sizes[1])(0).toFixed(2)
-    var range = JSON.parse(fs.readFileSync(`./JSON/fish/${sizes[2]}_fish.json`,'utf-8'))    
+    var range = JSON.parse(fs.readFileSync(`./JSON/fish/${sizes}_fish.json`,'utf-8'))    
 
-    var test = []
+    var fish_array = []
     for(var i in range){
-        test.push(range[i])
+        fish_array.push(range[i])
     }
 
-    test.filter(function(fish){
+    fish_array.filter(function(fish){
         return fish.rarity == Rarity(profiles, user)
     })
 
+    var fish = fish_array[Math.floor(Math.random()*Object.keys(fish_array).length)]
+    var fish_weight = random.normal(fish.mean, fish.std)(0).toFixed(2)
+    message.channel.send(`You caught a ${fish.name} weighing ${fish_weight} lbs`) 
+    console.log(fish)
 
     function Rarity(profiles, user){
 
@@ -131,12 +134,14 @@ function Fish(message, profiles, user){
                 outcome = "C"
             } 
 
+            /*
             if(outcome == 'G'){
                 count++
             }
+            */
         }
-        console.log(count * 100/10000)
-        return "C"
+        //console.log(count * 100/10000)
+        return outcome
     }
 }
 
@@ -145,15 +150,15 @@ function Size_Selector(boat){
     //size of fish is determined only by boat
     var sizes = []
     //[mean, std]
-    var b = [2,0.5,'bait']
-    var s = [5, 1.25,'small']
-    var m = [10, 3,'medium']
-    var l = [25, 5,'large']
-    var xl = [100, 25,'xl']
-    var g = [300, 75,'giant']
-    var e = [700, 150,'enormous']
+    var b = 'bait'
+    var s = 'small'
+    var m = 'medium'
+    var l = 'large'
+    var xl = 'xl'
+    var g = 'giant'
+    var e = 'enormous'
 
-    //boat = 'dinghy'
+    boat = 'the orca ii'
 
     switch(boat){
         case 'inflatable tube':

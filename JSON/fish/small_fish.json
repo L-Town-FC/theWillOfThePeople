@@ -2,25 +2,121 @@
   "Sunfish": {
     "rarity": "C",
     "type": "F",
-    "size": "intermediate",
-    "name": "Sunfish"
+    "size": "Small",
+    "name": "Sunfish",
+    "mean": 5,
+    "std": 1.25
   },
   "Bluegill": {
     "rarity": "C",
     "type": "F",
-    "size": "intermediate",
-    "name": "Bluegill"
+    "size": "Small",
+    "name": "Bluegill",
+    "mean": 5,
+    "std": 1.25
   },
   "Cut throat Trout": {
     "rarity": "U",
     "type": "F",
-    "size": "intermediate",
-    "name": "Cut throat Trout"
+    "size": "Small",
+    "name": "Cut throat Trout",
+    "mean": 5,
+    "std": 1.25
   },
   "Small Mouth Bass": {
     "rarity": "U",
     "type": "F",
-    "size": "intermediate",
-    "name": "Small Mouth Bass"
+    "size": "Small",
+    "name": "Small Mouth Bass",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Aholehole": {
+    "rarity": "U",
+    "type": "S",
+    "size": "Small",
+    "name": "Aholehole",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Atlantic Bonito": {
+    "rarity": "C",
+    "type": "S",
+    "size": "Small",
+    "name": "Atlantic Bonito",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Koi Fish": {
+    "rarity": "U",
+    "type": "F",
+    "size": "Small",
+    "name": "Koi Fish",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Arowana": {
+    "rarity": "R",
+    "type": "F",
+    "size": "Small",
+    "name": "Arowana",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Bala Shark": {
+    "rarity": "E",
+    "type": "F",
+    "size": "Small",
+    "name": "Bala Shark",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Barbeled Dragonfish": {
+    "rarity": "E",
+    "type": "S",
+    "size": "Small",
+    "name": "Barbeled Dragonfish",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Large Mouth Bass": {
+    "rarity": "U",
+    "type": "F",
+    "size": "Small",
+    "name": "Large Mouth Bass",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Yellow Perch": {
+    "rarity": "C",
+    "type": "F",
+    "size": "Small",
+    "name": "Yellow Perch",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Humuhumunukunukuāpuaʻa": {
+    "rarity": "E",
+    "type": "S",
+    "size": "Small",
+    "name": "Humuhumunukunukuāpuaʻa",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Sockeye Salmon": {
+    "rarity": "R",
+    "type": "B",
+    "size": "Small",
+    "name": "Sockeye Salmon",
+    "mean": 5,
+    "std": 1.25
+  },
+  "Lamprey": {
+    "rarity": "E",
+    "type": "B",
+    "size": "Small",
+    "name": "Lamprey",
+    "mean": 5,
+    "std": 1.25
   }
 }
