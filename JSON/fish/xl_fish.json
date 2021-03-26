@@ -4,47 +4,47 @@
     "type": "S",
     "size": "xl",
     "name": "Goliath Grouper",
-    "mean": 100,
-    "std": 25
+    "mean": 550,
+    "std": 83.3
   },
   "Green Sea Turtle": {
     "rarity": "R",
     "type": "S",
     "size": "xl",
     "name": "Green Sea Turtle",
-    "mean": 100,
-    "std": 25
+    "mean": 575,
+    "std": 108.3
   },
   "Mermaid": {
     "rarity": "X",
     "type": "S",
     "size": "xl",
     "name": "Mermaid",
-    "mean": 100,
-    "std": 25
+    "mean": 105,
+    "std": 8.33
   },
   "Sawfish": {
     "rarity": "E",
     "type": "S",
     "size": "xl",
     "name": "Sawfish",
-    "mean": 100,
-    "std": 25
+    "mean": 350,
+    "std": 83.3
   },
   "Blue Marlin": {
     "rarity": "E",
     "type": "S",
     "size": "xl",
     "name": "Blue Marlin",
-    "mean": 100,
-    "std": 25
+    "mean": 475,
+    "std": 91.6
   },
   "Swordfish": {
     "rarity": "R",
     "type": "S",
     "size": "xl",
     "name": "Swordfish",
-    "mean": 100,
-    "std": 25
+    "mean": 115,
+    "std": 11.6
   }
 }

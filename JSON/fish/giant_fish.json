@@ -4,16 +4,16 @@
     "type": "S",
     "size": "giant",
     "name": "Great White Shark",
-    "mean": 300,
-    "std": 75
+    "mean": 2100,
+    "std": 300
   },
   "Ocean Sunfish": {
     "rarity": "L",
     "type": "S",
     "size": "giant",
     "name": "Ocean Sunfish",
-    "mean": 300,
-    "std": 75
+    "mean": 1750,
+    "std": 250
   },
   "Mega Mouth Shark": {
     "rarity": "L",
@@ -108,7 +108,7 @@
     "type": "S",
     "size": "giant",
     "name": "Gyarados",
-    "mean": 300,
-    "std": 75
+    "mean": 500,
+    "std": 33.3
   }
 }

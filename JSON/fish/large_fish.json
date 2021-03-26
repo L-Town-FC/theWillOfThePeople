@@ -12,8 +12,8 @@
         "type": "S",
         "size": "Large",
         "name": "Barracuda",
-        "mean": 75,
-        "std": 15
+        "mean": 60,
+        "std": 6.66
     },
     "Pike": {
         "rarity": "E",
@@ -28,8 +28,8 @@
         "type": "S",
         "size": "Large",
         "name": "Sailfish",
-        "mean": 75,
-        "std": 15
+        "mean": 90,
+        "std": 10
     },
     "Danube Sturgeon": {
         "rarity": "E",

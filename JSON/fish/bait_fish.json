@@ -4,135 +4,135 @@
     "type": "F",
     "size": "Bait",
     "name": "Fathead Minnow",
-    "mean": 2,
-    "std": 0.5
+    "mean": 0.6,
+    "std": 0.13
   },
   "Cray Fish": {
     "rarity": "C",
     "type": "F",
     "size": "Bait",
     "name": "Cray Fish",
-    "mean": 2,
-    "std": 0.5
+    "mean": 1.25,
+    "std": 0.25
   },
   "Anchovy": {
     "rarity": "C",
     "type": "S",
     "size": "Bait",
     "name": "Anchovy",
-    "mean": 2,
-    "std": 0.5
+    "mean": 1.625,
+    "std": 0.29
   },
   "Goldfish": {
     "rarity": "C",
     "type": "F",
     "size": "Bait",
     "name": "Goldfish",
-    "mean": 2,
-    "std": 0.5
+    "mean": 1.625,
+    "std": 0.45
   },
   "Herring": {
     "rarity": "C",
     "type": "S",
     "size": "Bait",
     "name": "Herring",
-    "mean": 2,
-    "std": 0.5
+    "mean": 1.25,
+    "std": 0.25
   },
   "Sardine": {
     "rarity": "C",
     "type": "S",
     "size": "Bait",
     "name": "Sardine",
-    "mean": 2,
-    "std": 0.5
+    "mean": 0.875,
+    "std": 0.2
   },
   "Killifish": {
     "rarity": "C",
     "type": "F",
     "size": "Bait",
     "name": "Killifish",
-    "mean": 2,
-    "std": 0.5
+    "mean": 0.5,
+    "std": 0.08
   },
   "River Herring": {
     "rarity": "C",
     "type": "F",
     "size": "Bait",
     "name": "River Herring",
-    "mean": 2,
-    "std": 0.5
+    "mean": 1.25,
+    "std": 0.25
   },
   "Neon Tetra": {
     "rarity": "U",
     "type": "F",
     "size": "Bait",
     "name": "Neon Tetra",
-    "mean": 2,
-    "std": 0.5
+    "mean": 0.3,
+    "std": 0.06
   },
   "Fancy Guppy": {
     "rarity": "R",
     "type": "F",
     "size": "Bait",
     "name": "Fancy Guppy",
-    "mean": 2,
-    "std": 0.5
+    "mean": 0.3,
+    "std": 0.06
   },
   "Zebra Danios": {
     "rarity": "U",
     "type": "F",
     "size": "Bait",
     "name": "Zebra Danios",
-    "mean": 2,
-    "std": 0.5
+    "mean": 0.3,
+    "std": 0.06
   },
   "Gourami": {
     "rarity": "C",
     "type": "F",
     "size": "Bait",
     "name": "Gourami",
-    "mean": 2,
-    "std": 0.5
+    "mean": 0.5,
+    "std": 0.08
   },
   "Dwarf Catfish": {
     "rarity": "R",
     "type": "F",
     "size": "Bait",
     "name": "Dwarf Catfish",
-    "mean": 2,
-    "std": 0.5
+    "mean": 0.75,
+    "std": 0.16
   },
   "Clownfish": {
     "rarity": "E",
     "type": "S",
     "size": "Bait",
     "name": "Clownfish",
-    "mean": 2,
-    "std": 0.5
+    "mean": 1.125,
+    "std": 0.29
   },
   "Glass Catfish": {
     "rarity": "R",
     "type": "F",
     "size": "Bait",
     "name": "Glass Catfish",
-    "mean": 2,
-    "std": 0.5
+    "mean": 1.25,
+    "std": 0.25
   },
   "Ayu":{
     "rarity": "R",
     "type": "F",
     "size": "Bait",
     "name": "Ayu",
-    "mean": 2,
-    "std": 0.5
+    "mean": 0.75,
+    "std": 0.16
   },
-  "Babble Fish":{
+  "Babe1 Fish":{
     "rarity": "G",
     "type": "F",
     "size": "Bait",
-    "name": "Babble Fish",
-    "mean": 2,
-    "std": 0.5
+    "name": "Babel Fish",
+    "mean": 0.69,
+    "std": 0
   }
 }
