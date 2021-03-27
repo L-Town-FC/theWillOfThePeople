@@ -17,8 +17,8 @@ module.exports = {
             profiles[user] = {
                 rods: ['stick and bobber'],
                 rod: "stick and bobber",
-                boats: ["inflatable tube"],
-                boat: "inflatable tube",
+                boats: ["boat1", "boat5"],
+                location: "",
                 baits: [],
                 bait: "",
                 tackles: [],
@@ -31,8 +31,11 @@ module.exports = {
         }
 
         switch(command){
-            case 'move':
-                //moves your character to different locations
+            case 'locations':
+                //lists locations
+                //tells you about locations with more info
+                //moves to location if requested an have correct boat
+                Locations(message, args, master, profiles, user, tracker, stats)
             break;
             case 'cast':
                 Cast(message, master, profiles, user, tracker, stats)
@@ -86,7 +89,7 @@ function Junk(message, profiles, user){
 function Fish(message, profiles, user){
     const random = require('random')
     const fs = require('fs')
-    var sizes = Size_Selector(profiles[user].boat)
+    var sizes = Size_Selector(profiles[user].location)
     //After a size is chosen, the corresponding json is read. Then it randomly selects a fish from the list or junk
     var range = JSON.parse(fs.readFileSync(`./JSON/fish/${sizes}_fish.json`,'utf-8'))    
 
@@ -189,7 +192,7 @@ function Fish(message, profiles, user){
     }
 }
 
-function Size_Selector(boat){
+function Size_Selector(location){
     //looks at your boat and chooses which size fish you can catch
     //size of fish is determined only by boat
     var sizes = []
@@ -202,28 +205,28 @@ function Size_Selector(boat){
     var g = 'giant'
     var e = 'enormous'
 
-    boat = 'the orca ii'
+    //location = '1'
 
-    switch(boat){
-        case 'inflatable tube':
+    switch(location){
+        case 'Pond':
             sizes = [b]
         break;
-        case 'river canoe':
+        case 'Lake':
             sizes = [b,s]
         break;
-        case 'ocean kayak':
+        case 'River':
             sizes = [b,s,m]
         break;
-        case 'dinghy':
+        case 'Sea':
             sizes = [s,m,l]
         break;
-        case 'boston whaler':
+        case 'Ocean':
             sizes = [l, xl]
         break;
-        case 'the orca ii':
+        case '6':
             sizes = [xl, g]
         break;
-        case 'queen anne`s revenge':
+        case '7':
             sizes = [e]
         break;
     } 
@@ -234,4 +237,48 @@ function Size_Selector(boat){
 function Catch(profiles, user, rarity){
     const fs = require('fs')
 
+}
+
+function Locations(message, args, master, profiles, user, tracker, stats){
+    const fs = require('fs')
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    var location_json = JSON.parse(fs.readFileSync('./JSON/fish/locations.json', 'utf-8'))
+    var command = args[2] || 'none'
+    var command2 = args[3] || 'none'
+
+    if(command.toLowerCase() == 'move'){
+        if(parseInt(command2) > 0 && parseInt(command2) <= Object.keys(location_json).length){
+            if(profiles[user].boats.includes(location_json[command2].boat) == true){
+                profiles[user].location = location_json[command2].name
+                message.channel.send(`You went to the ${location_json[command2].name}`)
+            }else{
+                message.channel.send(`You don't have the required boat to go to the ${location_json[command2].name}`)
+            }
+        }else{
+            message.channel.send(`You didn't choose an acceptable location`)
+        }
+    }else if(parseInt(command) > 0 && parseInt(command) <= Object.keys(location_json).length){
+        var specific_location = new Discord.RichEmbed()
+        .setTitle(location_json[command].name)
+        .setDescription([
+            `Fish Type: ${location_json[command].type}`,
+            `Fish Sizes: ${location_json[command].sizes}`,
+            `Boat Required: ${location_json[command].boat}`
+        ])
+        .setColor(embed.Color(message))
+        message.channel.send(specific_location)
+    }else{
+        var list = []
+        for(var i in location_json){
+            list.push(`${i} ${location_json[i].name}`)
+        }
+        var locations_list = new Discord.RichEmbed()
+        .setTitle('List of Locations')
+        .setColor(embed.Color(message))
+        .setDescription(list)
+        .addField('Extra Info', 'Use "!fish locations [number]" to get info about the location \nUse "!fish locations move [number] tp move to that location')
+        message.channel.send(locations_list)
+    }
+    console.log(profiles)
 }
