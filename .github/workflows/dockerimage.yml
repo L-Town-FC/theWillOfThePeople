@@ -22,4 +22,4 @@ jobs:
           # Docker repository to tag the image with
           repository: atmollohan/bot
           # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
-          tags: 1.0.0
+          tags: latest
