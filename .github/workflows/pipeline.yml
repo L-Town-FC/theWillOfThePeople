@@ -25,19 +25,22 @@ jobs:
           tags: latest
 
   test:
+    name: Test Stage
+    needs: build
     runs-on: ubuntu-latest
     steps:
         - name: Printing
           run: pwd
   
-  # deploy:
-  #   name: Deploying to AWS
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: executing remote ssh commands using password
-  #     uses: appleboy/ssh-action@master
-  #     with:
-  #       host: ${{ secrets.HOST }}
-  #       username: ${{ secrets.USERNAME }}
-  #       password: ${{ secrets.PASSWORD }}
-  #       script: pwd
+  deploy:
+    name: Deploying to AWS
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_SSH_SECRET_PEM_PAL }}
+        script: pwd
