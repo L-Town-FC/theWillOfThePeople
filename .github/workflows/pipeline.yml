@@ -42,13 +42,13 @@ jobs:
       env:
         CONTAINER_NAME: "bot"
         IMAGE_NAME: "atmollohan/bot:latest"
+        BOTTOKEN: ${{ secrets.BOTTOKEN }}
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.EC2_SSH_SECRET_PEM_PAL }}
-        envs: CONTAINER_NAME, IMAGE_NAME
+        envs: CONTAINER_NAME, IMAGE_NAME, BOTTOKEN
         script: |
-          whoami
           docker stop $CONTAINER_NAME; docker rm $CONTAINER_NAME
           docker pull $IMAGE_NAME
           docker run -d -e BOTTOKEN=$BOTTOKEN --name $CONTAINER_NAME $IMAGE_NAME
