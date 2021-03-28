@@ -1,5 +1,5 @@
 build:
-	. ./deploy/build.sh
+	. ./build/build.sh
 
 deploy:
 	. ./deploy/ec2.sh

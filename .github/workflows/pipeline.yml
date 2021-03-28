@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: The Will of the People Prevails above all
 
 on:
   push:
@@ -23,3 +23,21 @@ jobs:
           repository: atmollohan/bot
           # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
           tags: latest
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Printing
+          run: pwd
+  
+  # deploy:
+  #   name: Deploying to AWS
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: executing remote ssh commands using password
+  #     uses: appleboy/ssh-action@master
+  #     with:
+  #       host: ${{ secrets.HOST }}
+  #       username: ${{ secrets.USERNAME }}
+  #       password: ${{ secrets.PASSWORD }}
+  #       script: pwd
