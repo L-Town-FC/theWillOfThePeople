@@ -7,7 +7,7 @@ WORKDIR /usr/src/bot
 
 # install dependencies
 COPY package.json /usr/src/bot
-RUN npm i
+RUN npm i --production
 
 # Add project to container
 COPY . /usr/src/bot

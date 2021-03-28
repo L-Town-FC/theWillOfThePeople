@@ -22,7 +22,7 @@ jobs:
           # Docker repository to tag the image with
           repository: atmollohan/bot
           # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
-          tags: ${{ github.sha }}
+          tags: latest
 
   test:
     name: Test Stage
@@ -41,7 +41,7 @@ jobs:
       uses: appleboy/ssh-action@master
       env:
         CONTAINER_NAME: "bot"
-        IMAGE_NAME: "atmollohan/bot:${{ github.sha }}"
+        IMAGE_NAME: "atmollohan/bot:latest"
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
