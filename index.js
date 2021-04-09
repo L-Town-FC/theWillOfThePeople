@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-const token = process.env.BOTTOKEN;
+const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
 
 const fs = require('fs');
@@ -257,6 +257,10 @@ bot.on('message', async message =>{
 })
 
 bot.login(token);
+
+bot.on('shardError', error => {
+	console.error('A websocket connection encountered an error:', error);
+});
 
 function Welfare(channel, master){
     const fs = require('fs')

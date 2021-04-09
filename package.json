@@ -5,7 +5,7 @@
   "main": " ",
   "scripts": {
     "start": "node index.js",
-    "start:dev": "nodemon index.js"
+    "start:dev": "NODE_ENV=local nodemon index.js"
   },
   "author": "Colin",
   "license": "ISC",
