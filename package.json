@@ -5,7 +5,9 @@
   "main": " ",
   "scripts": {
     "start": "node index.js",
-    "start:dev": "nodemon index.js"
+    "start:dev": "NODE_ENV=local nodemon index.js",
+    "start:local": "NODE_ENV=local node index.js",
+    "test": "echo 'We need tests'"
   },
   "author": "Colin",
   "license": "ISC",

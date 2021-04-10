@@ -15,8 +15,6 @@ else
     echo "Sourcing .env for build..."
     echo "$env_file_location"
     source "$env_file_location"
-    echo "LOGGING into host: $DOCKER_HOST as $DOCKER_USER"
-    # echo $DOCKER_TOKEN | docker login -u="$DOCKER_USER" --password-stdin $DOCKER_HOST && \
     echo 'BUILDING' && \
     docker build -t $image_full_tag . && \
     echo 'PUSHING to docker hub' && \

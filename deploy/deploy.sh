@@ -20,9 +20,3 @@ else
     docker run -d -e BOTTOKEN=$BOTTOKEN --name $CONTAINER_NAME $IMAGE_NAME
     '''
 fi 
-
-# Connect to ec2 instance this will only work if you have ssh installed and the pem file available on your machine
-# docker stop bot; docker rm bot
-# docker pull atmollohan/bot:1.5.2
-# docker run -d -e BOTTOKEN=$BOTTOKEN --name bot atmollohan/bot:1.4.1
-# docker logs bot --follow
