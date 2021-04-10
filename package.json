@@ -4,6 +4,7 @@
   "description": "",
   "main": " ",
   "scripts": {
+    "clean": "rm -rf node_modules package-lock.json",
     "start": "node index.js",
     "start:dev": "NODE_ENV=local nodemon index.js",
     "start:local": "NODE_ENV=local node index.js",
@@ -12,7 +13,7 @@
   "author": "Colin",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.3.2",
+    "@discordjs/opus": "^0.4.0",
     "canvas": "^2.6.1",
     "chart.js": "^2.9.3",
     "chartjs-node-canvas": "^3.0.6",
