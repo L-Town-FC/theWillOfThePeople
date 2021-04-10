@@ -25,9 +25,9 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '590585423202484227')
-    var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
-    var bot_tinkering = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '711634711281401867')
+    var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
+    var stonks = bot.channels.cache.find(channel => channel.id === '743269381768872087')
+    var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
     
     console.log('This bot is online')
     stocks_open = false
@@ -67,7 +67,7 @@ bot.on('ready', () => {
 
 bot.on('guildMemberRemove', member =>{
     try{
-        var channel = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '590585423202484227')
+        var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
         channel.send(`${master[member.id].name} has left the server`)
     }catch(err){
         console.log('Error occured in user remover log')
@@ -596,7 +596,7 @@ async function Reminder_Checker(bot, reminder_list){
 
         if(date_stuff !== []){
             if(r_month == c_month && r_day == c_day && r_year == c_year && parseInt(r_hour) == parseInt(c_hour)){
-                var channel = bot.channels.find(channel => channel.id === reminder_list[i][2])
+                var channel = bot.channels.cache.find(channel => channel.id === reminder_list[i][2])
                 channel.send(`<@${reminder_list[i][0]}> Reminder: \n${reminder_list[i][1]}`)
                 delete reminder_list[i]
                 change = true
