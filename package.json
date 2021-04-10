@@ -4,6 +4,7 @@
   "description": "",
   "main": " ",
   "scripts": {
+    "clean": "rm -rf node_modules package-lock.json",
     "start": "node index.js",
     "start:dev": "NODE_ENV=local nodemon index.js",
     "start:local": "NODE_ENV=local node index.js",
