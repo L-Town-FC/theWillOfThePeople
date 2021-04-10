@@ -1,5 +1,5 @@
 # Pull base node image
-FROM node:15.11.0-buster-slim
+FROM node:14.16.1
 
 # Make project dir
 RUN mkdir -p /usr/src/bot
