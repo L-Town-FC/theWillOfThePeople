@@ -453,7 +453,7 @@ module.exports = {
             case 'help':
                 try{
                     var blackjack_commands = fs.readFileSync('./text_files/blackjack_commands.txt','utf8');
-                    const help_embed = new Discord.RichEmbed()
+                    const help_embed = new Discord.MessageEmbed()
                     .addField('List of Commands', blackjack_commands)
                     .setColor(embed.Color(message))
                     message.channel.send(help_embed);
@@ -765,7 +765,7 @@ function Display_Status(master_list, message, embed){
     }else{
         var blackjack_stats = `Dealer's hand: ${dealer_hand[0]} ?\nPlayer's hand 1: ${current_hand1} \nPlayer's Hand 2: ${current_hand2} \nCurrent bet: ${current_bet[0]}|${current_bet[1]}`
     }
-    const blackjack_stats_embed = new Discord.RichEmbed()
+    const blackjack_stats_embed = new Discord.MessageEmbed()
     .addField(`${master_list.name} Game Status:`, blackjack_stats)
     .setColor(embed.Color(message))
     message.channel.send(blackjack_stats_embed);
@@ -781,7 +781,7 @@ function Display_Final(master_list, message, embed){
     }else{
         var blackjack_stats = `Dealer's hand: ${dealer_hand} \nPlayer's hand 1: ${current_hand1} \nPlayer's Hand 2: ${current_hand2} \nCurrent bet: ${current_bet[0]}|${current_bet[1]}`
     }
-    const blackjack_stats_embed = new Discord.RichEmbed()
+    const blackjack_stats_embed = new Discord.MessageEmbed()
     .addField(`${master_list.name} Game Status:`, blackjack_stats)
     .setColor(embed.Color(message))
     message.channel.send(blackjack_stats_embed);

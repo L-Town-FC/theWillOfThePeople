@@ -403,7 +403,7 @@ function Ceelo_Status_All(message, ceelo, master){
     const fs = require('fs')
     const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
-    var Status_embed = new Discord.RichEmbed()
+    var Status_embed = new Discord.MessageEmbed()
     .setTitle('Ceelo Game Status')
     .setColor(embed.Color(message))
     var embed_stuff = []
@@ -439,7 +439,7 @@ function Ceelo_Status_Check(message, args, ceelo, master){
     if(index == ""){
         message.channel.send('Please choose a valid game')
     }else{
-        var Status_embed = new Discord.RichEmbed()
+        var Status_embed = new Discord.MessageEmbed()
         .setTitle('Ceelo Game Status')
         .setColor(embed.Color(message))
         for(var i in ceelo.games[index].participants){
@@ -460,7 +460,7 @@ function Ceelo_Basics(message){
     const fs = require('fs')
     const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
-    var ceelo_basics = new Discord.RichEmbed()
+    var ceelo_basics = new Discord.MessageEmbed()
     .setTitle('**Ceelo Basics**')
     .addField('**Rules:**', fs.readFileSync('./text_files/ceelo/ceelo_basics', 'utf-8'))
     .addField('**Hands from Best to Worst:**', fs.readFileSync('./text_files/ceelo/ceelo_hands', 'utf-8'))
@@ -472,7 +472,7 @@ function Ceelo_Help(message){
     const fs = require('fs')
     const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
-    var ceelo_help = new Discord.RichEmbed()
+    var ceelo_help = new Discord.MessageEmbed()
     .setTitle('Ceelo Commands')
     .setDescription(fs.readFileSync('./text_files/ceelo/ceelo_commands.txt', 'utf-8'))
     .setColor(embed.Color(message))

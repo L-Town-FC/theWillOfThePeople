@@ -67,7 +67,7 @@ module.exports = {
                 if(message.author.id == herald_stats[1]){
                     if(message.attachments.array().length == 0){                
                         message.channel.bulkDelete(1);
-                        const message_embed = new Discord.RichEmbed()
+                        const message_embed = new Discord.MessageEmbed()
                         .setTitle(`Important Decree from His Excellency ${name(message.author.id, master)}`)
                         .setDescription(description)
                         .setAuthor("-----------------------------------------------------------",message.author.displayAvatarURL)
@@ -92,7 +92,7 @@ module.exports = {
             case 'help':
                 try{
                     var herald_commands = fs.readFileSync('./text_files/herald_commands.txt','utf8');
-                    const help_embed = new Discord.RichEmbed()
+                    const help_embed = new Discord.MessageEmbed()
                     .addField('List of Commands', herald_commands)
                     .setColor(embed.Color(message))
                     message.channel.send(help_embed);

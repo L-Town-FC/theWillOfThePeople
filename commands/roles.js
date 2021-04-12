@@ -25,7 +25,7 @@ module.exports = {
         if(typeof(args[1]) == 'undefined'){
             try{
                 const Discord = require('discord.js');
-                const help_embed = new Discord.RichEmbed()
+                const help_embed = new Discord.MessageEmbed()
                 var roles_list = []
                 for(var i in roles){
                     roles_list.push(`${i}. ${roles[i].role} - ${roles[i].person}`)
