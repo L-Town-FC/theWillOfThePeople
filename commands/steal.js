@@ -228,7 +228,7 @@ function Odds(message, args, master, target, amount){
 
     chance_list[3] = Math.round(chance * 100)/100
 
-    const odds_embed = new Discord.RichEmbed()
+    const odds_embed = new Discord.MessageEmbed()
     .setTitle(`Failure Chance of Stealing from ${master[target].name}`)
     .setDescription(
         [`Base Chance: ${base_chance}%`,
@@ -248,7 +248,7 @@ function Help(message){
     const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
     var commands = fs.readFileSync('./text_files/steal/steal_help.txt','utf-8')
-    var help_embed = new Discord.RichEmbed()
+    var help_embed = new Discord.MessageEmbed()
     .setTitle('List of Commands')
     .setColor(embed.Color(message))
     .setDescription(commands)
@@ -260,7 +260,7 @@ function Basics(message){
     const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
     var basics = fs.readFileSync('./text_files/steal/steal_basics.txt','utf-8')
-    var basics_embed = new Discord.RichEmbed()
+    var basics_embed = new Discord.MessageEmbed()
     .setTitle('Steal Basics')
     .setColor(embed.Color(message))
     .setDescription(basics)
