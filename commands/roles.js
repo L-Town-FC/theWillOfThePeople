@@ -39,7 +39,7 @@ module.exports = {
             }
         }else{
             try{
-                if(message.member.roles.find(r => r.name === "Junior Representative Assistant") || message.member.roles.find(r => r.name === "Senior Representative Assistant") || message.member.roles.find(r => r.name === "The People's Representative") || message.member.roles.find(r => r.name === "The People's Leader") || message.author.id == 450001712305143869){
+                if(message.member.roles.cache.find(r => r.name === "Junior Representative Assistant") || message.member.roles.cache.find(r => r.name === "Senior Representative Assistant") || message.member.roles.cache.find(r => r.name === "The People's Representative") || message.member.roles.cache.find(r => r.name === "The People's Leader") || message.author.id == 450001712305143869){
                     if(parseInt(args[2]) >= 1 && parseInt(args[2]) <= Object.keys(roles).length ){
                         roles[args[2]].person = args[1]
                         message.channel.send('Roles has been updated')
