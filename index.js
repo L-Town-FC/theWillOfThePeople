@@ -262,6 +262,10 @@ bot.on('shardError', error => {
 	console.error('A websocket connection encountered an error:', error);
 });
 
+bot.on('error', (err) => {
+    console.error(err.message)
+});
+
 function Welfare(channel, master){
     const fs = require('fs')
     var loans = []
