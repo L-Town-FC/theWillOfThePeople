@@ -101,7 +101,7 @@ function Loan_Checker(message, user, master){
     }
     //checks if the user is targeting anyone
 
-    var loan_list = new Discord.RichEmbed()
+    var loan_list = new Discord.MessageEmbed()
     .setTitle(`***${master[user].name} Loan list:***`)
     .setColor(embed.Color(message))
     if(target !== false){
@@ -261,7 +261,7 @@ function Loan_Help(message){
     const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
     var loan_help = fs.readFileSync('./text_files/loan_commands')
-    var loan_embed = new Discord.RichEmbed()
+    var loan_embed = new Discord.MessageEmbed()
     .setTitle('List of Commands')
     .setColor(embed.Color(message))
     .setDescription(loan_help)

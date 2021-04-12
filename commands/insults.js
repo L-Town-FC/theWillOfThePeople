@@ -23,7 +23,7 @@ module.exports = {
                             insulted.push(master[i].name)
                         }
                     }
-                    var insulted_list = new Discord.RichEmbed()
+                    var insulted_list = new Discord.MessageEmbed()
                     .setTitle('List of People being insulted')
                     .setColor(embed.Color(message))
                     insulted_list.setDescription(insulted)
@@ -122,7 +122,7 @@ module.exports = {
             case 'help':
                 try{
                     var help = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')
-                    var insults_commands = new Discord.RichEmbed()
+                    var insults_commands = new Discord.MessageEmbed()
                     .setTitle('List of Commands')
                     .setColor(embed.Color(message))
                     insults_commands.setDescription(help)

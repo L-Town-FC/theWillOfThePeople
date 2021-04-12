@@ -7,7 +7,7 @@ function rpg_players(message, players){
         player_list.push(players[i].name)
     }
 
-    var players_embed = new Discord.RichEmbed()
+    var players_embed = new Discord.MessageEmbed()
     .setTitle('Player list')
     .setDescription(player_list)
     .setColor(embed.Color(message))

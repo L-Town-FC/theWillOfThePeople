@@ -41,7 +41,7 @@ function Stats(user, stats, master, message, embed){
     var achievements = master[user].achievements.length
     var total_achievements = Object.keys(achievements_list).length
     var achievements_ratio = `${achievements}/${total_achievements}`
-    const Stats_list = new Discord.RichEmbed()
+    const Stats_list = new Discord.MessageEmbed()
     .setTitle(`${stats[user].name} Stat List`)
     .setColor(embed.Color(message))
     .setDescription([
@@ -107,7 +107,7 @@ function Stats_All(stats, message, embed){
         roulette_bets += stats[i].roulette_bets
         roulette_wins += stats[i].roulette_wins
     }
-    const Stats_list = new Discord.RichEmbed()
+    const Stats_list = new Discord.MessageEmbed()
     .setTitle(`All Stats List`)
     .setColor(embed.Color(message))
     .setDescription([
