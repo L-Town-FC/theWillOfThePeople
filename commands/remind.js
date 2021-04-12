@@ -107,7 +107,7 @@ async function Reminder(message, args, amount, units, reminder_list, bot){
                 );
 
                 setTimeout(() => {
-                    var channel = bot.channels.find(channel => channel.id === message.channel.id)
+                    var channel = bot.channels.cache.find(channel => channel.id === message.channel.id)
                     channel.send(`<@${message.author.id}> Reminder: \n${reminder}`)
                     for(var j in reminder_list){
                         if(reminder_list[j][0] == message.author.id){
