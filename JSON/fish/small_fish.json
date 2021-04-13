@@ -1,0 +1,122 @@
+{
+  "Sunfish": {
+    "rarity": "C",
+    "type": "F",
+    "size": "Small",
+    "name": "Sunfish",
+    "mean": 3.5,
+    "std": 0.5
+  },
+  "Bluegill": {
+    "rarity": "C",
+    "type": "F",
+    "size": "Small",
+    "name": "Bluegill",
+    "mean": 2.25,
+    "std": 0.25
+  },
+  "Cut throat Trout": {
+    "rarity": "U",
+    "type": "F",
+    "size": "Small",
+    "name": "Cut throat Trout",
+    "mean": 6,
+    "std": 1
+  },
+  "Small Mouth Bass": {
+    "rarity": "U",
+    "type": "F",
+    "size": "Small",
+    "name": "Small Mouth Bass",
+    "mean": 9.5,
+    "std": 1.8
+  },
+  "Aholehole": {
+    "rarity": "U",
+    "type": "S",
+    "size": "Small",
+    "name": "Aholehole",
+    "mean": 3.5,
+    "std": 0.5
+  },
+  "Atlantic Bonito": {
+    "rarity": "C",
+    "type": "S",
+    "size": "Small",
+    "name": "Atlantic Bonito",
+    "mean": 10,
+    "std": 1.3
+  },
+  "Koi Fish": {
+    "rarity": "U",
+    "type": "F",
+    "size": "Small",
+    "name": "Koi Fish",
+    "mean": 18.5,
+    "std": 5.5
+  },
+  "Arowana": {
+    "rarity": "R",
+    "type": "F",
+    "size": "Small",
+    "name": "Arowana",
+    "mean": 16.5,
+    "std": 2.8
+  },
+  "Bala Shark": {
+    "rarity": "E",
+    "type": "F",
+    "size": "Small",
+    "name": "Bala Shark",
+    "mean": 2.5,
+    "std": 0.16
+  },
+  "Barbeled Dragonfish": {
+    "rarity": "E",
+    "type": "S",
+    "size": "Small",
+    "name": "Barbeled Dragonfish",
+    "mean": 4,
+    "std": 0.66
+  },
+  "Large Mouth Bass": {
+    "rarity": "U",
+    "type": "F",
+    "size": "Small",
+    "name": "Large Mouth Bass",
+    "mean": 11,
+    "std": 2.33
+  },
+  "Yellow Perch": {
+    "rarity": "C",
+    "type": "F",
+    "size": "Small",
+    "name": "Yellow Perch",
+    "mean": 6,
+    "std": 1
+  },
+  "Humuhumunukunukuāpuaʻa": {
+    "rarity": "E",
+    "type": "S",
+    "size": "Small",
+    "name": "Humuhumunukunukuāpuaʻa",
+    "mean": 9,
+    "std": 1.66
+  },
+  "Sockeye Salmon": {
+    "rarity": "R",
+    "type": "B",
+    "size": "Small",
+    "name": "Sockeye Salmon",
+    "mean": 12,
+    "std": 1.66
+  },
+  "Lamprey": {
+    "rarity": "E",
+    "type": "B",
+    "size": "Small",
+    "name": "Lamprey",
+    "mean": 2.5,
+    "std": 0.16
+  }
+}

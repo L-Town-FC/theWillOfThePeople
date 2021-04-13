@@ -1,0 +1,114 @@
+{
+  "Great White Shark": {
+    "rarity": "R",
+    "type": "S",
+    "size": "giant",
+    "name": "Great White Shark",
+    "mean": 2100,
+    "std": 300
+  },
+  "Ocean Sunfish": {
+    "rarity": "L",
+    "type": "S",
+    "size": "giant",
+    "name": "Ocean Sunfish",
+    "mean": 1750,
+    "std": 250
+  },
+  "Mega Mouth Shark": {
+    "rarity": "L",
+    "type": "S",
+    "size": "giant",
+    "name": "Mega Mouth Shark",
+    "mean": 300,
+    "std": 75
+  },
+  "Greenland Shark": {
+    "rarity": "L",
+    "type": "S",
+    "size": "giant",
+    "name": "Greenland Shark",
+    "mean": 300,
+    "std": 75
+  },
+  "Kaluga": {
+    "rarity": "L",
+    "type": "F",
+    "size": "giant",
+    "name": "Kaluga",
+    "mean": 300,
+    "std": 75
+  },
+  "Colassal Squid": {
+    "rarity": "L",
+    "type": "S",
+    "size": "giant",
+    "name": "Colassal Squid",
+    "mean": 300,
+    "std": 75
+  },
+  "Leatherback Sea Turtle": {
+    "rarity": "R",
+    "type": "S",
+    "size": "giant",
+    "name": "Leatherback Sea Turtle",
+    "mean": 300,
+    "std": 75
+  },
+  "Hammerhead Shark": {
+    "rarity": "R",
+    "type": "S",
+    "size": "giant",
+    "name": "Hammerhead Shark",
+    "mean": 300,
+    "std": 75
+  },
+  "Beluga Whale": {
+    "rarity": "E",
+    "type": "S",
+    "size": "giant",
+    "name": "Beluga Whale",
+    "mean": 300,
+    "std": 75
+  },
+  "Manta Ray": {
+    "rarity": "R",
+    "type": "S",
+    "size": "giant",
+    "name": "Manta Ray",
+    "mean": 300,
+    "std": 75
+  },
+  "Black Marlin": {
+    "rarity": "E",
+    "type": "S",
+    "size": "giant",
+    "name": "Black Marlin",
+    "mean": 300,
+    "std": 75
+  },
+  "Archelon": {
+    "rarity": "X",
+    "type": "S",
+    "size": "giant",
+    "name": "Archelon",
+    "mean": 300,
+    "std": 75
+  },
+  "Orca": {
+    "rarity": "E",
+    "type": "S",
+    "size": "giant",
+    "name": "Orca",
+    "mean": 300,
+    "std": 75
+  },
+  "Gyarados": {
+    "rarity": "G",
+    "type": "S",
+    "size": "giant",
+    "name": "Gyarados",
+    "mean": 500,
+    "std": 33.3
+  }
+}
