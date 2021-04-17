@@ -23,7 +23,7 @@ module.exports = {
         switch(command){
             case 'number':
                 try{
-                    if(message.member.roles.cache.cache.find(r => r.name === "Junior Representative Assistant") || message.member.roles.cache.find(r => r.name === "Senior Representative Assistant") || message.member.roles.cache.find(r => r.name === "The People's Representative") ||message.member.roles.cache.find(r => r.name === "The People's Leader")){
+                    if(message.member.roles.cache.find(r => r.name === "Junior Representative Assistant") || message.member.roles.cache.find(r => r.name === "Senior Representative Assistant") || message.member.roles.cache.find(r => r.name === "The People's Representative") ||message.member.roles.cache.find(r => r.name === "The People's Leader")){
                         Vote(message, args, master, reactions, election_roles)
                     }else{
                         message.channel.send('You must me a mod to call an election')
