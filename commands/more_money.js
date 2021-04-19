@@ -233,8 +233,6 @@ function addPerson(message, master, tracker, stats_list){
         button_presses : 0,
         button_losses : 0,
         roulette_bets : 0,
-        roulette_wins : 0,
-        taxes : 0,
-        interest : 0
+        roulette_wins : 0
     }
 }
