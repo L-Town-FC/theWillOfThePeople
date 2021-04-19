@@ -76,7 +76,7 @@ module.exports = {
                                     counter++
                                 }
                             }
-                            const target_list = new Discord.RichEmbed()
+                            const target_list = new Discord.MessageEmbed()
                             .setTitle("List of People being targeted")
                             .setDescription(targets)
                             .setColor(embed.Color(message))
@@ -94,7 +94,7 @@ module.exports = {
                                 counter++
                             }
                         }
-                        const target_list = new Discord.RichEmbed()
+                        const target_list = new Discord.MessageEmbed()
                         .setTitle("List of People being targeted")
                         .setDescription(targets)
                         .setColor(embed.Color(message))
@@ -120,7 +120,7 @@ module.exports = {
                 //shows basic rules of banned word game
                 try{
                 var rules = fs.readFileSync('text_files/bwg/bwg_rules', 'utf-8')
-                const rules_list = new Discord.RichEmbed()
+                const rules_list = new Discord.MessageEmbed()
                 .setTitle("Banned Word Game (bwg) Rules")
                 .setDescription(rules)
                 .setColor(embed.Color(message))
@@ -133,7 +133,7 @@ module.exports = {
             case 'words':
                 //shows the words that can no longer be used for a person
                 if(typeof(name) == 'undefined'){
-                    const word_list = new Discord.RichEmbed()
+                    const word_list = new Discord.MessageEmbed()
                     .setTitle(`Words that can't be used on ${master[user].name}`)
                     .setDescription(bwg[user].used_words)
                     .setColor(embed.Color(message))
@@ -141,7 +141,7 @@ module.exports = {
                 }else if(names.includes(name.toLowerCase()) == true){
                     for(i in bwg){
                         if(name.toLowerCase() == master[i].name.toLowerCase()){
-                            const word_list = new Discord.RichEmbed()
+                            const word_list = new Discord.MessageEmbed()
                             .setTitle(`Words that can't be used on ${master[i].name}`)
                             .setDescription(master[i].bwg.used_words)
                             .setColor(embed.Color(message))
@@ -156,7 +156,7 @@ module.exports = {
                 //shows list of commands
                 try{
                 var help = fs.readFileSync('text_files/bwg/bwg_commands.txt', 'utf-8')
-                const help_list = new Discord.RichEmbed()
+                const help_list = new Discord.MessageEmbed()
                 .setTitle("List of Commands")
                 .setDescription(help)
                 .setColor(embed.Color(message))

@@ -14,14 +14,14 @@ module.exports = {
                 for(i in info){
                     list.push(`${i}. ${info[i].name}`)
                 }
-                var info_embed = new Discord.RichEmbed()
+                var info_embed = new Discord.MessageEmbed()
                 .setTitle('List of Commands')
                 .setDescription(`Use "!info [number]" for more information about the selection`)
                 .addField(`Topics:`, list)
                 .setColor(embed.Color(message))
                 message.channel.send(info_embed)
             }else if(parseInt(args[1]) == parseFloat(args[1]) && args[1] > 0 && args[1] <= length){
-                var info_embed = new Discord.RichEmbed()
+                var info_embed = new Discord.MessageEmbed()
                 .setTitle(`**${info[args[1]].name}**`)
                 .setDescription(info[args[1]].description)
                 .setColor(embed.Color(message))

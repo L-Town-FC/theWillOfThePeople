@@ -107,7 +107,7 @@ async function Reminder(message, args, amount, units, reminder_list, bot){
                 );
 
                 setTimeout(() => {
-                    var channel = bot.channels.find(channel => channel.id === message.channel.id)
+                    var channel = bot.channels.cache.find(channel => channel.id === message.channel.id)
                     channel.send(`<@${message.author.id}> Reminder: \n${reminder}`)
                     for(var j in reminder_list){
                         if(reminder_list[j][0] == message.author.id){
@@ -151,7 +151,7 @@ async function Reminder_List(message, args, reminder_list, master){
                 counter++
             }
         }
-        var reminder_embed = new Discord.RichEmbed()
+        var reminder_embed = new Discord.MessageEmbed()
         .setTitle(`${master[message.author.id].name} Reminder List`)
         .setColor(embed.Color(message))
         .setDescription(user_reminders)
@@ -249,7 +249,7 @@ function Help(message, args){
 
     try{    
         var commands = fs.readFileSync('./text_files/remind_commands.txt')
-        var help_embed = new Discord.RichEmbed()
+        var help_embed = new Discord.MessageEmbed()
         .setTitle('List of Commands:')
         .setDescription('!remind list: Lists your current reminders')// \n\n**Two Ways to Set Reminders**')
         .addField('**Short Term: 3 Days max**', `!remind XY [reminder]: X = amount, Y = units (s,m,h,d)

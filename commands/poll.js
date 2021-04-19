@@ -100,7 +100,7 @@ function Poll_Create(message, args, polls){
                     voters: [],
                     votes: []
                 }
-                const poll_embed = new Discord.RichEmbed()
+                const poll_embed = new Discord.MessageEmbed()
                 .setTitle(`${new_id}. ${question}`)
                 .setColor(embed.Color(message))
                 .setDescription(options_list)
@@ -173,7 +173,7 @@ function Poll_List(message, args, polls){
         const embed = require('./Functions/embed_functions')
         const Discord = require('discord.js')
 
-        const poll_list = new Discord.RichEmbed()
+        const poll_list = new Discord.MessageEmbed()
         var selection = args[2] || 'none'
 
         if(Object.keys(polls).includes(selection) == true){
@@ -327,7 +327,7 @@ function Results(message, count, poll, number, winner){
         const Discord = require('discord.js')
         var results_field = []
 
-        var results = new Discord.RichEmbed()
+        var results = new Discord.MessageEmbed()
         .setColor(embed.Color(message))
         .setTitle(`**${poll.title}**`)
         /*
@@ -362,7 +362,7 @@ function Poll_Help(message){
         const fs = require('fs')
         var command_list = fs.readFileSync('./text_files/poll_commands.txt')
 
-        var help_embed = new Discord.RichEmbed()
+        var help_embed = new Discord.MessageEmbed()
         .setTitle('List of Poll Commands')
         .setColor(embed.Color(message))
         .setDescription(command_list)

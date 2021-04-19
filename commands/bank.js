@@ -44,7 +44,7 @@ module.exports = {
                                         total = total + master[i].gbp
                                         total_private += master[i].account
                                     }
-                                    const message_embed = new Discord.RichEmbed()
+                                    const message_embed = new Discord.MessageEmbed()
                                     .setTitle("List of all Public accounts on Server")
                                     .setDescription(everyone)
                                     .addField(`Total GBP on Server`, total.toFixed(2))
@@ -125,7 +125,7 @@ module.exports = {
                         case 'help':
                             try{
                                 var help = fs.readFileSync('text_files/bank_commands.txt', 'utf-8').split("\n")
-                                const help_list = new Discord.RichEmbed()
+                                const help_list = new Discord.MessageEmbed()
                                 .setTitle("List of Commands")
                                 .setDescription(help)
                                 .setColor(embed.Color(message))
