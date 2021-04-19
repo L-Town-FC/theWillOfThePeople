@@ -79,28 +79,21 @@
         "**!transfer [split] [amount] [name 1] [name 2] ...: Lets you split the specified amount evenly between multiple people"]
     },
     "14":{
-        "name": "!herald",
-        "description":["Allows you to request a herald who speaks on your behalf","Herald doesn't work with images","Herald costs 500 gbp per use"],
-        "rules":["**!herald buy [Number of Sets]:** Allows you to rent a herald who will say specified messages for you. If no number is specified it defaults to 1",
-            "**!herald stats:** Shows you who currently is using the herald and how many uses they have left",
-            "**!herald say [message]:** Makes the herald say your message"]
-    },
-    "15":{
         "name": "!names",
         "description":"Lists the names of all the people on the server",
         "rules":""
     },
-    "16":{
+    "15":{
         "name":"!changelog",
         "description":"Displays list of everything that was changed in the latest update",
         "rules":""
     },
-    "17":{
+    "16":{
         "name":"!boo",
         "description":["Lets you see and choose who is being booed","Costs 250 gbp to move"],
         "rules":["**!boo [user]:** Makes the bot boo the specified user. If no user is specified it states who is currently being booed"]
     },
-    "18":{
+    "17":{
         "name":"!steal",
         "description":["Steals from selected user"],
         "rules":["**!steal [user] [amount to steal]:** Lets you attempt to steal from designated amount from the specified user",
@@ -109,14 +102,14 @@
             "**!steal odds [target] [amount]:** Gives you the odds of failure for a specific target at a specific amount"
         ]
         },
-    "19":{
+    "18":{
         "name":"!achievements",
         "description":"Lets you track achievements gotten in the server",
         "rules":["**!achievements:** Lists your personal achievements",
             "**!achievements [name]:** List achievements of given person",
             "**!achievements list [number]:** Lists all possible achievements. If a number is given it shows you progress on the chosen number"]
     },
-    "20":{
+    "19":{
         "name":"!bwg (Banned Word Game)",
         "description":["Lets you play the Banned Word Game","Can bet between 50 and 500 gbp"],
         "rules":["**!bwg bet [target] [bet] [word]:** Starts the banned word game",
@@ -124,51 +117,33 @@
         "**!bwg reset:** Cancels your game in case you want to switch who you are targeting. Your bet is not refunded",
         "**!bwg rules:** Explains some basic rules about the banned word game"]
     },
-    "21":{
+    "20":{
         "name":"!roulette",
         "description":"Lets you play roulette with multiple people",
         "rules":["**!roulette bet [Time]:** Starts roulette game where betting ends after [Time] seconds",
             "**!roulette list:** Shows you the roulette board, basics, and payouts",
             "**!roulette numbers:** Shows you the last 10 numbers called"]
     },
-    "22":{
+    "21":{
         "name": "!button",
         "description": "The button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp",
         "rules": ["**!button:** Pushes the button", "**!button stats:** Shows you stats relating to the button"]
     },
-    "23":{
-        "name": "!loan",
-        "description": "Lets you track and take out loans with others",
-        "rules": ["**!loan [person]:** Shows the specified person's creditor/debtor if applicable. Defaults to user if no person is specified",
-        "**!loan offer [person] [amount] [interest rate] [days to collect]:** Offers a loan to the specified person for the specified amount and interest rate. After [days] number of days the loan will begin to be automatically collected",
-        "**!loan accept:** Lets you accept a loan if you have been offered one",
-        "**!loan pay:** Lets you pay off your loan early"]
-    },
-    "24":{
-        "name": "!ceelo",
-        "description": "Lets you play ceelo with others",
-        "rules": ["**!ceelo start [bet]:** Creates a joinable game of Ceelo for [bet] gbp. You only have 15 seconds to enter the game",
-        "**!ceelo join:** Lets you join a game",
-        "**!ceelo roll:** Lets you roll the die",
-        "**!ceelo wash:** Lets you roll the die, but the hand doesn't count",
-        "**!ceelo status [game]:** Lets you see the status of the specified game. If no game is specified, it shows a list of all actve games",
-        "**!ceelo basics:** Gives a list of basic rules and hand values"]
-    },
-    "25":{
+    "22":{
         "name": "!info",
         "description": "Gives you info about the bot",
         "rules": [
             "**!info [topic number]:** If no topic number is specified, a list of topics is given. Choosing a topic number gives information about the chosen topic"
         ]
     },
-    "26":{
+    "23":{
         "name": "!msg",
         "description": ["Lets you pay the bot to dm people", "50 gbp if less than 50 character, 100 gbp if more"],
         "rules": [
             "**!msg [name] [message]:** Sends your message to the specified person"
         ]
     },
-    "27":{
+    "24":{
         "name": "!election",
         "description": ["Lets elections be run", "Each poll is open for 24 Hrs"],
         "rules": [
@@ -177,23 +152,23 @@
             "**!election roles:** Lists the electable roles and their numbers"
         ]
     },
-    "28":{
+    "25":{
         "name": "!=",
         "description": "Lets you do basic, 2 term math",
         "rules": ["!= [number] [operator] [number]. Operators are [+,-,*,/,^]"]
     },
-    "29":{
+    "26":{
         "name": "!kumikosays",
         "description": "Lets you make an image where kumiko says something",
         "rules": "**!kumikosays [message]:** Sends and image with a specified message"
     },
-    "30":{
+    "27":{
         "name": "!roles",
         "description": ["Let users check roles", "Lets mods update roles"],
         "rules": ["**!roles:** Shows you the elecable roles and who currently has them",
         "**!roles [roles number] [name]:** Lets you update the role list"]
     },
-    "31": {
+    "28": {
         "name": "!remind",
         "description": "Lets you set reminders",
         "rules": ["**2 Different Ways to set Reminders**",
@@ -211,7 +186,7 @@
             " ",
             "!remind list: Shows a list of all your reminders"]
     },
-    "32":{
+    "29":{
         "name": "!poll",
         "description": "Lets you create and vote on ranked choice polls",
         "rules": [

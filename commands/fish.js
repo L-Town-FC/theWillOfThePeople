@@ -18,7 +18,7 @@ module.exports = {
                 rods: ['stick and bobber'],
                 rod: "stick and bobber",
                 boats: ["boat1", "boat5"],
-                location: "",
+                location: "Pond",
                 baits: [],
                 bait: "",
                 tackles: [],
@@ -90,6 +90,7 @@ function Fish(message, profiles, user){
     const random = require('random')
     const fs = require('fs')
     var sizes = Size_Selector(profiles[user].location)
+    console.log(sizes)
     //After a size is chosen, the corresponding json is read. Then it randomly selects a fish from the list or junk
     var range = JSON.parse(fs.readFileSync(`./JSON/fish/${sizes}_fish.json`,'utf-8'))    
 

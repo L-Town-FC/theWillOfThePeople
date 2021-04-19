@@ -2,20 +2,27 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
+const fauna_token = process.env.FAUNA_KEY
 
 const fs = require('fs');
 const cron = require('cron')
+const faunadb = require('faunadb')
+
+master = Fauna_Tester(fauna_token)
+
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
-master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+const { _deflateStrategy } = require('jimp');
+//master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
 players = JSON.parse(fs.readFileSync("./JSON/RPG/players.json","utf-8"))
 command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
 reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json", "utf-8"))
 profiles = JSON.parse(fs.readFileSync("./JSON/fish/fishing_profiles.json", "utf-8"))
+
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -30,6 +37,7 @@ bot.on('ready', () => {
     var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
     var bot_tinkering = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.find(channel => channel.id === '711634711281401867')
     
+
     console.log('This bot is online')
     stocks_open = false
     if(typeof(cron_job) == 'undefined'){
@@ -461,4 +469,22 @@ async function Reminder_Checker(bot, reminder_list){
             }
         );
     }
+}
+
+async function Fauna_Tester(fauna_token){
+    const fs = require('fs')
+    const faunadb = require('faunadb')
+    const fauna_client = new faunadb.Client({ secret: fauna_token })
+    const q = faunadb.query
+
+
+    var getP = fauna_client.query(
+        q.Get(q.Ref(q.Collection('master'), "296332184627708419"))
+    )
+
+    master = await getP.then(function(response) {
+        return response.data
+    })
+
+    return master
 }
