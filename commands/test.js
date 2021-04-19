@@ -1,5 +1,3 @@
-const { parse } = require('path')
-
 module.exports = {
     name: 'test',
     description: 'custom emoji test',

@@ -8,13 +8,12 @@ const fs = require('fs');
 const cron = require('cron')
 const faunadb = require('faunadb')
 
-master = Fauna_Tester(fauna_token)
-
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
 //master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+master = Fauna_get(fauna_token, "master")
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
 players = JSON.parse(fs.readFileSync("./JSON/RPG/players.json","utf-8"))
@@ -35,7 +34,6 @@ bot.on('ready', () => {
     var channel = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
     var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
     var bot_tinkering = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
-    
 
     console.log('This bot is online')
     stocks_open = false
@@ -106,7 +104,6 @@ bot.on('message', message =>{
         message.channel.send("Error occurred in message parser")
     }
 })
-
 
 bot.on('message', async message =>{    
     try{
@@ -474,15 +471,14 @@ async function Reminder_Checker(bot, reminder_list){
     }
 }
 
-async function Fauna_Tester(fauna_token){
-    const fs = require('fs')
+async function Fauna_get(fauna_token, name){
     const faunadb = require('faunadb')
     const fauna_client = new faunadb.Client({ secret: fauna_token })
     const q = faunadb.query
 
 
     var getP = fauna_client.query(
-        q.Get(q.Ref(q.Collection('master'), "296332184627708419"))
+        q.Get(q.Ref(q.Collection(name), "296332184627708419"))
     )
 
     master = await getP.then(function(response) {
