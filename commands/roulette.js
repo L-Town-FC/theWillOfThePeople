@@ -288,7 +288,7 @@ function Display(message, embed){
         var board = new Discord.Attachment('./text_files/roulette/roulette.JPG')
     }
 
-    const display = new Discord.MessageEmbed()
+    const display = new Discord.RichEmbed()
     .setTitle('**Roulette**')
     .addField("Basics:",basics)
     .addField("Bet/Payouts:", payouts)
@@ -301,7 +301,7 @@ function Numbers(message,embed){
     const Discord = require('discord.js')  
     const fs = require('fs')
     var numbers = fs.readFileSync('./text_files/roulette/roulette_numbers.txt')
-    var numbers_embed = new Discord.MessageEmbed()
+    var numbers_embed = new Discord.RichEmbed()
     .setTitle('Last 10 Numbers')
     .setDescription(numbers)
     .setColor(embed.Color(message))
@@ -329,7 +329,7 @@ function Help(message, embed){
     const fs = require('fs')
     const Discord = require('discord.js')
     var help = fs.readFileSync('./text_files/roulette/roulette_commands.txt','utf-8')
-    help_embed = new Discord.MessageEmbed()
+    help_embed = new Discord.RichEmbed()
     .setTitle('List of Roulette Commands')
     .setDescription(help)
     .setColor(embed.Color(message))

@@ -151,7 +151,7 @@ async function Reminder_List(message, args, reminder_list, master){
                 counter++
             }
         }
-        var reminder_embed = new Discord.MessageEmbed()
+        var reminder_embed = new Discord.RichEmbed()
         .setTitle(`${master[message.author.id].name} Reminder List`)
         .setColor(embed.Color(message))
         .setDescription(user_reminders)
@@ -249,7 +249,7 @@ function Help(message, args){
 
     try{    
         var commands = fs.readFileSync('./text_files/remind_commands.txt')
-        var help_embed = new Discord.MessageEmbed()
+        var help_embed = new Discord.RichEmbed()
         .setTitle('List of Commands:')
         .setDescription('!remind list: Lists your current reminders')// \n\n**Two Ways to Set Reminders**')
         .addField('**Short Term: 3 Days max**', `!remind XY [reminder]: X = amount, Y = units (s,m,h,d)

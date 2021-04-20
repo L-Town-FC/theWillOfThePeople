@@ -75,7 +75,7 @@ module.exports = {
             case 'help':
                 try{
                     var guessgame_commands = fs.readFileSync('./text_files/guessgame/guessgame_commands.txt','utf8');
-                    const help_embed = new Discord.MessageEmbed()
+                    const help_embed = new Discord.RichEmbed()
                     .addField('List of Commands', guessgame_commands)
                     .setColor(embed.Color(message))
                     message.channel.send(help_embed);

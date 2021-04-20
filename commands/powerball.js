@@ -77,7 +77,7 @@ module.exports = {
             case 'help':
                 try{
                     var lottery_commands = fs.readFileSync('./text_files/lottery_commands.txt','utf8');
-                    const help_embed = new Discord.MessageEmbed()
+                    const help_embed = new Discord.RichEmbed()
                     .addField('List of Commands', lottery_commands)
                     .setColor(embed.Color(message))
                     message.channel.send(help_embed);

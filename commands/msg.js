@@ -95,7 +95,7 @@ function Prices(message){
     const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
 
-    var price_embed = new Discord.MessageEmbed()
+    var price_embed = new Discord.RichEmbed()
     .setTitle('!msg Prices')
     .setColor(embed.Color(message))
     .setDescription([

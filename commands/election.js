@@ -64,7 +64,7 @@ function Vote(message, args, master, reactions, election_roles){
     }else if(args.length > 7){
         message.channel.send('You must choose at most 5 candidates')
     }else{
-        var poll = new Discord.MessageEmbed()
+        var poll = new Discord.RichEmbed()
         var list = []
         const sec_per_hour = 3600
         var time = 24 * sec_per_hour
@@ -119,7 +119,7 @@ function Vote(message, args, master, reactions, election_roles){
                 for(var h = 2; h < args.length; h++){
                     final_list.push(`${args[h]}: ${list2[h - 2]}`)
                 }
-                var results = new Discord.MessageEmbed()
+                var results = new Discord.RichEmbed()
                 .setTitle(`${election_roles[parseInt(args[1]) - 1].split(".")[1]} Poll Results`)
                 .setDescription(final_list)
                 .setColor(embed.Color(message))
@@ -151,7 +151,7 @@ function Roles(message, election_roles){
     const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
 
-    var roles_embed = new Discord.MessageEmbed()
+    var roles_embed = new Discord.RichEmbed()
     .setTitle('Election Basics')
     .setDescription(election_roles)
     .setColor(embed.Color(message))
@@ -163,7 +163,7 @@ function Help(message){
     const embed = require('./Functions/embed_functions')
     var commands = fs.readFileSync('./text_files/election_help.txt', 'utf-8')
 
-    var help_embed = new Discord.MessageEmbed()
+    var help_embed = new Discord.RichEmbed()
     .setTitle('Election Basics')
     .setDescription(commands)
     .setColor(embed.Color(message))

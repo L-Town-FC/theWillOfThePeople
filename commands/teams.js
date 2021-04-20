@@ -53,7 +53,7 @@ function People(message, args, list){
     try{
         const Discord = require('discord.js')
         const embed = require('./Functions/embed_functions')
-        var people_embed = new Discord.MessageEmbed()
+        var people_embed = new Discord.RichEmbed()
         .setTitle('Current People')
         .setDescription(list)
         .setColor(embed.Color(message))
@@ -95,7 +95,7 @@ function Number(message, args, data){
                     counter = 0
                 }
             }
-            var teams_embed = new Discord.MessageEmbed()
+            var teams_embed = new Discord.RichEmbed()
             .setTitle('Teams')
             .setColor(embed.Color(message))
             if(num_of_teams <= list_count && list_count != 0){
@@ -130,7 +130,7 @@ function Help(message){
         const fs = require('fs')
 
         var help = fs.readFileSync('./text_files/teams_commands.txt')
-        var help_embed = new Discord.MessageEmbed()
+        var help_embed = new Discord.RichEmbed()
         .setTitle('List of Commands')
         .setColor(embed.Color(message))
         .setDescription(help)

@@ -14,7 +14,7 @@ module.exports = {
             }
             //turns each pair into an object array
 
-            const message_embed = new Discord.MessageEmbed()
+            const message_embed = new Discord.RichEmbed()
                 .setTitle("List of all names on Server")
                 .setDescription(just_names)
                 .setColor(embed.Color(message))

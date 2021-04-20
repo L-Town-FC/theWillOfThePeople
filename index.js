@@ -6,20 +6,30 @@ const fauna_token = process.env.FAUNA_KEY
 
 const fs = require('fs');
 const cron = require('cron')
-const faunadb = require('faunadb')
 
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
-//master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
-master = Fauna_get(fauna_token, "master")
+
+/*
+master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-players = JSON.parse(fs.readFileSync("./JSON/RPG/players.json","utf-8"))
 command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
 reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json", "utf-8"))
 profiles = JSON.parse(fs.readFileSync("./JSON/fish/fishing_profiles.json", "utf-8"))
+*/
+
+//tester(fauna_token)
+//async function tester(fauna_token){
+master =  Fauna_get(fauna_token, "master")
+stats_list =  Fauna_get(fauna_token, "stats")
+tracker =  Fauna_get(fauna_token, "tracker")
+command_stats =  Fauna_get(fauna_token, "command_stats")
+reminder_list =  Fauna_get(fauna_token, 'reminders')
+profiles =  Fauna_get(fauna_token, "profiles")
+//}
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -40,16 +50,21 @@ bot.on('ready', () => {
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
         bot_tinkering.send('The bot is online')
+
+        /*
         for(var i in reminder_list){
             if(reminder_list[i][3].length  == 0){
                 delete reminder_list[i]
             }
         }
+
         fs.writeFileSync ("JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
             }
         );
+
+        */
         new cron.CronJob('0 9 * * *', function(){
             Daily_Functions(channel, master, unlock)
             //590585423202484227 - pugilism
@@ -114,7 +129,7 @@ bot.on('message', async message =>{
             }
             switch(args[0].toLowerCase()){
                 case 'ping':
-                    bot.commands.get('ping').execute(message, bot);
+                    bot.commands.get('ping').execute(message, fauna_token, master);
                 break;
                 case 'pug':
                     bot.commands.get('pug').execute(message,master, tracker); 
@@ -475,15 +490,90 @@ async function Fauna_get(fauna_token, name){
     const faunadb = require('faunadb')
     const fauna_client = new faunadb.Client({ secret: fauna_token })
     const q = faunadb.query
+    const fs = require('fs')
+    const jsons = JSON.parse(fs.readFileSync('./JSON/faunadb.json', 'utf-8'))
 
 
-    var getP = fauna_client.query(
-        q.Get(q.Ref(q.Collection(name), "296332184627708419"))
-    )
+    var getP = await fauna_client.query(
+        q.Get(q.Ref(q.Collection('JSONs'), jsons[name]))
+    ).then((response) => {
+        switch(name){
+            case "master":
+                master = response.data
+                return master
+            break;
+            case "stats":
+                stats_list = response.data
+                return stats_list
+            break;
+            case "tracker":
+                tracker = response.data
+                return tracker
+            break;
+            case "command_stats":
+                command_stats = response.data
+                return command_stats
+            break;
+            case "reminders":
+                reminders = response.data
+                return reminders
+            break;
+            case "profiles":
+                profiles = response.data
+                return profiles
+            break;
 
-    master = await getP.then(function(response) {
-        return response.data
-    })
+    }}).catch(err => console.log(err))
 
-    return master
+    /*
+    switch(name){
+        case "master":
+            master = await getP.then(function(response) {
+                return response.data
+            }).catch(err => console.log(err))
+        break;
+        case "stats":
+            stats_list = await getP.then(function(response) {
+                return response.data
+            }).catch(err => console.log(err))
+        break;
+        case "tracker":
+            tracker = await getP.then(function(response) {
+                return response.data
+            }).catch(err => console.log(err))
+        break;
+        case "command_stats":
+            command_stats = await getP.then(function(response) {
+                return response.data
+            }).catch(err => console.log(err))
+        break;
+        case "reminders":
+            reminders = await getP.then(function(response) {
+                return response.data
+            }).catch(err => console.log(err))
+        break;
+        case "profiles":
+            profiles = await getP.then(function(response) {
+                return response.data
+            }).catch(err => console.log(err))
+        break;
+    }
+    */
+}
+
+async function Fauna_create(fauna_token, name){
+    const fs = require('fs')
+    const faunadb = require('faunadb')
+    const fauna_client = new faunadb.Client({ secret: fauna_token })
+    const q = faunadb.query
+    const fauna_json = JSON.parse(fs.readFileSync("./JSON/faunadb.json", "utf-8"))
+
+fauna_client.query(
+      q.Create(q.Collection("JSONs"), {
+        data: 
+          JSON.parse(fs.readFileSync(`./JSON/${name}.json`,'utf-8'))
+      }
+      )
+)
+
 }

@@ -57,7 +57,7 @@ module.exports = {
                                 Achievement_Tracker(message, args[2], master, tracker)
                         }
                     }else{
-                        var achievements_list = new Discord.MessageEmbed()
+                        var achievements_list = new Discord.RichEmbed()
                         .setTitle("List of All Achievements")
                         .setDescription(list)
                         .addField('Additional Info','To Check individual achievements use "!achievements list [number]"')
@@ -67,7 +67,7 @@ module.exports = {
                 break;
                 case 'help':
                     var help = fs.readFileSync('./text_files/achievement_commands.txt', 'utf-8')
-                    var command_list = new Discord.MessageEmbed()
+                    var command_list = new Discord.RichEmbed()
                     .setTitle("List of Commands")
                     .setDescription(help)
                     .setColor(embed.Color(message))
@@ -93,7 +93,7 @@ function Achievements(user, master, message, embed){
             list.push(achievements[i].name)
         }
     }
-    const achievement_embed = new Discord.MessageEmbed()
+    const achievement_embed = new Discord.RichEmbed()
     .setTitle(`${master[user].name}'s Achievements`)
     .setDescription(list)
     .setColor(embed.Color(message))
@@ -132,7 +132,7 @@ function Achievement_Tracker(message, achievement_num, master, tracker){
         description = achievements[achievement_num].description
     }
 
-    var achievement = new Discord.MessageEmbed()
+    var achievement = new Discord.RichEmbed()
     .setTitle(`${achievements[achievement_num].name}`)
     .setColor(embed.Color(message))
     .setDescription(description)
@@ -177,7 +177,7 @@ function Achievement_Tracker1(message, achievement_num, master, tracker){
         description = achievements[achievement_num].description
     }
 
-    var achievement = new Discord.MessageEmbed()
+    var achievement = new Discord.RichEmbed()
     .setTitle(`${achievements[achievement_num].name}`)
     .setColor(embed.Color(message))
     .setDescription(description)
@@ -229,7 +229,7 @@ function Achievement_Tracker2(message, achievement_num, master, tracker){
         description = achievements[achievement_num].description
     }
 
-    var achievement = new Discord.MessageEmbed()
+    var achievement = new Discord.RichEmbed()
     .setTitle(`${achievements[achievement_num].name}`)
     .setColor(embed.Color(message))
     .setDescription(bar)
@@ -246,7 +246,7 @@ function Achievement_Tracker3(message, achievement_num, master, tracker){
     var total = tracker[message.author.id][achievement_num].length
     var threshold = achievements[achievement_num].threshold
     const bar_length = 64
-    var achievement = new Discord.MessageEmbed()
+    var achievement = new Discord.RichEmbed()
     var current = []
     var counter = 0
     var list = []

@@ -1,23 +1,27 @@
 module.exports = {
     name: 'ping',
     description: 'says pong',
-    execute(message, bot){
+    execute(message, fauna_token, master){
         message.channel.send('pong');
-        //Test()
+        //Test(fauna_token, master)
+        //Test2(fauna_token, master)
     }
 }
 
 
-function Test(){
-    const fs = require('fs')
-    type = "bait"
-    var test = JSON.parse(fs.readFileSync(`./JSON/fish/${type}_fish.json`, 'utf-8'))
-    for(var i in test){
-        test[i].size = "Bait"
-    }
-    fs.writeFileSync (`./JSON/fish/${type}_fish.json`, JSON.stringify(test, null, 2), function(err) {
-        if (err) throw err;
-        console.log('complete');
-        }
-    );
+async function Test(fauna_token, master){
+    const faunadb = require('faunadb')
+    const fauna_client = new faunadb.Client({ secret: fauna_token })
+    const q = faunadb.query
+
+    console.log(master)
+fauna_client.query(
+      q.Update(q.Ref(q.Collection("master"), "296421904547316230"), {
+        data: 
+          master
+      }
+      )
+)
+
 }
+

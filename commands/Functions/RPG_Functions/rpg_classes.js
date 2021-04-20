@@ -58,7 +58,7 @@ function Classes_All(message, args, master, players){
     const Discord = require('discord.js')
     const embed = require('../embed_functions')
     const rpg_classes = JSON.parse(fs.readFileSync('./JSON/RPG/classes.json', 'utf-8'))
-    const classes_embed = new Discord.MessageEmbed()
+    const classes_embed = new Discord.RichEmbed()
     .setTitle('**List of Classes**')
     .setColor(embed.Color(message))
     var class_list = []
@@ -81,7 +81,7 @@ function Classes_Specific(message, index, master, players){
     var class_name = Object.keys(rpg_classes)[index]
     var _class = rpg_classes[class_name].changeable_stats
     var _class2 = rpg_classes[class_name].sub_stats
-    const class_embed = new Discord.MessageEmbed()
+    const class_embed = new Discord.RichEmbed()
     .setTitle(`**${class_name}**`)
     .setColor(embed.Color(message))
     .setDescription(

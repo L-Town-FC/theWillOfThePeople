@@ -24,5 +24,6 @@ module.exports = {
                 message.channel.send("Please enter a valid name")
             }
         }
+        console.log(master)
     }
 }
