@@ -14,9 +14,8 @@ async function Test(fauna_token, master){
     const fauna_client = new faunadb.Client({ secret: fauna_token })
     const q = faunadb.query
 
-    console.log(master)
 fauna_client.query(
-      q.Update(q.Ref(q.Collection("master"), "296421904547316230"), {
+      q.Update(q.Ref(q.Collection("JSONs"), "296421904547316230"), {
         data: 
           master
       }

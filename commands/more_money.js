@@ -37,7 +37,7 @@ module.exports = {
             if(message.author.discriminator !== '9509' && message.author.discriminator !== '0250'){
                 if(message.content.startsWith("!") == false){
                     if(message.channel.type !== 'dm'){
-                        if(message.member.roles.find(r => r.name === "Junior Representative Assistant") || message.member.roles.find(r => r.name === "Senior Representative Assistant") || message.member.roles.find(r => r.name === "The People's Representative") ||message.member.roles.find(r => r.name === "Dogcatcher") || message.member.roles.find(r => r.name === "Soupmaker") || message.member.roles.find(r => r.name === "Viceroy!")){
+                        if(message.member.roles.cache.find(r => r.name === "Junior Representative Assistant") || message.member.roles.cache.find(r => r.name === "Senior Representative Assistant") || message.member.roles.cache.find(r => r.name === "The People's Representative") ||message.member.roles.cache.find(r => r.name === "Dogcatcher") || message.member.roles.cache.find(r => r.name === "Soupmaker") || message.member.roles.cache.find(r => r.name === "Viceroy!")){
                             unlock.unlock(message.author.id, 24, message, master)
                         }
                     }

@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
-const fauna_token = process.env.FAUNA_KEY
 
 const fs = require('fs');
 const cron = require('cron')
@@ -21,15 +20,14 @@ reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json", "utf-8"))
 profiles = JSON.parse(fs.readFileSync("./JSON/fish/fishing_profiles.json", "utf-8"))
 */
 
-//tester(fauna_token)
-//async function tester(fauna_token){
-master =  Fauna_get(fauna_token, "master")
-stats_list =  Fauna_get(fauna_token, "stats")
-tracker =  Fauna_get(fauna_token, "tracker")
-command_stats =  Fauna_get(fauna_token, "command_stats")
-reminder_list =  Fauna_get(fauna_token, 'reminders')
-profiles =  Fauna_get(fauna_token, "profiles")
-//}
+//Pulling data from faunadb
+const fauna_token = process.env.FAUNA_KEY
+master =  Fauna_get(fauna_token, "master", process.env.NODE_ENV)
+stats_list =  Fauna_get(fauna_token, "stats", process.env.NODE_ENV)
+tracker =  Fauna_get(fauna_token, "tracker", process.env.NODE_ENV)
+command_stats =  Fauna_get(fauna_token, "command_stats", process.env.NODE_ENV)
+reminder_list =  Fauna_get(fauna_token, 'reminders', process.env.NODE_ENV)
+profiles =  Fauna_get(fauna_token, "profiles", process.env.NODE_ENV)
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -72,10 +70,10 @@ bot.on('ready', () => {
             //743269381768872087 - stonks
             //711634711281401867 bot-tinkering            
         }, null, true, 'America/New_York')
-        new cron.CronJob('0 * * * *', function(){
+        new cron.CronJob('* * * * *', function(){
             //'0 * * * * *'
             setTimeout(function(){
-                JSON_Overwrite(master, stats_list, tracker, command_stats, players, bot_tinkering)
+                JSON_Overwrite(master, stats_list, tracker, command_stats, bot_tinkering, profiles, reminder_list, fauna_token)
             },2000)
         }, null, true)
         new cron.CronJob('0 * * * *', function(){
@@ -375,7 +373,14 @@ function Lottery(channel, master, unlock){
     }
 }
 
-async function JSON_Overwrite(master, stats_list, tracker, command_stats, players, channel){
+async function JSON_Overwrite(master, stats_list, tracker, command_stats, channel, profiles, reminder_list, fauna_token){
+    Fauna_update(fauna_token, "master",master, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "stats", stats_list, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "tracker", tracker, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "command_stats", command_stats, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "profiles", profiles, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "reminders", reminder_list, process.env.NODE_ENV)
+    /*
     try{
         //master["450001712305143869"].loans.collection = 0
         fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
@@ -407,6 +412,7 @@ async function JSON_Overwrite(master, stats_list, tracker, command_stats, player
         console.log(err)
         channel.send('Error Occured in JSON_Overwrite')
     }
+    */
 }
 
 function gbp_farm_reset(channel, master){
@@ -486,16 +492,21 @@ async function Reminder_Checker(bot, reminder_list){
     }
 }
 
-async function Fauna_get(fauna_token, name){
+async function Fauna_get(fauna_token, name, location){
     const faunadb = require('faunadb')
     const fauna_client = new faunadb.Client({ secret: fauna_token })
     const q = faunadb.query
     const fs = require('fs')
-    const jsons = JSON.parse(fs.readFileSync('./JSON/faunadb.json', 'utf-8'))
 
+   if(location == 'local'){
+        var prefix = 'dev'
+    }else{
+        var prefix = 'prod'
+    }
+    const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
 
     var getP = await fauna_client.query(
-        q.Get(q.Ref(q.Collection('JSONs'), jsons[name]))
+        q.Get(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]))
     ).then((response) => {
         switch(name){
             case "master":
@@ -524,56 +535,46 @@ async function Fauna_get(fauna_token, name){
             break;
 
     }}).catch(err => console.log(err))
-
-    /*
-    switch(name){
-        case "master":
-            master = await getP.then(function(response) {
-                return response.data
-            }).catch(err => console.log(err))
-        break;
-        case "stats":
-            stats_list = await getP.then(function(response) {
-                return response.data
-            }).catch(err => console.log(err))
-        break;
-        case "tracker":
-            tracker = await getP.then(function(response) {
-                return response.data
-            }).catch(err => console.log(err))
-        break;
-        case "command_stats":
-            command_stats = await getP.then(function(response) {
-                return response.data
-            }).catch(err => console.log(err))
-        break;
-        case "reminders":
-            reminders = await getP.then(function(response) {
-                return response.data
-            }).catch(err => console.log(err))
-        break;
-        case "profiles":
-            profiles = await getP.then(function(response) {
-                return response.data
-            }).catch(err => console.log(err))
-        break;
-    }
-    */
 }
 
+//Just used to move the JSON files over to faunadb
 async function Fauna_create(fauna_token, name){
     const fs = require('fs')
     const faunadb = require('faunadb')
     const fauna_client = new faunadb.Client({ secret: fauna_token })
     const q = faunadb.query
-    const fauna_json = JSON.parse(fs.readFileSync("./JSON/faunadb.json", "utf-8"))
+    const fauna_json = JSON.parse(fs.readFileSync("./JSON/prod_faunadb.json", "utf-8"))
 
-fauna_client.query(
-      q.Create(q.Collection("JSONs"), {
-        data: 
-          JSON.parse(fs.readFileSync(`./JSON/${name}.json`,'utf-8'))
-      }
-      )
-)
+    fauna_client.query(
+        q.Create(q.Collection("prod_JSONs"), {
+            data: 
+            JSON.parse(fs.readFileSync(`./JSON/${name}.json`,'utf-8'))
+        }
+        )
+    )
+
+}
+
+//used to update the faunadb database
+async function Fauna_update(fauna_token, name, file, location){
+    const faunadb = require('faunadb')
+    const fauna_client = new faunadb.Client({ secret: fauna_token })
+    const q = faunadb.query
+    const fs = require('fs')
+
+    if(location == 'local'){
+        var prefix = 'dev'
+    }else{
+        var prefix = 'prod'
+    }
+    const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
+
+    var updateP = await fauna_client.query(
+        q.Update(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]), {
+            data: file
+        }
+
+        )
+    )
 
 }
