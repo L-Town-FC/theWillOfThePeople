@@ -41,9 +41,9 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
-    var channel = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
-    var stonks = bot.channels.find(channel => channel.id === '743269381768872087')
-    var bot_tinkering = bot.channels.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
+    var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
+    var stonks = bot.channels.cache.find(channel => channel.id === '743269381768872087')
+    var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
     console.log('This bot is online')
     stocks_open = false

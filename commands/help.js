@@ -13,14 +13,14 @@ module.exports = {
                 for(i in help){
                     list.push(`${i}. ${help[i].name}`)
                 }
-                var help_embed = new Discord.RichEmbed()
+                var help_embed = new Discord.MessageEmbed()
                 .setTitle('List of Commands')
                 .setDescription(`Use "!help [number]" for more detailed list of specificied command`)
                 .addField(`Commands:`, list)
                 .setColor(embed.Color(message))
                 message.channel.send(help_embed)
             }else if(parseInt(args[1]) == parseFloat(args[1]) && args[1] > 0 && args[1] <= length){
-                var help_embed = new Discord.RichEmbed()
+                var help_embed = new Discord.MessageEmbed()
                 .setTitle(`**${help[args[1]].name}**`)
                 .setDescription(help[args[1]].description)
                 .setColor(embed.Color(message))

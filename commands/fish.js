@@ -260,7 +260,7 @@ function Locations(message, args, master, profiles, user, tracker, stats){
             message.channel.send(`You didn't choose an acceptable location`)
         }
     }else if(parseInt(command) > 0 && parseInt(command) <= Object.keys(location_json).length){
-        var specific_location = new Discord.RichEmbed()
+        var specific_location = new Discord.MessageEmbed()
         .setTitle(location_json[command].name)
         .setDescription([
             `Fish Type: ${location_json[command].type}`,
@@ -274,7 +274,7 @@ function Locations(message, args, master, profiles, user, tracker, stats){
         for(var i in location_json){
             list.push(`${i} ${location_json[i].name}`)
         }
-        var locations_list = new Discord.RichEmbed()
+        var locations_list = new Discord.MessageEmbed()
         .setTitle('List of Locations')
         .setColor(embed.Color(message))
         .setDescription(list)

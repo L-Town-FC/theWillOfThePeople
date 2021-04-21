@@ -29,7 +29,7 @@ function Show_Status(player, master, message){
     var bet = master[player].bwg.bet
     var word = master[player].bwg.current_word
     var msgs = master[player].bwg.remaining_msgs
-    const status_embed = new Discord.RichEmbed()
+    const status_embed = new Discord.MessageEmbed()
     .setTitle(`${master[player].name} Game Status`)
     .setDescription(`Target: ${target} \nCurrent Word: ${word} \nBet: ${bet} \nRemaining Messages: ${msgs}`)
     .setColor(embed.Color(message))

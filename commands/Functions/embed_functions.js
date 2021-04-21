@@ -1,6 +1,7 @@
 function Color(message){
     if(message.member !== null){
-        var roles = message.member.roles.array()
+        console.log(message.member.roles)
+        var roles = message.member.roles.cache.array()
         var position_array = []
         for(i in roles){
             position_array.push(roles[i].position)
