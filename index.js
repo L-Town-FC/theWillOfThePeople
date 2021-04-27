@@ -70,7 +70,7 @@ bot.on('ready', () => {
             //743269381768872087 - stonks
             //711634711281401867 bot-tinkering            
         }, null, true, 'America/New_York')
-        new cron.CronJob('* * * * *', function(){
+        new cron.CronJob('0 * * * *', function(){
             //'0 * * * * *'
             setTimeout(function(){
                 JSON_Overwrite(master, stats_list, tracker, command_stats, bot_tinkering, profiles, reminder_list, fauna_token)
@@ -247,6 +247,9 @@ bot.on('message', async message =>{
                 break;
                 case 'poll':
                     bot.commands.get('poll').execute(message, args)
+                break;
+                case 'update':
+                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
@@ -498,6 +501,7 @@ async function Fauna_get(fauna_token, name, location){
     const q = faunadb.query
     const fs = require('fs')
 
+    //first checks if it should grab the dev or the prod bot's data
    if(location == 'local'){
         var prefix = 'dev'
     }else{
@@ -505,6 +509,7 @@ async function Fauna_get(fauna_token, name, location){
     }
     const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
 
+    //then checks the corresponding json file for the reference ids and grabs the correct data from faunadb
     var getP = await fauna_client.query(
         q.Get(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]))
     ).then((response) => {
@@ -562,6 +567,7 @@ async function Fauna_update(fauna_token, name, file, location){
     const q = faunadb.query
     const fs = require('fs')
 
+    //first checks if it should grab the dev or the prod bot's data
     if(location == 'local'){
         var prefix = 'dev'
     }else{
@@ -569,6 +575,7 @@ async function Fauna_update(fauna_token, name, file, location){
     }
     const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
 
+    //then takes the reference number from the corresponding json file and update that reference document in faunadb
     var updateP = await fauna_client.query(
         q.Update(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]), {
             data: file
