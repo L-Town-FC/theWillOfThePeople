@@ -38,10 +38,6 @@ function index_tracker(user, achievement_num, increment, channel, master, tracke
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     try{
-        if(tracker == 'undefined'){
-            tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        }
-
         threshold = achievements[achievement_num].threshold
         tracker[user][achievement_num] = tracker[user][achievement_num] + increment;
         if(tracker[user][achievement_num] >= threshold){
@@ -59,9 +55,6 @@ module.exports.index_tracker = index_tracker
 function reset1(user, achievement_num, tracker, message){
     const fs = require('fs')
     try{
-        if(tracker == 'undefined'){
-            tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        }
         tracker[user][achievement_num] = 0
     }catch(err){
         console.log(err)
@@ -74,9 +67,6 @@ module.exports.reset1 = reset1
 function reset2(user, achievement_num, index, tracker, message){
     const fs = require("fs");
     try{
-        if(tracker == 'undefined'){
-            tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        }
         for(i in tracker){
             if(user !== i){
                 tracker[i][achievement_num][index] = false
@@ -95,10 +85,6 @@ function tracker1(user, achievement_num, increment, message, master, tracker){
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     try{
-        if(tracker == 'undefined'){
-            tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        }
-
         threshold = achievements[achievement_num].threshold
         tracker[user][achievement_num] = tracker[user][achievement_num] + increment;
         if(tracker[user][achievement_num] >= threshold){
@@ -116,9 +102,6 @@ function tracker2(user, achievement_num, index, message, master, tracker){
     //achievements that track booleans
     const fs = require('fs')
     try{
-        if(tracker == 'undefined'){
-            tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        }
         tracker[user][achievement_num][index] = true
 
         if(tracker[user][achievement_num].includes(false) == false){
@@ -137,9 +120,6 @@ function tracker3(user, achievement_num, index, increment, message, master, trac
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     try{
-        if(tracker == 'undefined'){
-            tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        }
         threshold = achievements[achievement_num].threshold
         tracker[user][achievement_num][index] = tracker[user][achievement_num][index] + parseFloat(increment)
         

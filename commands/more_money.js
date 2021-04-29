@@ -6,24 +6,8 @@ module.exports = {
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
-        try{
-            var person = message.author.id
-            var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
-        }catch(err){
-            try{
-                message.channel.send("Error occured in master.json. File reset")
-                var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
-                fs.writeFile ("./JSON/master.json", JSON.stringify(backup), function(err) {
-                    if (err) throw err;
-                    console.log('complete');
-                    }
-                );
-            }catch(err){
-                console.log(err)
-                message.channel.send('Error occurred retrieving back up')
-            }
-        }
-
+        var person = message.author.id
+         
         try{
             if(!master[person]){
                 addPerson(message, master, tracker, stats_list)

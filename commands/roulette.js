@@ -259,6 +259,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
         if(counter == 0){
             message.channel.send("No Winners")
         }else{
+            /*
             fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
                 if (err) throw err;
                 console.log('complete');
@@ -269,6 +270,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 console.log('complete');
                 }
             );
+            */
         }
     }catch(err){
         console.log(err)

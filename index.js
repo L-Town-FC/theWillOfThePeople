@@ -196,9 +196,6 @@ bot.on('message', async message =>{
                 case 'steal':
                     bot.commands.get('steal').execute(message,args, master, tracker);
                 break;
-                case 'backup':
-                    bot.commands.get('backup').execute(message,args);
-                break;
                 case 'achievements':
                     bot.commands.get('achievements').execute(message,args, master, tracker);
                 break;
@@ -230,9 +227,6 @@ bot.on('message', async message =>{
                 case 'rpg':
                     bot.commands.get('rpg').execute(message, args, master, stats_list, tracker, players)
                 break
-                case 'upload':
-                    bot.commands.get('upload').execute(message, args)
-                break;
                 case 'changename':
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
                 break;
@@ -486,6 +480,7 @@ async function Reminder_Checker(bot, reminder_list){
             }
         }
     }
+    /*
     if(change == true){
         fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
             if (err) throw err;
@@ -493,6 +488,7 @@ async function Reminder_Checker(bot, reminder_list){
             }
         );
     }
+    */
 }
 
 async function Fauna_get(fauna_token, name, location){
