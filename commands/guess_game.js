@@ -25,8 +25,8 @@ module.exports = {
         switch(command){
             case 'bet':
                 try{
-                    if(is_Ongoing()[0] == true){
-                        message.channel.send(`${master[is_Ongoing()[1]].name} is currently playing and is on guess ${is_Ongoing()[2]}`)
+                    if(is_Ongoing(master)[0] == true){
+                        message.channel.send(`${master[is_Ongoing(master)[1]].name} is currently playing and is on guess ${is_Ongoing(master)[2]}`)
                     }else if(typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) <= parseFloat(total_money)){
                         message.channel.send("Your bet is accepted. Please guess the number between 0 and 100. You have 3 guesses");
                         first_guess(person, bet);
@@ -48,7 +48,7 @@ module.exports = {
             break;
             case 'guess':
                 try{
-                    if (is_Ongoing()[0] == true){
+                    if (is_Ongoing(master)[0] == true){
                         result = update_guesses(parseFloat(args[1]),message);
                     }else{
                         message.channel.send('Noone is currently playing');
@@ -61,10 +61,10 @@ module.exports = {
             break;
             case 'status':
                 try{
-                    if (is_Ongoing()[0] == false){
+                    if (is_Ongoing(master)[0] == false){
                         message.channel.send('Noone is currently playing')
                     }else{
-                        message.channel.send(`${master[is_Ongoing()[1]].name} is currently playing and is on guess number ${num_of_guesses}`)
+                        message.channel.send(`${master[is_Ongoing(master)[1]].name} is currently playing and is on guess number ${num_of_guesses}`)
                     }
                 }catch(err){
                     console.log(err)
@@ -89,7 +89,7 @@ module.exports = {
                 message.channel.send('Use the command "!gg help" for a list of commands');
         }
         try{
-            if(is_Ongoing()[2] >= 4 || result == true){
+            if(is_Ongoing(master)[2] >= 4 || result == true){
                 if(result == false){
                     message.channel.send(`You are out of guesses. You lose. The correct number was ${magic_number}`);
                     unlock.tracker1(message.author.id, 32, parseFloat(bet2), message, master, tracker)
@@ -114,11 +114,10 @@ module.exports = {
     
 }
 
-function is_Ongoing() {
+function is_Ongoing(master) {
     try{
         const fs = require('fs');
         var number = fs.readFileSync('./text_files/guessgame/guessgame.txt','utf8').split(" ");
-        var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
         var player = number[2];
         var name = "";
         var guess_number = number[0];

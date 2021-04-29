@@ -9,8 +9,8 @@ module.exports = {
         const max_amount = 30000
         var name = args[1];
         var command = args[1]
-        var chart = args[2] || 'none'
         var names = []
+
         try{
 
             for(i in master){
@@ -35,7 +35,6 @@ module.exports = {
                     switch(command){
                         case 'all':
                             try{
-                                if(chart !== 'day' && chart !== 'week'){
                                     var everyone = [];
                                     var counter = 0
                                     var total = 0
@@ -52,9 +51,6 @@ module.exports = {
                                     .addField(`Total GBP on Server`, total.toFixed(2))
                                     .setColor(embed.Color(message))
                                     message.channel.send(message_embed)
-                                }else{
-                                    All_Chart(message, args, master)
-                                }
                             }catch(err){
                                 console.log(err)
                                 message.channel.send('Error occurred in bank.js all')
@@ -62,11 +58,9 @@ module.exports = {
                         break;
                         case 'name':
                             try{
-                                if(chart !== 'day' && chart !== 'week'){
+                            
                                     message.channel.send(`${master[person].name} has ${master[person].gbp} gbp`);
-                                }else{
-                                    Specific_Chart(message, args, master, person)
-                                }
+                                
                             }catch(err){
                                 console.log(err)
                                 message.channel.send('Error occurred in bank.js name')
@@ -155,166 +149,5 @@ module.exports = {
             console.log(err)
             message.channel.send('Error occurred in bank.js')
         }
-    }
-}
-
-async function All_Chart(message, args ,master){
-    try{
-        if(args[2] == 'week'){
-            var week = []
-            var labels = []
-            for(var h = 7; h > 0; h--){
-                week.push(0)
-                labels.push(h-1)
-            }
-            for(var i in master){
-                for(var j = 0; j < master[i].historical_gbp.week.length; j++){
-                    week[j] += master[i].historical_gbp.week[j]
-                }
-            }
-            Chart(week, labels, message, "Days")
-        }else{
-            var day = []
-            var labels = []
-            for(var h = 24; h > 0; h--){
-                day.push(0)
-                labels.push(h-1)
-            }
-            for(var i in master){
-                for(var j = 0; j < master[i].historical_gbp.day.length; j++){
-                    day[j] += master[i].historical_gbp.day[j]
-                }
-            }
-            for(var k = 0; k < day.length; k++){
-                day[k] = parseFloat(day[k]).toFixed(2)
-            }
-            Chart(day, labels, message, "Hours")
-        }
-    }catch(err){
-        console.log(err)
-        message.channel.send('Error occurred in bank.js All_chart')
-    }
-}
-
-async function Specific_Chart(message, args, master, id){
-    try{
-        if(args[2] == 'week'){
-            var week = []
-            var labels = []
-            for(var h = 7; h > 0; h--){
-                week.push(0)
-                labels.push(h-1)
-            }
-            for(var j = 0; j < master[id].historical_gbp.week.length; j++){
-                week[j] += master[id].historical_gbp.week[j]
-            }
-            Chart(week, labels, message, 'Days')
-        }else{
-            var day = []
-            var labels = []
-            for(var h = 24; h > 0; h--){
-                day.push(0)
-                labels.push(h-1)
-            }
-
-            for(var j = 0; j < master[id].historical_gbp.day.length; j++){
-                day[j] += master[id].historical_gbp.day[j]
-            }
-
-            for(var k = 0; k < day.length; k++){
-                day[k] = parseFloat(day[k]).toFixed(2)
-            }
-            Chart(day, labels, message, "Hours")
-        }
-    }catch(err){
-        console.log(err)
-        message.channel.send('Error occurred in bank.js specific chart')
-    }
-}
-
-async function Chart(gbp_data, labels, message, time_scale){
-    const ImageDataURI = require('image-data-uri');
-    const Discord = require('discord.js')
-    const embed = require('./Functions/embed_functions')
-    const chart = require('chart.js')
-    const {CanvasRenderService} = require('chartjs-node-canvas');
-
-    const width = 400;
-    const height = 400;
-
-    try{
-    const chartCallback = (ChartJS) => {
-
-        // Global config example: https://www.chartjs.org/docs/latest/configuration/
-         ChartJS.defaults.global.elements.rectangle.borderWidth = 2;
-        // Global plugin example: https://www.chartjs.org/docs/latest/developers/plugins.html
-         ChartJS.plugins.register({
-            // plugin implementation
-        });
-        // New chart type example: https://www.chartjs.org/docs/latest/developers/charts.html
-        ChartJS.controllers.MyType = ChartJS.DatasetController.extend({
-            // chart implementation
-        });
-    };
-
-    const canvas = new CanvasRenderService(width, height, chartCallback);
-
-    //console.log(gbp_data)
-    //console.log(labels)
-    const configuration = {
-        type: 'line',
-        data: {
-            labels: labels,//[0,1,2,3,4],
-            datasets: 
-            [{
-                label: 'GBP',
-                data: gbp_data,//[1,2,3,4,5],
-                backgroundColor: '#8E89FF'//`${embed.Color(message)}`
-            }/*, {
-            label: 'Traffic tickets',
-            data: [0, 2],
-            backgroundColor: '#994499'
-            }*/]
-        },
-        options: {
-            responsive: false,
-            title:{
-                display: true,
-                text: "Amount of GBP over Time"
-            },
-            legend: {
-            position: 'right'
-            },
-            scales: {
-                xAxes: [{
-                    stacked: true,
-                    scaleLabel:{
-                        display: true,
-                        labelString: `${time_scale} in the Past`
-                    }
-                }],
-                yAxes: [{
-                    stacked: true,
-                    scaleLabel:{
-                        display: true,
-                        labelString: `Amount of GBP`
-                    },
-                    ticks: {
-                        beginAtZero: false,
-                    }
-                }]
-                }
-            }
-        
-    };
-
-    const dataUrl = await canvas.renderToDataURL(configuration).then(dataUrl => ImageDataURI.outputFile(dataUrl, 'chart.png').then(() => 
-        {
-            var image = new Discord.Attachment('chart.png');
-            message.channel.send(image)
-        }))
-    }catch(err){
-        console.log(err)
-        message.channel.send('Error occurred in bank.js chart')
     }
 }

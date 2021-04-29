@@ -57,6 +57,7 @@ module.exports = {
             }catch(err){
                 console.log(err)
                 message.channel.send('Error Occurred in Roles.js update')
+                message.channel.send(`This command doesn't work in dms`)
             }
         }
     }

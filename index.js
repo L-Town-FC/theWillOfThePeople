@@ -5,16 +5,30 @@ const PREFIX = "!";
 
 const fs = require('fs');
 const cron = require('cron')
+
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
+
+/*
 master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-players = JSON.parse(fs.readFileSync("./JSON/RPG/players.json","utf-8"))
 command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
-reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json"))
+reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json", "utf-8"))
+profiles = JSON.parse(fs.readFileSync("./JSON/fish/fishing_profiles.json", "utf-8"))
+*/
+
+//Pulling data from faunadb
+const fauna_token = process.env.FAUNA_KEY
+master =  Fauna_get(fauna_token, "master", process.env.NODE_ENV)
+stats_list =  Fauna_get(fauna_token, "stats", process.env.NODE_ENV)
+tracker =  Fauna_get(fauna_token, "tracker", process.env.NODE_ENV)
+command_stats =  Fauna_get(fauna_token, "command_stats", process.env.NODE_ENV)
+reminder_list =  Fauna_get(fauna_token, 'reminders', process.env.NODE_ENV)
+profiles =  Fauna_get(fauna_token, "profiles", process.env.NODE_ENV)
+
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -28,22 +42,27 @@ bot.on('ready', () => {
     var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
     var stonks = bot.channels.cache.find(channel => channel.id === '743269381768872087')
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
-    
+
     console.log('This bot is online')
     stocks_open = false
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
         bot_tinkering.send('The bot is online')
+
+        /*
         for(var i in reminder_list){
             if(reminder_list[i][3].length  == 0){
                 delete reminder_list[i]
             }
         }
+
         fs.writeFileSync ("JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
             if (err) throw err;
             console.log('complete');
             }
         );
+
+        */
         new cron.CronJob('0 9 * * *', function(){
             Daily_Functions(channel, master, unlock)
             //590585423202484227 - pugilism
@@ -54,8 +73,7 @@ bot.on('ready', () => {
         new cron.CronJob('0 * * * *', function(){
             //'0 * * * * *'
             setTimeout(function(){
-                daily_historical_gbp(channel, master)
-                JSON_Overwrite(master, stats_list, tracker, command_stats, players, bot_tinkering)
+                JSON_Overwrite(master, stats_list, tracker, command_stats, bot_tinkering, profiles, reminder_list, fauna_token)
             },2000)
         }, null, true)
         new cron.CronJob('0 * * * *', function(){
@@ -82,7 +100,6 @@ bot.on('message', message =>{
             bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
             bot.commands.get('boo_trigger').execute(message, command_stats);
             bot.commands.get('bwg_counter').execute(message, master, tracker);
-            bot.commands.get('ceelo_counter').execute(message, master)
             bot.commands.get('word_checker').execute(message, master, tracker)
             //bot.commands.get('stonks').execute(message)
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
@@ -101,7 +118,6 @@ bot.on('message', message =>{
     }
 })
 
-
 bot.on('message', async message =>{    
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
@@ -111,7 +127,7 @@ bot.on('message', async message =>{
             }
             switch(args[0].toLowerCase()){
                 case 'ping':
-                    bot.commands.get('ping').execute(message, bot);
+                    bot.commands.get('ping').execute(message, fauna_token, master);
                 break;
                 case 'pug':
                     bot.commands.get('pug').execute(message,master, tracker); 
@@ -152,9 +168,6 @@ bot.on('message', async message =>{
                     bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list, tracker, command_stats)
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
-                case 'herald':
-                    bot.commands.get('herald').execute(message,args, master[message.author.id].gbp, master)
-                break;
                 case 'names':
                     bot.commands.get('names').execute(message,master)
                 break;
@@ -183,9 +196,6 @@ bot.on('message', async message =>{
                 case 'steal':
                     bot.commands.get('steal').execute(message,args, master, tracker);
                 break;
-                case 'backup':
-                    bot.commands.get('backup').execute(message,args);
-                break;
                 case 'achievements':
                     bot.commands.get('achievements').execute(message,args, master, tracker);
                 break;
@@ -197,13 +207,6 @@ bot.on('message', async message =>{
                 break;
                 case 'button':
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
-                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
-                break;
-                case 'loan':
-                    bot.commands.get('loan').execute(message,args, master);
-                break;
-                case 'ceelo':
-                    bot.commands.get('ceelo').execute(message, args, master, stats_list, tracker)
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'info':
@@ -224,9 +227,6 @@ bot.on('message', async message =>{
                 case 'rpg':
                     bot.commands.get('rpg').execute(message, args, master, stats_list, tracker, players)
                 break
-                case 'upload':
-                    bot.commands.get('upload').execute(message, args)
-                break;
                 case 'changename':
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
                 break;
@@ -234,13 +234,16 @@ bot.on('message', async message =>{
                     bot.commands.get('teams').execute(message, args)
                 break;
                 case 'fish':
-                   bot.commands.get('fish').execute(message, args, master)
+                   bot.commands.get('fish').execute(message, args, master, stats_list, tracker, profiles)
                 break;
                 case 'remind':
                     bot.commands.get('remind').execute(message, args, reminder_list, bot, master)
                 break;
                 case 'poll':
                     bot.commands.get('poll').execute(message, args)
+                break;
+                case 'update':
+                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
@@ -268,50 +271,17 @@ bot.on('error', (err) => {
 
 function Welfare(channel, master){
     const fs = require('fs')
-    var loans = []
     try{
         for(i in master){
             if(isNaN(master[i].gbp) == true){
                 master[i].gbp = 0;
-            }
-            if(master[i].loans.target !== ""){
-                loans.push([i, master[i].loans.target])
             }
             if(master[i].gbp + master[i].account < 0){
                 master[i].gbp = master[i].gbp + 250
             }else if(master[i].gbp + master[i].account < 250){
                 master[i].gbp = 250 - parseFloat(master[i].account)
             }
-            if(master[i].loans.collection !== 0){
-                master[i].loans.collection -= 1
-            }
         }
-        for(var i = 0; i < loans.length; i ++){
-            if(master[loans[i][0]].loans.collection == 0){
-                if(master[loans[i][0]].loans.remaining >= master[loans[i][1]].gbp){
-                    master[loans[i][0]].loans.remaining -= master[loans[i][1]].gbp
-                    master[loans[i][0]].gbp += master[loans[i][1]].gbp
-                    master[loans[i][1]].gbp -= master[loans[i].gbp] 
-                }else{
-                    master[loans[i][1]].gbp -= master[loans[i][0]].loans.remaining
-                    master[loans[i][0]].gbp += master[loans[i][0]].loans.remaining
-                    master[loans[i][0]].loans.remaining = 0
-                }
-                if(master[loans[i][0]].loans.remaining <= 0){
-                    channel.send(`${master[loans[i][1]].name} has payed off their loan`)
-                    master[loans[i][0]].loans = {
-                        target: "",
-                        remaining: 0,
-                        collection: 0,
-                        rate: 0
-                    }
-                }
-                if(isNaN(master[loans[i][1]].gbp) == true){
-                    master[loans[i][1]].gbp = 0
-                }
-            }
-        }
-        
         channel.send("Welfare has been distributed")
         fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
             if (err) throw err;
@@ -400,7 +370,14 @@ function Lottery(channel, master, unlock){
     }
 }
 
-async function JSON_Overwrite(master, stats_list, tracker, command_stats, players, channel){
+async function JSON_Overwrite(master, stats_list, tracker, command_stats, channel, profiles, reminder_list, fauna_token){
+    Fauna_update(fauna_token, "master",master, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "stats", stats_list, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "tracker", tracker, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "command_stats", command_stats, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "profiles", profiles, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "reminders", reminder_list, process.env.NODE_ENV)
+    /*
     try{
         //master["450001712305143869"].loans.collection = 0
         fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
@@ -432,6 +409,7 @@ async function JSON_Overwrite(master, stats_list, tracker, command_stats, player
         console.log(err)
         channel.send('Error Occured in JSON_Overwrite')
     }
+    */
 }
 
 function gbp_farm_reset(channel, master){
@@ -462,115 +440,10 @@ function gbp_farm_reset(channel, master){
     }
 }
 
-function daily_historical_gbp(channel, master){
-    try{
-        for(var i in master){
-            if(!master[i].historical_gbp){
-                var day_list = []
-                var week_list = []
-                for(var k = 0; k < 24; k++){
-                    day_list.push(0)
-                }
-                for(var k = 0; k < 7; k++){
-                    week_list.push(0)
-                }
-                master[i].historical_gbp = {
-                    "day": day_list,
-                    "week": week_list
-                }
-                
-            }
-            var temp_list = master[i].historical_gbp.day
-            var new_list = []
-            temp_list.shift()
-            temp_list.push(master[i].gbp)
-            new_list = temp_list
-            master[i].historical_gbp.day = new_list
-        }
-    }catch(err){
-        console.log(err)
-        channel.send('Error Occurred in index.js hourly gbp')
-    }
-}
-
-function weekly_historical_gbp(channel, master){
-    try{
-        for(var i in master){
-            if(!master[i].historical_gbp){
-                var day_list = []
-                var week_list = []
-                for(var k = 0; k < 24; k++){
-                    day_list.push(0)
-                }
-                for(var k = 0; k < 7; k++){
-                    week_list.push(0)
-                }
-                master[i].historical_gbp = {
-                    "day": day_list,
-                    "week": week_list
-                }
-                
-            }
-            var temp_list = master[i].historical_gbp.week
-            var new_list = []
-            temp_list.shift()
-            temp_list.push(master[i].gbp)
-            new_list = temp_list
-            master[i].historical_gbp.week = new_list
-        }
-    }catch(err){
-        console.log(err)
-        channel.send('Error Occurred in index.js hourly gbp')
-    }
-}
-
-function Interest(master, stats_list, channel, tracker){
-    const fs = require('fs')
-    const unlock = require('./commands/Functions/Achievement_Functions')
-    var tax = 0
-    var bracket = JSON.parse(fs.readFileSync('./JSON/taxes.json', 'utf-8'))
-    var interest
-    try{
-        for(var i in master){
-            interest = Math.round(master[i].account * (bracket.Interest/100) * 100)/100
-            master[i].account += parseFloat(interest.toFixed(2))
-            if(master[i].account > 30000){
-                master[i].account = 30000
-            }
-            if(master[i].gbp < 20000){
-                tax = 0
-            }else if(master[i].gbp < 30000){
-                tax = (30000 - master[i].gbp) * bracket[1]/100
-            }else if(master[i].gbp < 40000){
-                tax = bracket[1]/100 * 10000 + (40000 - master[i].gbp) * bracket[2]/100
-            }else if(master[i].gbp < 50000){
-                tax = (bracket[1]/100 + bracket[2]/100) * 10000 + (50000 - master[i].gbp) * bracket[3]/100
-            }else if(master[i].gbp >= 50000 && master[i].gbp < 100000){
-                tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (master[i].gbp - 50000) * bracket[4]/100
-            }else{
-                tax = (bracket[1] + bracket[2] + bracket[3]) * 10000/100 + (50000 * bracket[4]/100) + (master[i].gbp - 100000) * bracket[5]/100
-            }
-            master[i].gbp -= Math.round(tax)
-            stats_list[i].taxes += Math.round(tax)
-            stats_list[i].interest += parseFloat(interest.toFixed(2))
-            //Achievement 46 Libertarian Nightmare
-            unlock.index_tracker(i, 46, Math.round(tax), channel, master, tracker)
-
-            //Achievement 47 Free Money
-            unlock.index_tracker(i, 47, interest, channel, master, tracker)
-
-        }
-    }catch(err){
-        console.log(err)
-        channel.send('Error occured in interest')
-    }
-}
-
 async function Daily_Functions(channel, master, unlock){
     await Welfare(channel, master)
     await Lottery(channel, master, unlock)
     await gbp_farm_reset(channel, master)
-    await weekly_historical_gbp(channel, master)
 }
 
 async function Reminder_Checker(bot, reminder_list){
@@ -607,6 +480,7 @@ async function Reminder_Checker(bot, reminder_list){
             }
         }
     }
+    /*
     if(change == true){
         fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
             if (err) throw err;
@@ -614,4 +488,96 @@ async function Reminder_Checker(bot, reminder_list){
             }
         );
     }
+    */
+}
+
+async function Fauna_get(fauna_token, name, location){
+    const faunadb = require('faunadb')
+    const fauna_client = new faunadb.Client({ secret: fauna_token })
+    const q = faunadb.query
+    const fs = require('fs')
+
+    //first checks if it should grab the dev or the prod bot's data
+   if(location == 'local'){
+        var prefix = 'dev'
+    }else{
+        var prefix = 'prod'
+    }
+    const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
+
+    //then checks the corresponding json file for the reference ids and grabs the correct data from faunadb
+    var getP = await fauna_client.query(
+        q.Get(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]))
+    ).then((response) => {
+        switch(name){
+            case "master":
+                master = response.data
+                return master
+            break;
+            case "stats":
+                stats_list = response.data
+                return stats_list
+            break;
+            case "tracker":
+                tracker = response.data
+                return tracker
+            break;
+            case "command_stats":
+                command_stats = response.data
+                return command_stats
+            break;
+            case "reminders":
+                reminders = response.data
+                return reminders
+            break;
+            case "profiles":
+                profiles = response.data
+                return profiles
+            break;
+
+    }}).catch(err => console.log(err))
+}
+
+//Just used to move the JSON files over to faunadb
+async function Fauna_create(fauna_token, name){
+    const fs = require('fs')
+    const faunadb = require('faunadb')
+    const fauna_client = new faunadb.Client({ secret: fauna_token })
+    const q = faunadb.query
+    const fauna_json = JSON.parse(fs.readFileSync("./JSON/prod_faunadb.json", "utf-8"))
+
+    fauna_client.query(
+        q.Create(q.Collection("prod_JSONs"), {
+            data: 
+            JSON.parse(fs.readFileSync(`./JSON/${name}.json`,'utf-8'))
+        }
+        )
+    )
+
+}
+
+//used to update the faunadb database
+async function Fauna_update(fauna_token, name, file, location){
+    const faunadb = require('faunadb')
+    const fauna_client = new faunadb.Client({ secret: fauna_token })
+    const q = faunadb.query
+    const fs = require('fs')
+
+    //first checks if it should grab the dev or the prod bot's data
+    if(location == 'local'){
+        var prefix = 'dev'
+    }else{
+        var prefix = 'prod'
+    }
+    const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
+
+    //then takes the reference number from the corresponding json file and update that reference document in faunadb
+    var updateP = await fauna_client.query(
+        q.Update(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]), {
+            data: file
+        }
+
+        )
+    )
+
 }

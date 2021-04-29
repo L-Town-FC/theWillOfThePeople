@@ -1,5 +1,3 @@
-const { parse } = require('path')
-
 module.exports = {
     name: 'test',
     description: 'custom emoji test',
@@ -66,22 +64,11 @@ module.exports = {
                 achievements[i].tracker = 1
             }
             */
-           var day_list = []
-           var week_list = []
-           for(var i = 0; i < 24; i++){
-               day_list.push(0)
-           }
-           for(var i = 0; i < 7; i++){
-               week_list.push(0)
-           }
             
             for(i in master){
-                master[i].historical_gbp = {
-                    day: day_list,
-                    week: week_list
-                }
-                master[i].gbp = parseFloat((parseFloat(master[i].gbp) + parseFloat(master[i].account)).toFixed(2))
-                master[i].account = 0
+                delete master[i].historical_gbp
+                //master[i].gbp = parseFloat((parseFloat(master[i].gbp) + parseFloat(master[i].account)).toFixed(2))
+                //master[i].account = 0
                 /*
                 master[i].account = 0
 
@@ -138,8 +125,8 @@ module.exports = {
                 //stats[i].button_losses = 0
                 //stats[i].roulette_bets = 0
                 //stats[i].roulette_wins = 0
-                //stats[i].taxes = 0
-                //stats[i].interest = 0
+                delete stats[i].taxes
+                delete stats[i].interest
             }
 
 

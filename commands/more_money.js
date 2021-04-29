@@ -6,24 +6,8 @@ module.exports = {
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
-        try{
-            var person = message.author.id
-            var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
-        }catch(err){
-            try{
-                message.channel.send("Error occured in master.json. File reset")
-                var backup = JSON.parse(fs.readFileSync("./JSON/backup.json", "utf-8"))
-                fs.writeFile ("./JSON/master.json", JSON.stringify(backup), function(err) {
-                    if (err) throw err;
-                    console.log('complete');
-                    }
-                );
-            }catch(err){
-                console.log(err)
-                message.channel.send('Error occurred retrieving back up')
-            }
-        }
-
+        var person = message.author.id
+         
         try{
             if(!master[person]){
                 addPerson(message, master, tracker, stats_list)
@@ -37,7 +21,7 @@ module.exports = {
             if(message.author.discriminator !== '9509' && message.author.discriminator !== '0250'){
                 if(message.content.startsWith("!") == false){
                     if(message.channel.type !== 'dm'){
-                        if(message.member.roles.cache.find(r => r.name === "Junior Representative Assistant") || message.member.roles.cache.find(r => r.name === "Senior Representative Assistant") || message.member.roles.cache.find(r => r.name === "The People's Representative") ||message.member.roles.cache.find(r => r.name === "Dogcatcher") || message.member.roles.cache.find(r => r.name === "Soupmaker")){
+                        if(message.member.roles.cache.find(r => r.name === "Junior Representative Assistant") || message.member.roles.cache.find(r => r.name === "Senior Representative Assistant") || message.member.roles.cache.find(r => r.name === "The People's Representative") ||message.member.roles.cache.find(r => r.name === "Dogcatcher") || message.member.roles.cache.find(r => r.name === "Soupmaker") || message.member.roles.cache.find(r => r.name === "Viceroy!")){
                             unlock.unlock(message.author.id, 24, message, master)
                         }
                     }
@@ -49,12 +33,6 @@ module.exports = {
                    
                     var total_assets = master[person].gbp + master[person].account
                     var scaling_modifier = -0.1 * master[person].gbp + 175
-                    var loan_list = []
-                    for(i in master){
-                        if(master[i].loans.target == message.author.id && master[i].loans.collection == 0){
-                            loan_list = [message.author.id, i]
-                        }
-                    }
                     Achievement_Switch(person, message.channel.id, message, master)
                     Random_Achievements(person, message, master)
                     var amount = 1
@@ -94,11 +72,6 @@ module.exports = {
                         }
                     }
                     master[person].gbp = Math.round((parseFloat(master[person].gbp) + amount) * 100)/100
-
-                    if(loan_list[0] == message.author.id){
-                        Loan_Stuff(message, master, amount, loan_list)
-                    }
-
                 }
             }
         }catch(err){
@@ -158,21 +131,6 @@ function Random_Achievements(user, message, master){
     }
     if(message.content.toLowerCase().includes('twitch.tv/') == true){
         unlock.unlock(user, 43, message, master)
-    }
-}
-
-function Loan_Stuff(message, master, amount, loan_list){
-    master[loan_list[1]].gbp += amount
-    master[loan_list[1]].loans.remaining -= amount
-    master[loan_list[0]].gbp -= amount
-    if(master[loan_list[1]].loans.remaining <= 0){
-        master[loan_list[1]].loans = {
-            target: "",
-            remaining: 0,
-            collection: 0,
-            rate: 0
-        }
-        message.channel.send('You have paid off your loan')
     }
 }
 
@@ -259,8 +217,6 @@ function addPerson(message, master, tracker, stats_list){
         button_presses : 0,
         button_losses : 0,
         roulette_bets : 0,
-        roulette_wins : 0,
-        taxes : 0,
-        interest : 0
+        roulette_wins : 0
     }
 }

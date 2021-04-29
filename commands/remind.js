@@ -100,11 +100,13 @@ async function Reminder(message, args, amount, units, reminder_list, bot){
             if(time <= 259200){
                 reminder_list[new_id] = [message.author.id, reminder, message.channel.id, []]
                 message.channel.send('Reminder Set')
+                /*
                 fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
                     if (err) throw err;
                     console.log('complete');
                     }
                 );
+                */
 
                 setTimeout(() => {
                     var channel = bot.channels.cache.find(channel => channel.id === message.channel.id)
@@ -116,11 +118,13 @@ async function Reminder(message, args, amount, units, reminder_list, bot){
                             }
                         }
                     }
+                    /*
                     fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
                         if (err) throw err;
                         console.log('complete');
                         }
                     );
+                    */
                 }, 1000 * time)
             }else{
                 message.channel.send('The max time on short term reminders is 3 days')
@@ -230,11 +234,13 @@ async function Months(message, args, reminder_list){
             var new_id = parseInt(i) + 1
             reminder_list[new_id] = [message.author.id, reminder, message.channel.id, date_stuff]
             message.channel.send('Reminder Set')
+            /*
             fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
                 if (err) throw err;
                 console.log('complete');
                 }
             );
+            */
         }
     }catch(err){
         console.log(err)
