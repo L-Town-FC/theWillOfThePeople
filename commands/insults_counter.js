@@ -65,7 +65,6 @@ module.exports = {
                             "Pathetic", "No thanks, I'm full because I eat pussies like you for breakfast", "Scram weirdo", "This pysche is not big enough for 2 metaphysical seekers", "You're about as deep as a bowl of soup and your tongue is about as sharp as a soup spoon", 1, 1, 1, 1, 1
                         ]
                 var index = Math.floor(Math.random() * insults.length)
-                var index = insults.length - 1;
                 var insult = insults[index]
                 if(isNaN(insult) == false){
                     Pictures(message, insult)
