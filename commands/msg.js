@@ -29,7 +29,7 @@ module.exports = {
             }else if(typeof(person) == 'undefined'){
                 message.channel.send(`The recipient doesn't exist`)
             }else{
-                var recipient = bot.users.find(user => user.id == person)
+                var recipient = bot.users.cache.find(user => user.id == person)
                 var cut_args = args.splice(2, args.length - 2)
                 var new_msg = ""
                 for(var i = 0; i < cut_args.length; i++){
@@ -77,7 +77,7 @@ async function download(url, name, recipient, new_msg, message){
             .on('error', console.error)
             .pipe(fs.createWriteStream(`msg_formats/msg.${name}`));
             setTimeout(function(){
-                var attach = new Discord.Attachment(`msg_formats/msg.${name}`)
+                var attach = new Discord.MessageAttachment(`msg_formats/msg.${name}`)
                 recipient.send(`${new_msg}`,attach)
                 message.channel.send("Message Sent")
             },1000 * 7)

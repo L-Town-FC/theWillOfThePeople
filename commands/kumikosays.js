@@ -35,7 +35,7 @@ function Muli_Image_Merge(message){
 
         data[0].write('test1.png')
     }).then(function() {
-        var image = new Discord.Attachment('test1.png')
+        var image = new Discord.MessageAttachment('test1.png')
         //message.channel.bulkDelete(1)
         message.channel.send(image)
         }
@@ -67,7 +67,7 @@ async function Single_Image_Text(message, args){
         }
 
         await template.writeAsync('kumiko_says.png')
-        const meme = await new Discord.Attachment('kumiko_says.png')
+        const meme = await new Discord.MessageAttachment('kumiko_says.png')
         await message.channel.bulkDelete(1)
         await message.channel.send(meme)
     }
