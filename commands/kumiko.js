@@ -2,7 +2,7 @@ module.exports = {
     name: 'kumiko',
     description: 'randomly generates kumiko pic',
     execute(message,money, master, tracker){
-        const {Discord, Attachment} = require('discord.js');
+        const {Discord, MessageAttachment,} = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const dir = './kumiko_pics'
@@ -10,7 +10,7 @@ module.exports = {
         var kumiko = Math.floor(Math.random()*max_kumikos);
         var price = 15
         try{
-            var kumiko_image = new Attachment(`./kumiko_pics/${fs.readdirSync(dir)[kumiko]}`)
+            var kumiko_image = new MessageAttachment(`./kumiko_pics/${fs.readdirSync(dir)[kumiko]}`)
             purchase(price, message.author.id, message, master) 
             if(message.channel.id !== '711634711281401867'){
                 message.channel.send(kumiko_image)

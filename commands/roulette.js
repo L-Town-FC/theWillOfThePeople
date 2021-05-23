@@ -285,9 +285,9 @@ function Display(message, embed){
 
     const dir = './text_files/roulette/'
     if(fs.readdirSync(dir).includes('roulette.jpg') == true){
-        var board = new Discord.Attachment('./text_files/roulette/roulette.jpg')
+        var board = new Discord.MessageAttachment('./text_files/roulette/roulette.jpg')
     }else if(fs.readdirSync(dir).includes('roulette.JPG') == true){
-        var board = new Discord.Attachment('./text_files/roulette/roulette.JPG')
+        var board = new Discord.MessageAttachment('./text_files/roulette/roulette.JPG')
     }
 
     const display = new Discord.MessageEmbed()
@@ -320,7 +320,7 @@ function Update_numbers(number){
         }
         
         new_numbers.push(number)
-        fs.writeFileSync('./text_files/roulette/roulette_numbers.txt', new_numbers)
+        fs.writeFileSync('./text_files/roulette/roulette_numbers.txt', new_numbers.toString())
     }catch(err){
         console.log(err)
         message.channel.send('Error occured in roulette.js Update_Numbers')
