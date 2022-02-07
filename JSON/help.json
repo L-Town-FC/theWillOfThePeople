@@ -47,7 +47,8 @@
     "8":{
         "name": "!insults",
         "description":"Allows you to see and set who is being insulted",
-        "rules":"**!insults [person]:** Makes it so the bot insults the specified person. If no user is specified it shows who is currently being insulted"
+        "rules":["**!insults on [person]:** Makes it so the bot insults the specified person. If no user is specified it shows who is currently being insulted", 
+            "**!insults off [person]**: Makes it so specified person no longer recieves insults from bot"]
     },
     "9":{
         "name": "!delete",

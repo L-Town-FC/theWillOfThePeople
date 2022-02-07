@@ -62,7 +62,8 @@ module.exports = {
                             "What'dya think of that Mr.Pajama wearing, Basket-face, Slipper wielding, clype deep bachle, gather uping blate maw, blethering gomeril Jessie, Oaf-lookin' schtooner, Nyaff plookie shan, Milk-drinking Soy-face shilpit, Mim-moothed, sniveling worm-eyed hotten blaugh, vile stoochie, cally-breek tattie!", 
                             "You'll never be nothin", "I'd call you as dumb as a rock, but at least a rock can hold a door open", "I bet your parents change the subject when their friends ask about you", "I envy the people who haven't met you yet", "I wish for just one time you could stand in my shoes so you could know what a drag it is to see you",
                             "You're impossible to underestimate", "If you're here, who's home disappointing your parents?", "Everyone who ever loved you was wrong", "Youre about as useful as the 9 on a microwave", "You're the physical embodiement of a wet sock", "I don't have the patience or the crayons to explain this to you", "Bozo", "First off, Brush your teeth",
-                            "Pathetic", "No thanks, I'm full because I eat pussies like you for breakfast", "Scram weirdo", "This pysche is not big enough for 2 metaphysical seekers", "You're about as deep as a bowl of soup and your tongue is about as sharp as a soup spoon", 1, 1, 1, 1, 1
+                            "Pathetic", "No thanks, I'm full because I eat pussies like you for breakfast", "Scram weirdo", "This pysche is not big enough for 2 metaphysical seekers", "You're about as deep as a bowl of soup and your tongue is about as sharp as a soup spoon", 1, 1, 1, 1, 1,
+                            "My ancestors are smiling at me Imperial. Can you say the same?"
                         ]
                 var index = Math.floor(Math.random() * insults.length)
                 var insult = insults[index]

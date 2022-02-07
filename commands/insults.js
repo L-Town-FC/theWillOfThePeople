@@ -98,27 +98,27 @@ module.exports = {
                     message.channel.send('Error occurred in insults.js off')
                 }
             break;
-            case 'suggest':
-                try{    
-                    var suggestion = message.cleanContent.split('!insults suggest')
-                    if(suggestion[1] !== ""){
-                        var suggested = JSON.parse(fs.readFileSync('./JSON/insults_suggestions.json', 'utf-8'))
-                        suggested.suggestions.push(suggestion[1])
-                        message.channel.send('Your suggestion has been logged')
-                        unlock.unlock(message.author.id, 49, message, master)
-                        fs.writeFileSync ("./JSON/insults_suggestions.json", JSON.stringify(suggested, null, 2), function(err) {
-                            if (err) throw err;
-                            console.log('complete');
-                            }
-                        );
-                    }else{
-                        message.channel.send(`You didn't suggest anything`)
-                    }
-                }catch(err){
-                    console.log(err)
-                    message.channel.send('Error occurred in insults.js suggest')
-                }
-            break;
+            // case 'suggest':
+            //     try{    
+            //         var suggestion = message.cleanContent.split('!insults suggest')
+            //         if(suggestion[1] !== ""){
+            //             var suggested = JSON.parse(fs.readFileSync('./JSON/insults_suggestions.json', 'utf-8'))
+            //             suggested.suggestions.push(suggestion[1])
+            //             message.channel.send('Your suggestion has been logged')
+            //             unlock.unlock(message.author.id, 49, message, master)
+            //             fs.writeFileSync ("./JSON/insults_suggestions.json", JSON.stringify(suggested, null, 2), function(err) {
+            //                 if (err) throw err;
+            //                 console.log('complete');
+            //                 }
+            //             );
+            //         }else{
+            //             message.channel.send(`You didn't suggest anything`)
+            //         }
+            //     }catch(err){
+            //         console.log(err)
+            //         message.channel.send('Error occurred in insults.js suggest')
+            //     }
+            // break;
             case 'help':
                 try{
                     var help = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')

@@ -1,5 +1,3 @@
 !insults on [person]: Lets the bot start insulting the specified person
 
 !insults off [person]: Stops the bot from insulting the specified person
-
-!insults suggest [Suggestion]: Lets you suggest insults to the bot
