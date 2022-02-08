@@ -1,7 +1,7 @@
 module.exports = {
     name: 'steal',
     description: 'lets you steal and protect from being stolen from',
-    execute(message, args, master, tracker){
+    execute(message, args, master, tracker, bot){
         const fs = require('fs')
         const Discord = require('discord.js')
         var command = args[1] || 'none';
@@ -16,7 +16,7 @@ module.exports = {
         switch(command){
             case 'person':
                 try{
-                    Steal(message, args, target, master, tracker)
+                    Steal(message, args, target, master, tracker, bot)
                 }catch(err){
                     console.log(err)
                     message.channel.send('Error occurred in steal.js person')
@@ -60,7 +60,7 @@ module.exports = {
     }
 }
 
-function Steal(message, args, target, master, tracker){
+function Steal(message, args, target, master, tracker, bot){
     const unlock = require('./Functions/Achievement_Functions')
     const min_amount = 25
     const max_amount = 2500
@@ -106,12 +106,14 @@ function Steal(message, args, target, master, tracker){
                     
                     master[message.author.id].steal.attempts += 1
                     
-                    var users = message.mentions._client.users.array()
-                    for(var k in users){
-                        if(users[k].id == target){
-                            users[k].send(`${args[2]} gbp was stolen from you`)
-                        }
-                    }
+                    var user = bot.users.cache.find(user => user.id == target); //use something like this instead of the code above
+                    user.send(`${args[2]} gbp was stolen from you`);
+
+                    // for(var k in users){
+                    //     if(users[k].id == target){
+                    //         users[k].send(`${args[2]} gbp was stolen from you`)
+                    //     }
+                    // }
                     
                 }else{
                     //steal failure
@@ -122,13 +124,8 @@ function Steal(message, args, target, master, tracker){
                     //message.channel.send(`Chance of getting caught ${chance}%`)
                     master[message.author.id].steal.caught = true
                     
-                    var users = message.mentions._client.users.array()
-                    for(var k in users){
-                        //console.log(users[k])
-                        if(users[k].id == target){
-                            users[k].send(`${master[message.author.id].name} tried to steal from you but failed. They paid ${amount} gbp in damages`)
-                        }
-                    }
+                    var user = bot.users.cache.find(user => user.id == target); //use something like this instead of the code above
+                    user.send(`${master[message.author.id].name} tried to steal from you but failed. They paid ${amount} gbp in damages`);
                     
                 }
             }else{
@@ -275,7 +272,6 @@ function Chance(message, master, amount, target){
 
     var targeted_gbp = parseFloat(master[target].gbp) + parseFloat(master[target].account)
     chance += (parseFloat(amount)/targeted_gbp) * 100 *  percent_multiplier
-    console.log(chance)
     if(chance > 75){
         chance = 75
     }

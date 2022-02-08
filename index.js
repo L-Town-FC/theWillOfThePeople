@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
-const bot = new Discord.Client();
+intents = new Discord.Intents();
+intents.members = true;
+const bot = new Discord.Client(intents = intents);
 const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
 
@@ -49,7 +51,7 @@ bot.on('ready', () => {
         cron_job = 'something'
         bot_tinkering.send('The bot is online')
 
-        /*
+        
         for(var i in reminder_list){
             if(reminder_list[i][3].length  == 0){
                 delete reminder_list[i]
@@ -62,7 +64,7 @@ bot.on('ready', () => {
             }
         );
 
-        */
+        
         new cron.CronJob('0 9 * * *', function(){
             Daily_Functions(channel, master, unlock)
             //590585423202484227 - pugilism
@@ -76,7 +78,8 @@ bot.on('ready', () => {
                 JSON_Overwrite(master, stats_list, tracker, command_stats, bot_tinkering, profiles, reminder_list, fauna_token)
             },2000)
         }, null, true)
-        new cron.CronJob('0 * * * *', function(){
+        new cron.CronJob('* * * * *', function(){
+            //* * * * *
             //reminder checker
             Reminder_Checker(bot, reminder_list)
         },null, true)
@@ -127,7 +130,7 @@ bot.on('message', async message =>{
             }
             switch(args[0].toLowerCase()){
                 case 'ping':
-                    bot.commands.get('ping').execute(message, fauna_token, master);
+                    bot.commands.get('ping').execute(message, fauna_token, master, bot);
                 break;
                 case 'pug':
                     bot.commands.get('pug').execute(message,master, tracker); 
@@ -194,7 +197,7 @@ bot.on('message', async message =>{
                     bot.commands.get('boo').execute(message,args,master[message.author.id].gbp, master, tracker, command_stats);
                 break;
                 case 'steal':
-                    bot.commands.get('steal').execute(message,args, master, tracker);
+                    bot.commands.get('steal').execute(message,args, master, tracker, bot);
                 break;
                 case 'achievements':
                     bot.commands.get('achievements').execute(message,args, master, tracker);
@@ -472,7 +475,7 @@ async function Reminder_Checker(bot, reminder_list){
         var r_hour = date_stuff[3]
 
         if(date_stuff !== []){
-            if(r_month == c_month && r_day == c_day && r_year == c_year && parseInt(r_hour) == parseInt(c_hour)){
+            if(r_month == c_month && parseInt(r_day) == parseInt(c_day) && r_year == c_year && parseInt(r_hour) == parseInt(c_hour)){
                 var channel = bot.channels.cache.find(channel => channel.id === reminder_list[i][2])
                 channel.send(`<@${reminder_list[i][0]}> Reminder: \n${reminder_list[i][1]}`)
                 delete reminder_list[i]

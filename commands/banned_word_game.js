@@ -32,7 +32,6 @@ module.exports = {
                                 if(bet > money){
                                     message.channel.send("You don't have enough gbp for that bet")
                                 }else if(typeof(bet - 0) !== 'NaN' && bet >= min_bet && bet <= max_bet){
-                                    console.log(target)
                                     if(master[target].bwg.used_word.includes(word.toLowerCase()) == true){
                                         message.channel.send(`That word has already been successfully used on ${name}`)
                                     }else if (!/[^a-zA-Z]/.test(word) && word.length >= 6){
