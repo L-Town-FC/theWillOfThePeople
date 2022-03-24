@@ -1,5 +1,5 @@
 # Pull base node image
-FROM node:14.18
+FROM node:14.19.0
 
 # Make project dir
 RUN mkdir -p /usr/src/bot
