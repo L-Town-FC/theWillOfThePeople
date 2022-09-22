@@ -3,7 +3,7 @@ name: The Will of the People Prevails above all
 on:
   push:
     branches: [ master ]
-
+    workflow_dispatch:
 jobs:
 
   build:
