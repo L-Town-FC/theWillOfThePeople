@@ -243,7 +243,7 @@ function Catch(profiles, user, rarity){
 function Locations(message, args, master, profiles, user, tracker, stats){
     const fs = require('fs')
     const Discord = require('discord.js')
-    const embed = require('./Functions/embed_functions')
+    const embed = require('../Functions/embed_functions')
     var location_json = JSON.parse(fs.readFileSync('./JSON/fish/locations.json', 'utf-8'))
     var command = args[2] || 'none'
     var command2 = args[3] || 'none'

@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
-intents = new Discord.Intents();
-intents.members = true;
-const bot = new Discord.Client(intents = intents);
+const { Client, Intents } = require('discord.js');
+const bot = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
+//const bot = new Discord.Client(intents = intents);
 const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
 
@@ -121,7 +121,7 @@ bot.on('message', message =>{
     }
 })
 
-bot.on('message', async message =>{    
+bot.on('message', message =>{    
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
         if (message.content.startsWith("!") == true){
@@ -227,9 +227,6 @@ bot.on('message', async message =>{
                 case 'kumikosays':
                     bot.commands.get('kumikosays').execute(message, args)
                 break;
-                case 'rpg':
-                    bot.commands.get('rpg').execute(message, args, master, stats_list, tracker, players)
-                break
                 case 'changename':
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
                 break;
@@ -474,13 +471,11 @@ async function Reminder_Checker(bot, reminder_list){
         var r_year = date_stuff[2]
         var r_hour = date_stuff[3]
 
-        if(date_stuff !== []){
-            if(r_month == c_month && parseInt(r_day) == parseInt(c_day) && r_year == c_year && parseInt(r_hour) == parseInt(c_hour)){
-                var channel = bot.channels.cache.find(channel => channel.id === reminder_list[i][2])
-                channel.send(`<@${reminder_list[i][0]}> Reminder: \n${reminder_list[i][1]}`)
-                delete reminder_list[i]
-                change = true
-            }
+        if(r_month == c_month && parseInt(r_day) == parseInt(c_day) && r_year == c_year && parseInt(r_hour) == parseInt(c_hour)){
+            var channel = bot.channels.cache.find(channel => channel.id === reminder_list[i][2])
+            channel.send(`<@${reminder_list[i][0]}> Reminder: \n${reminder_list[i][1]}`)
+            delete reminder_list[i]
+            change = true
         }
     }
     /*

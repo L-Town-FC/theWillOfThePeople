@@ -3,8 +3,8 @@ module.exports = {
     description: 'lets you play the rpg',
     execute(message, args, master, stats_list, tracker, players){
         const fs = require('fs')
-        const rpg_classes = require('./Functions/RPG_Functions/rpg_classes')
-        const rpg_general = require('./Functions/RPG_Functions/rpg_general')
+        const rpg_classes = require('../Functions/RPG_Functions/rpg_classes')
+        const rpg_general = require('../Functions/RPG_Functions/rpg_general')
         var command = String(args[1]).toLowerCase() || 'none'
 
         switch(command){
