@@ -27,6 +27,7 @@
     "image-data-uri": "^2.0.1",
     "jimp": "^0.16.1",
     "merge-images": "^2.0.0",
+    "node": "^19.0.1",
     "random": "^2.2.0",
     "request": "^2.88.0"
   },
