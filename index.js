@@ -212,9 +212,6 @@ bot.on('message', message =>{
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
-                case 'info':
-                    bot.commands.get('info').execute(message, args)
-                break;
                 case 'msg': 
                     bot.commands.get('msg').execute(message, args, master, bot)
                 break;

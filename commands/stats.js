@@ -59,8 +59,6 @@ function Stats(user, stats, master, message, embed){
         `Button Losses: ${stats[user].button_losses}`,
         `Roulette Bets Placed: ${stats[user].roulette_bets}`,
         `Roulette Bets Won: ${stats[user].roulette_wins}`,
-        `Taxes Paid: ${stats[user].taxes}`,
-        `Interest Earned: ${stats[user].interest}`,
         `Achievements: ${achievements_ratio}`
     ])
     var chance = Math.floor(Math.random() * 10)
@@ -87,8 +85,6 @@ function Stats_All(stats, message, embed){
     var button_losses = 0
     var roulette_bets = 0
     var roulette_wins = 0
-    var taxes = 0
-    var interest = 0
     for(i in stats){
         lottery_tickets = lottery_tickets + stats[i].lottery_tickets
         bj_wins = bj_wins + stats[i].bj_wins
@@ -101,8 +97,6 @@ function Stats_All(stats, message, embed){
         farm_messages += stats[i].farm_messages
         non_farm_messages += stats[i].non_farm_messages
         button_presses += stats[i].button_presses
-        taxes += stats[i].taxes
-        interest += stats[i].interest
         button_losses += stats[i].button_losses
         roulette_bets += stats[i].roulette_bets
         roulette_wins += stats[i].roulette_wins
@@ -125,8 +119,6 @@ function Stats_All(stats, message, embed){
         `Button Losses: ${button_losses}`,
         `Roulette Bets Placed: ${roulette_bets}`,
         `Roulette Bets Won: ${roulette_wins}`,
-        `Taxes Paid: ${taxes}`,
-        `Interest Earned: ${interest}`
     ])
 
     var chance = Math.floor(Math.random() * 10)

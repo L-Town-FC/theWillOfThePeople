@@ -4,9 +4,8 @@ module.exports = {
     execute(message, args){
         const fs = require('fs')
         const Discord = require('discord.js')
-        const embed = require('./Functions/embed_functions')
+        const embed = require('../Functions/embed_functions')
         const info = JSON.parse(fs.readFileSync('./JSON/info.json', 'utf-8'))
-        const taxes = JSON.parse(fs.readFileSync('./JSON/taxes.json', 'utf-8'))
         var length = Object.keys(info).length
         try{
             if(!args[1]){
