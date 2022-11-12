@@ -16,5 +16,4 @@ jobs:
           node-version: '18'
       - run: npm ci
       - run: npm run test
-      - run: echo ${{ GITHUB_SHA }}
       - run: echo $GITHUB_SHA
