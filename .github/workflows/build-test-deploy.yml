@@ -3,7 +3,7 @@ name: The Will of the People Prevails above all
 on:
   push:
     branches: [ master ]
-    workflow_dispatch:
+  workflow_dispatch:
 jobs:
 
   build:
@@ -20,7 +20,7 @@ jobs:
           # Docker repository to tag the image with
           repository: atmollohan/bot
           # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
-          tags: latest
+          tags: $GITHUB_SHA
 
   test:
     name: Test Stage
@@ -39,7 +39,7 @@ jobs:
       uses: appleboy/ssh-action@master
       env:
         CONTAINER_NAME: "bot"
-        IMAGE_NAME: "atmollohan/bot:latest"
+        IMAGE_NAME: "atmollohan/bot:$GITHUB_SHA"
         PRODBOTTOKEN: ${{ secrets.PRODBOTTOKEN }}
         FAUNA_KEY: ${{ secrets.FAUNA_KEY }}
       with:

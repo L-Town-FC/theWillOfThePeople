@@ -1,16 +1,17 @@
 # Pull base node image
-FROM node:14.18
+FROM node:18.9
 
 # Make project dir
-RUN mkdir -p /usr/src/bot
-WORKDIR /usr/src/bot
+ENV PROJECTDIR /usr/src/bot
+RUN mkdir -p $PROJECTDIR
+WORKDIR $PROJECTDIR
 
 # install dependencies
-COPY package.json /usr/src/bot
+COPY package.json .
 RUN npm i --production
 
 # Add project to container
-COPY . /usr/src/bot
+COPY . .
 
 # Run bot
 CMD ["node", "index.js"]
