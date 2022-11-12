@@ -45,7 +45,6 @@ module.exports = {
                                         total = total + master[i].gbp
                                         total_private += master[i].account
                                     }
-                                    //const message_embed = new Discord.MessageEmbed()
                                     const message_embed = new Discord.MessageEmbed()
                                     .setTitle("List of all Public accounts on Server")
                                     .setDescription(everyone)
