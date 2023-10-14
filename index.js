@@ -230,8 +230,8 @@ bot.on('message', message =>{
                 case 'teams':
                     bot.commands.get('teams').execute(message, args)
                 break;
-                case 'newroles':
-                   bot.commands.get('newroles').execute(message, args, master)
+                case 'roles':
+                   bot.commands.get('roles').execute(message, args, master)
                 break;
                 case 'remind':
                     bot.commands.get('remind').execute(message, args, reminder_list, bot, master)
