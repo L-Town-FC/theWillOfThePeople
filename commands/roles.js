@@ -1,65 +1,36 @@
 module.exports = {
     name: 'roles',
-    description: 'gives list of roles on the server',
+    description: 'roles',
     execute(message,args, master){
         const fs = require('fs')
         const unlock = require('./Functions/Achievement_Functions')
         const embed = require('./Functions/embed_functions')
-        var roles = JSON.parse(fs.readFileSync("./JSON/roles.json", "utf-8"))
-        var names = [];
-        var counter = 0
+        const ROLES = ["The People's Representative", "Senior Representative Assistant","Junior Representative Assistant", "Dog Catcher", "Soup Maker", "Cocksucka", "Viceroy"]
+        const ROLEIDs = [590576332350685194, 590579566448476170, 590586818462875671, 669019379077218314, 669019512548491274, 710177280160432138, 771535782283837450]
+        var ROLEOWNERS = ["None", "None", "None", "None", "None", "None", "None"]
+        var roleIndex = 0
+        try{
+            const Discord = require('discord.js');
+            const roles_embed = new Discord.MessageEmbed();
 
-        for(i in master){
-            /*
-            names[counter] = master[i].name
-            if(typeof(args[1] !== 'undefined')){
-                if(String(args[1]).toLowerCase() === master[i].name.toLowerCase()){
-                    var name_index = counter 
-                    var person = i
+            message.guild.members.cache.forEach(element => {
+                if(element._roles.includes(ROLES[roleIndex])){
+                    ROLEOWNERS[roleIndex] = master[element.id]
+                    roleIndex++
+                    return
                 }
+            });
+            var roles_list = []
+            for(var i in ROLEOWNERS){
+                roles_list.push(`${i}. ${ROLES[i]} - ${ROLEOWNERS[i]}`)
             }
-            counter = counter + 1
-            */
-        }
+            roles_embed.addField('List of Electable Roles', roles_list)
+            .setColor(embed.Color(message))
+            message.channel.send(roles_embed);
 
-        if(typeof(args[1]) == 'undefined'){
-            try{
-                const Discord = require('discord.js');
-                const help_embed = new Discord.MessageEmbed()
-                var roles_list = []
-                for(var i in roles){
-                    roles_list.push(`${i}. ${roles[i].role} - ${roles[i].person}`)
-                }
-                help_embed.addField('List of Electable Roles', roles_list)
-                .setColor(embed.Color(message))
-                message.channel.send(help_embed);
-            }catch(err){
-                console.log(err)
-                message.channel.send("Error occurred in Roles.js");
-            }
-        }else{
-            try{
-                if(message.member.roles.cache.find(r => r.name === "Junior Representative Assistant") || message.member.roles.cache.find(r => r.name === "Senior Representative Assistant") || message.member.roles.cache.find(r => r.name === "The People's Representative") || message.member.roles.cache.find(r => r.name === "The People's Leader") || message.author.id == 450001712305143869){
-                    if(parseInt(args[2]) >= 1 && parseInt(args[2]) <= Object.keys(roles).length ){
-                        roles[args[2]].person = args[1]
-                        message.channel.send('Roles has been updated')
-                        fs.writeFile ("./JSON/roles.json", JSON.stringify(roles, null, 2), function(err) {
-                            if (err) throw err;
-                            console.log('complete');
-                            }
-                        );
-                    }else{
-                        message.channel.send('Please select a role number that exists')
-                    }
-                }else{
-                    message.channel.send('You must be a mod to update the roles')
-                }
-            }catch(err){
-                console.log(err)
-                message.channel.send('Error Occurred in Roles.js update')
-                message.channel.send(`This command doesn't work in dms`)
-            }
+        }catch(err){
+            console.log(err)
+            message.channel.send("Error occurred in Roles.js");
         }
     }
-
 }

@@ -14,34 +14,6 @@ module.exports = {
     }
 }
 
-function Muli_Image_Merge(message){
-    const jimp = require('jimp')
-    const Discord = require('discord.js')
-    
-    var images = ['kumiko_template.png', 'zaid_smooch.png']
-
-    var jimps = []
-
-    for(var i = 0; i < images.length; i++){
-        jimps.push(jimp.read(images[i]))
-    }
-
-    
-    Promise.all(jimps).then(function(data) {
-        return Promise.all(jimps);
-    }).then(function(data) {
-        data[1].resize(120,120)
-        data[0].composite(data[1],110,120)
-
-        data[0].write('test1.png')
-    }).then(function() {
-        var image = new Discord.MessageAttachment('test1.png')
-        //message.channel.bulkDelete(1)
-        message.channel.send(image)
-        }
-    )
-}
-
 async function Single_Image_Text(message, args){
     const jimp = require('jimp')
     const Discord = require('discord.js')
@@ -68,7 +40,11 @@ async function Single_Image_Text(message, args){
 
         await template.writeAsync('kumiko_says.png')
         const meme = await new Discord.MessageAttachment('kumiko_says.png')
-        await message.channel.bulkDelete(1)
+        try{
+            await message.channel.bulkDelete(1)
+        }catch(err){
+            console.log("Can't delete DMs")
+        }
         await message.channel.send(meme)
     }
 }
