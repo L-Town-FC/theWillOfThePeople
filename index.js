@@ -178,7 +178,7 @@ bot.on('message', message =>{
                     bot.commands.get('master').execute(message,args, master, stats_list, tracker, command_stats, reminder_list)
                 break;
                 case 'roles':
-                    bot.commands.get('roles').execute(message, args, master)
+                    bot.commands.get('roles').execute(message, master)
                 break;
                 case 'changelog':
                     bot.commands.get('changelog').execute(message)
