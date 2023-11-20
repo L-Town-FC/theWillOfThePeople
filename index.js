@@ -18,7 +18,6 @@ master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
 stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
 tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
 command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
-reminder_list = JSON.parse(fs.readFileSync("./JSON/reminders.json", "utf-8"))
 profiles = JSON.parse(fs.readFileSync("./JSON/fish/fishing_profiles.json", "utf-8"))
 */
 
@@ -28,8 +27,6 @@ master =  Fauna_get(fauna_token, "master", process.env.NODE_ENV)
 stats_list =  Fauna_get(fauna_token, "stats", process.env.NODE_ENV)
 tracker =  Fauna_get(fauna_token, "tracker", process.env.NODE_ENV)
 command_stats =  Fauna_get(fauna_token, "command_stats", process.env.NODE_ENV)
-reminder_list =  Fauna_get(fauna_token, 'reminders', process.env.NODE_ENV)
-profiles =  Fauna_get(fauna_token, "profiles", process.env.NODE_ENV)
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -42,29 +39,13 @@ for(const file of commandFiles){
 
 bot.on('ready', () => {
     var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
-    var stonks = bot.channels.cache.find(channel => channel.id === '743269381768872087')
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
     console.log('This bot is online')
     stocks_open = false
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
-        bot_tinkering.send('The bot is online')
-
-        
-        for(var i in reminder_list){
-            if(reminder_list[i][3].length  == 0){
-                delete reminder_list[i]
-            }
-        }
-
-        fs.writeFileSync ("JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-
-        
+        bot_tinkering.send('The bot is online')    
         new cron.CronJob('0 9 * * *', function(){
             Daily_Functions(channel, master, unlock)
             //590585423202484227 - pugilism
@@ -75,14 +56,9 @@ bot.on('ready', () => {
         new cron.CronJob('0 * * * *', function(){
             //'0 * * * * *'
             setTimeout(function(){
-                JSON_Overwrite(master, stats_list, tracker, command_stats, bot_tinkering, profiles, reminder_list, fauna_token)
+                JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token)
             },2000)
         }, null, true)
-        new cron.CronJob('* * * * *', function(){
-            //* * * * *
-            //reminder checker
-            Reminder_Checker(bot, reminder_list)
-        },null, true)
     }
 })
 
@@ -175,7 +151,7 @@ bot.on('message', message =>{
                     bot.commands.get('names').execute(message,master)
                 break;
                 case 'master':
-                    bot.commands.get('master').execute(message,args, master, stats_list, tracker, command_stats, reminder_list)
+                    bot.commands.get('master').execute(message,args, master, stats_list, tracker, command_stats)
                 break;
                 case 'roles':
                     bot.commands.get('roles').execute(message, master)
@@ -232,9 +208,6 @@ bot.on('message', message =>{
                 break;
                 case 'roles':
                    bot.commands.get('roles').execute(message, args, master)
-                break;
-                case 'remind':
-                    bot.commands.get('remind').execute(message, args, reminder_list, bot, master)
                 break;
                 case 'poll':
                     bot.commands.get('poll').execute(message, args)
@@ -367,46 +340,11 @@ function Lottery(channel, master, unlock){
     }
 }
 
-async function JSON_Overwrite(master, stats_list, tracker, command_stats, channel, profiles, reminder_list, fauna_token){
+async function JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token){
     Fauna_update(fauna_token, "master",master, process.env.NODE_ENV)
     Fauna_update(fauna_token, "stats", stats_list, process.env.NODE_ENV)
     Fauna_update(fauna_token, "tracker", tracker, process.env.NODE_ENV)
     Fauna_update(fauna_token, "command_stats", command_stats, process.env.NODE_ENV)
-    Fauna_update(fauna_token, "profiles", profiles, process.env.NODE_ENV)
-    Fauna_update(fauna_token, "reminders", reminder_list, process.env.NODE_ENV)
-    /*
-    try{
-        //master["450001712305143869"].loans.collection = 0
-        fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-        fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats_list, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-        fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-        fs.writeFileSync ("./JSON/command_stats.json", JSON.stringify(command_stats, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-        fs.writeFileSync ("./JSON/RPG/player.json", JSON.stringify(players, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-    }catch(err){
-        console.log(err)
-        channel.send('Error Occured in JSON_Overwrite')
-    }
-    */
 }
 
 function gbp_farm_reset(channel, master){
@@ -443,49 +381,6 @@ async function Daily_Functions(channel, master, unlock){
     await gbp_farm_reset(channel, master)
 }
 
-async function Reminder_Checker(bot, reminder_list){
-    const fs = require('fs')
-    var offset = new Date().getTimezoneOffset()/60
-    var current_date = new Date().toUTCString().split(" ")
-    var c_month = current_date[2].toLowerCase()
-    var c_day = current_date[1]
-    var c_year = current_date[3]
-    var c_hour = parseFloat(current_date[4].split(":")[0]) - offset
-
-    if(c_hour < 0){
-        c_hour = c_hour + 24
-    }
-
-    var change = false
-    //console.log("Reminder Check")
-    //date_stuff = [Month Day Year Hour]
-
-    for(var i in reminder_list){
-
-        var date_stuff = reminder_list[i][3]
-        var r_month = date_stuff[0]
-        var r_day = date_stuff[1]
-        var r_year = date_stuff[2]
-        var r_hour = date_stuff[3]
-
-        if(r_month == c_month && parseInt(r_day) == parseInt(c_day) && r_year == c_year && parseInt(r_hour) == parseInt(c_hour)){
-            var channel = bot.channels.cache.find(channel => channel.id === reminder_list[i][2])
-            channel.send(`<@${reminder_list[i][0]}> Reminder: \n${reminder_list[i][1]}`)
-            delete reminder_list[i]
-            change = true
-        }
-    }
-    /*
-    if(change == true){
-        fs.writeFileSync ("./JSON/reminders.json", JSON.stringify(reminder_list, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
-    }
-    */
-}
-
 async function Fauna_get(fauna_token, name, location){
     const faunadb = require('faunadb')
     const fauna_client = new faunadb.Client({ secret: fauna_token })
@@ -520,14 +415,6 @@ async function Fauna_get(fauna_token, name, location){
             case "command_stats":
                 command_stats = response.data
                 return command_stats
-            break;
-            case "reminders":
-                reminders = response.data
-                return reminders
-            break;
-            case "profiles":
-                profiles = response.data
-                return profiles
             break;
 
     }}).catch(err => console.log(err))
