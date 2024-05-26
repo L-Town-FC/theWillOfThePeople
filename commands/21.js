@@ -68,6 +68,8 @@ module.exports = {
                         if(isNaN(match) == false){
                             if(master[message.author.id].gbp >= match){
                                 message.channel.send(`Your "Match the Dealer" bet was accepted`)
+                                
+                                //A Fool's Bet Achievement
                                 unlock.tracker1(master_list[player].id, 52, 1, message, master, tracker)
                                 purchase(parseFloat(match), master_list[player].id, message, master)
                                 var match_good = true
@@ -79,6 +81,7 @@ module.exports = {
                         master_list[player].bet = [parseFloat(new_bet), 0]
                         master_list[player].gameStatus = 1;
                         if(new_bet >= 200){
+                            //Psycho Achievement
                             unlock.tracker1(message.author.id, 23, 1, message, master, tracker)
                         }
                         var card = [];
@@ -689,6 +692,7 @@ module.exports = {
                             case 10:
                                 purchase(-0.5 * parseFloat(master_list[player].bet[0]), message.author.id, message, master)
                                 message.channel.send(`You recieved ${.5 * parseFloat(master_list[player].bet[0])} gbp back`)
+                                //This Bot Is Rigged Achievement
                                 unlock.reset1(master_list[player].id, 8, tracker, message)
                                 stats.tracker(master_list[player].id, 4, 1, stats_list)
                             break;
@@ -815,10 +819,16 @@ function Win(master_list, split_index, message, master, stats_list){
     const unlock = require('./Functions/Achievement_Functions')
     const stats = require('./Functions/stats_functions')
     if(master_list.bet[split_index] >= 1000){
+        //High Roller Achievement
         unlock.unlock(master_list.id, 1, message, master)
     }
+    //This Bot is Rigged Achievement
     unlock.reset1(master_list.id, 8, tracker, message)
+
+    //Professional Gambler Achievement
     unlock.tracker1(master_list.id, 33, 1.5 * parseFloat(master_list.bet[split_index]), message, master, tracker)
+    
+    //Jack of All Trades Achievement
     unlock.tracker3(master_list.id, 39, 0, parseFloat(master_list.bet[split_index]), message, master, tracker)
     stats.tracker(master_list.id, 2, 1, stats_list)
 
@@ -828,9 +838,14 @@ function Lose(master_list, split_index,message, master, stats_list){
     const unlock = require('./Functions/Achievement_Functions')
     const stats = require('./Functions/stats_functions')
     if(master_list.bet[split_index] >= 1000){
+        //Buster Achievement
         unlock.unlock(master_list.id, 2, message, master)
     }
+
+    //This Bot Is Rigged Achievement
     unlock.tracker1(master_list.id, 8, 1, message, master, tracker)
+
+    //The House Always Wins Achievement
     unlock.tracker1(master_list.id, 32, parseFloat(master_list.bet[split_index]), message, master, tracker)
     stats.tracker(master_list.id, 4, 1, stats_list)
 }
@@ -839,6 +854,7 @@ function Push(master_list, split_index, message, master, stats_list){
     const unlock = require('./Functions/Achievement_Functions')
     const stats = require('./Functions/stats_functions')
 
+    //This Bot Is Rigged Achievement
     unlock.reset1(master_list.id, 8, tracker, message)
     stats.tracker(master_list.id, 3, 1, stats_list, tracker)
 }

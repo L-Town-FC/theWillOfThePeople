@@ -92,16 +92,27 @@ module.exports = {
             if(is_Ongoing(master)[2] >= 4 || result == true){
                 if(result == false){
                     message.channel.send(`You are out of guesses. You lose. The correct number was ${magic_number}`);
+                    
+                    //The House Always Wins Achievement
                     unlock.tracker1(message.author.id, 32, parseFloat(bet2), message, master, tracker)
+                    
                     stats.tracker(message.author.id, 6, 1, stats_list)
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                 }else{
                     message.channel.send(`You win ${payout * parseFloat(bet2)} gbp`);
                     purchase((-payout * parseFloat(bet2)), message.author.id, master);
+                    
+                    //Professional Gambler Achievement
                     unlock.tracker1(message.author.id, 33, parseFloat(payout * bet2), message, master, tracker)
+                    
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
+                    
+                    //Psychic Achievement
                     unlock.tracker1(message.author.id, 4, 1, message, master, tracker)
+                    
+                    //Jack of All Trades Achievement
                     unlock.tracker3(message.author.id, 39, 1, payout * parseFloat(bet2), message, master, tracker)
+                    
                     stats.tracker(message.author.id, 5, 1, stats_list)
                 }
             }

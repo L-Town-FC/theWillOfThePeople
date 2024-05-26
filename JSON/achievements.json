@@ -278,111 +278,62 @@
     "tracker": 3
   },
   "40": {
-    "name": "So Predictable",
-    "description": "Win bwg 5 times",
-    "threshold": 5,
-    "secret": false,
-    "tracker": 1
-  },
-  "41": {
     "name": "Nice",
     "description": "Have 69 gbp",
     "threshold": 0,
     "secret": true,
     "tracker": 0
   },
-  "42": {
+  "41": {
     "name": "Roulette Completionist",
     "description": "Win every payout in Roulette at least once",
     "threshold": 0,
     "secret": false,
     "tracker": 2
   },
-  "43": {
-    "name": "Classic Zaid",
-    "description": "Send a twitch clip",
-    "threshold": 0,
-    "secret": true,
-    "tracker": 0
-  },
-  "44": {
+  "42": {
     "name": "50/50",
     "description": "Flip a coin 10 times",
     "threshold": 10,
     "secret": true,
     "tracker": 1
   },
-  "45": {
+  "43": {
     "name": "Achievement Hunter",
     "description": "Use !achievements 15 times",
     "threshold": 15,
     "secret": true,
     "tracker": 1
   },
-  "46": {
-    "name": "Libertarian Nightmare",
-    "description": "Pay 10000 gbp in taxes",
-    "threshold": 10000,
-    "secret": false,
-    "tracker": 1
-  },
-  "47": {
-    "name": "Free Money",
-    "description": "Collect 10000 gbp in interest",
-    "threshold": 10000,
-    "secret": false,
-    "tracker": 1
-  },
-  "48": {
+  "44": {
     "name": "Wyatt",
     "description": "Press the button 500 times",
     "threshold": 500,
     "secret": false,
     "tracker": 1
   },
-  "49": {
-    "name": "Thank You for Being a Dick",
-    "description": "Suggest an insult to the bot",
-    "threshold": 0,
-    "secret": false,
-    "tracker": 0
-  },
-  "50": {
+  "45": {
     "name": "Schizophrenic",
     "description": "Send a message to yourself",
     "threshold": 0,
     "secret": true,
     "tracker": 0
   },
-  "51": {
+  "46": {
     "name": "Gambling Addict",
     "description": "Use gambling commands 1000 times",
     "threshold": 1000,
     "secret": false,
     "tracker": 1
   },
-  "52": {
+  "47": {
     "name": "A Fool's Bet",
     "description": "Play the 'Match the Dealer' bet 50 times",
     "threshold": 50,
     "secret": false,
     "tracker": 1
   },
-  "53": {
-    "name": "Hot Hand",
-    "description": "Win Ceelo 5 times in a row",
-    "threshold": 5,
-    "secret": false,
-    "tracker": 1
-  },
-  "54": {
-    "name": "Glizzy Gladiator",
-    "description": "Say glizzy 5 times",
-    "threshold": 5,
-    "secret": true,
-    "tracker": 1
-  },
-  "55": {
+  "48": {
     "name": "Sneaky Sneaky",
     "description": "Send 50 messages in your dms",
     "threshold": 50,

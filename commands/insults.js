@@ -48,15 +48,17 @@ module.exports = {
                                     master[i].insulted = true
                                     master[message.author.id].gbp -= price
                                     if(i == message.author.id){
+                                        //Masochist Achievement
                                         unlock.unlock(i, 22, message, master)
                                     }
                                     if(i == '462798271195119626'){
+                                        //As God Intended Achievement
                                         unlock.unlock(message.author.id, 19, message, master)
                                     }
-                                    //Professional Asshole  Achievement Tracker
+                                    //Professional Asshole  Achievement
                                     unlock.tracker1(message.author.id, 13, 1,  message, master, tracker)
 
-                                    //Toxic Achievement Tracker
+                                    //Toxic Achievement
                                     unlock.tracker2(i, 20, 1, message, master, tracker)
                                 }
                                 var success = true

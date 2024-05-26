@@ -65,15 +65,9 @@ function ButtonPress(message, master, stats_list, tracker, commmand_stats){
     }
     stats_list[user].button_presses = stats_list[user].button_presses + 1
     command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
-    unlock.tracker1(message.author.id, 48, 1, message, master, tracker)
-
-    /*
-    fs.writeFileSync ("./JSON/command_stats.json", JSON.stringify(command_stats, null, 2), function(err) {
-        if (err) throw err;
-        console.log('complete');
-        }
-    );
-    */
+    
+    //Wyatt Achievement
+    unlock.tracker1(message.author.id, 44, 1, message, master, tracker)
 }
 
 function ButtonStats(message, command_stats){

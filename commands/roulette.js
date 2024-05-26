@@ -112,7 +112,6 @@ function purchase(bet_value, player, master) {
 }
 
 function bet_checker(approved_bets, picked_number, roulette, message, master, tracker, stats_list){
-    const fs = require('fs')
     const unlock = require('./Functions/Achievement_Functions')
     var winnings = 0
     var bet = ''
@@ -151,7 +150,9 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                         winnings = -36 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 0, message, master, tracker)
+                        
+                        //Roulette Completionist Achievement
+                        unlock.tracker2(user, 41, 0, message, master, tracker)
                         win_checker++
                     }
                 break;
@@ -160,7 +161,9 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                         winnings = -36 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 0, message, master, tracker)
+                        
+                        //Roulette Completionist Achievement
+                        unlock.tracker2(user, 41, 0, message, master, tracker)
                         win_checker++
                     }
                 break;
@@ -169,7 +172,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                         winnings = -2 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 6, message, master, tracker)
+                        //Roulette Completionist Achievement
+                        unlock.tracker2(user, 41, 6, message, master, tracker)
                         win_checker++
                     }
                 break;
@@ -178,7 +182,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                         winnings = -2 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 6, message, master, tracker)
+                        //Roulette Completionist Achievement
+                        unlock.tracker2(user, 41, 6, message, master, tracker)
                         win_checker++
                     }
                 break;
@@ -187,7 +192,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                         winnings = -2 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings- bet} gbp`)
-                        unlock.tracker2(user, 42, 7, message, master,tracker)
+                        //Roulette Completionist Achievement
+                        unlock.tracker2(user, 41, 7, message, master,tracker)
                         win_checker++
                     }
                 break;
@@ -196,7 +202,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                         winnings = -2 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 7, message, master, tracker)
+                        //Roulette Completionist Achievement
+                        unlock.tracker2(user, 41, 7, message, master, tracker)
                         win_checker++
                     }
                 break;
@@ -205,7 +212,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                         winnings = -3 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 3, message, master, tracker)
+                        //Roulette Completionist Achievement
+                        unlock.tracker2(user, 41, 3, message, master, tracker)
                         win_checker++
                     }
                 break;
@@ -214,7 +222,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                         winnings = -2 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 5, message, master,tracker)
+                        //Roulette Completionist Achievement
+                        unlock.tracker2(user, 41, 5, message, master,tracker)
                         win_checker++
                     }
                 break;
@@ -223,7 +232,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                         winnings = -3 * bet
                         purchase(winnings, user, master)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                        unlock.tracker2(user, 42, 4, message, master,tracker)
+                        //Roulette Completionist Achievement
+                        unlock.tracker2(user, 41, 4, message, master,tracker)
                         win_checker++
                     }
                 break;
@@ -233,13 +243,15 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                             winnings = -18 * bet
                             purchase(winnings, user, master)
                             message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                            unlock.tracker2(user, 42, 1, message, master, tracker)
+                            //Roulette Completionist Achievement
+                            unlock.tracker2(user, 41, 1, message, master, tracker)
                             win_checker++
                         }else if(value[0] == 'd'){
                             winnings = -9 * bet
                             purchase(winnings, user, master)
                             message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
-                            unlock.tracker2(user, 42, 2, message, master, tracker)
+                            //Roulette Completionist Achievement
+                            unlock.tracker2(user, 41, 2, message, master, tracker)
                             win_checker++
                         }
                     }
@@ -249,28 +261,19 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 counter++
             }
             if(win_checker !== 0){
+                //Professional Gambler Achievement
                 unlock.tracker1(user, 33, parseFloat(-winnings - bet), message, master, tracker)
+                
+                //Jack of All trades Achievement
                 unlock.tracker3(user, 39, 2, parseFloat(-winnings - bet), message, master, tracker)
                 stats_list[user].roulette_wins += 1
             }else{
+                //The House Always Wins Achievement
                 unlock.tracker1(user, 32, parseFloat(bet), message, master, tracker)
             }
         }
         if(counter == 0){
             message.channel.send("No Winners")
-        }else{
-            /*
-            fs.writeFile ("./JSON/master.json", JSON.stringify(master), function(err) {
-                if (err) throw err;
-                console.log('complete');
-                }
-            );
-            fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
-                if (err) throw err;
-                console.log('complete');
-                }
-            );
-            */
         }
     }catch(err){
         console.log(err)

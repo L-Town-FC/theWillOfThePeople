@@ -10,7 +10,9 @@ module.exports = {
             }else{
                 message.channel.send('Heads');
             }
-            unlock.tracker1(message.author.id, 44, 1, message, master, tracker)
+
+            //50/50 Achievement
+            unlock.tracker1(message.author.id, 42, 1, message, master, tracker)
         }catch(err){
             console.log(err)
             message.channel.send("Error Occurred in flip.js Standings");

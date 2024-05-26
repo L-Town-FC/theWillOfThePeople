@@ -13,7 +13,9 @@ module.exports = {
         var name = args[1] || 'none';
         var command = ""
         var success = false;
-        unlock.tracker1(user, 45, 1, message, master, tracker)
+
+        //Achievement Hunter Achievement
+        unlock.tracker1(user, 43, 1, message, master, tracker)
         
         try{
             for(var i in master){

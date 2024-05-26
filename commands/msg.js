@@ -40,7 +40,9 @@ module.exports = {
                     recipient.send(new_msg)
                     master[message.author.id].gbp -= cost
                     if(person == message.author.id){
-                        unlock.unlock(person, 50, message, master)
+
+                        //Schizophrenic Achievement
+                        unlock.unlock(person, 45, message, master)
                     }
                 }else if(new_msg.startsWith("!") == true){
                     message.channel.send(`You can't message someone a command`)

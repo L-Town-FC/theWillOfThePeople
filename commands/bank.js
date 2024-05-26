@@ -30,6 +30,8 @@ module.exports = {
             try{
                 if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){
                     message.channel.bulkDelete(1)
+
+                    //Your a Dumnass Achievement
                     unlock.unlock(message.author.id, 7, message, master)
                 }else{
                     switch(command){

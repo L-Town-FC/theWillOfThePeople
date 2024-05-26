@@ -15,6 +15,7 @@ module.exports = {
         try{
             var pug_image = new MessageAttachment(`./pug_pics/${fs.readdirSync(dir)[pug]}`)
             message.channel.send(pug_image)
+            //Master Pugilist Achievmement
             unlock.tracker1(message.author.id, 5, 1, message, master, tracker)
         }catch(err){
             console.log(err)

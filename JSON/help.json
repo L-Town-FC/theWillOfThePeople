@@ -5,11 +5,6 @@
         "rules":""
     },
     "2":{
-        "name": "!simmerdown",
-        "description":"Displays how many times someone says 'Simmer down'",
-        "rules":"**!simmerdown [person]:** Says how many times the specified person said 'Simmer Down'. If no person is specified, it defaults to the user"
-    },
-    "3":{
         "name": "!21",
         "description":"Plays Blackjack",
         "rules":["**!21 deal [bet] [match the dealer]:** Starts game of blackjack with specified bet\n--Match the dealer pays 3:1 if either of your cards match the dealer's face up card. It isn't a mandatory bet",
@@ -20,17 +15,17 @@
 "**!21 surrender:** Quits the hand but only gives back half of what the player bet. Note: Can't be done after splitting or hitting",
 "**!21 status:** Resends dealer and player hands"]
     },
-    "4":{
+    "3":{
         "name": "!flip",
         "description":"Flips a coin",
         "rules":""
     },
-    "5":{
+    "4":{
         "name": "!council",
         "description":"Gets input from the council",
         "rules":""
     },
-    "6":{
+    "5":{
         "name": "!teams",
         "description":"Lets you create randomized teams",
         "rules":["**!teams add [person 1] [person 2]... :** Lets you add people to the teams list. Can be done multiple times",
@@ -38,63 +33,63 @@
         "**!teams [number of desired teams]:** Splits the list of people into the desired number of teams",
         "**!teams clear: ** Clears the list of people"]
     },
-    "7":{
+    "6":{
         "name": "!bank",
         "description":["Displays how much gbp a user has", "Can display gbp over time"],
         "rules":["**!bank [person]:** Shows Public gbp of specified person. Defaults to user if noone is specified",
 "**!bank [name] [day or week]:** Generates a chart of the given person over the past day/week"]
     },
-    "8":{
+    "7":{
         "name": "!insults",
         "description":"Allows you to see and set who is being insulted",
         "rules":["**!insults on [person]:** Makes it so the bot insults the specified person. If no user is specified it shows who is currently being insulted", 
             "**!insults off [person]**: Makes it so specified person no longer recieves insults from bot"]
     },
-    "9":{
+    "8":{
         "name": "!delete",
         "description":["Deleves previous messages","Costs 1500 gbp per message","Can only be used 5 times per day"],
         "rules":"**!delete [amount]:** Deletes specified number of messages. If no amount is specified it defaults to 1"
     },
-    "10":{
+    "9":{
         "name": "!gg",
         "description":["Try to guess a number between 1 and 100 inclusive with 3 guesses","Gives a 20X payout"],
         "rules":["**!gg bet [bet amount]:** Starts game with specified bet",
         "**!gg [guess number]:** Use 1 of your guesses to try and guess the correct number",
     "**!gg status:** Names if anyone is playing and what guess they are on"]
     },
-    "11":{
+    "10":{
         "name": "!kumiko",
         "description":["Posts a picture of Kumiko from the critically acclaimed show Sound! Euphonium","Costs 15 gbp per use"],
         "rules":""
     },
-    "12":{
+    "11":{
         "name": "!powerball",
         "description":"Enters you into the Powerball for 5 gbp per ticket",
         "rules":["**!powerball buy [Number of Tickets]:** Purchases the nubmer of specified tickets. If no number is specified, it defaults to 1",
             "**!powerball stats:** Shows the number of tickets that have been bought and the amount of gbp in the lottery"]
     },
-    "13":{
+    "12":{
         "name": "!transfer",
         "description":"Allows a user to transfer gbp to another user",
         "rules":["**!transfer [user] [amount]:** Transfer the specified amount of gpb to the specified user",
         "**!transfer [split] [amount] [name 1] [name 2] ...: Lets you split the specified amount evenly between multiple people"]
     },
-    "14":{
+    "13":{
         "name": "!names",
         "description":"Lists the names of all the people on the server",
         "rules":""
     },
-    "15":{
+    "14":{
         "name":"!changelog",
         "description":"Displays list of everything that was changed in the latest update",
         "rules":""
     },
-    "16":{
+    "15":{
         "name":"!boo",
         "description":["Lets you see and choose who is being booed","Costs 250 gbp to move"],
         "rules":["**!boo [user]:** Makes the bot boo the specified user. If no user is specified it states who is currently being booed"]
     },
-    "17":{
+    "16":{
         "name":"!steal",
         "description":["Steals from selected user"],
         "rules":["**!steal [user] [amount to steal]:** Lets you attempt to steal from designated amount from the specified user",
@@ -103,102 +98,46 @@
             "**!steal odds [target] [amount]:** Gives you the odds of failure for a specific target at a specific amount"
         ]
         },
-    "18":{
+    "17":{
         "name":"!achievements",
         "description":"Lets you track achievements gotten in the server",
         "rules":["**!achievements:** Lists your personal achievements",
             "**!achievements [name]:** List achievements of given person",
             "**!achievements list [number]:** Lists all possible achievements. If a number is given it shows you progress on the chosen number"]
     },
-    "19":{
-        "name":"!bwg (Banned Word Game)",
-        "description":["Lets you play the Banned Word Game","Can bet between 50 and 500 gbp"],
-        "rules":["**!bwg bet [target] [bet] [word]:** Starts the banned word game",
-            "**!bwg status:** If sent to the group chat, it displays everyone who is currently being targeted. If sent to the bot through dms it displays your current game",
-        "**!bwg reset:** Cancels your game in case you want to switch who you are targeting. Your bet is not refunded",
-        "**!bwg rules:** Explains some basic rules about the banned word game"]
-    },
-    "20":{
+    "18":{
         "name":"!roulette",
         "description":"Lets you play roulette with multiple people",
         "rules":["**!roulette bet [Time]:** Starts roulette game where betting ends after [Time] seconds",
             "**!roulette list:** Shows you the roulette board, basics, and payouts",
             "**!roulette numbers:** Shows you the last 10 numbers called"]
     },
-    "21":{
+    "19":{
         "name": "!button",
         "description": "The button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp",
         "rules": ["**!button:** Pushes the button", "**!button stats:** Shows you stats relating to the button"]
     },
-    "22":{
-        "name": "!poll",
-        "description": "Lets you create and vote on ranked choice polls",
-        "rules": [
-            "!poll [time] [Question]? [option1], [option2],...: Creates a poll that lasts a specified time",
-            "--time = [amount][units] (ex. 5m would be a time of 5 min)",
-            "--The question MUST end in a question mark otherwise it won't work",
-            "--options must be separated by a comma or it won't work",
-            " ",
-            "**--ex. !poll 2h Is this a good poll? Yes, No, Maybe**",
-            " ",
-            "!poll vote [poll number] [option1] [option2] ...: Lets you cast your vote on a specific poll",
-            "--poll number is listed in the poll before the question or can be found using '!poll list'",
-            "--You don't need to rank every choice for your vote to count",
-            " ",
-            "**--!poll vote 1 1 3 2 (Would be a valid vote for a poll with 3 or more options)**",
-            " ",
-            "!poll list: Gives you a list of all current polls",
-            "--can use '!poll list [poll number]' to see the poll's specific choices"
-        ]
-    },
-    "23":{
+    "20":{
         "name": "!msg",
         "description": ["Lets you pay the bot to dm people", "50 gbp if less than 50 character, 100 gbp if more"],
         "rules": [
             "**!msg [name] [message]:** Sends your message to the specified person"
         ]
     },
-    "24":{
-        "name": "!election",
-        "description": ["Lets elections be run", "Each poll is open for 24 Hrs"],
-        "rules": [
-            "**!election [role number] [candidate 1] [candidate 2] ... :** Lets you start a poll between the listed candidates",
-
-            "**!election roles:** Lists the electable roles and their numbers"
-        ]
-    },
-    "25":{
+    "21":{
         "name": "!=",
         "description": "Lets you do basic, 2 term math",
         "rules": ["!= [number] [operator] [number]. Operators are [+,-,*,/,^]"]
     },
-    "26":{
+    "22":{
         "name": "!kumikosays",
         "description": "Lets you make an image where kumiko says something",
         "rules": "**!kumikosays [message]:** Sends and image with a specified message"
     },
-    "27":{
+    "23":{
         "name": "!roles",
         "description": ["Let users check roles", "Lets mods update roles"],
         "rules": ["**!roles:** Shows you the elecable roles and who currently has them",
         "**!roles [roles number] [name]:** Lets you update the role list"]
-    },
-    "28": {
-        "name": "!remind",
-        "description": "Lets you set reminders",
-        "rules": ["**2 Different Ways to set Reminders**",
-            "**Short Term: 3 Day max**",
-            "!remind XY [reminder]: X = amount, Y = units (s,m,h,d)",
-            "-ex. '!remind 24h Make fun of Derek' would set a 24 hour reminder to make fun of Derek",
-            " ",
-            "**Long Term:**",
-            "!remind [month] [day] [year] [hour] [reminder]:", 
-            "-Month = first 3 letters of the month: (october -> oct)",
-            "-military time: (0 -> 12am, 13 -> 1pm)",
-            "-can only set the hour",
-            " ",
-            "-ex. '!remind oct 10 2020 14 Derek' would set a reminder 'Derek' to go off on 10/10/2020 at 2pm",
-            " ",
-            "!remind list: Shows a list of all your reminders"]
     }
 }

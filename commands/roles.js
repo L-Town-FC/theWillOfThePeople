@@ -2,8 +2,6 @@ module.exports = {
     name: 'roles',
     description: 'roles',
     execute(message, master){
-        const fs = require('fs')
-        const unlock = require('./Functions/Achievement_Functions')
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         const roles_embed = new Discord.MessageEmbed();

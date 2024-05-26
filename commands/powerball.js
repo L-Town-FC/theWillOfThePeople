@@ -23,12 +23,17 @@ module.exports = {
                         if(price <= total_money){
                             purchase(price, message.author.id, master);
                             stats.tracker(message.author.id, 1, 1,stats_list)
+
+                            //Sorry. Try Again Achievement
                             unlock.tracker1(message.author.id, 31, 1, message, master, tracker)
+                            
                             if(attempt(1, price, command_stats, message) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${command_stats.powerball.tickets} tickets to win. Your prize is ${command_stats.powerball.pot}`)
                                 purchase(-1 * command_stats.powerball.pot, message.author.id, master);
                                 command_stats.powerball.tickets = 0
                                 command_stats.powerball.pot = base_winnings
+                                
+                                //JACKPOT Achievement
                                 unlock.unlock(message.author.id, 10, message, master)
                             }else{
                                 message.channel.send("Sorry. Try again");
@@ -42,13 +47,18 @@ module.exports = {
                     }else{
                         if(money_spent <= total_money){
                             stats.tracker(message.author.id, 1, parseFloat(amount), stats_list)
+                            
+                            //Sorry. Try Again Achievement
                             unlock.tracker1(message.author.id, 31, parseInt(amount), message, master, tracker)
+                            
                             purchase(amount*price, message.author.id, master);
                             if(attempt(amount, money_spent, command_stats, message) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${command_stats.powerball.tickets} tickets to win. Your prize is ${command_stats.powerball.pot} gbp`)
                                 purchase(-1 * command_stats.powerball.pot, message.author.id, master);
                                 command_stats.powerball.tickets = 0
                                 command_stats.powerball.pot = base_winnings
+                                
+                                //JACKPOT Achievement
                                 unlock.unlock(message.author.id, 10, message, master)
                             }else{
                                 message.channel.send("Sorry. Try again");
