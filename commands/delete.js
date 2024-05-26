@@ -16,7 +16,10 @@ module.exports = {
                         purchase(cost, message.author.id, message, master);
                         message.channel.bulkDelete(parseInt(num) + 1);
                         message.channel.send(`${num} message has been deleted`);
+                        
+                        //History is Written By The Victors Achivement
                         unlock.tracker1(message.author.id, 25, num, message, master, tracker)
+                        
                         deletes[message.author.id].deletes = deletes[message.author.id].deletes + num
                         fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {
                             if (err) throw err;
@@ -37,7 +40,10 @@ module.exports = {
                         purchase(total_cost, message.author.id, message, master);
                         message.channel.bulkDelete(parseInt(num) + 1);
                         message.channel.send(`${num} message(s) has/have been deleted`);
+                        
+                        //History is Written by the Victors achievement
                         unlock.tracker1(message.author.id, 25, num, message, master, tracker)
+                        
                         deletes[message.author.id].deletes = deletes[message.author.id].deletes + num
                         fs.writeFileSync ("./JSON/delete_tracker.json", JSON.stringify(deletes, null, 2), function(err) {
                             if (err) throw err;

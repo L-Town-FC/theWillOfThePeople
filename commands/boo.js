@@ -20,6 +20,7 @@ module.exports = {
                         var id = i
                         command_stats.boo = id
                         purchase(price, message.author.id, message, master)
+                        
                         //Professional Asshole Achievement Tracker
                         unlock.tracker1(message.author.id, 13, 1, message, master, tracker)
 

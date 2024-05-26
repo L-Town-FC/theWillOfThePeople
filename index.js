@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
-const { Client, Intents } = require('discord.js');
+const { Client, Intents } = require('discord.js');environment
 const bot = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
-//const bot = new Discord.Client(intents = intents);
 const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
 
@@ -13,20 +12,9 @@ bot.commands = new Discord.Collection();
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
 
-/*
-master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
-stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
-tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
-profiles = JSON.parse(fs.readFileSync("./JSON/fish/fishing_profiles.json", "utf-8"))
-*/
-
-//Pulling data from faunadb
+//Pulling data from faunadb or local jsons depending on current environment
 const fauna_token = process.env.FAUNA_KEY
-master =  Fauna_get(fauna_token, "master", process.env.NODE_ENV)
-stats_list =  Fauna_get(fauna_token, "stats", process.env.NODE_ENV)
-tracker =  Fauna_get(fauna_token, "tracker", process.env.NODE_ENV)
-command_stats =  Fauna_get(fauna_token, "command_stats", process.env.NODE_ENV)
+GetJSONValues(fauna_token, token === process.env.DEVBOTTOKEN);
 
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
@@ -75,12 +63,8 @@ bot.on('message', message =>{
     try{
         if(message.author.bot == false){
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
-            bot.commands.get('simmerdowncount').execute(message, master);
             bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
             bot.commands.get('boo_trigger').execute(message, command_stats);
-            bot.commands.get('bwg_counter').execute(message, master, tracker);
-            bot.commands.get('word_checker').execute(message, master, tracker)
-            //bot.commands.get('stonks').execute(message)
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
                 stats.tracker(message.author.id, 7, 1, stats_list)
             }
@@ -90,7 +74,6 @@ bot.on('message', message =>{
                 Roulette_bets(message, master[message.author.id].gbp, master, stats_list)
             }
         }
-        //console.log(message)
     }catch(err){
         console.log(err)
         message.channel.send("Error occurred in message parser")
@@ -111,12 +94,10 @@ bot.on('message', message =>{
                 case 'pug':
                     bot.commands.get('pug').execute(message,master, tracker); 
                 break;
-                case 'simmerdown':
-                    bot.commands.get('simmerdown').execute(message,args, master);    
-                break;
                 case '21':
                     bot.commands.get('21').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
-                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
+                    //Gambling Addict Achievement
+                    unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
                 case 'flip':
                     bot.commands.get('flip').execute(message, master, tracker);
@@ -135,7 +116,8 @@ bot.on('message', message =>{
                 break;
                 case 'gg':
                     bot.commands.get('gg').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
-                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
+                    //Gambling Addict Achievement
+                    unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
                 case 'transfer':
                     bot.commands.get('transfer').execute(message,args,master[message.author.id].gbp, master);
@@ -145,7 +127,8 @@ bot.on('message', message =>{
                 break;
                 case 'powerball':
                     bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list, tracker, command_stats)
-                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
+                    //Gambling Addict Achievement
+                    unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
                 case 'names':
                     bot.commands.get('names').execute(message,master)
@@ -161,6 +144,7 @@ bot.on('message', message =>{
                 break;
                 case 'roulette':
                     bot.commands.get('roulette').execute(message,args,master, tracker, stats_list)
+                    //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'help':
@@ -178,21 +162,16 @@ bot.on('message', message =>{
                 case 'achievements':
                     bot.commands.get('achievements').execute(message,args, master, tracker);
                 break;
-                case 'bwg':
-                    bot.commands.get('bwg').execute(message,args, master[message.author.id].gbp, master)
-                break;
                 case 'stats':
                     bot.commands.get('stats').execute(message,args, master, stats_list);
                 break;
                 case 'button':
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
+                    //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
                 case 'msg': 
                     bot.commands.get('msg').execute(message, args, master, bot)
-                break;
-                case 'election':
-                    bot.commands.get('election').execute(message, args, master)
                 break;
                 case '=':
                     bot.commands.get('=').execute(message, args, master)
@@ -208,9 +187,6 @@ bot.on('message', message =>{
                 break;
                 case 'roles':
                    bot.commands.get('roles').execute(message, args, master)
-                break;
-                case 'poll':
-                    bot.commands.get('poll').execute(message, args)
                 break;
                 case 'update':
                     bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
@@ -279,12 +255,13 @@ function Roulette_bets(message, money, master, stats_list){
         if(isNaN(args[0]) == false && args[0] >= min_bet){
             if(possible_bets.includes(args[1].toLowerCase()) == true){
                 if(money >= args[0]){
-                    purchase(args[0], message.author.id, master, message)
+                    RoulettePurchase(args[0], message.author.id, master, message)
                     var bet = [args[0], args[1], message.author.id]
                     approved_bets.push(bet)
                     message.channel.send(`${master[message.author.id].name} Bet accepted`)
                     stats_list[message.author.id].roulette_bets += 1
                     if(Math.round(money) == args[0] && money >= 1000 && args[1].toLowerCase() == 'black'){
+                        //Bet it All on Black Achievement
                         unlock.unlock(message.author.id, 38, message, master)
                     }
                 }else{
@@ -293,12 +270,13 @@ function Roulette_bets(message, money, master, stats_list){
             }
         }else if(args[0].toLowerCase() == 'all' && master[message.author.id].gbp >= min_bet){
             if(possible_bets.includes(args[1].toLowerCase()) == true){
-                purchase(args[0], message.author.id, master, message)
+                RoulettePurchase(args[0], message.author.id, master, message)
                 var bet = [args[0], args[1], message.author.id]
                 approved_bets.push(bet)
                 message.channel.send(`${master[message.author.id].name} Bet accepted`)
                 stats_list[message.author.id].roulette_bets += 1
                 if(args[1].toLowerCase() == 'black'){
+                    //Bet it all on Black Achievement
                     unlock.unlock(message.author.id, 38, message, master)
                 }
             }
@@ -309,13 +287,13 @@ function Roulette_bets(message, money, master, stats_list){
     }
 }
 
-function purchase(bet_value, player, master, message) {
+function RoulettePurchase(bet_value, player, master, message) {
     try{
         master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
 
     }catch(err){
         console.log(err)
-        message.channel.send("Error Occured in Index.js Purchase");
+        message.channel.send("Error Occured in Index.js RoulettePurchase");
     }
 }
 
@@ -331,6 +309,7 @@ function Lottery(channel, master, unlock){
         if(guess == number){
             master[i].gbp = pot + master[i].gbp
             channel.send(`Congratulations! ${master[i].name} won the Daily lottery of ${pot} gbp`)
+            //Jackpot Achievement
             unlock.index_unlock(i, 10, channel, master)
             success = true
         }
@@ -381,6 +360,22 @@ async function Daily_Functions(channel, master, unlock){
     await gbp_farm_reset(channel, master)
 }
 
+function GetJSONValues(fauna_token, isDev){
+    if(isDev){
+        console.log("Dev Environment");
+        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
+        stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
+        tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
+        command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
+        return;
+    }
+
+    master =  Fauna_get(fauna_token, "master", process.env.NODE_ENV)
+    stats_list =  Fauna_get(fauna_token, "stats", process.env.NODE_ENV)
+    tracker =  Fauna_get(fauna_token, "tracker", process.env.NODE_ENV)
+    command_stats =  Fauna_get(fauna_token, "command_stats", process.env.NODE_ENV)
+}
+
 async function Fauna_get(fauna_token, name, location){
     const faunadb = require('faunadb')
     const fauna_client = new faunadb.Client({ secret: fauna_token })
@@ -419,6 +414,7 @@ async function Fauna_get(fauna_token, name, location){
 
     }}).catch(err => console.log(err))
 }
+
 
 //Just used to move the JSON files over to faunadb
 async function Fauna_create(fauna_token, name){

@@ -42,6 +42,8 @@ module.exports = {
                 break;
                 case 'delete':
                     message.channel.bulkDelete(1)
+
+                    //Your a Dumbass Achievement
                     unlock.unlock(message.author.id, 7, message, master)
                 break;
                 default: 
@@ -73,8 +75,9 @@ function Standard(message, master, args, recipient_id, amount){
                     }
                 }
             }
-
+            //Stack your family channel id
             if(message.channel.id == '668600084052705290'){
+                //Easy Money Achievement
                 unlock.unlock(recipient_id, 16, message, master)
             }
 

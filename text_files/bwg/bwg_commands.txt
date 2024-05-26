@@ -1,7 +1,0 @@
-!bwg bet [target] [bet] [word]: Starts the banned word game
-
-!bwg status: If sent to the group chat, it displays everyone who is currently being targeted. If sent to the bot through dms it displays your current game
-
-!bwg reset: Cancels your game in case you want to switch who you are targeting. Your bet is not refunded
-
-!bwg rules: Explains some basic rules about the banned word game

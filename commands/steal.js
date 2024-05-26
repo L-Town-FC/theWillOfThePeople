@@ -72,11 +72,19 @@ function Steal(message, args, target, master, tracker, bot){
                 //console.log(`Chance: ${chance}, Success: ${success}`)
                 if(chance < success){
                     //steal successful
-                    //Achievement stuff
+
+                    //Better to Ask for Forgiveness than Permission
                     unlock.unlock(message.author.id, 12, message, master)
+
+                    //Trust Nobody Achievement
                     unlock.unlock(target, 11, message, master)
+
+                    //Kleptomaniac Achievement
                     unlock.tracker1(message.author.id, 36, 1, message, master, tracker)
+                    
+                    //Master Thief Achievement
                     unlock.tracker1(message.author.id, 37, parseFloat(args[2]), message, master, tracker)
+                    
                     var poorest = 250
                     var richest = 0 
                     var poorest_id = ""
@@ -93,8 +101,10 @@ function Steal(message, args, target, master, tracker, bot){
                     }
 
                     if(richest_id == target){
+                        //Robinhood Achievement
                         unlock.unlock(message.author.id, 35, message, master)
                     }else if(poorest_id == target){
+                        //Trick Down Economics Achievement
                         unlock.unlock(message.author.id, 30, message, master)
                     }
 

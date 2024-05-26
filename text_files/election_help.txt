@@ -1,3 +1,0 @@
-!election [role number] [candidate 1] [candidate 2] ... : Lets you start a poll between the listed candidates
-
-!election roles: Lists the electable roles and their numbers
