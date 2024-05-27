@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const { Client, Intents } = require('discord.js');environment
+const { Client, Intents } = require('discord.js');
 const bot = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
@@ -189,7 +189,8 @@ bot.on('message', message =>{
                    bot.commands.get('roles').execute(message, args, master)
                 break;
                 case 'update':
-                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
+                    //bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
+                    //JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token);
                 break;
                 case 'test':
                     bot.commands.get('test').execute(message, master, stats_list, tracker);
