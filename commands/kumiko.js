@@ -1,7 +1,7 @@
 module.exports = {
     name: 'kumiko',
     description: 'randomly generates kumiko pic',
-    execute(message,money, master, tracker){
+    execute(message, master, tracker){
         const {Discord, MessageAttachment,} = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')

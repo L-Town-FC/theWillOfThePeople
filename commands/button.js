@@ -37,21 +37,7 @@ function ButtonPress(message, master, stats_list, tracker, commmand_stats){
     var user = message.author.id
     var win = 100
     var lose = 1000
-    //console.log(chance)
-    /*
-    For testing
-    var test_win = 0
-    var test_loss = 0
-    for(i = 0; i < 10000; i ++){
-        var test_chance = Math.floor(Math.random() * 10)
-        if(test_chance == 5){
-            test_loss = test_loss + 1
-        }else{
-            test_win = test_win + 1
-        }
-    }
-    console.log(["wins", test_win, "losses",test_loss])
-    */
+
     if(chance == 5){
         master[user].gbp = master[user].gbp - lose
         command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1

@@ -1,7 +1,7 @@
 module.exports = {
     name: '=',
     description: 'basic calculator',
-    execute(message, args, master){
+    execute(message, args){
         try{
             if(message.author.bot == true){
                 return
@@ -51,9 +51,4 @@ function Calculator(message, args){
     }else{
         message.channel.send('You must choose two numbers')
     }
-}
-
-function Help(message){
-    const fs = require('fs')
-    const Discord = require('discord.js')
 }
