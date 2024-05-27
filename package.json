@@ -1,8 +1,8 @@
 {
   "name": "discordbot",
   "version": "1.0.0",
-  "description": "",
-  "main": " ",
+  "description": "Colins little monster",
+  "main": "index.js",
   "scripts": {
     "clean": "rm -rf node_modules package-lock.json",
     "start": "node index.js",
@@ -13,20 +13,10 @@
   "author": "Colin",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/opus": "^0.5.0",
-    "canvas": "^2.6.1",
-    "chart.js": "^2.9.3",
-    "chartjs-node-canvas": "^3.2.0",
-    "cheerio": "^1.0.0-rc.3",
     "cron": "^1.8.2",
-    "discord-tts": "^1.0.1",
     "discord.js": "^12.5.3",
-    "downloadify": "^1.0.2",
     "faunadb": "^4.2.0",
-    "ffmpeg-static": "^4.2.7",
-    "image-data-uri": "^2.0.1",
     "jimp": "^0.16.1",
-    "merge-images": "^2.0.0",
     "node": "^18.9.0",
     "random": "^2.2.0",
     "request": "^2.88.0"
