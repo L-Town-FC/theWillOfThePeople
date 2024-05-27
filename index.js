@@ -50,6 +50,7 @@ bot.on('ready', () => {
     }
 })
 
+//event that triggers when a user leaves the server
 bot.on('guildMemberRemove', member =>{
     try{
         var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
@@ -59,9 +60,11 @@ bot.on('guildMemberRemove', member =>{
     }
 })
 
+
+//event that triggers every time a message is sent
 bot.on('message', message =>{
     try{
-        if(message.author.bot == false){
+        if(message.author.bot == false){ //filters out bot messages from tracking
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
             bot.commands.get('boo_trigger').execute(message, command_stats);
@@ -69,8 +72,8 @@ bot.on('message', message =>{
                 stats.tracker(message.author.id, 7, 1, stats_list)
             }
 
-            ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true
-            if(typeof(bets_open) !== 'undefined' && ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true){
+            ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true //not sure what this is for. can probably delete this line
+            if(typeof(bets_open) !== 'undefined' && ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true){ //checks if a roulette round has started and that the user is in the appropriate channel to play
                 Roulette_bets(message, master[message.author.id].gbp, master, stats_list)
             }
         }
@@ -83,117 +86,111 @@ bot.on('message', message =>{
 bot.on('message', message =>{    
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
-        if (message.content.startsWith("!") == true){
-            if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
-                stats.tracker(message.author.id, 8, 1, stats_list)
+        if (message.content.startsWith("!") == true){ //only runs a command if it starts with an "!"
+            if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){ //668996755211288595 is the prod bot, 712114529458192495 is dev bot. only commands run by actual users are stat tracked
+                stats.tracker(message.author.id, 8, 1, stats_list) //total commands stat tracker
             }
             switch(args[0].toLowerCase()){
-                case 'ping':
+                case 'ping': //lets you ping the bot to see if its running
                     bot.commands.get('ping').execute(message, fauna_token, master, bot);
                 break;
-                case 'pug':
+                case 'pug': //sends pic of a pug
                     bot.commands.get('pug').execute(message,master, tracker); 
                 break;
-                case '21':
+                case '21': //blackjack
                     bot.commands.get('21').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
-                case 'flip':
+                case 'flip': //flips a coin
                     bot.commands.get('flip').execute(message, master, tracker);
                 break;
-                case 'council':
+                case 'council': //lets you ask the council a question
                     bot.commands.get('council').execute(message,master,tracker);
                 break;
-                case 'bank':
+                case 'bank': //users can check their gbp and the gbp of others
                     bot.commands.get('bank').execute(message,args, master);
                 break;
-                case 'insults':
+                case 'insults': //lets a user check who is being insulted, lets them add and remove people from being insulted
                     bot.commands.get('insults').execute(message,args,master[message.author.id].gbp, master, tracker);
                 break;
-                case 'delete':
+                case 'delete': //lets a user delete messages
                     bot.commands.get('delete').execute(message,args,master[message.author.id].gbp, master, tracker);
                 break;
-                case 'gg':
+                case 'gg': //game where the user gets three tries to guess a number between 1 and 100
                     bot.commands.get('gg').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
-                case 'transfer':
+                case 'transfer': //lets users transfer gbp between eachother
                     bot.commands.get('transfer').execute(message,args,master[message.author.id].gbp, master);
                 break;
-                case 'kumiko':
-                    bot.commands.get('kumiko').execute(message,master[message.author.id].gbp, master, tracker);
+                case 'kumiko': //sends the user a picture of kumiko from the Sound Euphonium
+                    bot.commands.get('kumiko').execute(message, master, tracker);
                 break;
-                case 'powerball':
+                case 'powerball': //lets users buy lottery tickets and check stats on it
                     bot.commands.get('powerball').execute(message,args, master[message.author.id].gbp, master, stats_list, tracker, command_stats)
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
-                case 'names':
+                case 'names': //lists the names of all users on server
                     bot.commands.get('names').execute(message,master)
                 break;
-                case 'master':
-                    bot.commands.get('master').execute(message,args, master, stats_list, tracker, command_stats)
-                break;
-                case 'roles':
+                case 'roles': //lists the current role holders on the server
                     bot.commands.get('roles').execute(message, master)
                 break;
-                case 'changelog':
+                case 'changelog': //lists the most recent changes to the bot
                     bot.commands.get('changelog').execute(message)
                 break;
-                case 'roulette':
+                case 'roulette': //lets users play roulette
                     bot.commands.get('roulette').execute(message,args,master, tracker, stats_list)
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
-                case 'help':
+                case 'help': //gives a list of all commands
                     bot.commands.get('help').execute(message, args);
                 break;
-                case 'set':
+                case 'set': //lets me set others gbp values
                     bot.commands.get('set').execute(message,args, master);
                 break;
-                case 'boo':
+                case 'boo': //lets users set who is currently being booed by the bot
                     bot.commands.get('boo').execute(message,args,master[message.author.id].gbp, master, tracker, command_stats);
                 break;
-                case 'steal':
+                case 'steal': //lets users steal gbp from eachother
                     bot.commands.get('steal').execute(message,args, master, tracker, bot);
                 break;
-                case 'achievements':
+                case 'achievements': //lists all the achievements on the server
                     bot.commands.get('achievements').execute(message,args, master, tracker);
                 break;
-                case 'stats':
+                case 'stats': //lets users check stats associated with their server activity 
                     bot.commands.get('stats').execute(message,args, master, stats_list);
                 break;
-                case 'button':
+                case 'button': //lets users push a button for a chance of winning 100 gbp or losing 1000 gbp
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
                 break;
-                case 'msg': 
+                case 'msg': //lets users make the bot dm a different user
                     bot.commands.get('msg').execute(message, args, master, bot)
                 break;
-                case '=':
-                    bot.commands.get('=').execute(message, args, master)
+                case '=': //basic calculator
+                    bot.commands.get('=').execute(message, args)
                 break;
-                case 'kumikosays':
+                case 'kumikosays': //creates image of kumiko with a speak bubble with user inputted text
                     bot.commands.get('kumikosays').execute(message, args)
                 break;
-                case 'changename':
+                case 'changename': //lets me change someones name in the bot functions
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
                 break;
-                case 'teams':
+                case 'teams': //lets users randomly generate teams
                     bot.commands.get('teams').execute(message, args)
                 break;
-                case 'roles':
-                   bot.commands.get('roles').execute(message, args, master)
-                break;
-                case 'update':
+                case 'update': //command that is only used for dev work and changed for testing purposes
                     //bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
                     //JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token);
                 break;
-                case 'test':
-                    bot.commands.get('test').execute(message, master, stats_list, tracker);
+                case 'test': //another command for testing purposes only
+                    //bot.commands.get('test').execute(message, master, stats_list, tracker);
                 break;
                 default:
                     message.channel.send('Use command !help for a list of commands');
@@ -216,8 +213,8 @@ bot.on('error', (err) => {
     console.error(err.message)
 });
 
+//adds 250 gbp or sets them to 250 gbp if they are above 0 gbp
 function Welfare(channel, master){
-    const fs = require('fs')
     try{
         for(i in master){
             if(isNaN(master[i].gbp) == true){
@@ -230,25 +227,22 @@ function Welfare(channel, master){
             }
         }
         channel.send("Welfare has been distributed")
-        fs.writeFile ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
-            if (err) throw err;
-            console.log('complete');
-            }
-        );
     }catch(err){
         console.log(err)
         channel.send('Error Occured in Welfare')
     }
 }
 
+//function used to track users bets when a round a roulette has started
 function Roulette_bets(message, money, master, stats_list){
     var args = message.content.split(" ")
-    var possible_bets = fs.readFileSync('./text_files/roulette/roulette_bets','utf-8').split(",")
+    var possible_bets = fs.readFileSync('./text_files/roulette/roulette_bets','utf-8').split(",") //a list of all bets that a user can make
     var min_bet = 10;
     var bet = false
 
     try{
 
+        //checks if 
         if(typeof(approved_bets) == 'undefined'){
             approved_bets = []
         }

@@ -10,9 +10,8 @@ module.exports = {
         const unlock = require('./Functions/Achievement_Functions')
         achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         var user = message.author.id;
-        var name = args[1] || 'none';
+        var name = args[1] || 'none'; //if only "!achievements" is sent then it defaults to "none"
         var command = ""
-        var success = false;
 
         //Achievement Hunter Achievement
         unlock.tracker1(user, 43, 1, message, master, tracker)
@@ -24,6 +23,7 @@ module.exports = {
                     user = i
                 }
             }
+            //can definitely simplify this
             if(name == 'none'){
                 command = 'person'
             }else if(name.toLowerCase() == 'list'){

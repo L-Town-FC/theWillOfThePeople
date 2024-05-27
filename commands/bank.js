@@ -68,63 +68,6 @@ module.exports = {
                                 message.channel.send('Error occurred in bank.js name')
                             }
                         break;
-                        {
-                        /*
-                        case 'account':
-                            try{
-                                message.channel.send(`You currently have ${master[message.author.id].account} gbp in your private account`)
-                            }catch(err){
-                                console.log(err)
-                                message.channel.send('Error occurred in bank.js account')
-                            }
-                        break;
-                        case 'deposit':
-                            try{
-                                var account = master[message.author.id].account
-                                var amount = parseFloat(args[2])
-                                if(isNaN(amount) == true || amount <= 0){
-                                    message.channel.send('Please specify an amount greater than 0')
-                                }else if(amount > master[message.author.id].gbp){
-                                    message.channel.send(`You can't deposit more gbp than you currently have`)
-                                }else if(account == max_amount){
-                                    message.channel.send(`You are at the max account size of ${max_amount} gbp`)
-                                }else if(parseFloat(amount)%1000 !== 0){
-                                    message.channel.send('You can only make deposits in increments of 1000 gbp')
-                                }else if(account + amount > max_amount){
-                                    message.channel.send(`Depositing the full amount would put you over the limit. Instead you deposited up to the limit of ${max_amount} gbp`)
-                                    var deposited = max_amount - account
-                                    master[message.author.id].account = max_amount
-                                    master[message.author.id].gbp = master[message.author.id].gbp - deposited
-                                }else{
-                                    message.channel.send(`You deposited ${amount} gbp` )
-                                    master[message.author.id].account = master[message.author.id].account + amount
-                                    master[message.author.id].gbp = master[message.author.id].gbp - amount
-                                }
-                            }catch(err){
-                                console.log(err)
-                                message.channel.send('Error occurred in bank.js deposit')
-                            }
-                        break;
-                        case 'withdraw':
-                            try{
-                                var account = master[message.author.id].account
-                                var amount = parseFloat(args[2])
-                                if(isNaN(amount) == true || amount <= 0){
-                                    message.channel.send('Please specify an amount greater than 0')
-                                }else if(amount > master[message.author.id].account){
-                                    message.channel.send(`You can't withdraw more gbp than you currently have in your account`)
-                                }else{
-                                    message.channel.send(`You withdrew ${amount} gbp` )
-                                    master[message.author.id].account = master[message.author.id].account - amount
-                                    master[message.author.id].gbp = master[message.author.id].gbp + amount
-                                }
-                            }catch(err){
-                                console.log(err)
-                                message.channel.send('Error occurred in bank.js withdraw')
-                            }
-                        break;
-                        */
-                        }
                         case 'help':
                             try{
                                 var help = fs.readFileSync('text_files/bank_commands.txt', 'utf-8').split("\n")

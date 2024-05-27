@@ -8,9 +8,6 @@ module.exports = {
         const dir = './pug_pics'
         var max_pugs = fs.readdirSync(dir).length
         var pug = Math.floor(Math.random()*max_pugs);
-        //console.log(pug)
-        //var pug = 2;
-
 
         try{
             var pug_image = new MessageAttachment(`./pug_pics/${fs.readdirSync(dir)[pug]}`)
