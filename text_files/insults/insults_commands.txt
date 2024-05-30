@@ -1,3 +1,5 @@
+This command costs 1500 gbp to use
+
 !insults on [person]: Lets the bot start insulting the specified person
 
 !insults off [person]: Stops the bot from insulting the specified person

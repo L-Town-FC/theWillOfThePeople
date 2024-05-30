@@ -1,12 +1,13 @@
 module.exports = {
     name: 'insults',
     description: 'lets you insults people',
-    execute(message,args,money, master, tracker){
+    execute(message,args, master, tracker){
         const fs = require('fs')
         const Discord = require('discord.js')
+        const general = require('./Functions/GeneralFunctions')
         const embed = require('./Functions/embed_functions')
-        const unlock = require('./Functions/Achievement_Functions')
         const price = 1500
+        var targetID = general.NameToUserID(args[2] || "none", master)
         var command
         if(!args[1]){
             command = 'list'
@@ -34,40 +35,23 @@ module.exports = {
                 }
             break;
             case 'on':
+                
                 try{    
-                    var name = args[2] || 'none'
-                    if(money < price){
-                        message.channel.send(`You need atleast ${price} gbp to use this command`)
-                    }else{
-                        for(var i in master){
-                            if(master[i].name.toLowerCase() == String(name).toLowerCase()){
-                                if(master[i].insulted == true){
-                                    message.channel.send(`${master[i].name} is already being insulted`)
-                                }else{
-                                    message.channel.send(`${master[i].name} is now being insulted`)
-                                    master[i].insulted = true
-                                    master[message.author.id].gbp -= price
-                                    if(i == message.author.id){
-                                        //Masochist Achievement
-                                        unlock.unlock(i, 22, message, master)
-                                    }
-                                    if(i == '462798271195119626'){
-                                        //As God Intended Achievement
-                                        unlock.unlock(message.author.id, 19, message, master)
-                                    }
-                                    //Professional Asshole  Achievement
-                                    unlock.tracker1(message.author.id, 13, 1,  message, master, tracker)
-
-                                    //Toxic Achievement
-                                    unlock.tracker2(i, 20, 1, message, master, tracker)
-                                }
-                                var success = true
-                            }
-                        }
-                        if(typeof(success) == 'undefined'){
-                            message.channel.send(`The specified person doesn't exist`)
-                        }
+                    if(!general.CommandUsageValidator(message, master, price, price, master[message.author.id].gbp, targetID)){
+                        return;
                     }
+                    
+                    if(master[targetID].insulted){
+                        message.channel.send("They are already being insulted")
+                        return
+                    }
+
+                    general.CommandPurchase(message, master, price, general.defaultRecipient)
+                    
+                    message.channel.send(`${master[targetID].name} is now being insulted`)
+                    master[targetID].insulted = true
+
+                    AchievementChecker(message, master, tracker, targetID);
                 }catch(err){
                     console.log(err)
                     message.channel.send('Error occurred in insults.js on')
@@ -75,26 +59,21 @@ module.exports = {
             break;
             case 'off':
                 try{                
-                    var name = args[2] || 'none'
-                    if(money < price){
-                        message.channel.send(`You need atleast ${price} gbp to use this command`)
-                    }else{
-                        for(var i in master){
-                            if(master[i].name.toLowerCase() == String(name).toLowerCase()){
-                                if(master[i].insulted == false){
-                                    message.channel.send(`${master[i].name} is not being insulted`)
-                                }else{
-                                    message.channel.send(`${master[i].name} is no longer being insulted`)
-                                    master[i].insulted = false
-                                    master[message.author.id].gbp -= price
-                                }
-                                var success = true
-                            }
-                        }
-                        if(typeof(success) == 'undefined'){
-                            message.channel.send(`The specified person doesn't exist`)
-                        }
+                   
+                    if(!general.CommandUsageValidator(message, master, price, price, master[message.author.id].gbp, targetID)){
+                        return;
                     }
+                    
+                    if(!master[targetID].insulted){
+                        message.channel.send("They are not being insulted")
+                        return
+                    }
+
+                    general.CommandPurchase(message, master, price, general.defaultRecipient)
+
+                    message.channel.send(`${master[targetID].name} is no longer being insulted`)
+                    master[targetID].insulted = false
+
                 }catch(err){
                     console.log(err)
                     message.channel.send('Error occurred in insults.js off')
@@ -117,4 +96,24 @@ module.exports = {
                 message.channel.send('Use "!insults help" for a list of commands')
         }
     }
+}
+
+
+function AchievementChecker(message, master, tracker, recipient_id){
+
+    const unlock = require('./Functions/Achievement_Functions')
+
+    if(recipient_id == message.author.id){
+        //Masochist Achievement
+        unlock.unlock(recipient_id, 22, message, master)
+    }
+    if(recipient_id == '462798271195119626'){
+        //As God Intended Achievement
+        unlock.unlock(message.author.id, 19, message, master)
+    }
+    //Professional Asshole  Achievement
+    unlock.tracker1(message.author.id, 13, 1,  message, master, tracker)
+
+    //Toxic Achievement
+    unlock.tracker2(recipient_id, 20, 1, message, master, tracker)
 }
