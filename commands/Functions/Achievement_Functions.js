@@ -6,13 +6,9 @@ function unlock(user, achievement_num, message, master){
         //loops through users to find user that just messaged
         //check if the achievement that is trying to be unlocked has already been unlocked
         //if it hasnt been unlocked yet, it unlocked it and sends a congratulatory message
-        for(i in master){
-            if(user == i){
-                if(master[i].achievements.includes(achievement_num) == false){
-                    master[i].achievements.push(achievement_num)
-                    message.channel.send(`${master[i].name} Achievement Unlock: ${achievements[achievement_num].name} \nDescription: ${achievements[achievement_num].description}`)
-                }
-            }
+        if(master[user].achievements.includes(achievement_num) == false){
+            master[user].achievements.push(achievement_num)
+            message.channel.send(`${master[user].name} Achievement Unlock: ${achievements[achievement_num].name} \nDescription: ${achievements[achievement_num].description}`)
         }
     }catch(err){
         console.log(err)
@@ -26,14 +22,12 @@ function index_unlock(user, achievement_num, channel, master){
     //unlocks stuff in index.js
     const fs = require ('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
-    for(i in master){
-        if(user == i){
-            if(master[i].achievements.includes(achievement_num) == false){
-                master[i].achievements.push(achievement_num)
-                channel.send(`${master[i].name} Achievement Unlock: ${achievements[achievement_num].name}`)
-            }
-        }
+
+    if(master[user].achievements.includes(achievement_num) == false){
+        master[user].achievements.push(achievement_num)
+        channel.send(`${master[user].name} Achievement Unlock: ${achievements[achievement_num].name}`)
     }
+    
 }
 
 module.exports.index_unlock = index_unlock

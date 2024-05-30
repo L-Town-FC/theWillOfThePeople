@@ -112,7 +112,7 @@ bot.on('message', message =>{
                     bot.commands.get('bank').execute(message,args, master);
                 break;
                 case 'insults': //lets a user check who is being insulted, lets them add and remove people from being insulted
-                    bot.commands.get('insults').execute(message,args,master[message.author.id].gbp, master, tracker);
+                    bot.commands.get('insults').execute(message,args, master, tracker);
                 break;
                 case 'delete': //lets a user delete messages
                     bot.commands.get('delete').execute(message,args,master[message.author.id].gbp, master, tracker);
@@ -123,7 +123,7 @@ bot.on('message', message =>{
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
                 case 'transfer': //lets users transfer gbp between eachother
-                    bot.commands.get('transfer').execute(message,args,master[message.author.id].gbp, master);
+                    bot.commands.get('transfer').execute(message,args, master);
                 break;
                 case 'kumiko': //sends the user a picture of kumiko from the Sound Euphonium
                     bot.commands.get('kumiko').execute(message, master, tracker);
@@ -154,7 +154,7 @@ bot.on('message', message =>{
                     bot.commands.get('set').execute(message,args, master);
                 break;
                 case 'boo': //lets users set who is currently being booed by the bot
-                    bot.commands.get('boo').execute(message,args,master[message.author.id].gbp, master, tracker, command_stats);
+                    bot.commands.get('boo').execute(message,args, master, tracker, command_stats);
                 break;
                 case 'steal': //lets users steal gbp from eachother
                     bot.commands.get('steal').execute(message,args, master, tracker, bot);
