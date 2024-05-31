@@ -6,23 +6,30 @@ module.exports = {
         var boo = command_stats.boo
         var price = 500;
 
+        //checks if empty command was sent and adds argument if none present so null exception isnt thrown later
+        //args[1] would be where the name of the target is specified
         if(args.length < 2){
             args[1] = "none"
         }
+        
 
-        var targetID = general.NameToUserID(args[1].toLowerCase() || "none")
+        //gets targets corresponding id from their name
+        var targetID = general.NameToUserID(args[1].toLowerCase())
 
         try{
             
+            //if the given name isnt recognized it just lists who is currently being booed
             if(targetID == general.invalid){
                 message.channel.send(`${master[boo].name} is currently being booed`)
                 return
             }
 
+            //validates if the user is able to use the command with the specified target
             if(!general.CommandUsageValidator(message, master, price, price, master[message.author.id].gbp, targetID)){
                 return
             }
 
+            //updates stat and confirms command purchase
             command_stats.boo = targetID
             general.CommandPurchase(message, master, price, general.defaultRecipient)
             AchievementChecker(message, master, tracker, targetID)

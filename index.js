@@ -30,7 +30,6 @@ bot.on('ready', () => {
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
     console.log('This bot is online')
-    stocks_open = false
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
         bot_tinkering.send('The bot is online')    
@@ -53,6 +52,7 @@ bot.on('ready', () => {
 //event that triggers when a user leaves the server
 bot.on('guildMemberRemove', member =>{
     try{
+        //sends message when a server member leaves the server
         var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
         channel.send(`${master[member.id].name} has left the server`)
     }catch(err){
@@ -65,6 +65,7 @@ bot.on('guildMemberRemove', member =>{
 bot.on('message', message =>{
     try{
         if(message.author.bot == false){ //filters out bot messages from tracking
+            //commmands that ary run every time someone sends a message
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
             bot.commands.get('boo_trigger').execute(message, command_stats);
