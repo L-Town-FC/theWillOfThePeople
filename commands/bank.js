@@ -2,97 +2,85 @@ module.exports = {
     name: 'bank',
     description: 'says currency amount',
     execute(message,args, master){
-        const Discord = require('discord.js');
-        const fs = require('fs')
         const unlock = require("./Functions/Achievement_Functions")
         const embed = require('./Functions/embed_functions')
-        const max_amount = 30000
-        var name = args[1];
-        var command = args[1]
-        var names = []
-
+        const general = require('./Functions/GeneralFunctions')
+        var targetID;
         try{
-
-            for(i in master){
-                names.push(master[i].name.toLowerCase())
+            //checks if command is run in bot tinkering. deletes it and awards achievement if it has
+            if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){
+                message.channel.bulkDelete(1)
+    
+                //Your a Dumnass Achievement
+                unlock.unlock(message.author.id, 7, message, master)
+                return
             }
-            if(!command){
-                command = 'name'
-                var person = message.author.id
-            }else if(names.includes(command.toLowerCase()) == true){
-                command = 'name'
-                for(i in master){
-                    if(master[i].name.toLowerCase() == name.toLowerCase()){
-                        var person = i
-                    }
-                }
+    
+            //checks if empty command has been sent
+            if(args.length < 2){
+                args[1] = general.invalid
             }
-            try{
-                if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){
-                    message.channel.bulkDelete(1)
-
-                    //Your a Dumnass Achievement
-                    unlock.unlock(message.author.id, 7, message, master)
-                }else{
-                    switch(command){
-                        case 'all':
-                            try{
-                                    var everyone = [];
-                                    var counter = 0
-                                    var total = 0
-                                    var total_private = 0
-                                    for(i in master){
-                                        everyone[counter] = `${master[i].name}: ${master[i].gbp}`;
-                                        counter = counter + 1;
-                                        total = total + master[i].gbp
-                                        total_private += master[i].account
-                                    }
-                                    const message_embed = new Discord.MessageEmbed()
-                                    .setTitle("List of all Public accounts on Server")
-                                    .setDescription(everyone)
-                                    .addField(`Total GBP on Server`, total.toFixed(2))
-                                    .setColor(embed.Color(message))
-                                    message.channel.send(message_embed)
-                            }catch(err){
-                                console.log(err)
-                                message.channel.send('Error occurred in bank.js all')
-                            }
-                        break;
-                        case 'name':
-                            try{
-                            
-                                    message.channel.send(`${master[person].name} has ${master[person].gbp} gbp`);
-                                
-                            }catch(err){
-                                console.log(err)
-                                message.channel.send('Error occurred in bank.js name')
-                            }
-                        break;
-                        case 'help':
-                            try{
-                                var help = fs.readFileSync('text_files/bank_commands.txt', 'utf-8').split("\n")
-                                const help_list = new Discord.MessageEmbed()
-                                .setTitle("List of Commands")
-                                .setDescription(help)
-                                .setColor(embed.Color(message))
-                                message.channel.send(help_list)
-                            }catch(err){
-                                console.log(err)
-                                message.channel.send("Error occured in bank.js help")
-                            }
-                        break;
-                        default:
-                            message.channel.send('Use "!bank help" for a list of commands')
-                    }
-                }
-
-            }catch(err){
-                console.log(err)
-                message.channel.send('Error Occured in bank.js')
+    
+            //gets user id from name
+            targetID = general.NameToUserID(args[1].toLowerCase(), master)
+    
+            //runs all function if specified
+            if(args[1].toLowerCase() == 'all'){
+                BankAll(message, master, embed)
+                return
             }
+    
+            //runs hepl function if specified
+            if(args[1].toLowerCase() == 'help'){
+                Help(message, master, embed)
+                return
+            }
+    
+            //if no person is specified or the specified name doesnt exist, the author's gbp is sent
+            if(targetID == general.invalid){
+                message.channel.send(`${master[message.author.id].name} has ${master[message.author.id].gbp} gbp`);
+                return
+            }
+
+            //sends the target's gbp
+            message.channel.send(`${master[targetID].name} has ${master[targetID].gbp} gbp`);
+            
         }catch(err){
             console.log(err)
-            message.channel.send('Error occurred in bank.js')
+            message.channel.send("Error occurred in Bank.js")
         }
     }
+}
+
+function BankAll(message, master){
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+
+    var everyone = [];
+    var total = 0
+
+    for(i in master){
+        everyone.push(`${master[i].name}: ${master[i].gbp}`);
+        total = total + master[i].gbp
+    }
+
+    const message_embed = new Discord.MessageEmbed()
+    .setTitle("List of all Accounts on Server")
+    .setDescription(everyone)
+    .addField(`Total GBP on Server`, total.toFixed(2))
+    .setColor(embed.Color(message))
+    message.channel.send(message_embed)
+}
+
+function Help(message){
+    const Discord = require('discord.js')
+    const embed = require('./Functions/embed_functions')
+    const fs = require('fs')
+
+    var help = fs.readFileSync('text_files/bank_commands.txt', 'utf-8').split("\n")
+    const help_list = new Discord.MessageEmbed()
+    .setTitle("List of Commands")
+    .setDescription(help)
+    .setColor(embed.Color(message))
+    message.channel.send(help_list)
 }

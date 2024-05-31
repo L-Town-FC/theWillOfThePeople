@@ -9,6 +9,8 @@ module.exports = {
         const price = 1500
         var targetID = general.NameToUserID(args[2] || "none", master)
         var command
+
+        //args[1] is where the command is specified. if no command is specified then the command is set to "list" and processed later
         if(!args[1]){
             command = 'list'
         }else{
@@ -17,6 +19,7 @@ module.exports = {
 
         switch(command){
             case 'list':
+                //lists the people currently being insulted by the bot
                 try{
                     var insulted = []
                     for(var i in master){
@@ -35,22 +38,27 @@ module.exports = {
                 }
             break;
             case 'on':
-                
+                //command to start insulting a specified person
                 try{    
+                    //checks the basics if a command can be run
                     if(!general.CommandUsageValidator(message, master, price, price, master[message.author.id].gbp, targetID)){
                         return;
                     }
                     
+                    //checks if the specified person is already being insulted
                     if(master[targetID].insulted){
                         message.channel.send("They are already being insulted")
                         return
                     }
 
+                    //executes payment for command
                     general.CommandPurchase(message, master, price, general.defaultRecipient)
                     
+                    //executes command and confirmation
                     message.channel.send(`${master[targetID].name} is now being insulted`)
                     master[targetID].insulted = true
 
+                    //checks variety of achievements related to insulting people
                     AchievementChecker(message, master, tracker, targetID);
                 }catch(err){
                     console.log(err)
@@ -60,17 +68,21 @@ module.exports = {
             case 'off':
                 try{                
                    
+                    //checks the basics if a command can be run
                     if(!general.CommandUsageValidator(message, master, price, price, master[message.author.id].gbp, targetID)){
                         return;
                     }
                     
+                    //checks if the specified person is already not being insulted
                     if(!master[targetID].insulted){
                         message.channel.send("They are not being insulted")
                         return
                     }
 
+                    //executes payment for command
                     general.CommandPurchase(message, master, price, general.defaultRecipient)
 
+                    //executes command and confirmation
                     message.channel.send(`${master[targetID].name} is no longer being insulted`)
                     master[targetID].insulted = false
 
@@ -80,6 +92,7 @@ module.exports = {
                 }
             break;
             case 'help':
+                //creates embded message for instructions on how to use the command
                 try{
                     var help = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')
                     var insults_commands = new Discord.MessageEmbed()
@@ -99,6 +112,7 @@ module.exports = {
 }
 
 
+//checks variety of achievements and updates trackers and unlocks them as needed
 function AchievementChecker(message, master, tracker, recipient_id){
 
     const unlock = require('./Functions/Achievement_Functions')

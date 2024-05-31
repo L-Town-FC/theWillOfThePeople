@@ -1,3 +1,3 @@
-!bank [person]: Shows Public gbp of specified person. Defaults to user if noone is specified
+!bank [person]: Shows gbp of specified person. Defaults to self if noone is specified
 
-!bank [person] [day or week]: Generates a graph of the specified person's gbp over the past week/day
+!bank all: Gives a list of everyone's gbp
