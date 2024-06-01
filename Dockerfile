@@ -8,7 +8,7 @@ WORKDIR $PROJECTDIR
 
 # install dependencies
 COPY package.json .
-RUN npm i --production
+RUN npm i --omit=dev
 
 # Add project to container
 COPY . .
