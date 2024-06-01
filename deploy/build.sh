@@ -2,10 +2,10 @@
 echo 'BUILDING'
 . $PWD/deploy/timeInfo.sh
 
-tag=latest
 repo=atmollohan
 name=bot
 image_full_tag=$repo/$name:$tag
+tag=latest
 env_file_name=.env
 env_file_location=$PWD/$env_file_name
 

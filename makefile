@@ -1,8 +1,11 @@
 build:
 	. ./build/build.sh
 
-deploy:
-	. ./deploy/ec2.sh
+deploy_aws:
+	. ./deploy/deployAws.sh
+
+deploy_pi:
+	. ./deploy/deployPi.sh
 
 develop:
 	npm run start:dev
