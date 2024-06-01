@@ -18,7 +18,6 @@
     "faunadb": "^4.2.0",
     "jimp": "^0.16.1",
     "node": "^18.9.0",
-    "node.js": "0.0.1-security",
     "random": "^2.2.0",
     "request": "^2.88.0"
   },
