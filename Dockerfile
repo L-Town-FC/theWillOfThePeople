@@ -1,5 +1,5 @@
 # Pull base node image
-FROM node:18.9
+FROM node:20.14
 
 # Make project dir
 ENV PROJECTDIR /usr/src/bot
@@ -8,7 +8,7 @@ WORKDIR $PROJECTDIR
 
 # install dependencies
 COPY package.json .
-RUN npm i --production
+RUN npm i --omit=dev
 
 # Add project to container
 COPY . .
