@@ -1,6 +1,16 @@
 const Discord = require('discord.js');
-const { Client, Intents } = require('discord.js');
-const bot = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
+const bot = new Discord.Client({ intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.DirectMessages
+],
+partials: [
+    Partials.Channel,
+    Partials.Message
+  ] })
 const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
 
@@ -11,6 +21,7 @@ bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
+const { messageLink } = require('discord.js');
 
 //Pulling data from faunadb or local jsons depending on current environment
 const fauna_token = process.env.FAUNA_KEY
@@ -60,11 +71,10 @@ bot.on('guildMemberRemove', member =>{
     }
 })
 
-
 //event that triggers every time a message is sent
-bot.on('message', message =>{
+bot.on('messageCreate', message =>{
     try{
-        if(message.author.bot == false){ //filters out bot messages from tracking
+        if(!message.author.bot){ //filters out bot messages from tracking
             //commmands that ary run every time someone sends a message
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
@@ -84,7 +94,7 @@ bot.on('message', message =>{
     }
 })
 
-bot.on('message', message =>{    
+bot.on('messageCreate', message =>{    
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
         if (message.content.startsWith("!") == true){ //only runs a command if it starts with an "!"

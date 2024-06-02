@@ -1,19 +1,60 @@
+emptyValue = "emptyValue"
+module.exports.emptyValue = emptyValue
 
 //grabs the users color and sets the embeds color to match the users
 //if no color is detected it defaults to black
 function Color(message){
     if(message.member !== null){
-        var roles = message.member.roles.cache.array()
-        var position_array = []
-        for(i in roles){
-            position_array.push(roles[i].position)
-        }
-        var max_position = Math.max(...position_array)
-        var position_of_max = position_array.indexOf(max_position)
-        return roles[position_of_max].color
+        return message.member.roles.color.color
     }else{
         return 0o0
     }
 }
 
 module.exports.Color = Color
+
+function EmbedCreator(message, title, description, fields){
+    const Discord = require("discord.js")
+
+    const embededMessage = new Discord.EmbedBuilder()
+
+    //sets the title of the embedded message
+    if(title != emptyValue){
+        embededMessage.setTitle(title)
+    }
+
+    //sets the description of the embedded message
+    if(description != emptyValue){
+        //used to check if description is a string array because its directly taken from a text file
+        if(typeof(description) == 'object'){
+            var temp = ""
+            for (let i = 0; i < description.length; i++) {
+                temp += description[i];
+            }
+            description = temp
+        }
+        embededMessage.setDescription(description)
+    }
+
+    //set the fields of the embedded message
+    if(fields != emptyValue){
+
+        //used to check if fields is a string array because its directly taken from a text file
+        if(typeof(fields) == 'object'){
+            var temp = ""
+            for (let i = 0; i < fields.length; i++) {
+                temp += description[i];
+            }
+            fields = temp
+        }
+
+        embededMessage.setFields(fields)
+    }
+
+    //sets the color of the embedded message based on the users name color
+    embededMessage.setColor(Color(message))
+
+    return embededMessage
+}
+
+module.exports.EmbedCreator = EmbedCreator

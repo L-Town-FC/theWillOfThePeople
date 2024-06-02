@@ -53,34 +53,32 @@ module.exports = {
 }
 
 function BankAll(message, master){
-    const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
 
-    var everyone = [];
     var total = 0
+    var description = ""
 
     for(i in master){
-        everyone.push(`${master[i].name}: ${master[i].gbp}`);
+        description += `${master[i].name}: ${master[i].gbp}\n`
         total = total + master[i].gbp
     }
 
-    const message_embed = new Discord.MessageEmbed()
-    .setTitle("List of all Accounts on Server")
-    .setDescription(everyone)
-    .addField(`Total GBP on Server`, total.toFixed(2))
-    .setColor(embed.Color(message))
-    message.channel.send(message_embed)
+    var title = "List of All Accounts on Server"
+    var fields = { name: 'Total GBP on Server', value: total.toFixed(2) }
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({ embeds: [embedMessage] });
+    return
 }
 
 function Help(message){
-    const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
     const fs = require('fs')
 
-    var help = fs.readFileSync('text_files/bank_commands.txt', 'utf-8').split("\n")
-    const help_list = new Discord.MessageEmbed()
-    .setTitle("List of Commands")
-    .setDescription(help)
-    .setColor(embed.Color(message))
-    message.channel.send(help_list)
+    var title = "List of Commands"
+    var description = fs.readFileSync('text_files/bank_commands.txt', 'utf-8').split("\n")
+
+    const embedMessage = embed.EmbedCreator(message, title, description, embed.emptyValue)
+    message.channel.send({embeds: [embedMessage]})
+
+    return
 }
