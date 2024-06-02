@@ -16,7 +16,6 @@ else
     echo "Connected to $HOSTNAME as $USER at $PWD"
     echo "Trial is $TRIAL on server"
     docker container inspect -f "{{.State.Status}}" $CONTAINER_NAME
-    docker container inspect -f "{{.State.Status}}" $CONTAINER_NAME
     echo "need to implement check"
     '''
 fi 
