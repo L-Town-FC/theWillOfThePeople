@@ -38,16 +38,6 @@ function EmbedCreator(message, title, description, fields){
 
     //set the fields of the embedded message
     if(fields != emptyValue){
-
-        //used to check if fields is a string array because its directly taken from a text file
-        if(typeof(fields) == 'object'){
-            var temp = ""
-            for (let i = 0; i < fields.length; i++) {
-                temp += description[i];
-            }
-            fields = temp
-        }
-
         embededMessage.setFields(fields)
     }
 

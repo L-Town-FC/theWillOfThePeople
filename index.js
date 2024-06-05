@@ -156,7 +156,7 @@ bot.on('messageCreate', message =>{
                 case 'roulette': //lets users play roulette
                     bot.commands.get('roulette').execute(message,args,master, tracker, stats_list)
                     //Gambling Addict Achievement
-                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
+                    unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
                 case 'help': //gives a list of all commands
                     bot.commands.get('help').execute(message, args);
@@ -179,7 +179,7 @@ bot.on('messageCreate', message =>{
                 case 'button': //lets users push a button for a chance of winning 100 gbp or losing 1000 gbp
                     bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
                     //Gambling Addict Achievement
-                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
+                    unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
                 case 'msg': //lets users make the bot dm a different user
                     bot.commands.get('msg').execute(message, args, master, bot)

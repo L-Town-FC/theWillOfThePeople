@@ -57,24 +57,20 @@ function ButtonPress(message, master, stats_list, tracker, commmand_stats){
 }
 
 function ButtonStats(message, command_stats){
-    const Discord = require('discord.js')
-    const fs = require('fs')
     const embed = require('./Functions/embed_functions')
-    var stats_embed = new Discord.MessageEmbed()
-    .setTitle('Button Stats')
-    .setDescription(`Total Presses: ${command_stats.button.Total_Presses} \nPresses since last loss: ${command_stats.button.Last_loss} \nTotal Losses: ${command_stats.button.Total_Losses}`)
-    .setColor(embed.Color(message))
-    message.channel.send(stats_embed)
+    var title = "Button Stats"
+    var description = `Total Presses: ${command_stats.button.Total_Presses} \nPresses since last loss: ${command_stats.button.Last_loss} \nTotal Losses: ${command_stats.button.Total_Losses}`
+    const embedMessage = embed.EmbedCreator(message, title, description, embed.emptyValue)
+    message.channel.send({ embeds: [embedMessage] });
+    return
 }
 
 function ButtonHelp(message){
-    const Discord = require('discord.js')
-    const fs = require('fs')
     const embed = require('./Functions/embed_functions')
-    var help_embed = new Discord.MessageEmbed()
-    .setTitle('!button Commands')
-    .setDescription("The Button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp")
-    .addField('Commands', ['!button: Pushes the button', '!button stats: Shows you stats relating to the button'])
-    .setColor(embed.Color(message))
-    message.channel.send(help_embed)
+    var title = "!button Commands"
+    var description = "The Button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp"
+    var fields = {name: "Commands", value: '!button: Pushes the button \n!button stats: Shows you stats relating to the button'}
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({ embeds: [embedMessage] });
+    return
 }
