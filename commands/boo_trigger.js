@@ -2,7 +2,6 @@ module.exports = {
     name: 'boo_trigger',
     description: 'says pong',
     execute(message, command_stats){
-        const fs = require('fs')
         const boo = command_stats.boo
         var chance = 4
         try{

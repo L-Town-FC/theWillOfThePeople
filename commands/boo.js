@@ -50,7 +50,6 @@ function AchievementChecker(message, master, tracker, targetID){
     unlock.reset2(targetID, 20, 0, tracker, message)
     unlock.tracker2(targetID, 20, 0, message, master, tracker)
 
-    var success = true
     message.channel.send(`${master[targetID].name} is now being booed`)
     if(message.author.id == targetID){
         //Masochist Achievement

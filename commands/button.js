@@ -2,7 +2,6 @@ module.exports = {
     name: 'button',
     description: 'Either gives you 50 gbp or -1500 gbp on use',
     execute(message, args, master, stats_list, tracker, command_stats){
-        const fs = require('fs')
         if(!args[1]){
             try{
                 ButtonPress(message, master, stats_list, tracker, command_stats)
@@ -31,7 +30,6 @@ module.exports = {
     }
 }
 function ButtonPress(message, master, stats_list, tracker, commmand_stats){
-    const fs = require('fs')
     const unlock = require('./Functions/Achievement_Functions')
     var chance = Math.floor(Math.random() * 10)
     var user = message.author.id

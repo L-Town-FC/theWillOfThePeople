@@ -29,7 +29,7 @@ function EmbedCreator(message, title, description, fields){
         if(typeof(description) == 'object'){
             var temp = ""
             for (let i = 0; i < description.length; i++) {
-                temp += description[i];
+                temp += description[i] +"\n";
             }
             description = temp
         }
@@ -38,11 +38,20 @@ function EmbedCreator(message, title, description, fields){
 
     //set the fields of the embedded message
     if(fields != emptyValue){
-        embededMessage.setFields(fields)
+        if(fields.length > 1){
+            for (var i = 0; i < fields.length; i++) {
+                embededMessage.addFields(fields[i])
+            }
+        }else{
+
+            embededMessage.setFields(fields)
+        }
     }
 
     //sets the color of the embedded message based on the users name color
     embededMessage.setColor(Color(message))
+
+    console.log(embededMessage)
 
     return embededMessage
 }
