@@ -232,7 +232,7 @@ function Achievement_Tracker3(message, achievement_num, master, tracker){
             }
         }
         list[j] += ']'
-        fields[fieldsCounter] = {name: `${achievements[achievement_num].labels[j]}: (${current[j]}/${threshold})`, value: list[j]}
+        fields[fieldsCounter] = {name: `${achievements[achievement_num].labels[j]}: (${current[j]}/${threshold})`, value: list[j].toString()}
         fieldsCounter++
     }
 

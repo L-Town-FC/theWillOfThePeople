@@ -1,3 +1,6 @@
+const { time } = require('console')
+const { description } = require('./changelog')
+
 module.exports = {
     name: 'msg',
     description: 'lets you anonymously dm people through the bot',
@@ -94,16 +97,15 @@ async function download(url, name, recipient, new_msg, message){
 }
 
 function Prices(message){
-    const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
 
-    var price_embed = new Discord.MessageEmbed()
-    .setTitle('!msg Prices')
-    .setColor(embed.Color(message))
-    .setDescription([
+    var title = "!msg Prices"
+    var description = [
         'Messages under 50 characters: 25 gbp',
         'Messages over 50 characters: 50 gbp',
         'Messages with an attachment: 75 gbp'
-    ])
-    message.channel.send(price_embed)
+    ]
+    var fields = embed.emptyValue
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({embeds: [embedMessage]})
 }

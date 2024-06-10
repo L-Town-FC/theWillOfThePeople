@@ -37,14 +37,39 @@ function EmbedCreator(message, title, description, fields){
     }
 
     //set the fields of the embedded message
+    //fields require a string as the "Name" component and a string as the "value" component
+    //if the received fields value doesnt adhere to this it is edited until it does
     if(fields != emptyValue){
+        //when there are multiple "fields" set as a single fields object they must be split up and set individually
         if(fields.length > 1){
             for (var i = 0; i < fields.length; i++) {
-                embededMessage.addFields(fields[i])
+                //the base case is that each sub field object has a string value and thus you just need the index to add each subfield to the embed
+                if(typeof(fields[i].value) == "string"){
+                    embededMessage.addFields(fields[i])
+                }else{
+                    //when the sub field is an object it needs to be converted into a string
+                    //this goes through the indices of the subfield and appends them onto a string with a line break inbetween
+                    temp = ""
+                    for (let j = 0; j < fields[i].value.length; j++) {
+                        temp += fields[i].value[j] + "\n"
+                    }
+                    fields[i].value = temp
+                    embededMessage.addFields(fields[i])
+                }
             }
         }else{
-
-            embededMessage.setFields(fields)
+            //base case is when the field is set up properly with only one field with a string name and a string value
+            if(typeof(fields.value) == "string"){
+                embededMessage.setFields(fields)
+            }else{
+                //if a field has only single subfield but its values are object the above process is done to ensure the value is a string
+                temp = ""
+                for (let j = 0; j < fields.value.length; j++) {
+                    temp += fields.value[j] + "\n"
+                }
+                fields.value = temp
+                embededMessage.setFields(fields)
+            }
         }
     }
 

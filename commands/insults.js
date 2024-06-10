@@ -1,3 +1,5 @@
+const { title } = require('process')
+
 module.exports = {
     name: 'insults',
     description: 'lets you insults people',
@@ -27,11 +29,11 @@ module.exports = {
                             insulted.push(master[i].name)
                         }
                     }
-                    var insulted_list = new Discord.MessageEmbed()
-                    .setTitle('List of People being insulted')
-                    .setColor(embed.Color(message))
-                    insulted_list.setDescription(insulted)
-                    message.channel.send(insulted_list)
+                    var title = "List of Peope being Insulted"
+                    var description = insulted
+                    var fields = embed.emptyValue
+                    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+                    message.channel.send({embeds: [embedMessage]})
                 }catch(err){
                     console.log(err)
                     message.channel.send('Error occurred in insults.js list')
@@ -94,12 +96,11 @@ module.exports = {
             case 'help':
                 //creates embded message for instructions on how to use the command
                 try{
-                    var help = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')
-                    var insults_commands = new Discord.MessageEmbed()
-                    .setTitle('List of Commands')
-                    .setColor(embed.Color(message))
-                    insults_commands.setDescription(help)
-                    message.channel.send(insults_commands)
+                    var title = "List of Commands"
+                    var description = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')
+                    var fields = embed.emptyValue
+                    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+                    message.channel.send({ embeds: [embedMessage] });
                 }catch(err){
                     console.log(err)
                     message.channel.send('Error occurred in insults.js help')

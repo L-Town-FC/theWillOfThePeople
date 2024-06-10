@@ -3,22 +3,12 @@ module.exports = {
     description: 'Gives you a list of all commands',
     execute(message, args){
         const fs = require('fs')
-        const Discord = require('discord.js')
-        const embed = require('./Functions/embed_functions')
         const help = JSON.parse(fs.readFileSync('./JSON/help.json', 'utf-8'))
         var length = Object.keys(help).length
         try{
             if(!args[1]){
                 HelpEmbed(message, help)
             }else if(parseInt(args[1]) == parseFloat(args[1]) && args[1] > 0 && args[1] <= length){
-                // var help_embed = new Discord.MessageEmbed()
-                // .setTitle(`**${help[args[1]].name}**`)
-                // .setDescription(help[args[1]].description)
-                // .setColor(embed.Color(message))
-                // if(help[args[1]].rules !== ""){
-                //     help_embed.addField('**Commands**', help[args[1]].rules)
-                // }
-                // message.channel.send(help_embed)
                 CommandHelpEmbed(message, help, args)
             }else{
                 message.channel.send('Use !help for a list of all commands. Use !help [command number] for a more detailed list of the specified command')
