@@ -16,9 +16,9 @@ module.exports = {
 
 async function Single_Image_Text(message, args){
     const jimp = require('jimp')
-    const Discord = require('discord.js')
-    const template = await jimp.read('kumiko_template.png');
-    const font = await jimp.loadFont(jimp.FONT_SANS_32_BLACK);
+    const {AttachmentBuilder} = require('discord.js')
+    const template = jimp.read('kumiko_template.png');
+    const font = jimp.loadFont(jimp.FONT_SANS_32_BLACK);
     var text = [""]
     var counter = 0
     args.shift()
@@ -35,11 +35,15 @@ async function Single_Image_Text(message, args){
         message.channel.send('You have too many characters. The max is 5 lines of text or about 75 character')
     }else{
         for(var j = 0; j < text.length; j++){
-            await template.print(font, 35, 105 + (j * 32), text[j]);
+            template.print(font, 35, 105 + (j * 32), text[j]);
         }
 
         await template.writeAsync('kumiko_says.png')
-        const meme = await new Discord.MessageAttachment('kumiko_says.png')
+        //const meme = await new Discord.MessageAttachment('kumiko_says.png')
+        var kumikoImage = `'kumiko_says.png'}`
+        const file = new AttachmentBuilder(kumikoImage);
+        message.channel.send({files: [file] });
+
         try{
             await message.channel.bulkDelete(1)
         }catch(err){

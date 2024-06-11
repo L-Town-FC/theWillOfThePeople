@@ -281,36 +281,40 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
     }
 }
 function Display(message, embed){
-    const Discord = require('discord.js')
+    //const Discord = require('discord.js')
     const fs = require('fs')
-    var basics = fs.readFileSync('./text_files/roulette/roulette_basics')
-    var payouts = fs.readFileSync('./text_files/roulette/roulette_payouts')
+    var basics = fs.readFileSync('./text_files/roulette/roulette_basics', 'utf-8')
+    var payouts = fs.readFileSync('./text_files/roulette/roulette_payouts', 'utf-8')
 
     const dir = './text_files/roulette/'
+    var board
     if(fs.readdirSync(dir).includes('roulette.jpg') == true){
-        var board = new Discord.MessageAttachment('./text_files/roulette/roulette.jpg')
-    }else if(fs.readdirSync(dir).includes('roulette.JPG') == true){
-        var board = new Discord.MessageAttachment('./text_files/roulette/roulette.JPG')
+        board = './text_files/roulette/roulette.jpg'
+        
+    }else{
+        board = './text_files/roulette/roulette.JPG'
     }
 
-    const display = new Discord.MessageEmbed()
-    .setTitle('**Roulette**')
-    .addField("Basics:",basics)
-    .addField("Bet/Payouts:", payouts)
-    .setColor(embed.Color(message))
-    message.channel.send(board)
-    message.channel.send(display)
+    const { AttachmentBuilder} = require('discord.js');
+    const file = new AttachmentBuilder(board);
+    message.channel.send({files: [file] });
+
+    var title = '**Roulette**'
+    var description = embed.emptyValue
+    var fields = [{name: "Basics", value: basics}, {name: "Bet/Payouts:",value: payouts}]
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({embeds: [embedMessage]})
+    
 }
 
 function Numbers(message,embed){
-    const Discord = require('discord.js')  
     const fs = require('fs')
-    var numbers = fs.readFileSync('./text_files/roulette/roulette_numbers.txt')
-    var numbers_embed = new Discord.MessageEmbed()
-    .setTitle('Last 10 Numbers')
-    .setDescription(numbers)
-    .setColor(embed.Color(message))
-    message.channel.send(numbers_embed)
+
+    var title = 'Last 10 Numbers'
+    var description = fs.readFileSync('./text_files/roulette/roulette_numbers.txt', 'utf-8')
+    var fields = embed.emptyValue
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({embeds: [embedMessage]})
 }
 
 function Update_numbers(number){
@@ -332,11 +336,9 @@ function Update_numbers(number){
 
 function Help(message, embed){
     const fs = require('fs')
-    const Discord = require('discord.js')
-    var help = fs.readFileSync('./text_files/roulette/roulette_commands.txt','utf-8')
-    help_embed = new Discord.MessageEmbed()
-    .setTitle('List of Roulette Commands')
-    .setDescription(help)
-    .setColor(embed.Color(message))
-    message.channel.send(help_embed)
+    var title = 'List of Roulette Commands'
+    var description = fs.readFileSync('./text_files/roulette/roulette_commands.txt','utf-8')
+    var fields = embed.emptyValue
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({embeds: [embedMessage]})
 }

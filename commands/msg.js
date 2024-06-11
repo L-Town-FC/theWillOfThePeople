@@ -1,6 +1,3 @@
-const { time } = require('console')
-const { description } = require('./changelog')
-
 module.exports = {
     name: 'msg',
     description: 'lets you anonymously dm people through the bot',
@@ -51,7 +48,8 @@ module.exports = {
                     message.channel.send(`You can't message someone a command`)
                 }else if(message.attachments.size == 1){
                     var file_extension = message.attachments.array()[0].filename.split(".")[1]
-                    var test = new Discord.MessageAttachment(message, message.attachments)
+                    //var test = new Discord.MessageAttachment(message, message.attachments)
+                    var test = new Discord.AttachmentBuilder(message, message.attachments)
                     var url = test.message.attachments.array()[0].url
                     master[message.author.id].gbp -= cost
                     download(url, file_extension, recipient, new_msg, message)
@@ -71,7 +69,7 @@ module.exports = {
 async function download(url, name, recipient, new_msg, message){
     try{
         let request = require(`request`);   
-        const Discord = require('discord.js')
+        const {AttachmentBuilder} = require('discord.js')
         const fs = require('fs')
         var path
         if(typeof(new_msg) == 'undefined'){
@@ -82,7 +80,8 @@ async function download(url, name, recipient, new_msg, message){
             .on('error', console.error)
             .pipe(fs.createWriteStream(`msg_formats/msg.${name}`));
             setTimeout(function(){
-                var attach = new Discord.MessageAttachment(`msg_formats/msg.${name}`)
+                //var attach = new Discord.MessageAttachment(`msg_formats/msg.${name}`)
+                var attach = new AttachmentBuilder(`msg_formats/msg.${name}`)
                 recipient.send(`${new_msg}`,attach)
                 message.channel.send("Message Sent")
             },1000 * 7)

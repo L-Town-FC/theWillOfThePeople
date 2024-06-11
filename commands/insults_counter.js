@@ -78,11 +78,13 @@ module.exports = {
 }
 
 function Pictures(message){
-    const Discord = require('discord.js')
+    const {AttachmentBuilder} = require('discord.js')
     const fs = require('fs')
     const dir = './insult_pics'
-    var max_insults = fs.readdirSync(dir).length
-    var insult = Math.floor(Math.random()*max_insults);
-    var insult_image = new Discord.MessageAttachment(`${dir}/${fs.readdirSync(dir)[insult]}`)
-    message.channel.send(insult_image)
+    var maxInsults = fs.readdirSync(dir).length
+    var insult = Math.floor(Math.random()*maxInsults);
+
+    var insultImage = `${dir}/${fs.readdirSync(dir)[insult]}`
+    const file = new AttachmentBuilder(insultImage);
+    message.channel.send({files: [file] });
 }

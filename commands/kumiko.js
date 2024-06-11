@@ -2,18 +2,21 @@ module.exports = {
     name: 'kumiko',
     description: 'randomly generates kumiko pic',
     execute(message, master, tracker){
-        const {Discord, MessageAttachment,} = require('discord.js');
+        const {AttachmentBuilder} = require('discord.js');
+        const geneal = require('./Functions/GeneralFunctions')
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const dir = './kumiko_pics'
-        var max_kumikos = fs.readdirSync(dir).length
-        var kumiko = Math.floor(Math.random()*max_kumikos);
+        var maxKumikos = fs.readdirSync(dir).length
+        var kumiko = Math.floor(Math.random()*maxKumikos);
         var price = 15
         try{
-            var kumiko_image = new MessageAttachment(`./kumiko_pics/${fs.readdirSync(dir)[kumiko]}`)
-            purchase(price, message.author.id, message, master) 
+            geneal.CommandPurchase(message, master, price, message.author.id)
             if(message.channel.id !== '711634711281401867'){
-                message.channel.send(kumiko_image)
+                var kumikoImage = `./kumiko_pics/${fs.readdirSync(dir)[kumiko]}`
+                const file = new AttachmentBuilder(kumikoImage);
+                message.channel.send({files: [file] });
+
                 //Kumiko Connisseur Achievement
                 unlock.tracker1(message.author.id, 14, 1, message, master, tracker)    
             }
@@ -23,13 +26,4 @@ module.exports = {
         }
             
         }
-}
-
-function purchase(bet_value, player, message, master) {
-    try{
-        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
-    }catch(err){
-        console.log(err)
-        message.channel.send("Error occurred in Kumiko.js");
-    }
 }

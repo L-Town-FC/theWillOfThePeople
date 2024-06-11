@@ -2,7 +2,6 @@ module.exports = {
     name: 'powerball',
     description: 'enters you into the lottery for big money',
     execute(message,args,total_money, master, stats_list, tracker, command_stats){
-        const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
@@ -11,7 +10,7 @@ module.exports = {
         var command = args[1];
         var amount = args[2];
         var price = 5;
-        var money_spent = price * parseInt(amount);
+        var moneySpent = price * parseInt(amount);
 
         switch(command){
             case 'buy':
@@ -45,14 +44,14 @@ module.exports = {
                     }else if(parseInt(amount) !== parseFloat(amount)){
                         message.channel.send("Please choose a whole number for the amount of tickets");
                     }else{
-                        if(money_spent <= total_money){
+                        if(moneySpent <= total_money){
                             stats.tracker(message.author.id, 1, parseFloat(amount), stats_list)
                             
                             //Sorry. Try Again Achievement
                             unlock.tracker1(message.author.id, 31, parseInt(amount), message, master, tracker)
                             
                             purchase(amount*price, message.author.id, master);
-                            if(attempt(amount, money_spent, command_stats, message) == true){
+                            if(attempt(amount, moneySpent, command_stats, message) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${command_stats.powerball.tickets} tickets to win. Your prize is ${command_stats.powerball.pot} gbp`)
                                 purchase(-1 * command_stats.powerball.pot, message.author.id, master);
                                 command_stats.powerball.tickets = 0
@@ -64,7 +63,7 @@ module.exports = {
                                 message.channel.send("Sorry. Try again");
                             }
                         }else{
-                            message.channel.send(`You need at least ${money_spent} gbp to buy ${amount} tickets`);
+                            message.channel.send(`You need at least ${moneySpent} gbp to buy ${amount} tickets`);
                         }
                     }
                 }catch(err){
@@ -86,11 +85,11 @@ module.exports = {
             
             case 'help':
                 try{
-                    var lottery_commands = fs.readFileSync('./text_files/lottery_commands.txt','utf8');
-                    const help_embed = new Discord.MessageEmbed()
-                    .addField('List of Commands', lottery_commands)
-                    .setColor(embed.Color(message))
-                    message.channel.send(help_embed);
+                    var title = `List of Commands`
+                    var description = fs.readFileSync('./text_files/lottery_commands.txt','utf8');
+                    var fields = embed.emptyValue
+                    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+                    message.channel.send({embeds: [embedMessage]})
                 }catch(err){
                     console.log(err)
                     message.channel.send("Error occurred in Powerball.js Help");
@@ -104,10 +103,8 @@ module.exports = {
 
 }
 
-function attempt(amount, money_spent, command_stats, message){
+function attempt(amount, moneySpent, command_stats, message){
     try{
-        const fs = require('fs');
-        const Discord = require('discord.js');
         var tickets = [];
         var max_guesses = 10000
         var remaining_numbers = parseInt(max_guesses) - parseInt(command_stats.powerball.tickets);
@@ -127,11 +124,11 @@ function attempt(amount, money_spent, command_stats, message){
 
         if(tickets.includes(1) == true){
             command_stats.powerball.tickets = parseInt(command_stats.powerball.tickets) + parseInt(amount);
-            command_stats.powerball.pot = parseInt(command_stats.powerball.pot) + (parseInt(money_spent) * (4/5));
+            command_stats.powerball.pot = parseInt(command_stats.powerball.pot) + (parseInt(moneySpent) * (4/5));
             return true
         }else{
             command_stats.powerball.tickets = parseInt(command_stats.powerball.tickets) + parseInt(amount);
-            command_stats.powerball.pot = parseInt(command_stats.powerball.pot) + (parseInt(money_spent) * (4/5));
+            command_stats.powerball.pot = parseInt(command_stats.powerball.pot) + (parseInt(moneySpent) * (4/5));
             return false
         }
 
