@@ -1,14 +1,15 @@
 module.exports = {
     name: 'ping',
     description: 'says pong',
-    execute(message, fauna_token, master, bot){
+    execute(message){
         message.channel.send('pong');
-        Test(bot, message);
+        
+        Test(message)
         
     }
 }
 
-function Test(bot, message){
-
+function Test(message){
+    
 }
 

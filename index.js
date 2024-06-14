@@ -5,7 +5,9 @@ const bot = new Discord.Client({ intents: [
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.DirectMessages
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildEmojisAndStickers
 ],
 partials: [
     Partials.Channel,
@@ -21,7 +23,7 @@ bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
-const { messageLink } = require('discord.js');
+const emojis = require('./commands/emojis');
 
 //Pulling data from faunadb or local jsons depending on current environment
 const fauna_token = process.env.FAUNA_KEY
@@ -41,6 +43,7 @@ bot.on('ready', () => {
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
     console.log('This bot is online')
+    UpdateEmojiList()
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
         bot_tinkering.send('The bot is online')    
@@ -103,7 +106,7 @@ bot.on('messageCreate', message =>{
             }
             switch(args[0].toLowerCase()){
                 case 'ping': //lets you ping the bot to see if its running
-                    bot.commands.get('ping').execute(message, fauna_token, master, bot);
+                    bot.commands.get('ping').execute(message);
                 break;
                 case 'pug': //sends pic of a pug
                     bot.commands.get('pug').execute(message,master, tracker); 
@@ -196,6 +199,9 @@ bot.on('messageCreate', message =>{
                 case 'teams': //lets users randomly generate teams
                     bot.commands.get('teams').execute(message, args)
                 break;
+                case 'emojis':
+                    bot.commands.get('emojis').execute(message, args, emojisList, bot)
+                break;
                 case 'update': //command that is only used for dev work and changed for testing purposes
                     //bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
                     //JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token);
@@ -223,6 +229,22 @@ bot.on('shardError', error => {
 bot.on('error', (err) => {
     console.error(err.message)
 });
+
+bot.on('messageReactionAdd', reaction => {
+    UpdateEmojiListCount(reaction._emoji.id, 1, reaction, true)
+})
+
+bot.on('messageReactionRemove', reaction => {
+    UpdateEmojiListCount(reaction._emoji.id, -1, reaction, false)
+})
+
+bot.on('emojiCreate', emojiCreate => {
+
+})
+
+bot.on('emojiDelete', emojiDelete => {
+
+})
 
 //adds 250 gbp or sets them to 250 gbp if they are above 0 gbp
 function Welfare(channel, master){
@@ -373,6 +395,7 @@ function GetJSONValues(fauna_token, isDev){
         stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
         tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
         command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
+        emojisList = JSON.parse(fs.readFileSync("./JSON/emojis.json", "utf-8"))
         return;
     }
 
@@ -464,4 +487,36 @@ async function Fauna_update(fauna_token, name, file, location){
         )
     )
 
+}
+
+function UpdateEmojiList(){
+    //console.log(bot.emojis.cache)
+    const fs = require('fs')
+    bot.emojis.cache.forEach(emoji => {
+        if(!(emoji.id in emojisList)){
+            emojisList[emoji.id] = {name: emoji.name, count: 0}
+        }
+    })
+
+    fs.writeFileSync("./JSON/emojis.json", JSON.stringify(emojisList, null, 2))
+}
+
+function UpdateEmojiListCount(emojiID, increment, reaction){
+    //if there is no cache it means the last reaction was removed. That means there was no bot reaction and it can be counted as a removal
+    if(reaction.users.cache.size == 0){
+        emojisList[emojiID].count += increment;
+        return
+    }
+
+    //if the first and only reaction is a bot then it is ignored from counting
+    if((reaction.users.cache.first().bot && increment == 1 && reaction.users.cache.size == 1)){
+        return
+    }
+
+    //if the emojis is not in the emoji list (such as a non-custom emoji) it is ignored 
+    //NEED TO DOUBLE CHECK THIS WITH CUSTOM EMOJIS NOT NATIVE TO THE SERVER
+    if(!(emojiID in emojisList)){
+        return
+    }
+    emojisList[emojiID].count += increment;
 }

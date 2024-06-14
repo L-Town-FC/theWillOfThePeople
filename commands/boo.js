@@ -12,10 +12,8 @@ module.exports = {
             args[1] = "none"
         }
         
-
         //gets targets corresponding id from their name
-        var targetID = general.NameToUserID(args[1].toLowerCase())
-
+        var targetID = general.NameToUserID(args[1].toLowerCase(), master)
         try{
             
             //if the given name isnt recognized it just lists who is currently being booed
@@ -43,6 +41,7 @@ module.exports = {
 
 
 function AchievementChecker(message, master, tracker, targetID){
+    const unlock = require("./Functions/Achievement_Functions")
     //Professional Asshole Achievement Tracker
     unlock.tracker1(message.author.id, 13, 1, message, master, tracker)
 
