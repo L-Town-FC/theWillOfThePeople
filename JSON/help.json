@@ -136,5 +136,11 @@
         "name": "!roles",
         "description": "Let users check roles",
         "rules": ["**!roles:** Shows you the elecable roles and who currently has them"]
+    },
+    "24": {
+        "name": "!emojis",
+        "description": "Lets users track reaction usages",
+        "rules": ["**!emojis:** Lists the top 5 and bottom 5 emojis based on their reaction usage",
+        "**!emojis all:** Lists all emojis are their reaction usage in one list"]
     }
 }
