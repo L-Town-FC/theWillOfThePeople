@@ -239,11 +239,11 @@ bot.on('messageReactionRemove', reaction => {
 })
 
 bot.on('emojiCreate', emojiCreate => {
-
+    UpdateEmojiList()
 })
 
 bot.on('emojiDelete', emojiDelete => {
-
+    RemoveEmojiFromList(emojisList)
 })
 
 //adds 250 gbp or sets them to 250 gbp if they are above 0 gbp
@@ -490,7 +490,6 @@ async function Fauna_update(fauna_token, name, file, location){
 }
 
 function UpdateEmojiList(){
-    //console.log(bot.emojis.cache)
     const fs = require('fs')
     bot.emojis.cache.forEach(emoji => {
         if(!(emoji.id in emojisList)){
@@ -499,6 +498,22 @@ function UpdateEmojiList(){
     })
 
     fs.writeFileSync("./JSON/emojis.json", JSON.stringify(emojisList, null, 2))
+    return
+}
+
+function RemoveEmojiFromList(emojisList){
+    const fs = require('fs')
+
+    for(var emoji in emojisList){
+        
+        var foundEmoji = bot.emojis.cache.find(e => e.id === emoji)
+        if(!foundEmoji){
+            delete emojisList[emoji]
+        }
+    }
+
+    fs.writeFileSync("./JSON/emojis.json", JSON.stringify(emojisList, null, 2))
+    return
 }
 
 function UpdateEmojiListCount(emojiID, increment, reaction){
@@ -519,4 +534,5 @@ function UpdateEmojiListCount(emojiID, increment, reaction){
         return
     }
     emojisList[emojiID].count += increment;
+    return
 }
