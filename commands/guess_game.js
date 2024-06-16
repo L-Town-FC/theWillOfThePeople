@@ -74,11 +74,14 @@ module.exports = {
             break;
             case 'help':
                 try{
-                    var guessgame_commands = fs.readFileSync('./text_files/guessgame/guessgame_commands.txt','utf8');
-                    const help_embed = new Discord.MessageEmbed()
-                    .addField('List of Commands', guessgame_commands)
-                    .setColor(embed.Color(message))
-                    message.channel.send(help_embed);
+                    var title = embed.emptyValue
+                    var description = embed.emptyValue
+                    var fields = {
+                        name: "List of Commands",
+                        value: fs.readFileSync('./text_files/guessgame/guessgame_commands.txt','utf8')
+                    }
+                    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+                    message.channel.send({embeds: [embedMessage]})
                 }catch(err){
                     console.log(err)
                     message.channel.send("Error occurred in guessgame.js Help");
