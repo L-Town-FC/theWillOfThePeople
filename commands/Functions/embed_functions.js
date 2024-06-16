@@ -77,7 +77,7 @@ function EmbedCreator(message, title, description, fields){
     //sets the color of the embedded message based on the users name color
     embededMessage.setColor(Color(message))
 
-    console.log(embededMessage.data)
+    //console.log(embededMessage.data)
 
     return embededMessage
 }

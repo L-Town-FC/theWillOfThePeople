@@ -4,61 +4,56 @@ module.exports = {
     execute(message, args, master,bot){
         const unlock =require('./Functions/Achievement_Functions')
         const Discord = require('discord.js')
+        const general = require('./Functions/GeneralFunctions')
         try{
             var name = args[1] || 'none'
-            var cost
-            if(message.content.length > 54){
-                cost = 50
-            }else{
-                cost = 25
+            var price = 50
+            
+            var targetID = general.NameToUserID(name.toLowerCase(), master)
+
+            if(name.toLowerCase() == "help"){
+                Prices(message)
             }
+
+            //validates if the user is able to use the command with the specified target
+            if(!general.CommandUsageValidator(message, master, price, price, master[message.author.id].gbp, targetID)){
+                return
+            }
+
+            var recipient = bot.users.cache.find(user => user.id == targetID)
+            var newMsg = ConstructingNewMessage(args)
+
+            if(newMsg == ""){
+                message.channel.send("You can't send an empty message")
+                return
+            }
+
+            if(newMsg.startsWith("!")){
+                message.channel.send("You can't send someone a command")
+                return
+            }
+
+            if(message.attachments.size > 1){
+                message.channel.send("You can't send more than 1 attachment")
+                return
+            }
+
+            general.CommandPurchase(message, master, price, general.defaultRecipient)
 
             if(message.attachments.size == 1){
-                cost = 75
+                var image = new Discord.AttachmentBuilder(message.attachments.first().url)
+                recipient.send({content: newMsg, files: [image]})
+                return
             }
 
-            for(i in master){
-                if(String(name).toLowerCase() == master[i].name.toLowerCase()){
-                    var person = i
-                }
+            if(message.author.id == targetID){
+                //Schizophrenic Achievement
+                unlock.unlock(message.author.id, 45, message, master)
             }
-            if(String(name).toLowerCase() == 'prices'){
-                Prices(message)
-            }else if(master[message.author.id].gbp < cost){
-                message.channel.send(`You need atleast ${cost} gbp to send this messages. Use "!msg prices" for a list of prices`)
-            }else if(typeof(person) == 'undefined'){
-                message.channel.send(`The recipient doesn't exist`)
-            }else{
-                var recipient = bot.users.cache.find(user => user.id == person)
-                var cut_args = args.splice(2, args.length - 2)
-                var new_msg = ""
-                for(var i = 0; i < cut_args.length; i++){
-                    new_msg += cut_args[i] + " "
-                }
-                if(new_msg !== "" && new_msg.startsWith("!") == false && message.attachments.size == 0){
-                    message.channel.send('Your message was sent')
-                    recipient.send(new_msg)
-                    master[message.author.id].gbp -= cost
-                    if(person == message.author.id){
 
-                        //Schizophrenic Achievement
-                        unlock.unlock(person, 45, message, master)
-                    }
-                }else if(new_msg.startsWith("!") == true){
-                    message.channel.send(`You can't message someone a command`)
-                }else if(message.attachments.size == 1){
-                    var file_extension = message.attachments.array()[0].filename.split(".")[1]
-                    //var test = new Discord.MessageAttachment(message, message.attachments)
-                    var test = new Discord.AttachmentBuilder(message, message.attachments)
-                    var url = test.message.attachments.array()[0].url
-                    master[message.author.id].gbp -= cost
-                    download(url, file_extension, recipient, new_msg, message)
-                }else if(message.attachments.size > 1){
-                    message.channel.send(`You can't send more than 1 attachment in a message`)
-                }else{
-                    message.channel.send(`You can't send an empty message`)
-                }
-            }
+            recipient.send(newMsg)
+            return
+
         }catch(err){
             console.log(err)
             message.channel.send('Error occurred in msg.js')
@@ -66,44 +61,21 @@ module.exports = {
     }
 }
 
-async function download(url, name, recipient, new_msg, message){
-    try{
-        let request = require(`request`);   
-        const {AttachmentBuilder} = require('discord.js')
-        const fs = require('fs')
-        var path
-        if(typeof(new_msg) == 'undefined'){
-            new_msg = `You've got mail`
-        }
-        if(path !== 'none'){
-            var file = request.get(url)
-            .on('error', console.error)
-            .pipe(fs.createWriteStream(`msg_formats/msg.${name}`));
-            setTimeout(function(){
-                //var attach = new Discord.MessageAttachment(`msg_formats/msg.${name}`)
-                var attach = new AttachmentBuilder(`msg_formats/msg.${name}`)
-                recipient.send(`${new_msg}`,attach)
-                message.channel.send("Message Sent")
-            },1000 * 7)
-            
-        }else{
-            message.channel.send('No file uploaded')
-        }
-    }catch(err){
-        console.log(err)
-        message.channel.send('Error occurred in msg.js download')
+function ConstructingNewMessage(args){
+    var cut_args = args.splice(2, args.length - 2)
+    var new_msg = ""
+    for(var i = 0; i < cut_args.length; i++){
+        new_msg += cut_args[i] + " "
     }
+
+    return new_msg
 }
 
 function Prices(message){
     const embed = require('./Functions/embed_functions')
 
-    var title = "!msg Prices"
-    var description = [
-        'Messages under 50 characters: 25 gbp',
-        'Messages over 50 characters: 50 gbp',
-        'Messages with an attachment: 75 gbp'
-    ]
+    var title = "!msg Help"
+    var description = ["Messages cost 50 gbp", "You can only attach one image per message"]
     var fields = embed.emptyValue
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
     message.channel.send({embeds: [embedMessage]})

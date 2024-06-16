@@ -191,7 +191,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('=').execute(message, args)
                 break;
                 case 'kumikosays': //creates image of kumiko with a speak bubble with user inputted text
-                    bot.commands.get('kumikosays').execute(message, args)
+                    bot.commands.get('kumikosays').execute(message, args, bot)
                 break;
                 case 'changename': //lets me change someones name in the bot functions
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)

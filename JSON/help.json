@@ -119,7 +119,7 @@
     },
     "20":{
         "name": "!msg",
-        "description": "Lets you pay the bot to dm people\n50 gbp if less than 50 character, 100 gbp if more",
+        "description": "Lets you pay the bot to dm people for 50gbp",
         "rules": ["**!msg [name] [message]:** Sends your message to the specified person"]
     },
     "21":{
