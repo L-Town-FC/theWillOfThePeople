@@ -203,7 +203,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('emojis').execute(message, args, emojisList, bot)
                 break;
                 case 'update': //command that is only used for dev work and changed for testing purposes
-                    //bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
+                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
                     //JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token);
                 break;
                 case 'test': //another command for testing purposes only
@@ -352,6 +352,7 @@ async function JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_
     Fauna_update(fauna_token, "stats", stats_list, process.env.NODE_ENV)
     Fauna_update(fauna_token, "tracker", tracker, process.env.NODE_ENV)
     Fauna_update(fauna_token, "command_stats", command_stats, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "emojis", emojisList, process.env.NODE_ENV)
 }
 
 function gbp_farm_reset(channel, master){
@@ -403,6 +404,7 @@ function GetJSONValues(fauna_token, isDev){
     stats_list =  Fauna_get(fauna_token, "stats", process.env.NODE_ENV)
     tracker =  Fauna_get(fauna_token, "tracker", process.env.NODE_ENV)
     command_stats =  Fauna_get(fauna_token, "command_stats", process.env.NODE_ENV)
+    emojisList = Fauna_get(fauna_token, "emojis", process.env.NODE_ENV)
 }
 
 async function Fauna_get(fauna_token, name, location){
