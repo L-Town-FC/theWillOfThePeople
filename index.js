@@ -18,12 +18,14 @@ const PREFIX = "!";
 
 const fs = require('fs');
 const cron = require('cron')
+buttonJSON = {}
 
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
 const emojis = require('./commands/emojis');
+const embed = require('./commands/Functions/embed_functions')
 
 //Pulling data from faunadb or local jsons depending on current environment
 const fauna_token = process.env.FAUNA_KEY
@@ -106,7 +108,7 @@ bot.on('messageCreate', message =>{
             }
             switch(args[0].toLowerCase()){
                 case 'ping': //lets you ping the bot to see if its running
-                    bot.commands.get('ping').execute(message);
+                    bot.commands.get('ping').execute(message, buttonJSON);
                 break;
                 case 'pug': //sends pic of a pug
                     bot.commands.get('pug').execute(message,master, tracker); 
@@ -180,7 +182,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('stats').execute(message,args, master, stats_list);
                 break;
                 case 'button': //lets users push a button for a chance of winning 100 gbp or losing 1000 gbp
-                    bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
+                    bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats, buttonJSON);
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
@@ -245,6 +247,61 @@ bot.on('emojiCreate', emojiCreate => {
 bot.on('emojiDelete', emojiDelete => {
     RemoveEmojiFromList(emojisList)
 })
+
+bot.on('interactionCreate', interaction => {
+    if(!["button", "bigButton"].includes(interaction.customId)){
+        return
+    }
+
+    if(buttonJSON[String(interaction.user.id)].currentMessageID != interaction.message.id){
+        return
+    }
+
+    var buttonPayout = Math.floor(Math.random() * 10)
+
+    if(interaction.customId == "button"){
+        if(buttonPayout == 5){
+            buttonPayout = -1000
+            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
+            command_stats.button.Last_loss = 0
+            stats_list[interaction.user.id].button_losses += 1
+        }else{
+            buttonPayout = 100
+            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
+        }
+    }else{
+        if(buttonPayout < 2){
+            buttonPayout = -10000
+            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
+            command_stats.button.Last_loss = 0
+            stats_list[interaction.user.id].button_losses += 1
+        }else{
+            buttonPayout = 1000
+            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
+        }
+    }
+
+    stats_list[String(interaction.user.id)].button_presses = stats_list[String(interaction.user.id)].button_presses + 1
+    command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
+    
+    //Wyatt Achievement
+    unlock.tracker1(interaction.user.id, 44, 1, interaction.message, master, tracker)
+
+    buttonJSON[String(interaction.user.id)].currentSessionAmount += buttonPayout
+    master[interaction.user.id].gbp += buttonPayout
+
+    var title = "Current Button Session"
+    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[String(interaction.user.id)].currentSessionAmount}`]
+    //add embed message that updates with last payout and cum payout on message
+    const embedMessage = embed.EmbedCreator(interaction.message, title, description, embed.emptyValue)
+
+    interaction.update({
+        //content: 'Button'
+        embeds: [embedMessage]
+    })
+
+})
+
 
 //adds 250 gbp or sets them to 250 gbp if they are above 0 gbp
 function Welfare(channel, master){

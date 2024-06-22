@@ -1,10 +1,11 @@
 module.exports = {
     name: 'button',
     description: 'Either gives you 50 gbp or -1500 gbp on use',
-    execute(message, args, master, stats_list, tracker, command_stats){
+    execute(message, args, master, stats_list, tracker, command_stats, buttonJSON){
         if(!args[1]){
             try{
-                ButtonPress(message, master, stats_list, tracker, command_stats)
+                //ButtonPress(message, master, stats_list, tracker, command_stats)
+                newButtonPress(message, buttonJSON)
             }catch(err){
                 console.log(err)
                 message.channel.send('Error occurred in button.js')
@@ -54,6 +55,56 @@ function ButtonPress(message, master, stats_list, tracker, commmand_stats){
     unlock.tracker1(message.author.id, 44, 1, message, master, tracker)
 }
 
+function newButtonPress(message, buttonJSON){
+    const {ButtonBuilder, ButtonStyle, ActionRowBuilder,ComponentType} = require('discord.js')
+    var maxSessionLengthInSeconds = 15
+
+    const embed = require('./Functions/embed_functions')
+    const firstButton = new ButtonBuilder()
+    .setLabel('Button')
+    .setStyle(ButtonStyle.Primary)
+    .setCustomId('button')
+
+    const secondButton = new ButtonBuilder()
+    .setLabel('Big Button')
+    .setStyle(ButtonStyle.Danger)
+    .setCustomId('bigButton')
+
+    setTimeout(function(){
+        firstButton.setDisabled(true)
+        secondButton.setDisabled(true)
+    },1000)
+
+    const buttonRow = new ActionRowBuilder().addComponents(firstButton, secondButton);
+    var buttonPresserID = String(message.author.id)
+
+    message.reply({content: 'Choose a button', components: [buttonRow]}).then((msg) => {
+        if(buttonJSON[buttonPresserID] == null){
+            var author = buttonPresserID
+            Object.assign(buttonJSON, {
+                [author] : {
+                    currentSessionAmount: 0,
+                    currentMessageID: msg.id,
+                }
+            })
+        }else{
+            buttonJSON[buttonPresserID].currentMessageID = msg.id
+            buttonJSON[buttonPresserID].currentSessionAmount = 0
+        }
+
+        setTimeout(function(){
+            firstButton.setDisabled(true)
+            secondButton.setDisabled(true)
+
+            var title = "Current Button Session"
+            var description = [`Total GBP earned: ${buttonJSON[buttonPresserID].currentSessionAmount}`, "Session has timed out. Use !button to start a new session"]
+
+            const embedMessage = embed.EmbedCreator(msg, title, description, embed.emptyValue)
+            msg.edit({embeds: [embedMessage], components: [buttonRow]})
+        },maxSessionLengthInSeconds * 1000)
+    })
+}
+
 function ButtonStats(message, command_stats){
     const embed = require('./Functions/embed_functions')
     var title = "Button Stats"
@@ -66,8 +117,8 @@ function ButtonStats(message, command_stats){
 function ButtonHelp(message){
     const embed = require('./Functions/embed_functions')
     var title = "!button Commands"
-    var description = "The Button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp"
-    var fields = {name: "Commands", value: '!button: Pushes the button \n!button stats: Shows you stats relating to the button'}
+    var description = "The Button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp. The BIG button has a 70% change to give you 1000 gbp and a 30% change to take 10000 gbp"
+    var fields = {name: "Commands", value: '!button: Brings up the Button \n!button stats: Shows you stats relating to the button'}
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
     message.channel.send({ embeds: [embedMessage] });
     return

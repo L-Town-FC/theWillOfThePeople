@@ -4,6 +4,9 @@ module.exports.emptyValue = emptyValue
 //grabs the users color and sets the embeds color to match the users
 //if no color is detected it defaults to black
 function Color(message){
+    if(message.author.bot){
+        return 0o0
+    }
     if(message.member !== null){
         return message.member.roles.color.color
     }else{
