@@ -182,7 +182,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('stats').execute(message,args, master, stats_list);
                 break;
                 case 'button': //lets users push a button for a chance of winning 100 gbp or losing 1000 gbp
-                    bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats, buttonJSON);
+                    bot.commands.get('button').execute(message,args, master, buttonJSON);
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
@@ -292,6 +292,7 @@ bot.on('interactionCreate', interaction => {
 
     var title = "Current Button Session"
     var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[String(interaction.user.id)].currentSessionAmount}`]
+
     //add embed message that updates with last payout and cum payout on message
     const embedMessage = embed.EmbedCreator(interaction.message, title, description, embed.emptyValue)
 

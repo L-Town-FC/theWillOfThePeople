@@ -1,11 +1,12 @@
 module.exports = {
     name: 'button',
     description: 'Either gives you 50 gbp or -1500 gbp on use',
-    execute(message, args, master, stats_list, tracker, command_stats, buttonJSON){
+    execute(message, args, master, buttonJSON){
+
         if(!args[1]){
             try{
                 //ButtonPress(message, master, stats_list, tracker, command_stats)
-                newButtonPress(message, buttonJSON)
+                ButtonPress(message, buttonJSON, master)
             }catch(err){
                 console.log(err)
                 message.channel.send('Error occurred in button.js')
@@ -30,33 +31,10 @@ module.exports = {
         }
     }
 }
-function ButtonPress(message, master, stats_list, tracker, commmand_stats){
-    const unlock = require('./Functions/Achievement_Functions')
-    var chance = Math.floor(Math.random() * 10)
-    var user = message.author.id
-    var win = 100
-    var lose = 1000
 
-    if(chance == 5){
-        master[user].gbp = master[user].gbp - lose
-        command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
-        command_stats.button.Last_loss = 0
-        stats_list[user].button_losses += 1
-        message.channel.send(`You lose ${lose} gbp`)
-    }else{
-        master[user].gbp = master[user].gbp + win
-        command_stats.button.Last_loss = command_stats.button.Last_loss + 1
-        message.channel.send(`You win ${win} gbp`)
-    }
-    stats_list[user].button_presses = stats_list[user].button_presses + 1
-    command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
-    
-    //Wyatt Achievement
-    unlock.tracker1(message.author.id, 44, 1, message, master, tracker)
-}
-
-function newButtonPress(message, buttonJSON){
+function ButtonPress(message, buttonJSON, master){
     const {ButtonBuilder, ButtonStyle, ActionRowBuilder,ComponentType} = require('discord.js')
+    
     var maxSessionLengthInSeconds = 15
 
     const embed = require('./Functions/embed_functions')
@@ -78,7 +56,13 @@ function newButtonPress(message, buttonJSON){
     const buttonRow = new ActionRowBuilder().addComponents(firstButton, secondButton);
     var buttonPresserID = String(message.author.id)
 
-    message.reply({content: 'Choose a button', components: [buttonRow]}).then((msg) => {
+    var title = `${master[buttonPresserID].name} current Button Session`
+    var description = [`Last Button Payout: 0`, `Total GBP earned: 0`]
+    var fields = [{name: "Button Payout", value: "90% chance for 100 gbp, 10% chance for -1000 gbp"}, {name: "Big Button Payout", value: "70% chance for 1000 gbp, 10% chance for -10000 gbp"}]
+
+    const intialEmbedMessage = embed.EmbedCreator(message, title, description, fields)
+
+    message.reply({embeds: [intialEmbedMessage], components: [buttonRow]}).then((msg) => {
         if(buttonJSON[buttonPresserID] == null){
             var author = buttonPresserID
             Object.assign(buttonJSON, {
