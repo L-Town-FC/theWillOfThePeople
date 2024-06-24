@@ -35,7 +35,7 @@ module.exports = {
 function ButtonPress(message, buttonJSON, master){
     const {ButtonBuilder, ButtonStyle, ActionRowBuilder,ComponentType} = require('discord.js')
     
-    var maxSessionLengthInSeconds = 15
+    var maxSessionLengthInSeconds = 120
 
     const embed = require('./Functions/embed_functions')
     const firstButton = new ButtonBuilder()
@@ -58,7 +58,7 @@ function ButtonPress(message, buttonJSON, master){
 
     var title = `${master[buttonPresserID].name} current Button Session`
     var description = [`Last Button Payout: 0`, `Total GBP earned: 0`]
-    var fields = [{name: "Button Payout", value: "90% chance for 100 gbp, 10% chance for -1000 gbp"}, {name: "Big Button Payout", value: "70% chance for 1000 gbp, 10% chance for -10000 gbp"}]
+    var fields = [{name: "Button Payout", value: "90% chance for 100 gbp, 10% chance for -1000 gbp"}, {name: "Big Button Payout", value: "90% chance for 1000 gbp, 10% chance for -10000 gbp"}]
 
     const intialEmbedMessage = embed.EmbedCreator(message, title, description, fields)
 
@@ -101,7 +101,7 @@ function ButtonStats(message, command_stats){
 function ButtonHelp(message){
     const embed = require('./Functions/embed_functions')
     var title = "!button Commands"
-    var description = "The Button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp. The BIG button has a 70% change to give you 1000 gbp and a 30% change to take 10000 gbp"
+    var description = "The Button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp. The BIG button has a 90% change to give you 1000 gbp and a 10% change to take 10000 gbp"
     var fields = {name: "Commands", value: '!button: Brings up the Button \n!button stats: Shows you stats relating to the button'}
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
     message.channel.send({ embeds: [embedMessage] });

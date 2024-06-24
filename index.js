@@ -253,6 +253,10 @@ bot.on('interactionCreate', interaction => {
         return
     }
 
+    if(buttonJSON[String(interaction.user.id)] == null){
+        return
+    }
+
     if(buttonJSON[String(interaction.user.id)].currentMessageID != interaction.message.id){
         return
     }
@@ -270,7 +274,7 @@ bot.on('interactionCreate', interaction => {
             command_stats.button.Last_loss = command_stats.button.Last_loss + 1
         }
     }else{
-        if(buttonPayout < 2){
+        if(buttonPayout == 5){
             buttonPayout = -10000
             command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
             command_stats.button.Last_loss = 0
@@ -290,7 +294,7 @@ bot.on('interactionCreate', interaction => {
     buttonJSON[String(interaction.user.id)].currentSessionAmount += buttonPayout
     master[interaction.user.id].gbp += buttonPayout
 
-    var title = "Current Button Session"
+    var title = `${master[interaction.user.id].name} current Button Session`
     var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[String(interaction.user.id)].currentSessionAmount}`]
 
     //add embed message that updates with last payout and cum payout on message
