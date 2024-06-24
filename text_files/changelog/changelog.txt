@@ -1,33 +1,9 @@
-**Bug Fixes:**
--Thumbs down was removed from !boo
--Percentages when stealing from someone with negative gbp is now fixed
--various text fixes
--various achievement fixes
+**Button improvements**
+-The button now has a UI
+-BIG button gives a 90% chance of 1000 gbp and 10% chance of -10000 gbp
 
-**New Features/Updates:**
+**EMOJI REACTION TRACKING**
+-new command !emojis
+-customs emojis usage is now tracked and can be viewed using this command
 
-**-New Commands:**
---!teams: Lets you create randomized teams
---!remind: Lets you make reminders
---!poll: Lets you create and vote on ranked choice polls
-
-**-New Insults**
-
-**!msg changes**
--You can now send single attachemnts
--msg price change:
--- < 50 character messages = 25 gbp
--- >= 50 character = 50 gbp
---  attachemnts = 75 gbp
-
-**-"all" is now recognized as amount in the following commands**
---!21 (ex. 21 bet all)
---!gg (ex. gg bet all)
---!roulette (ex. all black)
---!transfer (ex. transfer Chrisvan all)
-
-**!gg improvements**
---no longer need to use "guess" when guessing a number (ex. !gg [guess])
---20X payout now
-
-**-bot announces when someone leaves the server**
+**Lots of backend stuff that will make the bot easier to update in the future**

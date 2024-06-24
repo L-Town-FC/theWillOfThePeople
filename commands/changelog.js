@@ -1,5 +1,3 @@
-const { fileURLToPath } = require('url');
-
 module.exports = {
     name: 'changelog',
     description: 'gives list of changes that were made in previous update',
@@ -18,7 +16,7 @@ module.exports = {
             const embedMessage2 = embed.EmbedCreator(message, embed.emptyValue, embed.emptyValue, fields2)
 
             message.channel.send({embeds: [embedMessage1]})
-            message.channel.send({embeds: [embedMessage2]})
+            //message.channel.send({embeds: [embedMessage2]})
 
         }catch(err){
             console.log(err)
