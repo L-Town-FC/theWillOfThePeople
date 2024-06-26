@@ -16,7 +16,7 @@ module.exports = {
                     Add(message, args, data)
                 break;
                 case 'people':
-                    People(message, args, data)
+                    People(message, data)
                 break;
                 case 'number':
                     Number(message, args, data)
@@ -49,15 +49,21 @@ function Add(message, args, list){
     }
 }
 
-function People(message, args, list){
+function People(message, list){
     try{
-        const Discord = require('discord.js')
         const embed = require('./Functions/embed_functions')
-        var people_embed = new Discord.MessageEmbed()
-        .setTitle('Current People')
-        .setDescription(list)
-        .setColor(embed.Color(message))
-        message.channel.send(people_embed)
+        var title = 'Current People'
+        var description
+        if(list < 1){
+            description = "None"
+        }else{
+            description = list
+        }
+
+        var fields = embed.emptyValue
+
+        const embedMessage = embed.EmbedCreator(message, title, description, fields)
+        message.channel.send({ embeds: [embedMessage] });
     }catch(err){
         console.log(err)
         message.channel.send('Error occurred in teams.js People')
@@ -66,47 +72,60 @@ function People(message, args, list){
 
 function Number(message, args, data){
     try{
-        const Discord = require('discord.js')
         const embed = require('./Functions/embed_functions')
 
         var list = []
         for(var i = 0; i < data.length; i++){
             list.push(data[i])
         }
-        var num_of_teams = parseInt(args[1])
+        var numOfTeams = parseInt(args[1])
         var teams = []
-        if(num_of_teams > 10){
+        if(numOfTeams > 10){
             message.channel.send('You can only have a maximum number of 10 teams')
-        }else{
-            for(var i = 0; i < num_of_teams; i++){
-                teams[i] = []
-            }
-            var list_count = data.length
-            var counter = 0
-            //var team_member
-            var team_member_index
-            //var list_count = list.length
-            for(var i = 0; i < list_count; i++){
-                team_member_index = Math.floor(Math.random() * list.length)
-                teams[counter].push(list[team_member_index])
-                list.splice(team_member_index, 1)
-                counter++
-                if(counter >= teams.length){
-                    counter = 0
-                }
-            }
-            var teams_embed = new Discord.MessageEmbed()
-            .setTitle('Teams')
-            .setColor(embed.Color(message))
-            if(num_of_teams <= list_count && list_count != 0){
-                for(var i = 0; i < teams.length; i++){
-                    teams_embed.addField(`Team ${i + 1}:`, teams[i])
-                }
-                message.channel.send(teams_embed)
-            }else{
-                message.channel.send('Not enough people to make teams')
+            return
+        }
+
+        for(var i = 0; i < numOfTeams; i++){
+            teams[i] = []
+        }
+        var listCount = data.length
+        var counter = 0
+        //var team_member
+        var team_member_index
+        //var listCount = list.length
+        for(var i = 0; i < listCount; i++){
+            team_member_index = Math.floor(Math.random() * list.length)
+            teams[counter].push(list[team_member_index])
+            list.splice(team_member_index, 1)
+            counter++
+            if(counter >= teams.length){
+                counter = 0
             }
         }
+        
+        if(listCount == 0){
+            message.channel.send("The team list is empty")
+            return
+            }
+            
+        if(numOfTeams > listCount){
+            message.channel.send('Not enough people to make teams')
+            return
+        }
+                
+        var fields = []
+        var fieldsCounter = 0
+        for(var i = 0; i < teams.length; i++){
+            fields[fieldsCounter] = {name: `Team ${i + 1}}:`, value: teams[i]}
+            fieldsCounter++
+        }
+
+        var title = 'Teams'
+        var description = embed.emptyValue
+
+        const embedMessage = embed.EmbedCreator(message, title, description, fields)
+        message.channel.send({ embeds: [embedMessage] });
+        
     }catch(err){
         console.log(err)
         message.channel.send('Error occurred in teams.js Number')
@@ -125,16 +144,15 @@ function Clear(message, data){
 
 function Help(message){
     try{
-        const Discord = require('discord.js')
         const embed = require('./Functions/embed_functions')
         const fs = require('fs')
 
-        var help = fs.readFileSync('./text_files/teams_commands.txt')
-        var help_embed = new Discord.MessageEmbed()
-        .setTitle('List of Commands')
-        .setColor(embed.Color(message))
-        .setDescription(help)
-        message.channel.send(help_embed)
+        var title = 'List of Commands'
+        var description = fs.readFileSync('./text_files/teams_commands.txt', 'utf-8')
+        var fields = embed.emptyValue
+
+        const embedMessage = embed.EmbedCreator(message, title, description, fields)
+        message.channel.send({ embeds: [embedMessage] });
     }catch(err){
         console.log(err)
         message.channel.send('Error occurred in teams.js Help')

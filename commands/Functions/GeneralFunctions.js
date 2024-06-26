@@ -17,7 +17,7 @@ function CommandUsageValidator(message, master, transactionAmount, minimumTrasac
     }
 
     if(transactionAmount < minimumTrasactionPrice){
-        message.channel.send(`You must use at least ${minimumTrasactionPrice} for this command`)
+        message.channel.send(`You must use at least ${minimumTrasactionPrice} gbp for this command`)
         return false
     }
 

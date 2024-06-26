@@ -2,16 +2,18 @@ module.exports = {
     name: 'pug',
     description: 'randomly generates pug pic',
     execute(message, master, tracker){
-        const {Discord, Attachment, MessageAttachment} = require('discord.js');
+        const {AttachmentBuilder} = require('discord.js');
         const fs = require('fs')
         const unlock = require('./Functions/Achievement_Functions')
         const dir = './pug_pics'
-        var max_pugs = fs.readdirSync(dir).length
-        var pug = Math.floor(Math.random()*max_pugs);
+        var maxPugs = fs.readdirSync(dir).length
+        var pug = Math.floor(Math.random()*maxPugs);
 
         try{
-            var pug_image = new MessageAttachment(`./pug_pics/${fs.readdirSync(dir)[pug]}`)
-            message.channel.send(pug_image)
+            var pugImage = `./pug_pics/${fs.readdirSync(dir)[pug]}`
+            const file = new AttachmentBuilder(pugImage)
+            message.channel.send({files: [file] });
+
             //Master Pugilist Achievmement
             unlock.tracker1(message.author.id, 5, 1, message, master, tracker)
         }catch(err){
@@ -20,3 +22,4 @@ module.exports = {
         }
     }
 }
+

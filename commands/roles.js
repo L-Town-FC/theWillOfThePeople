@@ -4,7 +4,6 @@ module.exports = {
     execute(message, master){
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
-        const roles_embed = new Discord.MessageEmbed();
         const ROLES = ["The People's Representative", "Senior Representative Assistant","Junior Representative Assistant", "Dog Catcher", "Soup Maker", "Cocksucka", "Viceroy"] 
         const ROLEIDs = ['590576332350685194', '590579566448476170', '590586818462875671','669019379077218314', '669019512548491274', '710177280160432138', '771535782283837450'] //ids corresponding to the above roles
         //const ROLEIDs = ['713061699548217354', '729813954435612792', 590586818462875671, 669019379077218314, 669019512548491274, 710177280160432138, 771535782283837450] //test role ids
@@ -25,13 +24,17 @@ module.exports = {
                     }
                 }
             });
-            var roles_list = []
+            var rolesList = []
             for(var i in ROLEOWNERS){
-                roles_list.push(`${i}. ${ROLES[i]} - ${ROLEOWNERS[i]}`)
+                rolesList.push(`${i}. ${ROLES[i]} - ${ROLEOWNERS[i]}`)
             }
-            roles_embed.addField('List of Electable Roles', roles_list)
-            .setColor(embed.Color(message))
-            message.channel.send(roles_embed);
+
+            var title = embed.emptyValue
+            var description = embed.emptyValue
+            var fields = {name: 'List of Electable Roles', value: rolesList }
+            console.log(fields)
+            const embedMessage = embed.EmbedCreator(message, title, description, fields)
+            message.channel.send({ embeds: [embedMessage] });
 
         }catch(err){
             console.log(err)

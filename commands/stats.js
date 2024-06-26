@@ -2,30 +2,23 @@ module.exports = {
     name: 'stats',
     description: 'shows stats of player',
     execute(message,args, master, stats){
-        const fs = require('fs');
-        const Discord = require('discord.js');
-        const embed = require('./Functions/embed_functions')
-        achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
+        const general = require('./Functions/GeneralFunctions')
         var user = message.author.id;
         var name = args[1];
-        var success = false;
         
         try{
             if(typeof(name) == 'undefined'){
-                Stats(user, stats, master, message, embed)
+                Stats(user, stats, master, message)
             }else if(name.toLowerCase() == 'all'){
-                Stats_All(stats, message, embed)
+                Stats_All(stats, message)
             }else{
-                for(i in master){
-                    if(master[i].name.toLowerCase() === name.toLowerCase()){
-                        var id = i;
-                        Stats(id, stats, master, message, embed)
-                        success = true
-                    }
+                var targetID = general.NameToUserID(name.toLowerCase(), master)
+                if(targetID == general.invalid){
+                    message.channel.send("User does not exist")
+                    return
                 }
-                if(success == false){
-                    message.channel.send(`Use "!stats [name]" to check a persons stats or "!stats" to check your own`)
-                }
+                
+                Stats(targetID, stats, master, message)
             }
         }catch(err){
             console.log(err)
@@ -34,17 +27,16 @@ module.exports = {
     }
 }
 
-function Stats(user, stats, master, message, embed){
+function Stats(user, stats, master, message){
     const fs = require('fs')
-    const Discord = require('discord.js')
     const achievements_list = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
+    const embded = require('./Functions/embed_functions')
     var achievements = master[user].achievements.length
     var total_achievements = Object.keys(achievements_list).length
     var achievements_ratio = `${achievements}/${total_achievements}`
-    const Stats_list = new Discord.MessageEmbed()
-    .setTitle(`${stats[user].name} Stat List`)
-    .setColor(embed.Color(message))
-    .setDescription([
+
+    var title = `${stats[user].name} Stat List`
+    var description = [
         `Total Messages: ${stats[user].total_msgs}`,
         `Total Commands: ${stats[user].total_commands}`,
         `Total Non-Farm Messages: ${stats[user].non_farm_messages}`,
@@ -60,17 +52,20 @@ function Stats(user, stats, master, message, embed){
         `Roulette Bets Placed: ${stats[user].roulette_bets}`,
         `Roulette Bets Won: ${stats[user].roulette_wins}`,
         `Achievements: ${achievements_ratio}`
-    ])
+    ]
+
+    var fields = embded.emptyValue
+
     var chance = Math.floor(Math.random() * 10)
     if(chance == 5){
-        Stats_list.addField('===============', 'END OF MESSAGE \n===============')
+        fields = {name: '===============', value: 'END OF MESSAGE \n==============='}
     }
-    message.channel.send(Stats_list)
+    const embedMessage = embded.EmbedCreator(message, title, description, fields)
+    message.channel.send({ embeds: [embedMessage] });
 }
 
-function Stats_All(stats, message, embed){
-    const fs = require('fs')
-    const Discord = require('discord.js')
+function Stats_All(stats, message){
+    const embded = require('./Functions/embed_functions')
     var lottery_tickets = 0
     var bj_wins = 0
     var bj_pushes = 0
@@ -101,10 +96,9 @@ function Stats_All(stats, message, embed){
         roulette_bets += stats[i].roulette_bets
         roulette_wins += stats[i].roulette_wins
     }
-    const Stats_list = new Discord.MessageEmbed()
-    .setTitle(`All Stats List`)
-    .setColor(embed.Color(message))
-    .setDescription([
+
+    var title = `All Stats List`
+    var description = [
         `Total Messages: ${total_msgs}`,
         `Total Commands: ${total_commands}`,
         `Total Non-Farm Messages: ${non_farm_messages}`,
@@ -119,14 +113,16 @@ function Stats_All(stats, message, embed){
         `Button Losses: ${button_losses}`,
         `Roulette Bets Placed: ${roulette_bets}`,
         `Roulette Bets Won: ${roulette_wins}`,
-    ])
+    ]
+
+    var fields = embded.emptyValue
 
     var chance = Math.floor(Math.random() * 10)
     if(chance == 5){
-        Stats_list.addField('===============', 'END OF MESSAGE \n===============')
+        fields = {name: '===============', value: 'END OF MESSAGE \n==============='}
     }
 
-    message.channel.send(Stats_list)
+
+    const embedMessage = embded.EmbedCreator(message, title, description, fields)
+    message.channel.send({ embeds: [embedMessage] });
 }
-
-

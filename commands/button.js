@@ -1,11 +1,12 @@
 module.exports = {
     name: 'button',
     description: 'Either gives you 50 gbp or -1500 gbp on use',
-    execute(message, args, master, stats_list, tracker, command_stats){
-        const fs = require('fs')
+    execute(message, args, master, buttonJSON){
+
         if(!args[1]){
             try{
-                ButtonPress(message, master, stats_list, tracker, command_stats)
+                //ButtonPress(message, master, stats_list, tracker, command_stats)
+                ButtonPress(message, buttonJSON, master)
             }catch(err){
                 console.log(err)
                 message.channel.send('Error occurred in button.js')
@@ -30,51 +31,79 @@ module.exports = {
         }
     }
 }
-function ButtonPress(message, master, stats_list, tracker, commmand_stats){
-    const fs = require('fs')
-    const unlock = require('./Functions/Achievement_Functions')
-    var chance = Math.floor(Math.random() * 10)
-    var user = message.author.id
-    var win = 100
-    var lose = 1000
 
-    if(chance == 5){
-        master[user].gbp = master[user].gbp - lose
-        command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
-        command_stats.button.Last_loss = 0
-        stats_list[user].button_losses += 1
-        message.channel.send(`You lose ${lose} gbp`)
-    }else{
-        master[user].gbp = master[user].gbp + win
-        command_stats.button.Last_loss = command_stats.button.Last_loss + 1
-        message.channel.send(`You win ${win} gbp`)
-    }
-    stats_list[user].button_presses = stats_list[user].button_presses + 1
-    command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
+function ButtonPress(message, buttonJSON, master){
+    const {ButtonBuilder, ButtonStyle, ActionRowBuilder,ComponentType} = require('discord.js')
     
-    //Wyatt Achievement
-    unlock.tracker1(message.author.id, 44, 1, message, master, tracker)
+    var maxSessionLengthInSeconds = 120
+
+    const embed = require('./Functions/embed_functions')
+    const firstButton = new ButtonBuilder()
+    .setLabel('Button')
+    .setStyle(ButtonStyle.Primary)
+    .setCustomId('button')
+
+    const secondButton = new ButtonBuilder()
+    .setLabel('Big Button')
+    .setStyle(ButtonStyle.Danger)
+    .setCustomId('bigButton')
+
+    setTimeout(function(){
+        firstButton.setDisabled(true)
+        secondButton.setDisabled(true)
+    },1000)
+
+    const buttonRow = new ActionRowBuilder().addComponents(firstButton, secondButton);
+    var buttonPresserID = String(message.author.id)
+
+    var title = `${master[buttonPresserID].name} current Button Session`
+    var description = [`Last Button Payout: 0`, `Total GBP earned: 0`]
+    var fields = [{name: "Button Payout", value: "90% chance for 100 gbp, 10% chance for -1000 gbp"}, {name: "Big Button Payout", value: "90% chance for 1000 gbp, 10% chance for -10000 gbp"}]
+
+    const intialEmbedMessage = embed.EmbedCreator(message, title, description, fields)
+
+    message.reply({embeds: [intialEmbedMessage], components: [buttonRow]}).then((msg) => {
+        if(buttonJSON[buttonPresserID] == null){
+            var author = buttonPresserID
+            Object.assign(buttonJSON, {
+                [author] : {
+                    currentSessionAmount: 0,
+                    currentMessageID: msg.id,
+                }
+            })
+        }else{
+            buttonJSON[buttonPresserID].currentMessageID = msg.id
+            buttonJSON[buttonPresserID].currentSessionAmount = 0
+        }
+
+        setTimeout(function(){
+            firstButton.setDisabled(true)
+            secondButton.setDisabled(true)
+
+            var title = "Current Button Session"
+            var description = [`Total GBP earned: ${buttonJSON[buttonPresserID].currentSessionAmount}`, "Session has timed out. Use !button to start a new session"]
+
+            const embedMessage = embed.EmbedCreator(msg, title, description, embed.emptyValue)
+            msg.edit({embeds: [embedMessage], components: [buttonRow]})
+        },maxSessionLengthInSeconds * 1000)
+    })
 }
 
 function ButtonStats(message, command_stats){
-    const Discord = require('discord.js')
-    const fs = require('fs')
     const embed = require('./Functions/embed_functions')
-    var stats_embed = new Discord.MessageEmbed()
-    .setTitle('Button Stats')
-    .setDescription(`Total Presses: ${command_stats.button.Total_Presses} \nPresses since last loss: ${command_stats.button.Last_loss} \nTotal Losses: ${command_stats.button.Total_Losses}`)
-    .setColor(embed.Color(message))
-    message.channel.send(stats_embed)
+    var title = "Button Stats"
+    var description = `Total Presses: ${command_stats.button.Total_Presses} \nPresses since last loss: ${command_stats.button.Last_loss} \nTotal Losses: ${command_stats.button.Total_Losses}`
+    const embedMessage = embed.EmbedCreator(message, title, description, embed.emptyValue)
+    message.channel.send({ embeds: [embedMessage] });
+    return
 }
 
 function ButtonHelp(message){
-    const Discord = require('discord.js')
-    const fs = require('fs')
     const embed = require('./Functions/embed_functions')
-    var help_embed = new Discord.MessageEmbed()
-    .setTitle('!button Commands')
-    .setDescription("The Button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp")
-    .addField('Commands', ['!button: Pushes the button', '!button stats: Shows you stats relating to the button'])
-    .setColor(embed.Color(message))
-    message.channel.send(help_embed)
+    var title = "!button Commands"
+    var description = "The Button has a 90% chance of giving you 100 gbp but a 10% chance of taking 1000 gbp. The BIG button has a 90% change to give you 1000 gbp and a 10% change to take 10000 gbp"
+    var fields = {name: "Commands", value: '!button: Brings up the Button \n!button stats: Shows you stats relating to the button'}
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({ embeds: [embedMessage] });
+    return
 }

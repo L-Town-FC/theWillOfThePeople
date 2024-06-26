@@ -1,24 +1,28 @@
+const { title } = require('process');
+const { description } = require('./changelog');
+
 module.exports = {
     name: 'names',
     description: 'lists all names on the server',
     execute(message,master){
         const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
-        var just_names = [];
+        var justNames = [];
         var counter = 0
 
         try{
             for(i in master){
-                just_names[counter] = master[i].name
+                justNames[counter] = master[i].name
                 counter = counter + 1
             }
             //turns each pair into an object array
 
-            const message_embed = new Discord.MessageEmbed()
-                .setTitle("List of all names on Server")
-                .setDescription(just_names)
-                .setColor(embed.Color(message))
-            message.channel.send(message_embed)
+            var title = "List of all names on the Server"
+            var description = justNames
+            var fields = embed.emptyValue
+            const embedMessage = embed.EmbedCreator(message, title, description, fields)
+            message.channel.send({embeds: [embedMessage]})
+
         }catch(err){
             console.log(err)
             message.channel.send("Error Occurred in Names.js");

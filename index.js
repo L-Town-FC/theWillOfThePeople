@@ -1,16 +1,31 @@
 const Discord = require('discord.js');
-const { Client, Intents } = require('discord.js');
-const bot = new Discord.Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
+const bot = new Discord.Client({ intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildEmojisAndStickers
+],
+partials: [
+    Partials.Channel,
+    Partials.Message
+  ] })
 const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
 
 const fs = require('fs');
 const cron = require('cron')
+buttonJSON = {}
 
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
+const emojis = require('./commands/emojis');
+const embed = require('./commands/Functions/embed_functions')
 
 //Pulling data from faunadb or local jsons depending on current environment
 const fauna_token = process.env.FAUNA_KEY
@@ -30,6 +45,7 @@ bot.on('ready', () => {
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
     console.log('This bot is online')
+    UpdateEmojiList()
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
         bot_tinkering.send('The bot is online')    
@@ -60,11 +76,10 @@ bot.on('guildMemberRemove', member =>{
     }
 })
 
-
 //event that triggers every time a message is sent
-bot.on('message', message =>{
+bot.on('messageCreate', message =>{
     try{
-        if(message.author.bot == false){ //filters out bot messages from tracking
+        if(!message.author.bot){ //filters out bot messages from tracking
             //commmands that ary run every time someone sends a message
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
             bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
@@ -84,7 +99,7 @@ bot.on('message', message =>{
     }
 })
 
-bot.on('message', message =>{    
+bot.on('messageCreate', message =>{    
     try{
         let args = message.content.substring(PREFIX.length).split(" ");
         if (message.content.startsWith("!") == true){ //only runs a command if it starts with an "!"
@@ -93,7 +108,7 @@ bot.on('message', message =>{
             }
             switch(args[0].toLowerCase()){
                 case 'ping': //lets you ping the bot to see if its running
-                    bot.commands.get('ping').execute(message, fauna_token, master, bot);
+                    bot.commands.get('ping').execute(message, buttonJSON);
                 break;
                 case 'pug': //sends pic of a pug
                     bot.commands.get('pug').execute(message,master, tracker); 
@@ -146,7 +161,7 @@ bot.on('message', message =>{
                 case 'roulette': //lets users play roulette
                     bot.commands.get('roulette').execute(message,args,master, tracker, stats_list)
                     //Gambling Addict Achievement
-                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
+                    unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
                 case 'help': //gives a list of all commands
                     bot.commands.get('help').execute(message, args);
@@ -167,9 +182,9 @@ bot.on('message', message =>{
                     bot.commands.get('stats').execute(message,args, master, stats_list);
                 break;
                 case 'button': //lets users push a button for a chance of winning 100 gbp or losing 1000 gbp
-                    bot.commands.get('button').execute(message,args, master, stats_list, tracker, command_stats);
+                    bot.commands.get('button').execute(message,args, master, buttonJSON);
                     //Gambling Addict Achievement
-                    unlock.tracker1(message.author.id, 51, 1, message, master, tracker)
+                    unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
                 case 'msg': //lets users make the bot dm a different user
                     bot.commands.get('msg').execute(message, args, master, bot)
@@ -178,7 +193,7 @@ bot.on('message', message =>{
                     bot.commands.get('=').execute(message, args)
                 break;
                 case 'kumikosays': //creates image of kumiko with a speak bubble with user inputted text
-                    bot.commands.get('kumikosays').execute(message, args)
+                    bot.commands.get('kumikosays').execute(message, args, bot)
                 break;
                 case 'changename': //lets me change someones name in the bot functions
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
@@ -186,8 +201,11 @@ bot.on('message', message =>{
                 case 'teams': //lets users randomly generate teams
                     bot.commands.get('teams').execute(message, args)
                 break;
+                case 'emojis':
+                    bot.commands.get('emojis').execute(message, args, emojisList, bot)
+                break;
                 case 'update': //command that is only used for dev work and changed for testing purposes
-                    //bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
+                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
                     //JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token);
                 break;
                 case 'test': //another command for testing purposes only
@@ -213,6 +231,82 @@ bot.on('shardError', error => {
 bot.on('error', (err) => {
     console.error(err.message)
 });
+
+bot.on('messageReactionAdd', reaction => {
+    UpdateEmojiListCount(reaction._emoji.id, 1, reaction, true)
+})
+
+bot.on('messageReactionRemove', reaction => {
+    UpdateEmojiListCount(reaction._emoji.id, -1, reaction, false)
+})
+
+bot.on('emojiCreate', emojiCreate => {
+    UpdateEmojiList()
+})
+
+bot.on('emojiDelete', emojiDelete => {
+    RemoveEmojiFromList(emojisList)
+})
+
+bot.on('interactionCreate', interaction => {
+    if(!["button", "bigButton"].includes(interaction.customId)){
+        return
+    }
+
+    if(buttonJSON[String(interaction.user.id)] == null){
+        return
+    }
+
+    if(buttonJSON[String(interaction.user.id)].currentMessageID != interaction.message.id){
+        return
+    }
+
+    var buttonPayout = Math.floor(Math.random() * 10)
+
+    if(interaction.customId == "button"){
+        if(buttonPayout == 5){
+            buttonPayout = -1000
+            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
+            command_stats.button.Last_loss = 0
+            stats_list[interaction.user.id].button_losses += 1
+        }else{
+            buttonPayout = 100
+            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
+        }
+    }else{
+        if(buttonPayout == 5){
+            buttonPayout = -10000
+            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
+            command_stats.button.Last_loss = 0
+            stats_list[interaction.user.id].button_losses += 1
+        }else{
+            buttonPayout = 1000
+            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
+        }
+    }
+
+    stats_list[String(interaction.user.id)].button_presses = stats_list[String(interaction.user.id)].button_presses + 1
+    command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
+    
+    //Wyatt Achievement
+    unlock.tracker1(interaction.user.id, 44, 1, interaction.message, master, tracker)
+
+    buttonJSON[String(interaction.user.id)].currentSessionAmount += buttonPayout
+    master[interaction.user.id].gbp += buttonPayout
+
+    var title = `${master[interaction.user.id].name} current Button Session`
+    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[String(interaction.user.id)].currentSessionAmount}`]
+
+    //add embed message that updates with last payout and cum payout on message
+    const embedMessage = embed.EmbedCreator(interaction.message, title, description, embed.emptyValue)
+
+    interaction.update({
+        //content: 'Button'
+        embeds: [embedMessage]
+    })
+
+})
+
 
 //adds 250 gbp or sets them to 250 gbp if they are above 0 gbp
 function Welfare(channel, master){
@@ -320,6 +414,7 @@ async function JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_
     Fauna_update(fauna_token, "stats", stats_list, process.env.NODE_ENV)
     Fauna_update(fauna_token, "tracker", tracker, process.env.NODE_ENV)
     Fauna_update(fauna_token, "command_stats", command_stats, process.env.NODE_ENV)
+    Fauna_update(fauna_token, "emojis", emojisList, process.env.NODE_ENV)
 }
 
 function gbp_farm_reset(channel, master){
@@ -363,6 +458,7 @@ function GetJSONValues(fauna_token, isDev){
         stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
         tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
         command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
+        emojisList = JSON.parse(fs.readFileSync("./JSON/emojis.json", "utf-8"))
         return;
     }
 
@@ -370,6 +466,7 @@ function GetJSONValues(fauna_token, isDev){
     stats_list =  Fauna_get(fauna_token, "stats", process.env.NODE_ENV)
     tracker =  Fauna_get(fauna_token, "tracker", process.env.NODE_ENV)
     command_stats =  Fauna_get(fauna_token, "command_stats", process.env.NODE_ENV)
+    emojisList = Fauna_get(fauna_token, "emojis", process.env.NODE_ENV)
 }
 
 async function Fauna_get(fauna_token, name, location){
@@ -454,4 +551,52 @@ async function Fauna_update(fauna_token, name, file, location){
         )
     )
 
+}
+
+function UpdateEmojiList(){
+    const fs = require('fs')
+    bot.emojis.cache.forEach(emoji => {
+        if(!(emoji.id in emojisList)){
+            emojisList[emoji.id] = {name: emoji.name, count: 0}
+        }
+    })
+
+    fs.writeFileSync("./JSON/emojis.json", JSON.stringify(emojisList, null, 2))
+    return
+}
+
+function RemoveEmojiFromList(emojisList){
+    const fs = require('fs')
+
+    for(var emoji in emojisList){
+        
+        var foundEmoji = bot.emojis.cache.find(e => e.id === emoji)
+        if(!foundEmoji){
+            delete emojisList[emoji]
+        }
+    }
+
+    fs.writeFileSync("./JSON/emojis.json", JSON.stringify(emojisList, null, 2))
+    return
+}
+
+function UpdateEmojiListCount(emojiID, increment, reaction){
+    //if there is no cache it means the last reaction was removed. That means there was no bot reaction and it can be counted as a removal
+    if(reaction.users.cache.size == 0){
+        emojisList[emojiID].count += increment;
+        return
+    }
+
+    //if the first and only reaction is a bot then it is ignored from counting
+    if((reaction.users.cache.first().bot && increment == 1 && reaction.users.cache.size == 1)){
+        return
+    }
+
+    //if the emojis is not in the emoji list (such as a non-custom emoji) it is ignored 
+    //NEED TO DOUBLE CHECK THIS WITH CUSTOM EMOJIS NOT NATIVE TO THE SERVER
+    if(!(emojiID in emojisList)){
+        return
+    }
+    emojisList[emojiID].count += increment;
+    return
 }

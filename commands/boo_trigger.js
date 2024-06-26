@@ -2,7 +2,6 @@ module.exports = {
     name: 'boo_trigger',
     description: 'says pong',
     execute(message, command_stats){
-        const fs = require('fs')
         const boo = command_stats.boo
         var chance = 4
         try{
@@ -26,7 +25,8 @@ async function Trigger(message){
         await message.react('591022023489355787')
     }catch(err){
         try{
-            await message.react('👎')
+            //await message.react('👎')
+            message.react('714888403346391110')
         }catch(err){
             console.log(err)
             message.channel.send('Error Occurred in Boo Trigger')

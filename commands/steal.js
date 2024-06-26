@@ -118,12 +118,6 @@ function Steal(message, args, target, master, tracker, bot){
                     
                     var user = bot.users.cache.find(user => user.id == target); //use something like this instead of the code above
                     user.send(`${args[2]} gbp was stolen from you`);
-
-                    // for(var k in users){
-                    //     if(users[k].id == target){
-                    //         users[k].send(`${args[2]} gbp was stolen from you`)
-                    //     }
-                    // }
                     
                 }else{
                     //steal failure
@@ -190,8 +184,6 @@ function Steal_Odds(message, args, master){
 }
 
 function Odds(message, args, master, target, amount){
-    const fs = require('fs')
-    const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
     /*
     Basic Layout:
@@ -235,43 +227,39 @@ function Odds(message, args, master, target, amount){
 
     chance_list[3] = Math.round(chance * 100)/100
 
-    const odds_embed = new Discord.MessageEmbed()
-    .setTitle(`Failure Chance of Stealing from ${master[target].name}`)
-    .setDescription(
+    var title = `Failure Chance of Stealing from ${master[target].name}`
+    var description = 
         [`Base Chance: ${base_chance}%`,
         `Chance from Target's Total GBP: ${chance_list[0]}% (capped at 50%)`,
         `Chance from Previous Attempts: ${chance_list[1]}%`,
         `Chance from Amount being Stolen: ${chance_list[2]}%`,
         `=========================================`,
-        `Total: ${chance_list[3]}% (capped at 99%)`
-            ])
-    .addField('DISCLAIMER:', "Does not account for if target has insurance or not")
-    .setColor(embed.Color(message))
-    message.channel.send(odds_embed)
+        `Total: ${chance_list[3]}% (capped at 99%)`]
+    var fields = {name:'DISCLAIMER:', value: "Does not account for if target has insurance or not"}
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({embeds: [embedMessage]})
 }
 
 function Help(message){
     const fs = require('fs')
-    const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
-    var commands = fs.readFileSync('./text_files/steal/steal_help.txt','utf-8')
-    var help_embed = new Discord.MessageEmbed()
-    .setTitle('List of Commands')
-    .setColor(embed.Color(message))
-    .setDescription(commands)
-    message.channel.send(help_embed)
+
+    var title = `List of Commands`
+    var description = fs.readFileSync('./text_files/steal/steal_help.txt','utf-8')
+    var fields = embed.emptyValue
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({embeds: [embedMessage]})
 }
 
 function Basics(message){
     const fs = require('fs')
-    const Discord = require('discord.js')
     const embed = require('./Functions/embed_functions')
-    var basics = fs.readFileSync('./text_files/steal/steal_basics.txt','utf-8')
-    var basics_embed = new Discord.MessageEmbed()
-    .setTitle('Steal Basics')
-    .setColor(embed.Color(message))
-    .setDescription(basics)
-    message.channel.send(basics_embed)
+
+    var title = `Steal Basics`
+    var description = fs.readFileSync('./text_files/steal/steal_basics.txt','utf-8')
+    var fields = embed.emptyValue
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({embeds: [embedMessage]})
 }
 
 function Chance(message, master, amount, target){
