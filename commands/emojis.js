@@ -33,7 +33,7 @@ function EmojiUsageList(message, emojiListArray, bot){
     
     //grabs the first 5 emojis of the sorted emoji array and lists them and their counts in order
     var topFive = {name: "Top Five Emoji Reactions",value: []}
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 10; i++) {
         //bot.emoji.. converts emoji id into actual emoji
         topFive.value[i] =  `${i}. ${bot.emojis.cache.get(emojiListArray[i][0])} - ${emojiListArray[i][1].count}`
     }
@@ -42,7 +42,7 @@ function EmojiUsageList(message, emojiListArray, bot){
     //having it be "value of" is absolute necessity for this. Kept counting updward from 6 instead of downward
     //this loops over the sorted list and then adds the emoji plus the number of times its been used to a field object to be sent later
     counter = 0
-    for (var i = emojiListArray.length - 1; i > emojiListArray.length - 6; i--) {
+    for (var i = emojiListArray.length - 1; i > emojiListArray.length - 11; i--) {
         //bot.emoji.. converts emoji id into actual emoji
        bottomFive.value[counter] =  `${(i + 1).valueOf()} . ${bot.emojis.cache.get(emojiListArray[i][0])} - ${emojiListArray[i][1].count}`
        counter++
@@ -59,11 +59,13 @@ function AllEmojiUsageList(message, emojiListArray, bot){
     //list out all emojis from top ranked to bottom in one list
     const embed = require('./Functions/embed_functions')
 
+    var index = 0;
     var emojiIDAndCountArray = []
     for (var i = 0; i < emojiListArray.length; i++) {
         //bot.emoji.. converts emoji id into actual emoji
         //adds emojis and how many times its been reacted with to array to become embed message description later
-        emojiIDAndCountArray[i] = `${i}. ${bot.emojis.cache.get(emojiListArray[i][0])} - ${emojiListArray[i][1].count}`
+        emojiIDAndCountArray[index] = `${index}. ${bot.emojis.cache.get(emojiListArray[i][0])} - ${emojiListArray[i][1].count}`
+        counter++
     }
 
     var title = "All Emoji Reactions Usage Ranked"
@@ -71,6 +73,7 @@ function AllEmojiUsageList(message, emojiListArray, bot){
     var fields = embed.emptyValue
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
     message.channel.send({embeds: [embedMessage]})
+
 
 }
 
