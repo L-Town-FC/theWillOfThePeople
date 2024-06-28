@@ -58,22 +58,27 @@ function EmojiUsageList(message, emojiListArray, bot){
 function AllEmojiUsageList(message, emojiListArray, bot){
     //list out all emojis from top ranked to bottom in one list
     const embed = require('./Functions/embed_functions')
-
-    var index = 0;
+    var cutOffIndex = 50
     var emojiIDAndCountArray = []
-    for (var i = 0; i < emojiListArray.length; i++) {
-        //bot.emoji.. converts emoji id into actual emoji
-        //adds emojis and how many times its been reacted with to array to become embed message description later
-        emojiIDAndCountArray[index] = `${index}. ${bot.emojis.cache.get(emojiListArray[i][0])} - ${emojiListArray[i][1].count}`
-        counter++
+
+    if(emojiListArray.length > cutOffIndex){
+        emojiIDAndCountArray[0] = EmojiListCreate(emojiListArray, 0, cutOffIndex, bot)
+        emojiIDAndCountArray[1] = EmojiListCreate(emojiListArray, cutOffIndex + 1, emojiListArray.length - 1, bot)
+    }else{
+        emojiIDAndCountArray = EmojiListCreate(emojiListArray, 0, emojiListArray.length - 1, bot)
     }
 
     var title = "All Emoji Reactions Usage Ranked"
-    var description = emojiIDAndCountArray
     var fields = embed.emptyValue
-    const embedMessage = embed.EmbedCreator(message, title, description, fields)
-    message.channel.send({embeds: [embedMessage]})
 
+    if(emojiListArray.length > cutOffIndex){
+        const embedMessage1 = embed.EmbedCreator(message, title, emojiIDAndCountArray[0], fields)
+        const embedMessage2 = embed.EmbedCreator(message, title, emojiIDAndCountArray[1], fields)
+        message.channel.send({embeds: [embedMessage1, embedMessage2]})
+    }else{
+        const embedMessage = embed.EmbedCreator(message, title, emojiIDAndCountArray, fields)
+        message.channel.send({embeds: [embedMessage]})
+    }
 
 }
 
@@ -89,6 +94,16 @@ function HelpEmbed(message){
 
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
     message.channel.send({embeds: [embedMessage]})
+}
+
+function EmojiListCreate(emojiListArray, startingIndex, endingIndex, bot){
+    var newEmojiListArray = []
+    var index = 0
+    for (var i = startingIndex; i < endingIndex; i++) {
+        newEmojiListArray[index] = `${i}. ${bot.emojis.cache.get(emojiListArray[i][0])} - ${emojiListArray[i][1].count}`
+        index++
+    }
+    return newEmojiListArray
 }
 
 function EmojiListSort(emojisList){
