@@ -26,6 +26,7 @@ const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
 const emojis = require('./commands/emojis');
 const embed = require('./commands/Functions/embed_functions')
+const general = require('./commands/Functions/stats_functions')
 
 //Pulling data from faunadb or local jsons depending on current environment
 const fauna_token = process.env.FAUNA_KEY
@@ -253,11 +254,13 @@ bot.on('interactionCreate', interaction => {
         return
     }
 
-    if(buttonJSON[String(interaction.user.id)] == null){
+    var userID = String(interaction.user.id)
+
+    if(buttonJSON[userID] == null){
         return
     }
 
-    if(buttonJSON[String(interaction.user.id)].currentMessageID != interaction.message.id){
+    if(buttonJSON[userID].currentMessageID != interaction.message.id){
         return
     }
 
@@ -285,17 +288,18 @@ bot.on('interactionCreate', interaction => {
         }
     }
 
-    stats_list[String(interaction.user.id)].button_presses = stats_list[String(interaction.user.id)].button_presses + 1
+    stats_list[userID].button_presses = stats_list[userID].button_presses + 1
     command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
     
     //Wyatt Achievement
     unlock.tracker1(interaction.user.id, 44, 1, interaction.message, master, tracker)
 
-    buttonJSON[String(interaction.user.id)].currentSessionAmount += buttonPayout
-    master[interaction.user.id].gbp += buttonPayout
+    buttonJSON[userID].currentSessionAmount += buttonPayout
+    buttonJSON[userID].currentSessionPresses += 1
+    master[userID].gbp += buttonPayout   //this and other interactions should be the only place "Command Purchase" isn't used because the message sender is the bot not the user
 
     var title = `${master[interaction.user.id].name} current Button Session`
-    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[String(interaction.user.id)].currentSessionAmount}`]
+    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[userID].currentSessionAmount}`, `Total button presses: ${buttonJSON[userID].currentSessionPresses}`]
 
     //add embed message that updates with last payout and cum payout on message
     const embedMessage = embed.EmbedCreator(interaction.message, title, description, embed.emptyValue)

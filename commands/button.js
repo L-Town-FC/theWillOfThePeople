@@ -57,7 +57,7 @@ function ButtonPress(message, buttonJSON, master){
     var buttonPresserID = String(message.author.id)
 
     var title = `${master[buttonPresserID].name} current Button Session`
-    var description = [`Last Button Payout: 0`, `Total GBP earned: 0`]
+    var description = [`Last Button Payout: 0`, `Total GBP earned: 0`, `Total button presses: 0`]
     var fields = [{name: "Button Payout", value: "90% chance for 100 gbp, 10% chance for -1000 gbp"}, {name: "Big Button Payout", value: "90% chance for 1000 gbp, 10% chance for -10000 gbp"}]
 
     const intialEmbedMessage = embed.EmbedCreator(message, title, description, fields)
@@ -69,19 +69,23 @@ function ButtonPress(message, buttonJSON, master){
                 [author] : {
                     currentSessionAmount: 0,
                     currentMessageID: msg.id,
+                    currentSessionPresses: 0
                 }
             })
         }else{
             buttonJSON[buttonPresserID].currentMessageID = msg.id
             buttonJSON[buttonPresserID].currentSessionAmount = 0
+            buttonJSON[buttonPresserID].currentSessionPresses = 0
         }
+
+        console.log(buttonJSON)
 
         setTimeout(function(){
             firstButton.setDisabled(true)
             secondButton.setDisabled(true)
 
-            var title = "Current Button Session"
-            var description = [`Total GBP earned: ${buttonJSON[buttonPresserID].currentSessionAmount}`, "Session has timed out. Use !button to start a new session"]
+            var title = `${master[buttonPresserID].name} Button Session Results`
+            var description = [`Total GBP earned: ${buttonJSON[buttonPresserID].currentSessionAmount}`,`Total button presses: ${buttonJSON[buttonPresserID].currenSessionPresses}` ,"Session has timed out. Use !button to start a new session"]
 
             const embedMessage = embed.EmbedCreator(msg, title, description, embed.emptyValue)
             msg.edit({embeds: [embedMessage], components: [buttonRow]})
