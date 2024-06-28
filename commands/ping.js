@@ -4,7 +4,7 @@ module.exports = {
     execute(message, buttonJSON){
         message.channel.send('pong');
         
-        Test(message, buttonJSON)
+        //Test(message, buttonJSON)
         
     }
 }
