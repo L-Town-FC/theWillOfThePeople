@@ -508,6 +508,9 @@ async function Fauna_get(fauna_token, name, location){
                 command_stats = response.data
                 return command_stats
             break;
+            case "emojis":
+                emojisList = response.data
+                return emojisList
 
     }}).catch(err => console.log(err))
 }
