@@ -57,7 +57,7 @@ function ButtonPress(message, buttonJSON, master){
     var buttonPresserID = String(message.author.id)
 
     var title = `${master[buttonPresserID].name} current Button Session`
-    var description = [`Last Button Payout: 0`, `Total GBP earned: 0`, `Total button presses: ${buttonJSON[buttonPresserID].currenSessionPresses}`]
+    var description = [`Last Button Payout: 0`, `Total GBP earned: 0`, `Total button presses: 0`]
     var fields = [{name: "Button Payout", value: "90% chance for 100 gbp, 10% chance for -1000 gbp"}, {name: "Big Button Payout", value: "90% chance for 1000 gbp, 10% chance for -10000 gbp"}]
 
     const intialEmbedMessage = embed.EmbedCreator(message, title, description, fields)
@@ -69,7 +69,7 @@ function ButtonPress(message, buttonJSON, master){
                 [author] : {
                     currentSessionAmount: 0,
                     currentMessageID: msg.id,
-                    currenSessionPresses: 0
+                    currentSessionPresses: 0
                 }
             })
         }else{
@@ -77,6 +77,8 @@ function ButtonPress(message, buttonJSON, master){
             buttonJSON[buttonPresserID].currentSessionAmount = 0
             buttonJSON[buttonPresserID].currentSessionPresses = 0
         }
+
+        console.log(buttonJSON)
 
         setTimeout(function(){
             firstButton.setDisabled(true)

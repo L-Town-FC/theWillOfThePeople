@@ -295,11 +295,11 @@ bot.on('interactionCreate', interaction => {
     unlock.tracker1(interaction.user.id, 44, 1, interaction.message, master, tracker)
 
     buttonJSON[userID].currentSessionAmount += buttonPayout
-    buttonJSON[userID].currenSessionPresses += 1
+    buttonJSON[userID].currentSessionPresses += 1
     master[userID].gbp += buttonPayout   //this and other interactions should be the only place "Command Purchase" isn't used because the message sender is the bot not the user
 
     var title = `${master[interaction.user.id].name} current Button Session`
-    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[userID].currentSessionAmount}`, `Total button presses: ${buttonJSON[userID].currenSessionPresses}`]
+    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[userID].currentSessionAmount}`, `Total button presses: ${buttonJSON[userID].currentSessionPresses}`]
 
     //add embed message that updates with last payout and cum payout on message
     const embedMessage = embed.EmbedCreator(interaction.message, title, description, embed.emptyValue)
