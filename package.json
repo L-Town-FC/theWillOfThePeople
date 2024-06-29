@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf node_modules package-lock.json",
+    "lint": "eslint .",
     "start": "node index.js",
     "start:dev": "NODE_ENV=local nodemon index.js",
     "start:local": "NODE_ENV=local node index.js",
@@ -21,6 +22,9 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.6.0",
+    "eslint": "^9.6.0",
+    "globals": "^15.6.0",
     "nodemon": "^3.1.2"
   }
 }
