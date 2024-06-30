@@ -4,7 +4,7 @@ module.exports = {
     execute(message,master, tracker){
         const unlock = require('./Functions/Achievement_Functions')
         try{
-            result = Math.floor(Math.random()*2);
+            var result = Math.floor(Math.random()*2);
             if (parseInt(result) == 1){
                 message.channel.send('Tails')
             }else{

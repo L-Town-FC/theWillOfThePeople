@@ -1,6 +1,6 @@
-invalid = "invalid"
+var invalid = "invalid"
 module.exports.invalid = invalid
-defaultRecipient = "bot"
+var defaultRecipient = "bot"
 module.exports.defaultRecipient = defaultRecipient
 
 function CommandUsageValidator(message, master, transactionAmount, minimumTrasactionPrice, commandUserBankRoll, commandTarget){
@@ -55,7 +55,7 @@ function NameToUserID(name, master)
         return "bot";
     }
 
-    for(i in master){
+    for(var i in master){
         if(master[i].name.toLowerCase() == name){
             var recipient_id = i
         }

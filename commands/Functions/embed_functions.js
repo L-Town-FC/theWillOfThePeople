@@ -1,4 +1,4 @@
-emptyValue = "emptyValue"
+var emptyValue = "emptyValue"
 module.exports.emptyValue = emptyValue
 
 //grabs the users color and sets the embeds color to match the users
@@ -68,7 +68,7 @@ function EmbedCreator(message, title, description, fields){
             }else{
                 //if a field has only single subfield but its values are object the above process is done to ensure the value is a string
                 temp = ""
-                for (var j = 0; j < fields.value.length; j++) {
+                for (j = 0; j < fields.value.length; j++) {
                     temp += fields.value[j] + "\n"
                 }
                 fields.value = temp

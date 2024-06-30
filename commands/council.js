@@ -1,15 +1,14 @@
 module.exports = {
     name: 'council',
     description: 'gets response from the council',
-    execute(message,master){
-        const fs = require('fs')
+    execute(message,master, tracker){
         const unlock = require('./Functions/Achievement_Functions')
         try{
 
             //I Serve the Realm Achievement
             unlock.tracker1(message.author.id, 18, 1, message, master, tracker)
             
-            test = Math.floor(Math.random()*100);
+            var test = Math.floor(Math.random()*100);
             if (parseInt(test) != 50){
                 message.channel.send('Play one more game of melee and ask again');
             }else{

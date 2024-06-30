@@ -4,7 +4,8 @@ module.exports = {
     execute(message,args, master, tracker){
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
-        achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
+        const embed = require("./Functions/embed_functions")
+        var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         var user = message.author.id;
         var name = args[1] || 'none'; //if only "!achievements" is sent then it defaults to "none"
         var command = ""
@@ -56,7 +57,6 @@ module.exports = {
                                 Achievement_Tracker(message, args[2], master, tracker)
                         }
                     }else{
-                        const embed = require("./Functions/embed_functions")
                         var title = "List of All Achievements"
                         var description = list;
                         var fields = {name: "Additional Info", value: 'To check individual achievemeents use "!achievements list [number]"'}

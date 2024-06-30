@@ -66,7 +66,7 @@ module.exports.reset1 = reset1
 function reset2(user, achievement_num, index, tracker, message){
     //used to reset tracking on achievements that use an array of numbers
     try{
-        for(i in tracker){
+        for(var i in tracker){
             if(user !== i){
                 tracker[i][achievement_num][index] = false
             }
@@ -84,7 +84,7 @@ function tracker1(user, achievement_num, increment, message, master, tracker){
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     try{
-        threshold = achievements[achievement_num].threshold
+        var threshold = achievements[achievement_num].threshold
         tracker[user][achievement_num] = tracker[user][achievement_num] + increment;
         if(tracker[user][achievement_num] >= threshold){
             unlock(user, achievement_num, message, master)
@@ -118,12 +118,12 @@ function tracker3(user, achievement_num, index, increment, message, master, trac
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     try{
-        threshold = achievements[achievement_num].threshold
+        var threshold = achievements[achievement_num].threshold
         tracker[user][achievement_num][index] = tracker[user][achievement_num][index] + parseFloat(increment)
         
         var counter = 0
         
-        for(i = 0;i < tracker[user][achievement_num].length; i++){
+        for(var i = 0;i < tracker[user][achievement_num].length; i++){
             if(parseFloat(tracker[user][achievement_num][i]) >= threshold){
                 counter++
             }

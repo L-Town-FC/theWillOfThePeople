@@ -80,7 +80,7 @@ function Stats_All(stats, message){
     var button_losses = 0
     var roulette_bets = 0
     var roulette_wins = 0
-    for(i in stats){
+    for(var i in stats){
         lottery_tickets = lottery_tickets + stats[i].lottery_tickets
         bj_wins = bj_wins + stats[i].bj_wins
         bj_pushes = bj_pushes + stats[i].bj_pushes

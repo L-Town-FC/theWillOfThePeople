@@ -1,11 +1,8 @@
-const { title } = require('process')
-
 module.exports = {
     name: 'insults',
     description: 'lets you insults people',
     execute(message,args, master, tracker){
         const fs = require('fs')
-        const Discord = require('discord.js')
         const general = require('./Functions/GeneralFunctions')
         const embed = require('./Functions/embed_functions')
         const price = 1500

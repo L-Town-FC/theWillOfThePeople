@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
-const bot = new Discord.Client({ intents: [
+const {GatewayIntentBits, Partials, Client } = require('discord.js');
+const bot = new Client({ intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
@@ -18,20 +18,23 @@ const PREFIX = "!";
 
 const fs = require('fs');
 const cron = require('cron')
-buttonJSON = {}
+var buttonJSON = {}
+var master = {}
+var stats_list = {}
+var command_stats = {}
+var tracker = {}
+var emojisList = {}
+
+var teamsData = []//variable for holding teams for the teams command
 
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
-const emojis = require('./commands/emojis');
 const embed = require('./commands/Functions/embed_functions')
-const general = require('./commands/Functions/stats_functions')
 
 //Pulling data from faunadb or local jsons depending on current environment
 const fauna_token = process.env.FAUNA_KEY
-GetJSONValues(fauna_token, token === process.env.DEVBOTTOKEN);
-
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -45,8 +48,15 @@ bot.on('ready', () => {
     var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
+    master = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "master")
+    stats_list = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "stats")
+    command_stats = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "command_stats")
+    tracker = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "achievements_tracker")
+    emojisList = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "emojis")
+
+
     console.log('This bot is online')
-    UpdateEmojiList()
+    UpdateEmojiList(emojisList)
     if(typeof(cron_job) == 'undefined'){
         cron_job = 'something'
         bot_tinkering.send('The bot is online')    
@@ -183,7 +193,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('stats').execute(message,args, master, stats_list);
                 break;
                 case 'button': //lets users push a button for a chance of winning 100 gbp or losing 1000 gbp
-                    bot.commands.get('button').execute(message,args, master, buttonJSON);
+                    bot.commands.get('button').execute(message,args, master, buttonJSON, command_stats);
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
@@ -200,14 +210,13 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
                 break;
                 case 'teams': //lets users randomly generate teams
-                    bot.commands.get('teams').execute(message, args)
+                    bot.commands.get('teams').execute(message, args, teamsData)
                 break;
                 case 'emojis':
                     bot.commands.get('emojis').execute(message, args, emojisList, bot)
                 break;
                 case 'update': //command that is only used for dev work and changed for testing purposes
-                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
-                    //JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token);
+                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV, stats_list, tracker, command_stats, emojisList)
                 break;
                 case 'test': //another command for testing purposes only
                     //bot.commands.get('test').execute(message, master, stats_list, tracker);
@@ -242,7 +251,7 @@ bot.on('messageReactionRemove', reaction => {
 })
 
 bot.on('emojiCreate', emojiCreate => {
-    UpdateEmojiList()
+    UpdateEmojiList(emojisList)
 })
 
 bot.on('emojiDelete', emojiDelete => {
@@ -315,7 +324,7 @@ bot.on('interactionCreate', interaction => {
 //adds 250 gbp or sets them to 250 gbp if they are above 0 gbp
 function Welfare(channel, master){
     try{
-        for(i in master){
+        for(var i in master){
             if(isNaN(master[i].gbp) == true){
                 master[i].gbp = 0;
             }
@@ -392,13 +401,12 @@ function RoulettePurchase(bet_value, player, master, message) {
 }
 
 function Lottery(channel, master, unlock){
-    const fs = require('fs')
     odds = 250
     var number = Math.ceil(Math.random()*odds);
     var pot = 1000
     var success = false
     channel.send("The Daily Lottery Drawing is occuring...")
-    for(i in master){
+    for(var i in master){
         var guess = Math.ceil(Math.random()*odds);
         if(guess == number){
             master[i].gbp = pot + master[i].gbp
@@ -455,22 +463,13 @@ async function Daily_Functions(channel, master, unlock){
     await gbp_farm_reset(channel, master)
 }
 
-function GetJSONValues(fauna_token, isDev){
-    if(isDev){
-        console.log("Dev Environment");
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
-        stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
-        tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
-        emojisList = JSON.parse(fs.readFileSync("./JSON/emojis.json", "utf-8"))
-        return;
+function GetJSONValue(faunaToken, isDev, location){
+    if(!isDev){
+        return Fauna_get(faunaToken, location, process.end.NODE_ENV)
     }
 
-    master =  Fauna_get(fauna_token, "master", process.env.NODE_ENV)
-    stats_list =  Fauna_get(fauna_token, "stats", process.env.NODE_ENV)
-    tracker =  Fauna_get(fauna_token, "tracker", process.env.NODE_ENV)
-    command_stats =  Fauna_get(fauna_token, "command_stats", process.env.NODE_ENV)
-    emojisList = Fauna_get(fauna_token, "emojis", process.env.NODE_ENV)
+    const fs = require('fs')
+    return JSON.parse(fs.readFileSync(`./JSON/${location}.json`, "utf-8"))
 }
 
 async function Fauna_get(fauna_token, name, location){
@@ -494,45 +493,40 @@ async function Fauna_get(fauna_token, name, location){
         switch(name){
             case "master":
                 master = response.data
-                return master
-            break;
+            return master
             case "stats":
                 stats_list = response.data
-                return stats_list
-            break;
+            return stats_list
             case "tracker":
                 tracker = response.data
-                return tracker
-            break;
+            return tracker
             case "command_stats":
                 command_stats = response.data
-                return command_stats
-            break;
+            return command_stats
             case "emojis":
                 emojisList = response.data
-                return emojisList
-
+            return emojisList
     }}).catch(err => console.log(err))
 }
 
 
 //Just used to move the JSON files over to faunadb
-async function Fauna_create(fauna_token, name){
-    const fs = require('fs')
-    const faunadb = require('faunadb')
-    const fauna_client = new faunadb.Client({ secret: fauna_token })
-    const q = faunadb.query
-    const fauna_json = JSON.parse(fs.readFileSync("./JSON/prod_faunadb.json", "utf-8"))
+// async function Fauna_create(fauna_token, name){
+//     const fs = require('fs')
+//     const faunadb = require('faunadb')
+//     const fauna_client = new faunadb.Client({ secret: fauna_token })
+//     const q = faunadb.query
+//     const fauna_json = JSON.parse(fs.readFileSync("./JSON/prod_faunadb.json", "utf-8"))
 
-    fauna_client.query(
-        q.Create(q.Collection("prod_JSONs"), {
-            data: 
-            JSON.parse(fs.readFileSync(`./JSON/${name}.json`,'utf-8'))
-        }
-        )
-    )
+//     fauna_client.query(
+//         q.Create(q.Collection("prod_JSONs"), {
+//             data: 
+//             JSON.parse(fs.readFileSync(`./JSON/${name}.json`,'utf-8'))
+//         }
+//         )
+//     )
 
-}
+// }
 
 //used to update the faunadb database
 async function Fauna_update(fauna_token, name, file, location){
@@ -560,7 +554,7 @@ async function Fauna_update(fauna_token, name, file, location){
 
 }
 
-function UpdateEmojiList(){
+function UpdateEmojiList(emojisList){
     const fs = require('fs')
     bot.emojis.cache.forEach(emoji => {
         if(!(emoji.id in emojisList)){

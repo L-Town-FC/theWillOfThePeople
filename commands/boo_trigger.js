@@ -6,7 +6,7 @@ module.exports = {
         var chance = 4
         try{
             if(message.author.id == boo){
-                if(message.content.startsWith("!") == false){
+                if(!message.content.startsWith("!")){
                     var rand = Math.ceil(Math.random() * chance)
                     if(rand == 2){
                         Trigger(message)
@@ -31,5 +31,6 @@ async function Trigger(message){
             console.log(err)
             message.channel.send('Error Occurred in Boo Trigger')
         }
+        console.log(err)
     }
 }

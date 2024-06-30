@@ -25,7 +25,7 @@ function HelpEmbed(message, helpJSON){
 
     var list = ""
 
-    for(i in helpJSON){
+    for(var i in helpJSON){
         list += `${i}. ${helpJSON[i].name}\n`
     }
 

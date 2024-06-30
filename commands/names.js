@@ -1,17 +1,13 @@
-const { title } = require('process');
-const { description } = require('./changelog');
-
 module.exports = {
     name: 'names',
     description: 'lists all names on the server',
     execute(message,master){
-        const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         var justNames = [];
         var counter = 0
 
         try{
-            for(i in master){
+            for(var i in master){
                 justNames[counter] = master[i].name
                 counter = counter + 1
             }

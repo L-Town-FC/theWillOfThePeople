@@ -2,8 +2,6 @@ module.exports = {
     name: 'steal',
     description: 'lets you steal and protect from being stolen from',
     execute(message, args, master, tracker, bot){
-        const fs = require('fs')
-        const Discord = require('discord.js')
         var command = args[1] || 'none';
 
         for(var i in master){
@@ -128,7 +126,7 @@ function Steal(message, args, target, master, tracker, bot){
                     //message.channel.send(`Chance of getting caught ${chance}%`)
                     master[message.author.id].steal.caught = true
                     
-                    var user = bot.users.cache.find(user => user.id == target); //use something like this instead of the code above
+                    user = bot.users.cache.find(user => user.id == target); //use something like this instead of the code above
                     user.send(`${master[message.author.id].name} tried to steal from you but failed. They paid ${amount} gbp in damages`);
                     
                 }
@@ -164,8 +162,8 @@ function Insurance(message, args, master){
 }
 
 function Steal_Odds(message, args, master){
-    var person = args[2] || 'none'
     var amount = args[3] || 'none'
+    var target = "undefined"
     for(var i in master){
         if(master[i].name.toLowerCase() == args[2].toLowerCase()){
             target = i
