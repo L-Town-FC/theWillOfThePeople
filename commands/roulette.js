@@ -27,15 +27,15 @@ module.exports = {
                                     if(number == '0'){
                                         var color = ':green_circle:'
                                     }else if(roulette[number].red == true){
-                                        var color = ':red_circle:'
+                                        color = ':red_circle:'
                                     }else{
-                                        var color = ':black_circle:'
+                                        color = ':black_circle:'
                                     }
                                     Update_numbers(number + color)
                                     setTimeout(function(){
                                         try{
                                             message.channel.send(`The number is: \n${number}${color}`)
-                                            counter = 0
+                                            var counter = 0
                                             bet_checker(approved_bets, number, roulette, message, master, tracker, stats_list)
                                             delete counter
                                             if(typeof(approved_bets) == 'undefined'){
@@ -55,7 +55,7 @@ module.exports = {
                         }else{
                             message.channel.send('You must choose a time between 15 and 120 seconds')
                         }
-                    }else if(bets_open = true){
+                    }else if(bets_open == true){
                         message.channel.send("Bets are already open")
                     }
                 }catch(err){
@@ -94,25 +94,11 @@ module.exports = {
                 message.channel.send(`Use "!roulette help" for a list of commands`)
         }
     }
-
-}
-function purchase(bet_value, player, master) {
-    try{
-        const fs = require('fs');
-
-        for(i in master){
-            if(player == i){
-                master[i].gbp = parseFloat(master[i].gbp) - parseFloat(bet_value)
-            }
-        }
-    }catch(err){
-        console.log(err)
-        message.channel.send("Error occurred in roulette.js Purchase");
-    }
 }
 
 function bet_checker(approved_bets, picked_number, roulette, message, master, tracker, stats_list){
     const unlock = require('./Functions/Achievement_Functions')
+    const general = require('./Functions/GeneralFunctions')
     var winnings = 0
     var bet = ''
     var value = ''
@@ -120,7 +106,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
     var command = ''
     var counter = 0
     try{
-        for(j = 0; j < approved_bets.length; j++){
+        for(var j = 0; j < approved_bets.length; j++){
             var win_checker = 0
             bet = parseFloat(approved_bets[j][0])
             value = String(approved_bets[j][1]).toLowerCase()
@@ -148,7 +134,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 case 'zero':
                     if(value == picked_number){
                         winnings = -36 * bet
-                        purchase(winnings, user, master)
+                        general.CommandPurchase(message, master, winnings, general.defaultRecipient)
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                         
                         //Roulette Completionist Achievement
@@ -159,7 +145,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 case 'num':
                     if(value == picked_number){
                         winnings = -36 * bet
-                        purchase(winnings, user, master)
+                        general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                         
                         //Roulette Completionist Achievement
@@ -170,7 +157,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 case 'even':
                     if(picked_number !== 0 && roulette[picked_number].even == true ){
                         winnings = -2 * bet
-                        purchase(winnings, user, master)
+                        general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                         //Roulette Completionist Achievement
                         unlock.tracker2(user, 41, 6, message, master, tracker)
@@ -180,7 +168,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 case 'odd':
                     if(picked_number !== 0 && roulette[picked_number].even == false){
                         winnings = -2 * bet
-                        purchase(winnings, user, master)
+                        general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                         //Roulette Completionist Achievement
                         unlock.tracker2(user, 41, 6, message, master, tracker)
@@ -190,7 +179,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 case 'red':
                     if(picked_number !== 0 && roulette[picked_number].red == true){
                         winnings = -2 * bet
-                        purchase(winnings, user, master)
+                        general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                         message.channel.send(`${master[user].name} wins ${-winnings- bet} gbp`)
                         //Roulette Completionist Achievement
                         unlock.tracker2(user, 41, 7, message, master,tracker)
@@ -200,7 +190,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 case 'black':
                     if(picked_number !== 0 && roulette[picked_number].red == false){
                         winnings = -2 * bet
-                        purchase(winnings, user, master)
+                        general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                         //Roulette Completionist Achievement
                         unlock.tracker2(user, 41, 7, message, master, tracker)
@@ -210,7 +201,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 case 'row':
                     if(picked_number !== 0 && roulette[picked_number].row == value[3]){
                         winnings = -3 * bet
-                        purchase(winnings, user, master)
+                        general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                         //Roulette Completionist Achievement
                         unlock.tracker2(user, 41, 3, message, master, tracker)
@@ -220,7 +212,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 case 'half':
                     if(picked_number !== 0 && roulette[picked_number].half == value[4]){
                         winnings = -2 * bet
-                        purchase(winnings, user, master)
+                        general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                         //Roulette Completionist Achievement
                         unlock.tracker2(user, 41, 5, message, master,tracker)
@@ -230,7 +223,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                 case 'third':
                     if(picked_number !== 0 && roulette[picked_number].third == value[5]){
                         winnings = -3 * bet
-                        purchase(winnings, user, master)
+                        general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                         message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                         //Roulette Completionist Achievement
                         unlock.tracker2(user, 41, 4, message, master,tracker)
@@ -241,14 +235,16 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                     if(picked_number !== 0 && roulette[picked_number].misc.includes(value) == true){
                         if(value[0] == 'r' || value[0] == 'c'){
                             winnings = -18 * bet
-                            purchase(winnings, user, master)
+                            general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                             message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                             //Roulette Completionist Achievement
                             unlock.tracker2(user, 41, 1, message, master, tracker)
                             win_checker++
                         }else if(value[0] == 'd'){
                             winnings = -9 * bet
-                            purchase(winnings, user, master)
+                            general.CommandPurchase(message, master, winnings, general.defaultRecipient)
+
                             message.channel.send(`${master[user].name} wins ${-winnings - bet} gbp`)
                             //Roulette Completionist Achievement
                             unlock.tracker2(user, 41, 2, message, master, tracker)
@@ -257,6 +253,7 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
                     }
                 break;
             }
+
             if(winnings !== 0){
                 counter++
             }
@@ -281,7 +278,6 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
     }
 }
 function Display(message, embed){
-    //const Discord = require('discord.js')
     const fs = require('fs')
     var basics = fs.readFileSync('./text_files/roulette/roulette_basics', 'utf-8')
     var payouts = fs.readFileSync('./text_files/roulette/roulette_payouts', 'utf-8')
@@ -322,7 +318,7 @@ function Update_numbers(number){
     try{
         var old_numbers = fs.readFileSync('./text_files/roulette/roulette_numbers.txt','utf-8').split(",")
         var new_numbers = []
-        for(i = 1;i < 10; i++){
+        for(var i = 1;i < 10; i++){
             new_numbers[i-1] = old_numbers[i]
         }
         
@@ -330,7 +326,6 @@ function Update_numbers(number){
         fs.writeFileSync('./text_files/roulette/roulette_numbers.txt', new_numbers.toString())
     }catch(err){
         console.log(err)
-        message.channel.send('Error occured in roulette.js Update_Numbers')
     }
 }
 

@@ -182,17 +182,13 @@ function addPerson(message, master, tracker, stats_list){
         [37]: 0,
         [40]: 0,
         [39]: [0,0,0],
-        [42]: [false, false, false, false, false, false, false, false],
+        [41]: [false, false, false, false, false, false, false, false],
+        [42]: 0,
+        [43]: 0,
         [44]: 0,
-        [45]: 0,
         [46]: 0,
         [47]: 0,
-        [48]: 0,
-        [51]: 0,
-        [52]: 0,
-        [53]: 0,
-        [54]: 0,
-        [55]: 0
+        [48]: 0
     }
     stats_list[message.author.id] = {
         name:"Default",

@@ -35,7 +35,7 @@ module.exports = {
                     message.channel.send('You can only use this command 5 times per day')
                 }
             }else if(parseInt(args[1]) > 0){
-                var num = parseInt(args[1]);
+                num = parseInt(args[1]);
                 if(deletes[message.author.id].deletes + num <= 5){
                     totalCost = cost * num;
                     if (total_money >= totalCost){

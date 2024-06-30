@@ -57,7 +57,7 @@ function NameToUserID(name, master)
 
     for(var i in master){
         if(master[i].name.toLowerCase() == name){
-            var recipient_id = i
+            recipient_id = i
         }
     }
 

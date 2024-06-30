@@ -143,11 +143,9 @@ function is_Ongoing(master) {
 
 
         if(guess_number > 0){
-            var status = [true, name, guess_number];
-            return status
+            return [true, name, guess_number];
         }else{
-            var status = [false, "", guess_number];
-            return status
+            return [false, "", guess_number];
         }
     }catch(err){
         console.log(err)

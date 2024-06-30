@@ -26,12 +26,12 @@ module.exports = {
            if(location == 'local'){
                 var prefix = 'dev'
             }else{
-                var prefix = 'prod'
+                prefix = 'prod'
             }
             const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
         
             //then checks the corresponding json file for the reference ids and grabs the correct data from faunadb
-            var getP = await fauna_client.query(
+            await fauna_client.query(
                 q.Get(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]))
             ).then((response) => {
                 switch(name){

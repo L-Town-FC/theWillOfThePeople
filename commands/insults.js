@@ -93,9 +93,9 @@ module.exports = {
             case 'help':
                 //creates embded message for instructions on how to use the command
                 try{
-                    var title = "List of Commands"
-                    var description = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')
-                    var fields = embed.emptyValue
+                    title = "List of Commands"
+                    description = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')
+                    fields = embed.emptyValue
                     const embedMessage = embed.EmbedCreator(message, title, description, fields)
                     message.channel.send({ embeds: [embedMessage] });
                 }catch(err){

@@ -18,12 +18,13 @@ const PREFIX = "!";
 
 const fs = require('fs');
 const cron = require('cron')
-var buttonJSON = {}
 var master = {}
 var stats_list = {}
 var command_stats = {}
 var tracker = {}
 var emojisList = {}
+var buttonJSON = {}
+var blackJackHands = {}
 
 var teamsData = []//variable for holding teams for the teams command
 
@@ -32,6 +33,7 @@ bot.commands = new Discord.Collection();
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
 const embed = require('./commands/Functions/embed_functions')
+const general = require('./commands/Functions/GeneralFunctions')
 
 //Pulling data from faunadb or local jsons depending on current environment
 const fauna_token = process.env.FAUNA_KEY
@@ -54,26 +56,22 @@ bot.on('ready', () => {
     tracker = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "achievements_tracker")
     emojisList = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "emojis")
 
-
     console.log('This bot is online')
     UpdateEmojiList(emojisList)
-    if(typeof(cron_job) == 'undefined'){
-        cron_job = 'something'
-        bot_tinkering.send('The bot is online')    
-        new cron.CronJob('0 9 * * *', function(){
-            Daily_Functions(channel, master, unlock)
-            //590585423202484227 - pugilism
-            //611276436145438769 - test
-            //743269381768872087 - stonks
-            //711634711281401867 bot-tinkering            
-        }, null, true, 'America/New_York')
-        new cron.CronJob('0 * * * *', function(){
-            //'0 * * * * *'
-            setTimeout(function(){
-                JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token)
-            },2000)
-        }, null, true)
-    }
+    bot_tinkering.send('The bot is online')    
+    new cron.CronJob('0 9 * * *', function(){
+        Daily_Functions(channel, master, unlock)
+        //590585423202484227 - pugilism
+        //611276436145438769 - test
+        //743269381768872087 - stonks
+        //711634711281401867 bot-tinkering            
+    }, null, true, 'America/New_York')
+    new cron.CronJob('0 * * * *', function(){
+        //'0 * * * * *'
+        setTimeout(function(){
+            JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token)
+        },2000)
+    }, null, true)
 })
 
 //event that triggers when a user leaves the server
@@ -84,6 +82,7 @@ bot.on('guildMemberRemove', member =>{
         channel.send(`${master[member.id].name} has left the server`)
     }catch(err){
         console.log('Error occured in user remover log')
+        console.log(err)
     }
 })
 
@@ -93,7 +92,7 @@ bot.on('messageCreate', message =>{
         if(!message.author.bot){ //filters out bot messages from tracking
             //commmands that ary run every time someone sends a message
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
-            bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
+            bot.commands.get('insults_counter').execute(message, master, stats_list);
             bot.commands.get('boo_trigger').execute(message, command_stats);
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
                 stats.tracker(message.author.id, 7, 1, stats_list)
@@ -219,7 +218,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV, stats_list, tracker, command_stats, emojisList)
                 break;
                 case 'test': //another command for testing purposes only
-                    //bot.commands.get('test').execute(message, master, stats_list, tracker);
+                    bot.commands.get('test').execute(message, args, master, blackJackHands);
                 break;
                 default:
                     message.channel.send('Use command !help for a list of commands');
@@ -286,7 +285,7 @@ bot.on('interactionCreate', interaction => {
             command_stats.button.Last_loss = command_stats.button.Last_loss + 1
         }
     }else{
-        if(buttonPayout == 5){
+        if(buttonPayout == 7){
             buttonPayout = -10000
             command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
             command_stats.button.Last_loss = 0
@@ -358,7 +357,7 @@ function Roulette_bets(message, money, master, stats_list){
         if(isNaN(args[0]) == false && args[0] >= min_bet){
             if(possible_bets.includes(args[1].toLowerCase()) == true){
                 if(money >= args[0]){
-                    RoulettePurchase(args[0], message.author.id, master, message)
+                    general.CommandPurchase(message, master, args[0], general.defaultRecipient)
                     var bet = [args[0], args[1], message.author.id]
                     approved_bets.push(bet)
                     message.channel.send(`${master[message.author.id].name} Bet accepted`)
@@ -373,7 +372,7 @@ function Roulette_bets(message, money, master, stats_list){
             }
         }else if(args[0].toLowerCase() == 'all' && master[message.author.id].gbp >= min_bet){
             if(possible_bets.includes(args[1].toLowerCase()) == true){
-                RoulettePurchase(args[0], message.author.id, master, message)
+                general.CommandPurchase(message, master, args[0], general.defaultRecipient)
                 var bet = [args[0], args[1], message.author.id]
                 approved_bets.push(bet)
                 message.channel.send(`${master[message.author.id].name} Bet accepted`)
@@ -390,18 +389,8 @@ function Roulette_bets(message, money, master, stats_list){
     }
 }
 
-function RoulettePurchase(bet_value, player, master, message) {
-    try{
-        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
-
-    }catch(err){
-        console.log(err)
-        message.channel.send("Error Occured in Index.js RoulettePurchase");
-    }
-}
-
 function Lottery(channel, master, unlock){
-    odds = 250
+    var odds = 250
     var number = Math.ceil(Math.random()*odds);
     var pot = 1000
     var success = false

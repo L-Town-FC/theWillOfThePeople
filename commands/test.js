@@ -1,160 +1,151 @@
 module.exports = {
     name: 'test',
-    description: 'custom emoji test',
-    execute(message,master, stats, tracker){
-        const fs = require('fs')
-        //var master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
-        //var tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        //var stats = JSON.parse(fs.readFileSync("./JSON/default_json.json", "utf-8"))
-        var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
-        //var roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
-        var classes = JSON.parse(fs.readFileSync('./JSON/RPG/classes.json'))
-        if(message.author.id == '450001712305143869' && message.channel.id == '611276436145438769'){
-            for(var i in classes){
-                //delete classes[i].sub_stats.accurracy
-                //classes[i].sub_stats.accuracy = ""
-            }
-            
-            for(i in tracker){
-                /*
-                tracker[i][4] = 0
-                tracker[i][5] = 0
-                tracker[i][7] = 0
-                tracker[i][8] = 0
-                tracker[i][9] = 0
-                tracker[i][13] = 0
-                tracker[i][14] = 0
-                tracker[i][15] = [false, false]
-                tracker[i][17] = 0
-                tracker[i][18] = 0
-                tracker[i][20] = [false, false]
-                tracker[i][21] = 0
-                tracker[i][23] = 0
-                tracker[i][25] = 0
-                tracker[i][26] = 0
-                tracker[i][27] = 0
-                tracker[i][28] = 0
-                tracker[i][29] = 0
-                
-                tracker[i][31] = 0
-                tracker[i][32] = 0
-                tracker[i][33] = 0
-                tracker[i][36] = 0
-                tracker[i][37] = 0
-                tracker[i][40] = 0
-                tracker[i][39] = [0,0,0]
-                tracker[i][42] = [false, false, false, false, false, false, false, false]
-                tracker[i][44] = 0
-                tracker[i][45] = 0
-                
-               tracker[i][46] = 0
-               tracker[i][47] = 0
-               tracker[i][48] = 0
-               tracker[i][51] = 0
-               tracker[i][52] = 0
-               tracker[i][53] = 0
-               tracker[i][54] = 0
-               tracker[i][55] = 0
-               */
-            }
-            /*
-            for(var i in achievements){
-                delete achievements[i].Tracker_Number
-                achievements[i].tracker = 1
-            }
-            */
-            
-            for(i in master){
-                delete master[i].historical_gbp
-                //master[i].gbp = parseFloat((parseFloat(master[i].gbp) + parseFloat(master[i].account)).toFixed(2))
-                //master[i].account = 0
-                /*
-                master[i].account = 0
+    description: 'new blackjack',
+    execute(message, args, master, blackJackHands){
+        const general = require('./Functions/GeneralFunctions')
+        const MINBET = 15
+        args = ['21', '20']
 
-                master[i].loans = {}
-                master[i].loans.target = ''
-                master[i].loans.remaining = 0
-                master[i].loans.collection = 0
-                master[i].loans.rate = 0
-
-                master[i].bwg = {
-                    "target": "",
-                    "current_word": "",
-                    "bet": 0,
-                    "remaining_msgs": "",
-                    "gamestatus": 0,
-                    "used_word": []
-                }
-               
-                master[i].insulted = false
-                master[i].steal = {
-                    "insurance": 0,
-                    "attempts": 0,
-                    "caught": false
-                }
-                */
-            }
-            
-
-            /*
-            for(i in bwg){
-                bwg[i].target = ""
-                bwg[i].current_word = ""
-                bwg[i].bet = 0
-                bwg[i].remaining_msgs = ""
-                bwg[i].used_words = []
-                bwg[i].gamestatus = 0
-            }
-            */
-
-
-            for(i in stats){
-                //stats[i].lottery_tickets = 0
-                //stats[i].bj_wins = 0
-                //stats[i].bj_pushes = 0
-                //stats[i].bj_losses = 0
-                //stats[i].gg_wins = 0
-                //stats[i].gg_losses = 0
-                //stats[i].total_msgs = 0
-                //stats[i].total_commands = 0
-                //stats[i].farm_messages = 0
-                //stats[i].non_farm_messages = 0
-                //stats[i].achievements = 0
-                //stats[i].button_presses = 0
-                //stats[i].button_losses = 0
-                //stats[i].roulette_bets = 0
-                //stats[i].roulette_wins = 0
-                delete stats[i].taxes
-                delete stats[i].interest
-            }
-
-
-            fs.writeFileSync ("./JSON/RPG/classes.json", JSON.stringify(classes, null, 2), function(err) {
-                if (err) throw err;
-                console.log('complete');
-                }
-            );
-            fs.writeFileSync ("./JSON/master.json", JSON.stringify(master, null, 2), function(err) {
-                if (err) throw err;
-                console.log('complete');
-                }
-            );
-            fs.writeFileSync ("./JSON/stats.json", JSON.stringify(stats, null, 2), function(err) {
-                if (err) throw err;
-                console.log('complete');
-                }
-            );
-            fs.writeFileSync ("./JSON/achievements_tracker.json", JSON.stringify(tracker, null, 2), function(err) {
-                if (err) throw err;
-                console.log('complete');
-                }
-            );
-            fs.writeFileSync ("./JSON/achievements.json", JSON.stringify(achievements, null, 2), function(err) {
-                if (err) throw err;
-                console.log('complete');
-                }
-            );
+        if(blackJackHands[message.author.id] != undefined){
+            SendGameDisplay(message, blackJackHands, message.author.id)
+            return
         }
+
+        if(args.length < 2){
+            message.channel.send("You must specificy a bet amount")
+            return
+        }
+
+        if(!general.CommandUsageValidator(message, master, args[1], MINBET, master[message.author.id].gbp, general.defaultRecipient)){
+            return
+        }
+        
+        CreateNewGame(message, blackJackHands, message.author.id, args[1])
+        /*
+        Start
+
+        Player tries to start a game
+        1. Player is already playing a game so it brings up embed of current game END
+        2. Player isnt already playing a game
+
+        Validate if player can start game
+        1. if player bets/bank is invalid for game send explanation END
+        2. If players bet/bank situation is valid start game
+
+        Create game for player
+        1. add player game to blackJackHands object
+
+        Hands are created for player and dealer. 4 possible outcomes
+        Player and Dealer dont have blackjack
+            -Play begins
+        Player has blackjack/ dealer doesnt
+            -Hand Win
+        Player doesnt have blackjack/ dealer does
+            -Hand Loss
+        Both player and dealer have blackjack
+            -Hand Push
+
+        Hand start. 5 Possible outcomes
+        1. Player Hit
+            -add card to players hand
+            -only able to hit or stay now
+            -if bust go to second hand if player split, else go to hand lost
+        2. Player Stay
+            -Dealer turn
+        3. Player Doubledown
+            -player gets 1 card and then stays
+            -if bust, hand loss
+            -if not dealer turn
+        4. Player Split
+            -can only be done when player hand is size 2 and hasnt split before
+            -add two new cards to hand
+        5. Can only be done when hand size is 2 and player hasnt split before
+            -go Surrender
+            
+        Dealer turn. Take card. 3 outcomes.
+        1. less than hard 17, take card and check again
+        2. more than hard 17 less than 22, stay, go to comparison
+        3. more than 21, Hand win
+
+        Compare player and dealer hands and go to appropriate outcome
+
+        4 Final outcomes
+        Hand Win
+        Hand Loss
+        Hand Push
+        Surrender
+
+       End
+       */
+    }
+}
+
+function CreateNewGame(message, blackJackHands, user, bet){
+    AddPlayerToHandsArray(blackJackHands, user, bet)
+    CreateHands(blackJackHands, user)
+    SendGameDisplay(message, blackJackHands, user)
+}
+
+function AddPlayerToHandsArray(blackJackHands, user, bet){
+    blackJackHands[user] = {
+        bet: bet,
+        currentMessageID: "",
+        dealerHand: [],
+        dealerDummyHand: [],
+        playerHand: [[],[]],
+        playerDummyHand:[[],[]],
+        playerSplit: false,
+        playerStay: false
+    }
+}
+
+function SendGameDisplay(message, blackJackHands, user){
+    const embed = require('./Functions/embed_functions')
+    var title = "Test"
+    var description = `${blackJackHands[user].dealerDummyHand[0]} ${blackJackHands[user].dealerDummyHand[1]}`
+
+    var temp = blackJackHands[user].playerDummyHand
+    if(temp.length == 1){
+        temp = blackJackHands[user].playerDummyHand[0]
+    }
+    var fields = {name: "Player Hand", value: temp}
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    message.channel.send({embeds: [embedMessage]})
+}
+
+//creates hands for both player and dealer at the same time
+function CreateHands(blackJackHands, user){
+    for (var i = 0; i < 2; i++) {
+        var temp = AddCard()
+        blackJackHands[user].playerHand[0].push(temp[0])
+        blackJackHands[user].playerDummyHand[0].push(temp[1])
+        
+        var temp2 = AddCard()
+        blackJackHands[user].dealerHand.push(temp2[0])
+        blackJackHands[user].dealerDummyHand.push(temp2[1])
+    }
+}
+
+//creates a card to be used in a hand
+//if the card is a 10 it is randomzied as a face card
+//if the card is an 11 it becomes an ace
+//also adds a random suit to each created card
+function AddCard(){
+    const CARDVALUES = [2,3,4,5,6,7,8,9,10,10,10,10,11]
+    const TENS = ['10','J','Q','K']
+    const SUITS = [':diamonds:',':hearts:',':spades:',':clubs:']
+
+    var card = ""
+    var dummyCard = ""
+    card = dummyCard = CARDVALUES[Math.floor(Math.random()*CARDVALUES.length)];
+    if(card == 11){
+        dummyCard = "A"
     }
 
+    if(card == 10){
+        dummyCard = TENS[Math.floor(Math.random() * TENS.length)]
+    }
+    
+    dummyCard += SUITS[Math.floor(Math.random()*SUITS.length)];
+    return [card, dummyCard]
 }

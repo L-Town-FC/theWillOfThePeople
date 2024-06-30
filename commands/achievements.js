@@ -5,28 +5,29 @@ module.exports = {
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const embed = require("./Functions/embed_functions")
+        const general = require('./Functions/GeneralFunctions')
         var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
         var user = message.author.id;
         var name = args[1] || 'none'; //if only "!achievements" is sent then it defaults to "none"
+        name = name.toLowerCase()
         var command = ""
 
         //Achievement Hunter Achievement
         unlock.tracker1(user, 43, 1, message, master, tracker)
         
         try{
-            for(var i in master){
-                if(name.toLowerCase() == master[i].name.toLowerCase()){
-                    command = 'person'
-                    user = i
-                }
+            var targetID = general.NameToUserID(name.toLowerCase(), master)
+
+            if(targetID != general.invalid){
+                command = "person"
             }
-            //can definitely simplify this
-            if(name == 'none'){
-                command = 'person'
-            }else if(name.toLowerCase() == 'list'){
-                command = 'list'
-            }else if(name.toLowerCase() == 'help'){
-                command = 'help'
+
+            if(name == "none"){
+                command = "person"
+            }
+
+            if(name == "list"){
+                command = "list"
             }
 
             switch(command){
@@ -54,7 +55,7 @@ module.exports = {
                                 Achievement_Tracker3(message, args[2], master, tracker)
                             break;
                             default:
-                                Achievement_Tracker(message, args[2], master, tracker)
+                                Achievement_Tracker(message, args[2], master)
                         }
                     }else{
                         var title = "List of All Achievements"
@@ -65,15 +66,12 @@ module.exports = {
                         return
                     }
                 break;
-                case 'help':
-                    var title = "List of Commands"
-                    var description = fs.readFileSync('./text_files/achievement_commands.txt', 'utf-8')
-                    const embedMessage = embed.EmbedCreator(message, title, description, embed.emptyValue)
-                    message.channel.send({embed: embedMessage})
-
-                break;
                 default:
-                    message.channel.send('Use "!achievements help" for a list of commands')
+                    //message.channel.send('Use "!achievements help" for a list of commands')
+                    title = "List of Commands"
+                    description = fs.readFileSync('./text_files/achievement_commands.txt', 'utf-8')
+                    var embedMessage = embed.EmbedCreator(message, title, description, embed.emptyValue)
+                    message.channel.send({embeds: [embedMessage]})
             }
         }catch(err){
             console.log(err)
@@ -103,7 +101,7 @@ function Achievements(user, master, message){
     return
 }
 
-function Achievement_Tracker(message, achievement_num, master, tracker){
+function Achievement_Tracker(message, achievement_num, master){
     //Gives bar for achievements that only track 1 number
     const embed = require('./Functions/embed_functions')
     const fs = require('fs')
@@ -115,7 +113,7 @@ function Achievement_Tracker(message, achievement_num, master, tracker){
         current = 1
         
     }else{
-        var hasAchievement = 0
+        hasAchievement = 0
     }
 
     var bar = CreateProgressBar(current, threshold)
@@ -209,7 +207,6 @@ function Achievement_Tracker3(message, achievement_num, master, tracker){
     const bar_length = 64
     var fields = []
     var current = []
-    var counter = 0
     var list = []
     var fieldsCounter = 0
 
@@ -217,7 +214,6 @@ function Achievement_Tracker3(message, achievement_num, master, tracker){
         current[j] = tracker[message.author.id][achievement_num][j]
         if(current[j] >= threshold){
             current[j] = threshold
-            counter++
         }
         var ratio = Math.floor((current[j]/threshold) * bar_length)
         list[j] = "["
@@ -244,7 +240,6 @@ function Achievement_Tracker3(message, achievement_num, master, tracker){
     }
 
     var title = `${achievements[achievement_num].name}`
-    var description = description;
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
     message.channel.send({embeds: [embedMessage]})
 
