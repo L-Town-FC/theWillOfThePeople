@@ -177,7 +177,7 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
         }
 
         if(DealerHandResolved(blackJackHands, userID, OUTCOMES)){
-            const gameOverEmbed = GameEnd(blackJackHands, userID, [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton], master)
+            const gameOverEmbed = GameEnd(blackJackHands, userID, [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton], master, message)
             interaction.update({
                 embeds: [gameOverEmbed],
                 components: [buttonRow]
@@ -194,6 +194,15 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
 
     collector.on('end', () => {
         DisableButtons(hitButton, stayButton, splitButton, doubleDownButton, surrenderButton)
+
+        if(DealerHandResolved(blackJackHands, userID, OUTCOMES)){
+            const gameOverEmbed = GameEnd(blackJackHands, userID, [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton], master, message)
+            reply.edit({
+                embeds: [gameOverEmbed],
+                components: [buttonRow]
+            })
+            return
+        }
 
         reply.edit({
             embeds: [UpdatedEmbedMessage(reply, blackJackHands, userID, master)],
@@ -402,4 +411,9 @@ function Sum(array){
 
 function HandComparer(playerHand, dealerHand){
     return Math.sign(playerHand - dealerHand)
+}
+
+function TestHand(blackJackHands, userID){
+    blackJackHands[userID].playerHand[0] = [1,1,10]
+    blackJackHands[userID].playerDummyHand[0] = ["A:diamonds:", 'A:diamonds:', 'J:diamonds:']
 }
