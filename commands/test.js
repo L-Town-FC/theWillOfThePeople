@@ -4,10 +4,13 @@ module.exports = {
     execute(message, args, master, blackJackHands){
         const general = require('./Functions/GeneralFunctions')
         const MINBET = 15
+        const OUTCOMES = {Win: "win", Push: "push", Loss: "loss"}
         args = ['21', '20']
 
+        console.log(master[message.author.id].name)
+
         if(blackJackHands[message.author.id] != undefined){
-            SendGameDisplay(message, blackJackHands, message.author.id)
+            SendGameDisplay(message, blackJackHands, message.author.id, OUTCOMES)
             return
         }
 
@@ -20,7 +23,7 @@ module.exports = {
             return
         }
         
-        CreateNewGame(message, blackJackHands, message.author.id, args[1], master)
+        CreateNewGame(message, blackJackHands, message.author.id, args[1], master, OUTCOMES)
         /*
         Start
 
@@ -80,14 +83,14 @@ module.exports = {
     }
 }
 
-function CreateNewGame(message, blackJackHands, user, bet, master){
-    AddPlayerToHandsArray(blackJackHands, user, bet)
-    CreateHands(blackJackHands, user)
-    SendGameDisplay(message, blackJackHands, user, master)
+function CreateNewGame(message, blackJackHands, userID, bet, master, OUTCOMES){
+    AddPlayerToHandsArray(blackJackHands, userID, bet, OUTCOMES)
+    CreateHands(blackJackHands, userID)
+    SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES)
 }
 
-function AddPlayerToHandsArray(blackJackHands, user, bet){
-    blackJackHands[user] = {
+function AddPlayerToHandsArray(blackJackHands, userID, bet, OUTCOMES){
+    blackJackHands[userID] = {
         bet: bet,
         currentMessageID: "",
         dealerHand: [],
@@ -96,14 +99,16 @@ function AddPlayerToHandsArray(blackJackHands, user, bet){
         playerDummyHand:[[],[]],
         playerSplit: false,
         playerStay: [false, false],
-        playerBust: [false, false]
+        playerBust: [false, false],
+        dealerBust:false,
+        playerHandOutcome: [OUTCOMES.push, OUTCOMES.push]
     }
 }
 
-async function SendGameDisplay(message, blackJackHands, user, master){
+async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES){
     const {ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType} = require('discord.js')
     
-    var maxSessionLengthInSeconds = 10
+    var maxSessionLengthInSeconds = 20
 
     const hitButton = new ButtonBuilder()
     .setLabel('Hit')
@@ -132,7 +137,7 @@ async function SendGameDisplay(message, blackJackHands, user, master){
 
     const buttonRow = new ActionRowBuilder().addComponents(hitButton, stayButton, doubleDownButton, splitButton, surrenderButton);
 
-    const reply = await message.reply({embeds: [UpdatedEmbedMessage(message, blackJackHands, user)], components: [buttonRow]})
+    const reply = await message.reply({embeds: [UpdatedEmbedMessage(message, blackJackHands, userID, master)], components: [buttonRow]})
 
     const filter = (i) => i.user.id === message.author.id
 
@@ -145,73 +150,72 @@ async function SendGameDisplay(message, blackJackHands, user, master){
     collector.on('collect', (interaction) =>{
         if(interaction.customId === 'hit'){
             console.log("hit")
-            Hit(blackJackHands, user, [splitButton, doubleDownButton, surrenderButton])
+            Hit(blackJackHands, userID, [splitButton, doubleDownButton, surrenderButton])
         }
 
         if(interaction.customId === 'stay'){
             console.log("stay")
-            Stay(blackJackHands, user, interaction)
+            Stay(blackJackHands, userID, interaction)
         }
 
         
         if(interaction.customId === 'split'){
             console.log("split")
-            Split(blackJackHands, user, interaction)
+            Split(blackJackHands, userID, interaction)
         }
 
         
         if(interaction.customId === 'doubleDown'){
             console.log("doubleDown")
-            DoubleDown(blackJackHands, user, interaction)
+            DoubleDown(blackJackHands, userID, interaction)
         }
 
         
         if(interaction.customId === 'surrender'){
             console.log("surrender")
-            Surrender(blackJackHands, user, interaction)
+            Surrender(blackJackHands, userID, interaction)
         }
 
-        console.log(blackJackHands[user])
-
-        if(DealerHandResolved(blackJackHands, user)){
-            GameEnd()
+        if(DealerHandResolved(blackJackHands, userID, OUTCOMES)){
+            const gameOverEmbed = GameEnd(blackJackHands, userID, [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton], master)
+            interaction.update({
+                embeds: [gameOverEmbed],
+                components: [buttonRow]
+            })
+            return
         }
 
         interaction.update({
-            embeds: [UpdatedEmbedMessage(reply, blackJackHands, user)],
+            embeds: [UpdatedEmbedMessage(reply, blackJackHands, userID, master)],
             components: [buttonRow]
         })
         
     })
 
     collector.on('end', () => {
-        hitButton.setDisabled(true)
-        stayButton.setDisabled(true)
-        splitButton.setDisabled(true)
-        doubleDownButton.setDisabled(true)
-        surrenderButton.setDisabled(true)
+        DisableButtons(hitButton, stayButton, splitButton, doubleDownButton, surrenderButton)
 
         reply.edit({
-            embeds: [UpdatedEmbedMessage(reply, blackJackHands, user)],
+            embeds: [UpdatedEmbedMessage(reply, blackJackHands, userID, master)],
             components: [buttonRow]
         })
     })
 }
 
 //creates hands for both player and dealer at the same time
-function CreateHands(blackJackHands, user){
+function CreateHands(blackJackHands, userID){
     for (var i = 0; i < 2; i++) {
         var temp = AddCard()
-        // blackJackHands[user].playerHand[0].push(temp[0])
-        // blackJackHands[user].playerDummyHand[0].push(temp[1])
+        // blackJackHands[userID].playerHand[0].push(temp[0])
+        // blackJackHands[userID].playerDummyHand[0].push(temp[1])
 
         //testing only
-        blackJackHands[user].playerHand[0].push(11)
-        blackJackHands[user].playerDummyHand[0].push('A:diamonds:')
+        blackJackHands[userID].playerHand[0].push(11)
+        blackJackHands[userID].playerDummyHand[0].push('A:diamonds:')
         
         var temp2 = AddCard()
-        blackJackHands[user].dealerHand.push(temp2[0])
-        blackJackHands[user].dealerDummyHand.push(temp2[1])
+        blackJackHands[userID].dealerHand.push(temp2[0])
+        blackJackHands[userID].dealerDummyHand.push(temp2[1])
     }
 }
 
@@ -239,70 +243,149 @@ function AddCard(){
     return [card, dummyCard]
 }
 
-function Hit(blackJackHands, user, buttonArray){
+function Hit(blackJackHands, userID, buttonArray){
     var newCard = AddCard()
     var handIndex = 0
 
     //determines if player is hitting their first or second hand
     //player can only hit their second hand if they have stayed on their first hand
-    if(blackJackHands[user].playerStay[0]){
+    if(blackJackHands[userID].playerStay[0]){
         index = 1
     }
 
     //adds numeric value to 'player hand' and card value plus suit to player dummy hand
-    blackJackHands[user].playerHand[handIndex].push(newCard[0])
-    blackJackHands[user].playerDummyHand[handIndex].push(newCard[1])
+    blackJackHands[userID].playerHand[handIndex].push(newCard[0])
+    blackJackHands[userID].playerDummyHand[handIndex].push(newCard[1])
 
     //disables surrender, split, and double down because you arent allowed to do these actions after youve hit
-    for (var i = 0; i < buttonArray.length; i++) {
-        buttonArray[i].setDisabled(true)
-    }
+    DisableButtons(buttonArray)
 
     //checks if players current active hand is over 21. sets them to bust if they are over
-    if(PlayerHandValue(blackJackHands, user, handIndex) > 21){
-        blackJackHands[user].playerStay[handIndex] = true
-        blackJackHands[user].playerBust[handIndex] = true
+    if(PlayerHandValue(blackJackHands, userID, handIndex) > 21){
+        blackJackHands[userID].playerStay[handIndex] = true
+        blackJackHands[userID].playerBust[handIndex] = true
     }
 }
 
-function PlayerHandValue(blackJackHands, user, handIndex){
-    var handValue = Sum(blackJackHands[user].playerHand[handIndex])
+function PlayerHandValue(blackJackHands, userID, handIndex){
+    var handValue = Sum(blackJackHands[userID].playerHand[handIndex])
 
-    var elevenIndex = blackJackHands[user].playerHand[handIndex].indexOf(11)
+    var elevenIndex = blackJackHands[userID].playerHand[handIndex].indexOf(11)
 
     if(handValue > 21 && elevenIndex != -1){
-        blackJackHands[user].playerHand[handIndex][elevenIndex] = 1
+        blackJackHands[userID].playerHand[handIndex][elevenIndex] = 1
+        handValue -= 10
+    }
+
+    //need to check a second time in case player is dealth 2 aces and decides to hit
+    if(handValue > 21 && elevenIndex != -1){
+        blackJackHands[userID].playerHand[handIndex][elevenIndex] = 1
         handValue -= 10
     }
 
     return handValue
 }
 
-function DealerHandResolved(blackJackHands, user){
-    if(!blackJackHands[user].playerSplit){
-        //player hasnt split and their only hand has busted
-        if(blackJackHands[user].playerBust[0]){
-            return false
+function DealerHandResolved(blackJackHands, userID, OUTCOMES){
+    if(!blackJackHands[userID].playerSplit){
+        //player hasnt split and their only hand has busted. game over, no need to draw
+        if(blackJackHands[userID].playerBust[0]){
+            blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Loss
+            return true
         }
 
-        //player hasnt split and they have stayed
-        if(blackJackHands[user].playerStay[0]){
-            return false
-        }
+        //if player stayed on second hand. add cards until hard 17
+        if(blackJackHands[userID].playerStay[0]){
+            if(ResolveDealerTurn(blackJackHands, userID)){
+                blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Win
+                return true
+            }
 
+            if(HandComparer(blackJackHands[userID].playerHand[0], blackJackHands[userID].dealerHand) == 0){
+                blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Push
+            }
+
+            blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Loss
+
+            return true
+        }
     }
+
+    //player has split. Only need to check status of second hand since it can only be reached after first hand has been resolved. if second has has busted.
+    //need to check if first hand also busted to determine if dealer hand needs to be resolved
+    if(blackJackHands[userID].playerBust[1]){
+        blackJackHands[userID].playerHandOutcome[1] = OUTCOMES.Loss
+        return true
+    }
+
+    //if player stayed on second hand. add cards until hard 17
+    if(blackJackHands[userID].playerStay[1]){
+        if(ResolveDealerTurn(blackJackHands, userID)){
+            blackJackHands[userID].playerHandOutcome[1] = OUTCOMES.Win
+            return true
+        }
+
+        if(HandComparer(blackJackHands[userID].playerHand[1], blackJackHands[userID].dealerHand) == 0){
+            blackJackHands[userID].playerHandOutcome[1] = OUTCOMES.Push
+        }
+
+        blackJackHands[userID].playerHandOutcome[1] = OUTCOMES.Loss
+
+        return true
+    }
+
     return false
 }
 
-function UpdatedEmbedMessage(message, blackJackHands, user){
+function ResolveDealerTurn(blackJackHands, userID){
+    while(DealerHandValue(blackJackHands, userID) < 17){
+        var newCard = AddCard()
+
+        blackJackHands[userID].dealerHand.push(newCard[0])
+        blackJackHands[userID].dealerDummyHand.push(newCard[1])
+    }
+
+    if(blackJackHands[userID].dealerHand > 21){
+        blackJackHands[userID].dealerBust = true
+    }
+
+    return blackJackHands[userID].dealerBust
+}
+
+function GameEnd(blackJackHands, userID, buttonArray, master, message){
+    const embed = require('./Functions/embed_functions')
+    var title = `${master[userID].name} Game Outcome`
+    var description = `${blackJackHands[userID].dealerDummyHand[0]} ${blackJackHands[userID].dealerDummyHand[1]}`
+    var fields = []
+    for (var i = 0; i < blackJackHands[userID].playerHand.length; i++) {
+        if(blackJackHands[userID].playerHand[i].length != 0){
+            fields[i] = {name: `${master[userID].name} Hand 1`, value: `${blackJackHands[userID].playerDummyHand[0]} ${blackJackHands[userID].playerDummyHand[1]}`} 
+        }        
+    }
+
+    if(fields.length == 1){
+        fields = fields[0]
+    }
+    const embedMessage = embed.EmbedCreator(message, title, description, fields)
+    DisableButtons(buttonArray)
+    return embedMessage
+}
+
+function DisableButtons(buttonArray){
+    for (var i = 0; i < buttonArray.length; i++) {
+        buttonArray[i].setDisabled(true)
+    }
+}
+
+function UpdatedEmbedMessage(message, blackJackHands, userID, master){
     const embed = require('./Functions/embed_functions')
 
-    var title = "Test"
-    var description = `${blackJackHands[user].dealerDummyHand[0]} ${blackJackHands[user].dealerDummyHand[1]}`
+    var title = `${master[userID].name} Game Status`
+    var description = `${blackJackHands[userID].dealerDummyHand[0]} ${blackJackHands[userID].dealerDummyHand[1]}`
 
-    var temp = blackJackHands[user].playerDummyHand
+    var temp = blackJackHands[userID].playerDummyHand
     if(temp.length == 1){
-        temp = blackJackHands[user].playerDummyHand[0]
+        temp = blackJackHands[userID].playerDummyHand[0]
     }
     var fields = {name: "Player Hand", value: temp}
     return embed.EmbedCreator(message, title, description, fields)
@@ -315,4 +398,8 @@ function Sum(array){
     }
 
     return sum
+}
+
+function HandComparer(playerHand, dealerHand){
+    return Math.sign(playerHand - dealerHand)
 }
