@@ -20,7 +20,7 @@ module.exports = {
             return
         }
         
-        CreateNewGame(message, blackJackHands, message.author.id, args[1])
+        CreateNewGame(message, blackJackHands, message.author.id, args[1], master)
         /*
         Start
 
@@ -80,10 +80,10 @@ module.exports = {
     }
 }
 
-function CreateNewGame(message, blackJackHands, user, bet){
+function CreateNewGame(message, blackJackHands, user, bet, master){
     AddPlayerToHandsArray(blackJackHands, user, bet)
     CreateHands(blackJackHands, user)
-    SendGameDisplay(message, blackJackHands, user)
+    SendGameDisplay(message, blackJackHands, user, master)
 }
 
 function AddPlayerToHandsArray(blackJackHands, user, bet){
@@ -99,8 +99,39 @@ function AddPlayerToHandsArray(blackJackHands, user, bet){
     }
 }
 
-function SendGameDisplay(message, blackJackHands, user){
+async function SendGameDisplay(message, blackJackHands, user, master){
+    const {ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType} = require('discord.js')
+    
+    var maxSessionLengthInSeconds = 10
+
     const embed = require('./Functions/embed_functions')
+    const hitButton = new ButtonBuilder()
+    .setLabel('Hit')
+    .setStyle(ButtonStyle.Primary)
+    .setCustomId('hit')
+
+    const stayButton = new ButtonBuilder()
+    .setLabel('Stay')
+    .setStyle(ButtonStyle.Success)
+    .setCustomId('stay')
+
+    const doubleDownButton = new ButtonBuilder()
+    .setLabel('Double Down')
+    .setStyle(ButtonStyle.Secondary)
+    .setCustomId('doubleDown')
+
+    const splitButton = new ButtonBuilder()
+    .setLabel('Split')
+    .setStyle(ButtonStyle.Secondary)
+    .setCustomId('split')
+
+    const surrenderButton = new ButtonBuilder()
+    .setLabel('Surrender')
+    .setStyle(ButtonStyle.Danger)
+    .setCustomId('surrender')
+
+    const buttonRow = new ActionRowBuilder().addComponents(hitButton, stayButton, doubleDownButton, splitButton, surrenderButton);
+
     var title = "Test"
     var description = `${blackJackHands[user].dealerDummyHand[0]} ${blackJackHands[user].dealerDummyHand[1]}`
 
@@ -110,7 +141,54 @@ function SendGameDisplay(message, blackJackHands, user){
     }
     var fields = {name: "Player Hand", value: temp}
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
-    message.channel.send({embeds: [embedMessage]})
+
+    const reply = await message.reply({embeds: [embedMessage], components: [buttonRow]})
+
+    const filter = (i) => i.user.id === message.author.id
+
+    const collector = reply.createMessageComponentCollector({
+        componentType: ComponentType.Button,
+        filter,
+        time: maxSessionLengthInSeconds * 1000
+    })
+
+    collector.on('collect', (interaction) =>{
+        if(interaction.customId === 'hit'){
+            console.log("hit")
+        }
+
+        if(interaction.customId === 'stay'){
+            console.log("stay")
+        }
+
+        
+        if(interaction.customId === 'split'){
+            console.log("split")
+        }
+
+        
+        if(interaction.customId === 'doubleDown'){
+            console.log("doubleDown")
+        }
+
+        
+        if(interaction.customId === 'surrender'){
+            console.log("surrender")
+        }
+    })
+
+    collector.on('end', () => {
+        hitButton.setDisabled(true)
+        stayButton.setDisabled(true)
+        splitButton.setDisabled(true)
+        doubleDownButton.setDisabled(true)
+        surrenderButton.setDisabled(true)
+
+        reply.edit({
+            embeds: [embedMessage],
+            components: [buttonRow]
+        })
+    })
 }
 
 //creates hands for both player and dealer at the same time
