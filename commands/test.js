@@ -174,7 +174,7 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
         
         if(interaction.customId === 'split'){
             console.log("split")
-            Split(blackJackHands, userID, interaction)
+            Split(blackJackHands, userID, [splitButton, surrenderButton])
         }
 
         
@@ -196,6 +196,7 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
                 components: [buttonRow]
             })
             finalResult = gameOverEmbed.valueOf()
+            //console.log(finalResult)
             AddPlayerToHandsArray(blackJackHands, userID, 0, OUTCOMES)
             return
         }
@@ -208,8 +209,8 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
     })
 
     collector.on('end', () => {
-        DisableButtons([hitButton, stayButton, splitButton, doubleDownButton, surrenderButton])
-        
+        ChangeButtonState([hitButton, stayButton, splitButton, doubleDownButton, surrenderButton], true)
+
         if(finalResult != undefined){
             //const gameOverEmbed = GameEnd(blackJackHands, userID, [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton], master, message)
             reply.edit({
@@ -283,7 +284,7 @@ function Hit(blackJackHands, userID, buttonArray){
 
 
     //disables surrender, split, and double down because you arent allowed to do these actions after youve hit
-    DisableButtons(buttonArray)
+    ChangeButtonState(buttonArray, true)
 
     //checks if players current active hand is over 21. sets them to bust if they are over
     if(PlayerHandValue(blackJackHands, userID, handIndex) > 21){
@@ -293,6 +294,40 @@ function Hit(blackJackHands, userID, buttonArray){
 
 }
 
+function Stay(blackJackHands, userID, disableButtonArray,  enableButtonArray){
+    if(!blackJackHands[userID].playerStay[0]){
+        PlayerHandValue(blackJackHands,userID,0)
+        blackJackHands[userID].playerStay[0] = true
+
+        if(blackJackHands[userID].playerSplit){
+            //enables all buttons and then disables surrender
+            ChangeButtonState(enableButtonArray, false)
+            ChangeButtonState(disableButtonArray, true)
+            return
+        }
+
+        return
+    }
+    PlayerHandValue(blackJackHands,userID,1)
+    blackJackHands[userID].playerStay[1] = true
+}
+
+function Split(blackJackHands, userID, disableButtonArray){
+    blackJackHands[userID].playerSplit = true
+
+    blackJackHands[userID].playerHand[1][0] = blackJackHands[userID].playerHand[0][1]
+    blackJackHands[userID].playerDummyHand[1][0] = blackJackHands[userID].playerDummyHand[0][1]
+
+    for (var i = 0; i < blackJackHands[userID].playerHand.length; i++) {
+        var newCard = AddCard()
+        blackJackHands[userID].playerHand[i][1] = newCard[0]
+        blackJackHands[userID].playerDummyHand[i][1] = newCard[1]
+    }
+
+    ChangeButtonState(disableButtonArray, true)
+}
+
+//can probably consolidate PlayerHandValue and DealerHandValue easily
 function PlayerHandValue(blackJackHands, userID, handIndex){
     var handValue = Sum(blackJackHands[userID].playerHand[handIndex])
 
@@ -314,6 +349,28 @@ function PlayerHandValue(blackJackHands, userID, handIndex){
     return handValue
 }
 
+function DealerHandValue(blackJackHands, userID){
+
+    var handValue = Sum(blackJackHands[userID].dealerHand)
+
+    var elevenIndex = blackJackHands[userID].dealerHand.indexOf(11)
+
+    if(handValue > 21 && elevenIndex != -1){
+        blackJackHands[userID].dealerHand[elevenIndex] = 1
+        handValue -= 10
+    }
+
+    elevenIndex = blackJackHands[userID].playerHand.indexOf(11)
+
+    //need to check a second time in case player is dealth 2 aces and decides to hit
+    if(handValue > 21 && elevenIndex != -1){
+        blackJackHands[userID].dealerHand[elevenIndex] = 1
+        handValue -= 10
+    }
+
+    return handValue
+}
+
 function DealerHandResolved(blackJackHands, userID, OUTCOMES){
     if(!blackJackHands[userID].playerSplit){
         //player hasnt split and their only hand has busted. game over, no need to draw
@@ -324,13 +381,20 @@ function DealerHandResolved(blackJackHands, userID, OUTCOMES){
 
         //if player stayed on second hand. add cards until hard 17
         if(blackJackHands[userID].playerStay[0]){
+            
             if(ResolveDealerTurn(blackJackHands, userID)){
                 blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Win
                 return true
             }
 
-            if(HandComparer(blackJackHands[userID].playerHand[0], blackJackHands[userID].dealerHand) == 0){
+            if(HandComparer(Sum(blackJackHands[userID].playerHand[0]), Sum(blackJackHands[userID].dealerHand)) == 1){
+                blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Win
+                return true
+            }
+
+            if(HandComparer(Sum(blackJackHands[userID].playerHand[0]), Sum(blackJackHands[userID].dealerHand)) == 0){
                 blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Push
+                return true
             }
 
             blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Loss
@@ -353,7 +417,7 @@ function DealerHandResolved(blackJackHands, userID, OUTCOMES){
             return true
         }
 
-        if(HandComparer(blackJackHands[userID].playerHand[1], blackJackHands[userID].dealerHand) == 0){
+        if(HandComparer(Sum(blackJackHands[userID].playerHand[1]), Sum(blackJackHands[userID].dealerHand)) == 0){
             blackJackHands[userID].playerHandOutcome[1] = OUTCOMES.Push
         }
 
@@ -371,9 +435,11 @@ function ResolveDealerTurn(blackJackHands, userID){
 
         blackJackHands[userID].dealerHand.push(newCard[0])
         blackJackHands[userID].dealerDummyHand.push(newCard[1])
+
+        DealerHandValue(blackJackHands, userID)
     }
 
-    if(blackJackHands[userID].dealerHand > 21){
+    if(Sum(blackJackHands[userID].dealerHand) > 21){
         blackJackHands[userID].dealerBust = true
     }
 
@@ -383,7 +449,10 @@ function ResolveDealerTurn(blackJackHands, userID){
 function GameEnd(blackJackHands, userID, buttonArray, master, message){
     const embed = require('./Functions/embed_functions')
     var title = `${master[userID].name} Game Outcome`
-    var description = `${blackJackHands[userID].dealerDummyHand[0]} ${blackJackHands[userID].dealerDummyHand[1]}`
+    var description = ""
+    for (var i = 0; i < blackJackHands[userID].dealerDummyHand.length; i++) {
+        description += `${blackJackHands[userID].dealerDummyHand[i] }`
+    }
     var fields = []
     for (var i = 0; i < blackJackHands[userID].playerHand.length; i++) {
         if(blackJackHands[userID].playerHand[i].length != 0){
@@ -399,13 +468,13 @@ function GameEnd(blackJackHands, userID, buttonArray, master, message){
 
     fields[fields.length] = {name: 'Outcomes',value: outcomeArray}
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
-    DisableButtons(buttonArray)
+    ChangeButtonState(buttonArray, true)
     return embedMessage
 }
 
-function DisableButtons(buttonArray){
+function ChangeButtonState(buttonArray, isDisabled){
     for (var i = 0; i < buttonArray.length; i++) {
-        buttonArray[i].setDisabled(true)
+       buttonArray[i].setDisabled(isDisabled)
     }
 }
 
