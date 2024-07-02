@@ -107,6 +107,8 @@ function AddPlayerToHandsArray(blackJackHands, userID, bet, OUTCOMES){
         dealerBust:false,
         playerHandOutcome: [OUTCOMES.push, OUTCOMES.push]
     }
+
+    console.log(blackJackHands[userID])
 }
 
 async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES){
@@ -369,6 +371,8 @@ function DealerHandValue(blackJackHands, userID){
 }
 
 function DealerHandResolved(blackJackHands, userID, OUTCOMES){
+
+    console.log(blackJackHands[userID])
     if(!blackJackHands[userID].playerSplit){
         //player hasnt split and their only hand has busted. game over, no need to draw
         if(blackJackHands[userID].playerBust[0]){
@@ -454,7 +458,8 @@ function GameEnd(blackJackHands, userID, buttonArray, master, message){
 
     for (var i = 0; i < blackJackHands[userID].playerHand.length; i++) {
         if(blackJackHands[userID].playerHand[i].length != 0){
-            fields[i] = {name: `${master[userID].name} Hand 1`, value: `${blackJackHands[userID].playerDummyHand[0]} ${blackJackHands[userID].playerDummyHand[1]}`} 
+            var singleDummyHandArray = GetHand(blackJackHands[userID].playerDummyHand[i])
+            fields[i] = {name: `${master[userID].name} Hand ${i+1}`, value: singleDummyHandArray} 
         }        
     }
 
@@ -501,4 +506,13 @@ function Sum(array){
 
 function HandComparer(playerHand, dealerHand){
     return Math.sign(playerHand - dealerHand)
+}
+
+function GetHand(handArray){
+    var handString = ""
+    for (var i = 0; i < handArray.length; i++) {
+        handString += `${handArray[i]}`
+    }
+
+    return handString
 }
