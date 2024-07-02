@@ -6,14 +6,7 @@ module.exports = {
         const MINBET = 15
         const OUTCOMES = {Win: "win", Push: "push", Loss: "loss"}
         args = ['21', '20']
-
-        console.log(master[message.author.id].name)
-
-        if(blackJackHands[message.author.id] != undefined){
-            SendGameDisplay(message, blackJackHands, message.author.id, OUTCOMES)
-            return
-        }
-
+        
         if(args.length < 2){
             message.channel.send("You must specificy a bet amount")
             return
@@ -23,7 +16,18 @@ module.exports = {
             return
         }
         
+        if(blackJackHands[message.author.id] == undefined){
+            CreateNewGame(message, blackJackHands, message.author.id, args[1], master, OUTCOMES)
+            return
+        }
+
+        if(blackJackHands[message.author.id].currentMessageID != ""){
+            SendGameDisplay(message, blackJackHands, message.author.id, master, OUTCOMES)
+            return
+        }
+
         CreateNewGame(message, blackJackHands, message.author.id, args[1], master, OUTCOMES)
+        
         /*
         Start
 
@@ -108,7 +112,9 @@ function AddPlayerToHandsArray(blackJackHands, userID, bet, OUTCOMES){
 async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES){
     const {ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType} = require('discord.js')
     
-    var maxSessionLengthInSeconds = 20
+    blackJackHands[userID].currentMessageID = message.id
+    var maxSessionLengthInSeconds = 10
+    var finalResult
 
     const hitButton = new ButtonBuilder()
     .setLabel('Hit')
@@ -139,6 +145,8 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
 
     const reply = await message.reply({embeds: [UpdatedEmbedMessage(message, blackJackHands, userID, master)], components: [buttonRow]})
 
+    blackJackHands[userID].currentMessageID = reply.id //makes it so the user can only interact with the most recent game theyve created
+
     const filter = (i) => i.user.id === message.author.id
 
     const collector = reply.createMessageComponentCollector({
@@ -148,8 +156,13 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
     })
 
     collector.on('collect', (interaction) =>{
+
+        if(blackJackHands[userID].currentMessageID != interaction.message.id){
+            return
+        }
+
         if(interaction.customId === 'hit'){
-            console.log("hit")
+            //console.log("hit")
             Hit(blackJackHands, userID, [splitButton, doubleDownButton, surrenderButton])
         }
 
@@ -182,6 +195,8 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
                 embeds: [gameOverEmbed],
                 components: [buttonRow]
             })
+            finalResult = gameOverEmbed.valueOf()
+            AddPlayerToHandsArray(blackJackHands, userID, 0, OUTCOMES)
             return
         }
 
@@ -193,12 +208,12 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
     })
 
     collector.on('end', () => {
-        DisableButtons(hitButton, stayButton, splitButton, doubleDownButton, surrenderButton)
-
-        if(DealerHandResolved(blackJackHands, userID, OUTCOMES)){
-            const gameOverEmbed = GameEnd(blackJackHands, userID, [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton], master, message)
+        DisableButtons([hitButton, stayButton, splitButton, doubleDownButton, surrenderButton])
+        
+        if(finalResult != undefined){
+            //const gameOverEmbed = GameEnd(blackJackHands, userID, [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton], master, message)
             reply.edit({
-                embeds: [gameOverEmbed],
+                embeds: [finalResult],
                 components: [buttonRow]
             })
             return
@@ -266,6 +281,7 @@ function Hit(blackJackHands, userID, buttonArray){
     blackJackHands[userID].playerHand[handIndex].push(newCard[0])
     blackJackHands[userID].playerDummyHand[handIndex].push(newCard[1])
 
+
     //disables surrender, split, and double down because you arent allowed to do these actions after youve hit
     DisableButtons(buttonArray)
 
@@ -274,6 +290,7 @@ function Hit(blackJackHands, userID, buttonArray){
         blackJackHands[userID].playerStay[handIndex] = true
         blackJackHands[userID].playerBust[handIndex] = true
     }
+
 }
 
 function PlayerHandValue(blackJackHands, userID, handIndex){
@@ -285,6 +302,8 @@ function PlayerHandValue(blackJackHands, userID, handIndex){
         blackJackHands[userID].playerHand[handIndex][elevenIndex] = 1
         handValue -= 10
     }
+
+    elevenIndex = blackJackHands[userID].playerHand[handIndex].indexOf(11)
 
     //need to check a second time in case player is dealth 2 aces and decides to hit
     if(handValue > 21 && elevenIndex != -1){
@@ -372,9 +391,13 @@ function GameEnd(blackJackHands, userID, buttonArray, master, message){
         }        
     }
 
-    if(fields.length == 1){
-        fields = fields[0]
+    var outcomeArray = []
+    outcomeArray[0] = `Hand 1: ${blackJackHands[userID].playerHandOutcome[0]}`
+    if(blackJackHands[userID].playerSplit){
+        outcomeArray[1] = `Hand 2: ${blackJackHands[userID].playerHandOutcome[1]}`
     }
+
+    fields[fields.length] = {name: 'Outcomes',value: outcomeArray}
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
     DisableButtons(buttonArray)
     return embedMessage
@@ -411,9 +434,4 @@ function Sum(array){
 
 function HandComparer(playerHand, dealerHand){
     return Math.sign(playerHand - dealerHand)
-}
-
-function TestHand(blackJackHands, userID){
-    blackJackHands[userID].playerHand[0] = [1,1,10]
-    blackJackHands[userID].playerDummyHand[0] = ["A:diamonds:", 'A:diamonds:', 'J:diamonds:']
 }
