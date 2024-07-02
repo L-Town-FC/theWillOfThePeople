@@ -168,7 +168,7 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
 
         if(interaction.customId === 'stay'){
             console.log("stay")
-            Stay(blackJackHands, userID, interaction)
+            Stay(blackJackHands, userID, [surrenderButton], [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton])
         }
 
         
@@ -196,7 +196,6 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
                 components: [buttonRow]
             })
             finalResult = gameOverEmbed.valueOf()
-            //console.log(finalResult)
             AddPlayerToHandsArray(blackJackHands, userID, 0, OUTCOMES)
             return
         }
@@ -298,7 +297,6 @@ function Stay(blackJackHands, userID, disableButtonArray,  enableButtonArray){
     if(!blackJackHands[userID].playerStay[0]){
         PlayerHandValue(blackJackHands,userID,0)
         blackJackHands[userID].playerStay[0] = true
-
         if(blackJackHands[userID].playerSplit){
             //enables all buttons and then disables surrender
             ChangeButtonState(enableButtonArray, false)
@@ -323,7 +321,6 @@ function Split(blackJackHands, userID, disableButtonArray){
         blackJackHands[userID].playerHand[i][1] = newCard[0]
         blackJackHands[userID].playerDummyHand[i][1] = newCard[1]
     }
-
     ChangeButtonState(disableButtonArray, true)
 }
 
@@ -454,6 +451,7 @@ function GameEnd(blackJackHands, userID, buttonArray, master, message){
         description += `${blackJackHands[userID].dealerDummyHand[i] }`
     }
     var fields = []
+
     for (var i = 0; i < blackJackHands[userID].playerHand.length; i++) {
         if(blackJackHands[userID].playerHand[i].length != 0){
             fields[i] = {name: `${master[userID].name} Hand 1`, value: `${blackJackHands[userID].playerDummyHand[0]} ${blackJackHands[userID].playerDummyHand[1]}`} 
