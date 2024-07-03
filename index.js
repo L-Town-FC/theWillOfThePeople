@@ -124,7 +124,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('pug').execute(message,master, tracker); 
                 break;
                 case '21': //blackjack
-                    bot.commands.get('21').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
+                    bot.commands.get('21').execute(message, args, master, blackJackHands, tracker, stats_list);
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
@@ -218,7 +218,8 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV, stats_list, tracker, command_stats, emojisList)
                 break;
                 case 'test': //another command for testing purposes only
-                    bot.commands.get('test').execute(message, args, master, blackJackHands);
+                    //bot.commands.get('test').execute(message, args, master, blackJackHands, tracker, stats_list);
+                    console.log("Dont worry about it")
                 break;
                 default:
                     message.channel.send('Use command !help for a list of commands');
@@ -250,10 +251,12 @@ bot.on('messageReactionRemove', reaction => {
 })
 
 bot.on('emojiCreate', emojiCreate => {
+    console.log(emojiCreate)
     UpdateEmojiList(emojisList)
 })
 
 bot.on('emojiDelete', emojiDelete => {
+    console.log(emojiDelete)
     RemoveEmojiFromList(emojisList)
 })
 
@@ -471,12 +474,12 @@ async function Fauna_get(fauna_token, name, location){
    if(location == 'local'){
         var prefix = 'dev'
     }else{
-        var prefix = 'prod'
+        prefix = 'prod'
     }
     const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
 
     //then checks the corresponding json file for the reference ids and grabs the correct data from faunadb
-    var getP = await fauna_client.query(
+    await fauna_client.query(
         q.Get(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]))
     ).then((response) => {
         switch(name){
@@ -528,12 +531,12 @@ async function Fauna_update(fauna_token, name, file, location){
     if(location == 'local'){
         var prefix = 'dev'
     }else{
-        var prefix = 'prod'
+        prefix = 'prod'
     }
     const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
 
     //then takes the reference number from the corresponding json file and update that reference document in faunadb
-    var updateP = await fauna_client.query(
+    await fauna_client.query(
         q.Update(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]), {
             data: file
         }

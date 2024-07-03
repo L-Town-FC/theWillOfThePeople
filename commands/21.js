@@ -1,848 +1,681 @@
 module.exports = {
     name: '21',
-    description: 'A better blackjack',
-    execute(message,args,total_money, master, stats_list, tracker){
-        const fs = require('fs');
-        const Discord = require('discord.js');
-        const unlock = require('./Functions/Achievement_Functions')
-        const stats = require('./Functions/stats_functions')
-        const embed = require('./Functions/embed_functions')
+    description: 'blackjack with buttons',
+    execute(message, args, master, blackJackHands, tracker, statsList){
+        //TODO: ADD ACHIEVEMENTS AND STAT TRACKING
         const general = require('./Functions/GeneralFunctions')
-        const suit = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
-        const suits = [':diamonds:',':hearts:',':spades:',':clubs:']
-        //list of possible cards. Have multiple tens to account for J, Q, and K. 11 is for A
-        const tens = ['10','J','Q','K']
-        //used to convert 10s into other cards
-        var new_bet = args[2];
-        var match = args[3];
-        var min_bet = 15;
-        var command = args[1];
-
-        //when the bot first boots up this list doesnt exist and needs to be created
-        //this is the master list for all players all hands and games are tracked here
-        if(typeof(master_list) == 'undefined'){
-            master_list = []; 
-            var counter = 0
-            for (i in master){
-                master_list[counter] = {
-                    name: master[i].name,
-                    id: i,
-                    player_hand1: [],
-                    player_dummy_hand1: [],
-                    player_hand2: [],
-                    player_dummy_hand2: [],
-                    dealer_hand: [],
-                    dealer_dummy_hand: [],
-                    bet: "",
-                    gameStatus: 0,
-                    isStay: [false, true],
-                    blackjack: false,
-                    isSplit: false
-                }
-                counter = counter + 1
-            }
-        }
-        //turns the message authors id into a a value that is used to index the master list
-        for(i = 0; i < master_list.length; i++){
-            if(master_list[i].id == message.author.id){
-                player = i;
-            }
+        const MINBET = 15
+        const OUTCOMES = {Win: "win", Push: "push", Loss: "loss", Blackjack: "Blackjack", Surrender: "Surrender"}
+        //args = ['21', '20'] //for testing only
+        
+        if(args.length < 2){
+            message.channel.send("You must specificy a bet amount")
+            return
         }
 
-        if(String(new_bet).toLowerCase() == 'all'){
-            new_bet = master[message.author.id].gbp
+        if(!general.CommandUsageValidator(message, master, args[1], MINBET, master[message.author.id].gbp, general.defaultRecipient)){
+            return
         }
         
-        switch (String(command).toLowerCase()){
-            case 'deal':
-                try{
+        //if the user hasnt played a game before, creates a game
+        if(blackJackHands[message.author.id] == undefined){
+            CreateNewGame(message, blackJackHands, message.author.id, args[1], master, OUTCOMES, tracker, statsList)
+            return
+        }
 
-                    if(!general.CommandUsageValidator(message, master, new_bet, min_bet, master[message.author.id].gbp, message.author.id)){
-                        return
-                    }
+        //if the user is currently in an active game. just resend the ui with the current game status
+        if(blackJackHands[message.author.id].currentMessageID != ""){
+            SendGameDisplay(message, blackJackHands, message.author.id, master, OUTCOMES)
+            return
+        }
 
-                    if(master_list[player].gameStatus !== 0){
-                        message.channel.send("You are already playing a game")
-                        return
-                    }
+        CreateNewGame(message, blackJackHands, message.author.id, parseFloat(args[1]), master, OUTCOMES, tracker, statsList)
+    }
+}
 
-                    general.CommandPurchase(message, master, new_bet, general.defaultRecipient)
-                    if(isNaN(match) == false){
-                        if(master[message.author.id].gbp >= match){
-                            message.channel.send(`Your "Match the Dealer" bet was accepted`)
-                            
-                            //A Fool's Bet Achievement
-                            unlock.tracker1(master_list[player].id, 47, 1, message, master, tracker)
-                            general.CommandPurchase(message, master, parseFloat(match), general.defaultRecipient)
+//creates new game for player
+function CreateNewGame(message, blackJackHands, userID, bet, master, OUTCOMES, tracker, statsList){
+    const general = require('./Functions/GeneralFunctions')
+    const unlock = require('./Functions/Achievement_Functions')
+    AddPlayerToHandsArray(blackJackHands, userID, bet, OUTCOMES)
+    general.CommandPurchase(message, master, bet, general.defaultRecipient)
+    CreateHands(blackJackHands, userID, OUTCOMES)
+    if(parseFloat(blackJackHands[userID].bet[0]) >= 200){
+        //Psycho Achievement
+        unlock.tracker1(message.author.id, 23, 1, message, master, tracker)
+    }
+    SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES, tracker, statsList)
+}
 
-                            var match_good = true
-                        }else{
-                            message.channel.send(`You didn't have enough for your "Match the Dealer" bet`)
-                            var match_good = false
-                        }
-                    }
-                    master_list[player].bet = [parseFloat(new_bet), 0]
-                    master_list[player].gameStatus = 1;
-                    if(new_bet >= 200){
-                        //Psycho Achievement
-                        unlock.tracker1(message.author.id, 23, 1, message, master, tracker)
-                    }
-                    var card = [];
-                    var dummycard = [];
-                    for (i = 0; i < 4; i++) {
-                        card[i] = suit[Math.floor(Math.random()*suit.length)];
-                        //generates cards for dealer and player
-                    }
+//sets various fields that need to be tracked to during play
+function AddPlayerToHandsArray(blackJackHands, userID, bet, OUTCOMES){
+    blackJackHands[userID] = {
+        bet: [bet, bet],
+        currentMessageID: "",
+        dealerHand: [],
+        dealerDummyHand: [],
+        playerHand: [[],[]],
+        playerDummyHand:[[],[]],
+        playerSplit: false,
+        playerStay: [false, false],
+        playerBust: [false, false],
+        dealerBust:false,
+        playerHandOutcome: [OUTCOMES.Push, OUTCOMES.Push]
+    }
+}
 
-                    // Test Cards
-                    //card[0] = 9;
-                    //card[1] = 9;
-                    //card[2] = 10;
-                    //card[3] = 10;
-                    //
+async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES, tracker, statsList){
+    const {ButtonBuilder, ButtonStyle, ActionRowBuilder, ComponentType} = require('discord.js')
+    
+    blackJackHands[userID].currentMessageID = message.id
+    var maxSessionLengthInSeconds = 30
 
-                    master_list[player].player_hand1 = [card[0], card[1]];
-                    master_list[player].dealer_hand = [card[2], card[3]];
+    const hitButton = new ButtonBuilder()
+    .setLabel('Hit')
+    .setStyle(ButtonStyle.Primary)
+    .setCustomId('hit')
 
-                    for (i = 0; i < card.length; i++) {
-                        var card_suit = suits[Math.floor(Math.random()*4)]
-                        if (card[i] == 10){
-                            dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
-                        }else if (card[i] == 11){
-                            dummycard[i] = 'A';
-                        }else{
-                            dummycard[i] = card[i];
-                        }
-                        dummycard[i] = dummycard[i] + card_suit
-                    }
+    const stayButton = new ButtonBuilder()
+    .setLabel('Stay')
+    .setStyle(ButtonStyle.Success)
+    .setCustomId('stay')
 
-                    //Test Cards
-                    //dummycard[0] = 'J' + ':clubs:'
-                    //dummycard[1] = 'J' + ':clubs:'
-                    //dummycard[2] = 'J' + ':clubs:'
-                    //dummycard[3] = 'J'
-                    //
+    const doubleDownButton = new ButtonBuilder()
+    .setLabel('Double Down')
+    .setStyle(ButtonStyle.Secondary)
+    .setCustomId('doubleDown')
 
-                    master_list[player].player_dummy_hand1 = [dummycard[0], dummycard[1]]
-                    master_list[player].dealer_dummy_hand = [dummycard[2], dummycard[3]]
+    const splitButton = new ButtonBuilder()
+    .setLabel('Split')
+    .setStyle(ButtonStyle.Secondary)
+    .setCustomId('split')
 
-                    Display_Status(master_list[player],message, embed)
-                    if(match_good == true){
-                        var temp_hands = [master_list[player].player_dummy_hand1[0].split(':'), master_list[player].player_dummy_hand1[1].split(':'), master_list[player].dealer_dummy_hand[0].split(':')]
-                        //console.log(temp_hands)
-                        var match_winnings = 0 //winnings with original bet included
-                        var true_winnings = 0 //winnings without original bet included
-                        match = parseFloat(match)
-                        if(temp_hands[0][0] == temp_hands[2][0]){
-                            if(temp_hands[0][1] == temp_hands[2][1]){
-                                true_winnings = 7 * match
-                                match_winnings = true_winnings + match
-                            }else{
-                                true_winnings = 3 * match
-                                match_winnings = true_winnings + match
-                            }
-                        }else{
-                            true_winnings = 0
-                            match_winnings = 0
-                        }
-                        if(temp_hands[1][0] == temp_hands[2][0]){
-                            if(temp_hands[1][1] == temp_hands[2][1]){
-                                true_winnings = 7 * match + true_winnings
-                                match_winnings = true_winnings + match
-                            }else{
-                                true_winnings = 3 * match + true_winnings
-                                match_winnings = true_winnings + match
-                            }
-                        }else{
-                            true_winnings = true_winnings
-                            match_winnings = match_winnings
-                        }
-                        //console.log(match_winnings)
-                        if(match_winnings > 0){
-                            message.channel.send(`You matched the dealer`)
-                            message.channel.send(`You win ${true_winnings} gbp`)
-                            master[message.author.id].gbp = master[message.author.id].gbp + match_winnings
-                        }else{
-                            message.channel.send(`You didn't match the dealer`)
-                        }
-                    }
+    const surrenderButton = new ButtonBuilder()
+    .setLabel('Surrender')
+    .setStyle(ButtonStyle.Danger)
+    .setCustomId('surrender')
 
-                    if(master_list[player].dealer_dummy_hand[0] == 'A'){
-                        if(master_list[player].dealer_hand[1] == 10){
-                            master_list[player].gameStatus = 2
-                            var blackjack = true
-                            master_list[player].isStay[0] = true
-                        }else{
-                            setTimeout(function(){
-                                message.channel.send("Dealer doesn't have blackjack")
-                            }, 50)
-                        }
-                    }else if(sum(master_list[player].dealer_hand) == 21){
-                        master_list[player].gameStatus = 2
-                        var blackjack = true
-                        master_list[player].isStay[0] = true
-                    }else{
-                        var blackjack = false
-                    }
-                    if(sum(master_list[player].player_hand1) == 21){
-                        master_list[player].isStay[0] = true
-                        if(blackjack == true){
-                            master_list[player].gameStatus = 4
-                        }else{
-                            master_list[player].gameStatus = 3
-                        }
-                    }
-                
-                    /*Checks the various cases where a bet may be invalid such as when no bet is specified, you bet more gbp than you have
-                    you bet less than the minimum bet, you use a non-number as a bet, and when you have already made a bet.
-                    Also checks if the player or dealer has blackjack. If either are true the game status is changed accordingly and 
-                    the player is forced to stay */
-                }catch(err){
-                    console.log(err)
-                    message.channel.send("Error occurred in 21.js Deal")
+    HandChecker(blackJackHands, userID, splitButton, doubleDownButton, surrenderButton)
+
+    const buttonRow = new ActionRowBuilder().addComponents(hitButton, stayButton, doubleDownButton, splitButton, surrenderButton);
+
+    const reply = await message.reply({embeds: [UpdatedEmbedMessage(message, blackJackHands, userID, master, OUTCOMES)], components: [buttonRow]})
+
+    blackJackHands[userID].currentMessageID = reply.id //makes it so the user can only interact with the most recent game theyve created
+
+    if(isHandOver(blackJackHands, userID, OUTCOMES, hitButton, stayButton, doubleDownButton, splitButton, surrenderButton, message, master, reply, buttonRow, null, tracker, statsList)){
+        return
+    }
+
+    const filter = (i) => i.user.id === message.author.id
+
+    const collector = reply.createMessageComponentCollector({
+        componentType: ComponentType.Button,
+        filter,
+        time: maxSessionLengthInSeconds * 1000
+    })
+
+    collector.on('collect', (interaction) =>{
+
+
+        if(blackJackHands[userID].currentMessageID != interaction.message.id){
+            return
+        }
+
+        if(interaction.customId === 'hit'){
+            //console.log("hit")
+            Hit(blackJackHands, userID, [splitButton, doubleDownButton, surrenderButton])
+        }
+
+        if(interaction.customId === 'stay'){
+            console.log("stay")
+            Stay(blackJackHands, userID, [surrenderButton, splitButton], [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton])
+        }
+
+        
+        if(interaction.customId === 'split'){
+            console.log("split")
+            Split(blackJackHands, userID, [splitButton, surrenderButton], message, master)
+        }
+
+        
+        if(interaction.customId === 'doubleDown'){
+            console.log("doubleDown")
+            DoubleDown(blackJackHands, userID, message, master)
+        }
+
+        
+        if(interaction.customId === 'surrender'){
+            console.log("surrender")
+            Surrender(blackJackHands, userID, OUTCOMES)
+        }
+
+        if(isHandOver(blackJackHands, userID, OUTCOMES, hitButton, stayButton, doubleDownButton, splitButton, surrenderButton, message, master, reply, buttonRow, interaction, tracker, statsList)){
+            return
+        }
+
+        interaction.update({
+            embeds: [UpdatedEmbedMessage(reply, blackJackHands, userID, master, OUTCOMES)],
+            components: [buttonRow]
+        })
+        
+    })
+
+    collector.on('end', () => {
+        ChangeButtonState([hitButton, stayButton, splitButton, doubleDownButton, surrenderButton], true)
+
+        reply.edit({
+            embeds: [reply.embeds[0]],
+            components: [buttonRow]
+        })
+    })
+}
+
+//creates hands for both player and dealer at the same time
+function CreateHands(blackJackHands, userID, OUTCOMES){
+    for (var i = 0; i < 2; i++) {
+        var temp = AddCard()
+        blackJackHands[userID].playerHand[0].push(temp[0])
+        blackJackHands[userID].playerDummyHand[0].push(temp[1])
+        
+        var temp2 = AddCard()
+        blackJackHands[userID].dealerHand.push(temp2[0])
+        blackJackHands[userID].dealerDummyHand.push(temp2[1])
+    }
+
+    //used to check if either the player or dealer has blackjack or the player can split
+    BlackJackChecker(blackJackHands, userID, OUTCOMES)
+}
+
+//creates a card to be used in a hand
+//if the card is a 10 it is randomzied as a face card
+//if the card is an 11 it becomes an ace
+//also adds a random suit to each created card
+function AddCard(){
+    const CARDVALUES = [2,3,4,5,6,7,8,9,10,10,10,10,11]
+    const TENS = ['10','J','Q','K']
+    const SUITS = [':diamonds:',':hearts:',':spades:',':clubs:']
+
+    var card = ""
+    var dummyCard = ""
+    card = dummyCard = CARDVALUES[Math.floor(Math.random()*CARDVALUES.length)];
+    if(card == 11){
+        dummyCard = "A"
+    }
+
+    if(card == 10){
+        dummyCard = TENS[Math.floor(Math.random() * TENS.length)]
+    }
+    
+    dummyCard += SUITS[Math.floor(Math.random()*SUITS.length)];
+    return [card, dummyCard]
+}
+
+//adds card to player hand
+function Hit(blackJackHands, userID, buttonArray){
+    var newCard = AddCard()
+    var handIndex = 0
+
+    //determines if player is hitting their first or second hand
+    //player can only hit their second hand if they have stayed on their first hand
+    if(blackJackHands[userID].playerStay[0]){
+        handIndex = 1
+    }
+
+    //adds numeric value to 'player hand' and card value plus suit to player dummy hand
+    blackJackHands[userID].playerHand[handIndex].push(newCard[0])
+    blackJackHands[userID].playerDummyHand[handIndex].push(newCard[1])
+
+
+    //disables surrender, split, and double down because you arent allowed to do these actions after youve hit
+    ChangeButtonState(buttonArray, true)
+
+    //checks if players current active hand is over 21. sets them to bust if they are over
+    if(PlayerHandValue(blackJackHands, userID, handIndex) > 21){
+        blackJackHands[userID].playerStay[handIndex] = true
+        blackJackHands[userID].playerBust[handIndex] = true
+    }
+
+}
+
+//lets player stay on a hand
+function Stay(blackJackHands, userID, disableButtonArray,  enableButtonArray){
+    //if the player hasnt stood on their first hand, it goes here
+    if(!blackJackHands[userID].playerStay[0]){
+        //checks their hand value just in case
+        PlayerHandValue(blackJackHands,userID,0)
+        blackJackHands[userID].playerStay[0] = true
+        if(blackJackHands[userID].playerSplit){
+            //enables all buttons and then disables surrender and split
+            ChangeButtonState(enableButtonArray, false)
+            ChangeButtonState(disableButtonArray, true)
+            return
+        }
+
+        return
+    }
+    PlayerHandValue(blackJackHands,userID,1)
+    blackJackHands[userID].playerStay[1] = true
+}
+
+//splits the players hand
+//this function is only callable when the player has two cards of the same dummy value i.e 10 10, A A, J J, etc
+function Split(blackJackHands, userID, disableButtonArray, message, master){
+    const general = require('./Functions/GeneralFunctions')
+    blackJackHands[userID].playerSplit = true
+
+    //takes the second card from the first hand and makes it the first card of the second hand
+    blackJackHands[userID].playerHand[1][0] = blackJackHands[userID].playerHand[0][1]
+    blackJackHands[userID].playerDummyHand[1][0] = blackJackHands[userID].playerDummyHand[0][1]
+
+    //gets new cards and sets them to the second position in each hand
+    for (var i = 0; i < blackJackHands[userID].playerHand.length; i++) {
+        var newCard = AddCard()
+        blackJackHands[userID].playerHand[i][1] = newCard[0]
+        blackJackHands[userID].playerDummyHand[i][1] = newCard[1]
+    }
+    //disables surrender and split
+    ChangeButtonState(disableButtonArray, true)
+
+    general.CommandPurchase(message, master, blackJackHands[userID].bet[0], general.defaultRecipient)
+}
+
+function DoubleDown(blackJackHands, userID, message, master){
+    const general = require('./Functions/GeneralFunctions')
+    var handIndex = 0
+    if(blackJackHands[userID].playerStay[0]){
+        handIndex = 1
+    }
+
+    Hit(blackJackHands, userID, [])
+
+    general.CommandPurchase(message, master, blackJackHands[userID].bet[handIndex], general.defaultRecipient)
+    blackJackHands[userID].bet[handIndex] = parseFloat(blackJackHands[userID].bet[handIndex]) * 2
+
+    if(handIndex == 0 && blackJackHands[userID].playerStay[0]){
+        return
+    }
+
+    if(handIndex == 1 && blackJackHands[userID].playerStay[1]){
+        return
+    }
+    Stay(blackJackHands, userID, [], [])
+
+}
+
+function Surrender(blackJackHands, userID, OUTCOMES){
+    blackJackHands[userID].playerStay[0] = true
+    blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Surrender
+}
+
+function PayoutBets(blackJackHands, userID, OUTCOMES, message, master, tracker, statsList){
+    const general = require('./Functions/GeneralFunctions')
+    const unlock = require('./Functions/Achievement_Functions')
+    const stats = require('./Functions/stats_functions')
+
+    var winnings = 0
+
+    for (var i = 0; i < blackJackHands[userID].playerHand.length; i++) {
+        if(blackJackHands[userID].playerHand[i].length == 0){
+            break
+        }        
+        switch(blackJackHands[userID].playerHandOutcome[i]){
+            case OUTCOMES.Win:
+                winnings += 2 * parseFloat(blackJackHands[userID].bet[i])
+                //This Bot is Rigged Achievement
+                unlock.reset1(userID, 8, tracker, message)
+
+                if(parseFloat(blackJackHands[userID].bet[i]) >= 1000){
+                    //High Roller Achievement
+                    unlock.unlock(userID, 1, message, master)
                 }
+
+                //Jack of All Trades Achievement
+                unlock.tracker3(userID, 39, 0, parseFloat(blackJackHands[userID].bet[i]), message, master, tracker)
+                stats.tracker(userID, 2, 1, statsList)
             break;
-            case 'hit':
-                try{
-                    if(master_list[player].gameStatus == 1){
-                        //checks if there is an ongoing game. If there is the card function generates a new card/dummy card
-                        var cards = New_Card(suit,tens)
-                        if(master_list[player].isStay[0] == true){
-                            //If the player stays on there first hand but the game status doesn't change it means that
-                            //they are split and their next hits will go to the 2nd hand
-                            master_list[player].player_hand2.push(cards[0]);
-                            master_list[player].player_dummy_hand2.push(cards[1]);
-                            message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
-                            if(sum(master_list[player].player_hand2) > 21){
-                                if (master_list[player].player_hand2.indexOf(11) !== -1){
-                                    master_list[player].player_hand2[master_list[player].player_hand2.indexOf(11)] = 1;
-                                }else{
-                                    message.channel.send(`${master_list[player].name} hand 2 busts`)
-                                    master_list[player].isStay[1] = true
-                                    master_list[player].gameStatus = 11
-                                }
-                            }
-                        }else{
-                            //Defaults to the first hand if not split or if they haven't stayed yet
-                            master_list[player].player_hand1.push(cards[0]);
-                            master_list[player].player_dummy_hand1.push(cards[1]);
-                            message.channel.send(`${master_list[player].name} Hand 1: ${master_list[player].player_dummy_hand1}`)
-                            if(sum(master_list[player].player_hand1) > 21){
-                                if (master_list[player].player_hand1.indexOf(11) !== -1){
-                                    master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
-                                    if(sum(master_list[player].player_hand1) > 21){
-                                        master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
-                                    }
-                                }else{
-                                    master_list[player].isStay[0] = true
-                                    if(master_list[player].isSplit == false){
-                                        master_list[player].gameStatus = 5; 
-                                    }else{
-                                        message.channel.send(`${master_list[player].name} hand 1 busts`)
-                                        message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
-                                    }
-                                }
-                            }
-                        }
-                        //After a card is dealt it checks if the players hand is over 21. If over 21 it checks if they have an 11
-                        //in their hand. If they do it is set to 1. If they don't have an 11 their game status is set to bust and
-                        //they are forced to stay
-
-
-                        if(master_list[player].gameStatus == 5){
-                            message.channel.send("Player busts") 
-                        }
-                    }else{
-                        message.channel.send("There currently isn't a game being played");
-                    }
-                }catch(err){
-                    console.log(err)
-                    message.channel.send("Error occurred in !21.js Hit")
+            case OUTCOMES.Push:
+                winnings += parseFloat(blackJackHands[userID].bet[i])
+                    //This Bot Is Rigged Achievement
+                    unlock.reset1(userID, 8, tracker, message)
+                    stats.tracker(userID, 3, 1, statsList, tracker)
+            break;
+            case OUTCOMES.Loss:
+                winnings += 0
+                if(parseFloat(blackJackHands[userID].bet[i]) >= 1000){
+                    //Buster Achievement
+                    unlock.unlock(userID, 2, message, master)
                 }
+                //The House Always Wins Achievement
+                unlock.tracker1(userID, 32, parseFloat(blackJackHands[userID].bet[i]), message, master, tracker)
+                stats.tracker(userID, 4, 1, statsList)
             break;
-            case 'split':
-                try{
-                    if(master_list[player].isSplit){
-                        message.channel.send("You can't resplit cards")
-                        return
-                    }
-
-                    if(master_list[player].player_hand1.length > 2){
-                        message.channel.send("You can't split after you have already hit")
-                        return
-                    }
-
-                    if(master_list[player].gameStatus == 0){
-                        message.channel.send("There currently isn't a hand being played")
-                        return
-                    }
-
-                    if(master_list[player].player_dummy_hand1[0].split(':')[0] !== master_list[player].player_dummy_hand1[1].split(":")[0]){
-                        message.channel.send("You can't split because your cards don't match")
-                        return
-                    }
-
-                    /*Checks various cases such as if the player has hit or has enough gbp. If all cases are passed the players hand
-                    is split with each card becoming the first card of a new hand. 2 new cards are generated for the hands
-                    If the player has aces, they are forced to stay
-                    */
-                    var card_0 = master_list[player].player_hand1[0]
-                    var card_1 = master_list[player].player_hand1[1]
-                    var dummy_card_0 = master_list[player].player_dummy_hand1[0]
-                    var dummy_card_1 = master_list[player].player_dummy_hand1[1]
-
-                    var card = [];
-                    var dummycard = [];
-                    for (i = 0; i < 2; i++) {
-                        card[i] = suit[Math.floor(Math.random()*suit.length)];
-                        //generates cards for dealer and player
-                    }
-
-                    master_list[player].player_hand1 = [card_0, card[0]];
-                    master_list[player].player_hand2 = [card_1, card[1]];
-
-                    for (i = 0; i < card.length; i++) {
-                        var card_suit = suits[Math.floor(Math.random()*4)]
-                        if (card[i] == 10){
-                            dummycard[i] = tens[Math.floor(Math.random()*tens.length)];
-                        }else if (card[i] == 11){
-                            dummycard[i] = 'A';
-                        }else{
-                            dummycard[i] = card[i];
-                        }
-                        dummycard[i] = dummycard[i] + card_suit
-                    }
-
-                    master_list[player].player_dummy_hand1 = [dummy_card_0, dummycard[0]]
-                    master_list[player].player_dummy_hand2 = [dummy_card_1, dummycard[1]]
-
-                    general.CommandPurchase(message, master, parseFloat(master_list[player].bet[0]), general.defaultRecipient)
-
-                    var bet = master_list[player].bet;
-                    master_list[player].bet = [bet[0],bet[0]]
-                    master_list[player].isSplit = true;
-                    
-                    if(master_list[player].player_dummy_hand1[0] === 'A'){ //Set this to 'A' when done
-                        master_list[player].isStay = [true, true]
-                        master_list[player].gameStatus = 11
-                    }else{
-                        master_list[player].isStay = [false, false]
-                    }
-                    
-                    Display_Status(master_list[player],message,embed)
-
-                    
-                }catch(err){
-                    console.log(err)
-                    message.channel.send("Error occurred in 21.js Split")
-                }
+            case OUTCOMES.Surrender:
+                winnings += 0.5 * parseFloat(blackJackHands[userID].bet[i])
             break;
-            case 'doubledown':
-                try{
-                    if(master_list[player].gameStatus == 1){
-                        //Checks if game has started. If there is an ongoing game the player can use this command. If the player
-                        //doesn't have enough gbp to fully double there bet it uses the remained of their gbp to doubledown for less
-                        //This works the same as !hit but it makes the player stay after 1 card
-                        var cards = New_Card(suit,tens)
-                        if(master_list[player].isStay[0] == true){
-                            //If the player has split and stayed on their first hand, doubledown defaults to their second hand
-                            if(master_list[player].player_hand2.length == 2){
-                                
-                                general.CommandPurchase(message, master, parseFloat(master_list[player].bet[1]), general.defaultRecipient)
-                                message.channel.send(`Your new bet is ${2 * master_list[player].bet[1]}`)
-                                master_list[player].bet[1] = 2 * parseFloat(master_list[player].bet[1])
-                            
-                                master_list[player].isStay[1] = true
-                                master_list[player].player_hand2.push(cards[0]);
-                                master_list[player].player_dummy_hand2.push(cards[1]);
-                                message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
-                                if(sum(master_list[player].player_hand2) > 21){
-                                    if (master_list[player].player_hand1.indexOf(11) !== -1){
-                                        master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
-                                    }else{
-                                        message.channel.send(`${master_list[player].name} hand 2 busts`)
-                                        master_list[player].isStay[1] = true
-                                    }
-                                }
-                                master_list[player].gameStatus = 11
-                            }else{
-                                message.channel.send("You can't doubledown after you have already hit once")
-                            }
-                        }else{
-                            if(master_list[player].player_hand1.length == 2){
-                                
-                                general.CommandPurchase(message, master, parseFloat(master_list[player].bet[0]), general.defaultRecipient)
-                                message.channel.send(`Your new bet is ${2 * master_list[player].bet[0]}`)
-                                master_list[player].bet[0] = 2 * parseFloat(master_list[player].bet[0])
-                                
-                                master_list[player].isStay[0] = true
-                                master_list[player].player_hand1.push(cards[0]);
-                                master_list[player].player_dummy_hand1.push(cards[1]);
-                                message.channel.send(`${master_list[player].name} Hand 1: ${master_list[player].player_dummy_hand1}`)
-                                if(sum(master_list[player].player_hand1) > 21){
-                                    if (master_list[player].player_hand1.indexOf(11) !== -1){
-                                        master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
-                                        if(sum(master_list[player].player_hand1) > 21){
-                                            master_list[player].player_hand1[master_list[player].player_hand1.indexOf(11)] = 1;
-                                        }
-                                    }else{
-                                        master_list[player].isStay[0] = true
-                                        if(master_list[player].isSplit == false){
-                                            master_list[player].gameStatus = 5; 
-                                        }else{
-                                            message.channel.send(`${master_list[player].name} hand 1 busts`)
-                                        }
-                                    }
-                                }
-                                if(master_list[player].isSplit == true){
-                                    message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
-                                }
-                            }else{
-                                message.channel.send("You can't doubledown after you have already hit once")
-                            }
-                        }
-                        if(master_list[player].gameStatus == 5){
-                            message.channel.send("Player busts") 
-                        }
-                    }else{
-                        message.channel.send("There currently isn't a game being played");
-                    }
-                }catch(err){
-                    console.log(err)
-                    message.channel.send("Error occurred in !21.js Doubledown")
-                }
-            break;
-            case 'status':
-                try{
-                    if(master_list[player].gameStatus == 1){
-                        Display_Status(master_list[player],message,embed)
-                    }else{
-                        message.channel.send("There currently isn't a game being played")
-                    }
-                }catch(err){
-                    console.log(err)
-                    message.channel.send("Error occurred in 21.js Status")
-                }
-            break;
-            case 'stay':
-                try{
-                    //checks if the player has an ongoing game. If they do it checks if they have already stayed on a split hand
-                    if(master_list[player].gameStatus !== 0){
-                        if(master_list[player].isStay[0] == true){
-                            master_list[player].isStay[1] = true;
-                            master_list[player].gameStatus = 11;
-                        }else{
-                            master_list[player].isStay[0] = true;
-                            if(master_list[player].isSplit == true){
-                                message.channel.send(`${master_list[player].name} Hand 2: ${master_list[player].player_dummy_hand2}`)
-                            }
-                        }
-                    }else{
-                        message.channel.send("You aren't playing a game")
-                    }
-                }catch(err){
-                    console.log(err)
-                    message.channel.send("Error occurred in !21.js Stay")
-                }
-            break;
-            case 'surrender':
-                try{
-                    if(master_list[player].player_hand1.length > 2){
-                        message.channel.send("You can't surrender after you have already hit")
-                        return
-                    }
-                    
-                    if(master_list[player].isSplit){
-                        message.channel.send("You can't surrender after you have already split")
-                        return
-                    }
-                    
-                    if(master_list[player].gameStatus == 0){
-                        message.channel.send("There currently isn't a game being played")
-                        return
-                    }
-
-                    message.channel.send("Coward")
-                    master_list[player].isStay[0] = true;
-                    master_list[player].gameStatus = 10
-                    
-                }catch(err){
-                    console.log(err)
-                    message.channel.send("Error occurred in !21.js Surrender")
-                }
-            break;
-            case 'reset':
-                reset(master_list, player)
-            break;
-            case 'help':
-                try{
-                    var title = embed.emptyValue
-                    var description = embed.emptyValue
-                    var fields = {
-                        name: "List of Commands",
-                        value: fs.readFileSync('./text_files/blackjack_commands.txt','utf8')
-                    }
-                    const embedMessage = embed.EmbedCreator(message, title, description, fields)
-                    message.channel.send({embeds: [embedMessage]})
-                }catch(err){
-                    console.log(err)
-                    message.channel.send("Error Occured in 21.js Help");
-                }
-            break;
-
+            case OUTCOMES.Blackjack:
+                winnings += 2.5 * parseFloat(blackJackHands[userID].bet[i])
+                //This Bot is Rigged Achievement
+                unlock.reset1(userID, 8, tracker, message)
+            break
             default:
-                message.channel.send('Use "!21 help for a list of commands')
-        }
-        try{
-            if(master_list[player].isSplit == true && master_list[player].gameStatus !== 1){
-                //checks if player has split and the game is over. If they both are these lines automatically runs. Each hand is
-                //checked to see if the player is over 21 and if they are is it because they have 2 aces
-                if(sum(master_list[player].player_hand1) <= 21 || master_list[player].player_hand1.includes(11) == true){
-                    var hand1_bust = false;
-                }else{
-                    var hand1_bust = true;
-                }
-
-                if(sum(master_list[player].player_hand2) <= 21|| master_list[player].player_hand2.includes(11) == true){
-                    var hand2_bust = false;
-                }else{
-                    var hand2_bust = true;
-                }
-                //checks if either hand hasn't busted. If both hands haven't busted the dealer will get new cards until they hit 17
-                //If both player hands have busted, the dealer doesn't draw new cards
-                if(hand1_bust == false || hand2_bust == false){
-                    if(sum(master_list[player].dealer_hand) > 21){
-                        if (master_list[player].dealer_hand.indexOf(11) !== -1){
-                            master_list[player].dealer_hand[master_list[player].dealer_hand.indexOf(11)] = 1;
-                        }
-                    }
-                    setTimeout(function(){
-                        //reusing the hit function from earlier
-                        while(sum(master_list[player].dealer_hand) < 17){
-                            var cards = New_Card(suit,tens)
-                            master_list[player].dealer_hand.push(cards[0]);
-                            master_list[player].dealer_dummy_hand.push(cards[1]);
-                            message.channel.send(`Dealer hand: ${master_list[player].dealer_dummy_hand}`)
-                            if(sum(master_list[player].dealer_hand) > 21){
-                                if (master_list[player].dealer_hand.indexOf(11) !== -1){
-                                    master_list[player].dealer_hand[master_list[player].dealer_hand.indexOf(11)] = 1;
-                                }else{
-                                    master_list[player].gameStatus = 12
-                                    message.channel.send("Dealer busts")
-                                }
-                            }  
-                        }
-                    }, 20)
-                    Display_Status(master_list[player], message,embed)
-                    setTimeout(function(){   
-                        //checks if the dealer busted. If they did, the player is payed out for each non-busted hand 
-                        if(master_list[player].gameStatus == 12){
-                            var winnings = 0
-                            if(hand1_bust == false){
-                                winnings = winnings + parseFloat(master_list[player].bet[0])
-                                Win(master_list[player], 0, message, master, stats_list)
-                            }else{
-                                Lose(master_list[player], 0, message, master, stats_list)
-                            }
-                            if(hand2_bust == false){
-                                winnings = winnings + parseFloat(master_list[player].bet[1])
-                                Win(master_list[player], 0, message, master, stats_list)
-                            }else{
-                                Lose(master_list[player], 0, message, master, stats_list)
-                            }
-                            general.CommandPurchase(message, master, -2 * parseFloat(winnings), general.defaultRecipient)
-                            message.channel.send(`${master_list[player].name} wins ${winnings} gbp`)
-
-                            reset(master_list, player)
-
-                        }else{
-                            //dealer hasn't busted so their hand must be compared to the players 2 hands. If the player has 2 11s, one of them is set to 1
-                            //the player is payed out according to how their hand compares to the dealers
-                            var winnings = 0
-                            var correction = 0
-                            if(master_list[player].player_dummy_hand1 == ['A','A']){
-                                master_list[player].player_hand1 = [11, 1]
-                            }
-                            if(master_list[player].player_dummy_hand2 == ['A','A']){
-                                master_list[player].player_hand2 = [11, 1]
-                            }
-                            
-                            if(sum(master_list[player].player_hand1) > sum(master_list[player].dealer_hand) && hand1_bust == false){
-                                winnings = winnings + 2 * parseFloat(master_list[player].bet[0])
-                                message.channel.send(`${master_list[player].name} wins hand 1 and ${master_list[player].bet[0]} gbp`)
-                                correction = parseFloat(master_list[player].bet[0]) //Used to track actual winnings, not winnings with original bet included
-                                Win(master_list[player], 0, message, master, stats_list)
-                            }else if(sum(master_list[player].player_hand1) == sum(master_list[player].dealer_hand)){
-                                winnings = winnings + parseFloat(master_list[player].bet[0])
-                                correction = parseFloat(master_list[player].bet[0])
-                                message.channel.send(`Dealer pushes hand 1`)
-                                Push(master_list[player], 0, message, master, stats_list)
-                            }else{
-                                message.channel.send("Dealer wins hand 1")
-                                winnings = 0
-                                Lose(master_list[player], 0, message, master, stats_list)
-                            }
-                
-                            if(sum(master_list[player].player_hand2) > sum(master_list[player].dealer_hand) & hand2_bust == false){
-                                winnings = winnings + 2 * parseFloat(master_list[player].bet[1])
-                                correction = parseFloat(master_list[player].bet[1]) + correction
-                                message.channel.send(`${master_list[player].name} wins hand 2 and ${master_list[player].bet[0]} gbp`)
-                                Win(master_list[player], 1, message, master, stats_list)
-                            }else if(sum(master_list[player].player_hand2) == sum(master_list[player].dealer_hand)){
-                                winnings = winnings + parseFloat(master_list[player].bet[1])
-                                correction = parseFloat(master_list[player].bet[1]) + correction
-                                message.channel.send(`Dealer pushes hand 2`)
-                                Push(master_list[player], 1, message, master, stats_list)
-                            }else{
-                                winnings = winnings
-                                message.channel.send("Dealer wins hand 2")
-                                Lose(master_list[player], 1, message, master, stats_list)
-                            }
-                            general.CommandPurchase(message, master,-1 * parseFloat(winnings), message.author.id)
-                            reset(master_list, player)
-                        }
-                    }, 20)
-                }else{
-                    //if both player hands busted, the dealer defaults a win
-                    message.channel.send(`Dealer's Hand: ${master_list[player].dealer_dummy_hand}`)
-                    message.channel.send("Dealer wins")
-                    Lose(master_list[player], 0, message, master, stats_list)
-                    Lose(master_list[player], 1, message, master, stats_list)
-                    reset(master_list, player)
-                }
-            }else if(master_list[player].isSplit == false && master_list[player].isStay[0] == true){
-                //if the player hasn't split and has stayed this block of code runs
-                //Checks if the player has busted or if blackjack has been dealt to either the dealer or the player
-                //If any of the cases are true new cards aren't dealt
-                if(master_list[player].isStay[0] == true){
-                    message.channel.send(`Dealer hand: ${master_list[player].dealer_dummy_hand}`)
-                    if([2,3,4,5,10].includes(master_list[player].gameStatus) == false){    
-                        if(sum(master_list[player].dealer_hand) > 21){
-                            if (master_list[player].dealer_hand.indexOf(11) !== -1){
-                                master_list[player].dealer_hand[master_list[player].dealer_hand.indexOf(11)] = 1;
-                            }
-                        }
-                        while(sum(master_list[player].dealer_hand) < 17){
-                            var cards = New_Card(suit,tens)
-                            master_list[player].dealer_hand.push(cards[0]);
-                            master_list[player].dealer_dummy_hand.push(cards[1]);
-                            
-                            if(sum(master_list[player].dealer_hand) > 21){
-                                if (master_list[player].dealer_hand.indexOf(11) !== -1){
-                                    master_list[player].dealer_hand[master_list[player].dealer_hand.indexOf(11)] = 1;
-                                }else{
-                                    master_list[player].gameStatus = 6
-                                }
-                            }
-                            message.channel.send(`Dealer hand: ${master_list[player].dealer_dummy_hand}`)            
-                            
-                        }
-                    }
-
-                    //compares the dealers and players hand. Changes the game status according to if they player wins, loses, or pushes
-                    if([2,3,4,5,6,10].includes(master_list[player].gameStatus) == false){
-                        if(sum(master_list[player].player_hand1) == sum(master_list[player].dealer_hand)){
-                            master_list[player].gameStatus = 7
-                        }else if(sum(master_list[player].player_hand1) < sum(master_list[player].dealer_hand)){
-                            master_list[player].gameStatus = 8
-                        }else{
-                            master_list[player].gameStatus = 9
-                        }
-                    }
-                    setTimeout(function(){ 
-                        //List of different game statuses where each status causes a different outcome
-                        switch(master_list[player].gameStatus){
-                            case 2:
-                                message.channel.send("Dealer has blackjack")
-                                message.channel.send("Dealer wins")
-
-                                Lose(master_list[player], 0, message, master, stats_list)
-                            break;
-                            case 3:
-                                message.channel.send("Player has blackjack")
-                                message.channel.send(`${master_list[player].name} wins ${1.5 * parseFloat(master_list[player].bet[0])} gbp`)
-                                general.CommandPurchase(message, master, -2.5 * parseFloat(master_list[player].bet[0]), general.defaultRecipient)
-                                Win(master_list[player], 0, message, master, stats_list)
-                            break;
-                            case 4:
-                                message.channel.send("Player has blackjack")
-                                message.channel.send("Dealer has blackjack")
-                                message.channel.send("Player pushes")
-                                general.CommandPurchase(message, master, -1 * parseFloat(master_list[player].bet[0]), general.defaultRecipient)
-
-                                Push(master_list[player], 0, message, master, stats_list)                               
-                            break;
-                            case 5:
-                                message.channel.send("Dealer wins") 
-
-                                Lose(master_list[player], 0, message, master, stats_list, tracker)
-                            break;
-                            case 6:
-                                message.channel.send("Dealer busts")
-                                message.channel.send(`${master_list[player].name} wins ${1 * parseFloat(master_list[player].bet[0])} gbp`)
-                                general.CommandPurchase(message, master, -2 * parseFloat(master_list[player].bet[0]), general.defaultRecipient)
-
-                                Win(master_list[player], 0, message, master, stats_list) 
-                            break;
-                            case 7:
-                                message.channel.send("Player pushes")
-                                general.CommandPurchase(message, master, -1 * parseFloat(master_list[player].bet[0]), general.defaultRecipient)
-
-                                Push(master_list[player], 0, message, master, stats_list)
-                            break;
-                            case 8:
-                                message.channel.send("Dealer wins")
-
-                                Lose(master_list[player], 0, message, master, stats_list)
-                            break;
-                            case 9:
-                                message.channel.send("Player wins")
-                                message.channel.send(`${master_list[player].name} wins ${1 * parseFloat(master_list[player].bet[0])} gbp`)
-                                general.CommandPurchase(message, master, -2 * parseFloat(master_list[player].bet[0]), general.defaultRecipient)
-
-                                Win(master_list[player], 0, message, master, stats_list)
-                            break;
-                            case 10:
-                                console.log(-0.5 * master_list[player].bet[0])
-                                general.CommandPurchase(message, master, -0.5 * parseFloat(master_list[player].bet[0]), general.defaultRecipient)
-                                message.channel.send(`You recieved ${.5 * parseFloat(master_list[player].bet[0])} gbp back`)
-                                //This Bot Is Rigged Achievement
-                                unlock.reset1(master_list[player].id, 8, tracker, message)
-                                stats.tracker(master_list[player].id, 4, 1, stats_list)
-                            break;
-
-                            /*
-                            Game Status: 
-                                0 - No game ongoing
-                                1 - Game ongoing
-                                2 - Dealer has blackjack
-                                3 - Player has blackjack
-                                4 - Both have blackjack
-                                5 - Player Busts
-                                6 - Dealer Busts
-                                7 - Player pushes
-                                8 - Dealer wins without bust
-                                9 - Player wins without bust
-                                10 - Player Surrenders
-                                11 - Player Split Options
-                            */
-                        }
-                        reset(master_list, player)
-                    }, 10)
-                }
-            }
-        }catch(err){
-            console.log(err)
-            message.channel.send("Error occurred in !21.js Outcome")
+                winnings += 0
         }
     }
+
+    general.CommandPurchase(message, master, -1 * winnings, general.defaultRecipient)
+
 }
 
-function New_Card(suit, tens){
-    try{
-        const suits = [':diamonds:',':hearts:',':spades:',':clubs:']
-        var card_suit = suits[Math.floor(Math.random()*4)]
-        var dummycard = "";
-        var card = suit[Math.floor(Math.random()*suit.length)];
-        if (card == 10){
-            dummycard = tens[Math.floor(Math.random()*tens.length)];
-        }else if (card == 11){
-            dummycard = 'A';
-        }else{
-            dummycard = card;
-        }
-        return [card, dummycard + card_suit]
-    }catch(err){
-        console.log(err)
-        message.channel.send("Error occurred in new21.js New_Card")
+//can probably consolidate PlayerHandValue and DealerHandValue easily
+//finds sum of players cards. converts 11s to 1s if they are over 21 and have any 11s
+function PlayerHandValue(blackJackHands, userID, handIndex){
+    //getting handvalue for specified hand
+    var handValue = Sum(blackJackHands[userID].playerHand[handIndex])
+
+    //returns either the index of the 11 if there is 1 or a -1 if there isnt
+    var elevenIndex = blackJackHands[userID].playerHand[handIndex].indexOf(11)
+
+    //if the player is over 21 and there is an 11 in the hand, turn it into a 1
+    if(handValue > 21 && elevenIndex != -1){
+        blackJackHands[userID].playerHand[handIndex][elevenIndex] = 1
+        handValue -= 10
     }
+
+
+    elevenIndex = blackJackHands[userID].playerHand[handIndex].indexOf(11)
+
+    //need to check a second time in case player is dealt 2 aces and decides to hit
+    if(handValue > 21 && elevenIndex != -1){
+        blackJackHands[userID].playerHand[handIndex][elevenIndex] = 1
+        handValue -= 10
+    }
+
+    return handValue
 }
 
-function Display_Status(master_list, message, embed){
-    var current_bet = master_list.bet;
-    var current_hand1 = master_list.player_dummy_hand1;
-    var current_hand2 = master_list.player_dummy_hand2;
-    var dealer_hand = master_list.dealer_dummy_hand;
-    if(current_hand2.length == 0){
-        var blackjack_stats = `Dealer's hand: ${dealer_hand[0]} ?\nPlayer's hand: ${current_hand1} \nCurrent bet: ${current_bet[0]}`
-    }else{
-        var blackjack_stats = `Dealer's hand: ${dealer_hand[0]} ?\nPlayer's hand 1: ${current_hand1} \nPlayer's Hand 2: ${current_hand2} \nCurrent bet: ${current_bet[0]}|${current_bet[1]}`
+function DealerHandValue(blackJackHands, userID){
+
+    var handValue = Sum(blackJackHands[userID].dealerHand)
+
+    var elevenIndex = blackJackHands[userID].dealerHand.indexOf(11)
+
+    if(handValue > 21 && elevenIndex != -1){
+        blackJackHands[userID].dealerHand[elevenIndex] = 1
+        handValue -= 10
     }
 
-    var title = embed.emptyValue
-    var description = embed.emptyValue
-    var fields = {
-        name: `${master_list.name} Game Status:`,
-        value: blackjack_stats
+    elevenIndex = blackJackHands[userID].playerHand.indexOf(11)
+
+    //need to check a second time in case player is dealth 2 aces and decides to hit
+    if(handValue > 21 && elevenIndex != -1){
+        blackJackHands[userID].dealerHand[elevenIndex] = 1
+        handValue -= 10
     }
+
+    return handValue
+}
+
+//determines outcomes of player hands relative to the dealer
+function DealerHandResolved(blackJackHands, userID, OUTCOMES){
+
+    if(blackJackHands[userID].playerHandOutcome[0] == OUTCOMES.Surrender){
+        return true
+    }
+
+    if(blackJackHands[userID].playerHandOutcome[0] == OUTCOMES.Blackjack){
+        return true
+    }
+
+    var gameOutcomesDecided = []
+
+    for (var i = 0; i < blackJackHands[userID].playerHand.length; i++) {
+        //the first hand will always have cards and the second hand will only have cards if the player has split
+        if(blackJackHands[userID].playerHand[i].length != 0){
+            gameOutcomesDecided[i] = OutcomeConditionCheck(blackJackHands, userID, i, OUTCOMES)
+            continue
+        }
+
+        gameOutcomesDecided[i] = true
+    }
+
+    if(gameOutcomesDecided.includes(false)){
+        return false
+    }
+
+    return true
+}
+
+//adds cards until dealer has atleast 17
+function ResolveDealerTurn(blackJackHands, userID){
+    while(DealerHandValue(blackJackHands, userID) < 17){
+        var newCard = AddCard()
+
+        blackJackHands[userID].dealerHand.push(newCard[0])
+        blackJackHands[userID].dealerDummyHand.push(newCard[1])
+
+        DealerHandValue(blackJackHands, userID)
+    }
+
+    //if the dealer has more than 21 they have busted. previous function will have checked for 11s and taken care of them so this is the true value
+    if(Sum(blackJackHands[userID].dealerHand) > 21){
+        blackJackHands[userID].dealerBust = true
+    }
+
+    return blackJackHands[userID].dealerBust
+}
+
+//used to create final game screen. Returns an embedded message
+function GameEnd(blackJackHands, userID, buttonArray, master, message){
+    const embed = require('./Functions/embed_functions')
+    var title = `${master[userID].name} Game Outcome`
+    var description = ""
+    for (var i = 0; i < blackJackHands[userID].dealerDummyHand.length; i++) {
+        description += `${blackJackHands[userID].dealerDummyHand[i] }`
+    }
+
+    description = ["**Dealer Hand**", description]
+    var fields = []
+
+    for (i = 0; i < blackJackHands[userID].playerHand.length; i++) {
+        //if the hand actually has cards a field is made. The first hand always has cards so this only triggers when the player has split
+        if(blackJackHands[userID].playerHand[i].length != 0){
+            var singleDummyHandArray = GetHand(blackJackHands[userID].playerDummyHand[i])
+            fields[i] = {name: `${master[userID].name} Hand ${i+1} (${blackJackHands[userID].bet[i]} gbp)`, value: singleDummyHandArray} 
+        }        
+    }
+
+    var outcomeArray = []
+    outcomeArray[0] = `Hand 1: ${blackJackHands[userID].playerHandOutcome[0]}`
+    //only care about the outcome of the second hand if the player has split
+    if(blackJackHands[userID].playerSplit){
+        outcomeArray[1] = `Hand 2: ${blackJackHands[userID].playerHandOutcome[1]}`
+    }
+
+    fields[fields.length] = {name: 'Outcomes',value: outcomeArray}
     const embedMessage = embed.EmbedCreator(message, title, description, fields)
-    message.channel.send({embeds: [embedMessage]})
+    ChangeButtonState(buttonArray, true)
+    return embedMessage
+}
+
+//used to change enable/disable buttons
+function ChangeButtonState(buttonArray, isDisabled){
+    for (var i = 0; i < buttonArray.length; i++) {
+       buttonArray[i].setDisabled(isDisabled)
+    }
+}
+
+//sends an embedded message of the current state of the game
+function UpdatedEmbedMessage(message, blackJackHands, userID, master, OUTCOMES){
+    const embed = require('./Functions/embed_functions')
+
+    var title = `${master[userID].name} Game Status`
+    var description = ["**Dealer Hand**", `${blackJackHands[userID].dealerDummyHand[0]} ${blackJackHands[userID].dealerDummyHand[1]}`]
+
+    var temp = blackJackHands[userID].playerDummyHand
+    if(temp.length == 1){
+        temp = blackJackHands[userID].playerDummyHand[0]
+    }
+    var fields = []
+    for (var i = 0; i < blackJackHands[userID].playerDummyHand.length; i++) {
+        if(blackJackHands[userID].playerDummyHand[i].length == 0){
+            continue
+        }        
     
-}
-
-function sum(arr) {
-    //function to sum hands
-    var s = 0
-
-    for (var j = 0; j < arr.length; j++){
-        s = arr[j] + s;
-    }
-    return s;
-}
-function reset(master_list, player){
-    master_list[player].player_hand1 = [];
-    master_list[player].player_hand2 = [];
-    master_list[player].player_dummy_hand1 = [];
-    master_list[player].player_dummy_hand2 = [];
-    master_list[player].dealer_hand = [];
-    master_list[player].dealer_dummy_hand = [];
-    master_list[player].bet = "";
-    master_list[player].gameStatus = 0;
-    master_list[player].isStay = [false, true];
-    master_list[player].blackjack = false;
-    master_list[player].isSplit = false
-}
-
-function Win(master_list, split_index, message, master, stats_list){
-    const unlock = require('./Functions/Achievement_Functions')
-    const stats = require('./Functions/stats_functions')
-    if(master_list.bet[split_index] >= 1000){
-        //High Roller Achievement
-        unlock.unlock(master_list.id, 1, message, master)
-    }
-    //This Bot is Rigged Achievement
-    unlock.reset1(master_list.id, 8, tracker, message)
-
-    //Professional Gambler Achievement
-    unlock.tracker1(master_list.id, 33, 1.5 * parseFloat(master_list.bet[split_index]), message, master, tracker)
-    
-    //Jack of All Trades Achievement
-    unlock.tracker3(master_list.id, 39, 0, parseFloat(master_list.bet[split_index]), message, master, tracker)
-    stats.tracker(master_list.id, 2, 1, stats_list)
-
-}
-
-function Lose(master_list, split_index,message, master, stats_list){
-    const unlock = require('./Functions/Achievement_Functions')
-    const stats = require('./Functions/stats_functions')
-    if(master_list.bet[split_index] >= 1000){
-        //Buster Achievement
-        unlock.unlock(master_list.id, 2, message, master)
+        fields[i] = {name: `${master[userID].name} Hand ${i + 1} (${blackJackHands[userID].bet[i]} gbp)`, value: GetHand(blackJackHands[userID].playerDummyHand[i])}
     }
 
-    //This Bot Is Rigged Achievement
-    unlock.tracker1(master_list.id, 8, 1, message, master, tracker)
+    if(!blackJackHands[userID].playerStay[0]){
+        fields[0].name += "*"
+    }else if(blackJackHands[userID].playerHandOutcome[0] == OUTCOMES.Blackjack){
+        //idk
+    }else if(DealerHandValue(blackJackHands, userID) == 21){
+        //idk
+    }else{
+        fields[1].name += "*"
+    }
 
-    //The House Always Wins Achievement
-    unlock.tracker1(master_list.id, 32, parseFloat(master_list.bet[split_index]), message, master, tracker)
-    stats.tracker(master_list.id, 4, 1, stats_list)
+
+    if(fields.length == 1){
+        fields = fields[0]
+    }
+
+    return embed.EmbedCreator(message, title, description, fields)
 }
 
-function Push(master_list, split_index, message, master, stats_list){
-    const unlock = require('./Functions/Achievement_Functions')
-    const stats = require('./Functions/stats_functions')
+//sums values of array
+function Sum(array){
+    var sum = 0
+    for (var i = 0; i < array.length; i++) {
+        sum += array[i]
+    }
 
-    //This Bot Is Rigged Achievement
-    unlock.reset1(master_list.id, 8, tracker, message)
-    stats.tracker(master_list.id, 3, 1, stats_list, tracker)
+    return sum
+}
+
+//compares the players hand to the dealers hand
+//if player is greater it returns 1, if less -1, and if equal 0
+function HandComparer(playerHand, dealerHand){
+    return Math.sign(playerHand - dealerHand)
+}
+
+//used to convert hand array into a string that can be sent as an embedded message
+function GetHand(handArray){
+    var handString = ""
+    for (var i = 0; i < handArray.length; i++) {
+        handString += `${handArray[i]}`
+    }
+
+    return handString
+}
+
+//used to assign outcomes based on comparison of player and dealer hands
+function OutcomeConditionCheck(blackJackHands, userID, index, OUTCOMES){
+
+    if(blackJackHands[userID].playerHandOutcome[0] == OUTCOMES.Blackjack){
+        return true
+    }
+
+    //if the player has busted, there is no reason to check the dealer hand
+    if(blackJackHands[userID].playerBust[index]){
+        blackJackHands[userID].playerHandOutcome[index] = OUTCOMES.Loss
+        return true
+    }
+
+    //if player stayed on second hand. add cards until hard 17
+    if(blackJackHands[userID].playerStay[index]){
+        
+        //ResolveDealerTurn returns true only when the dealer has busted
+        if(ResolveDealerTurn(blackJackHands, userID)){
+            blackJackHands[userID].playerHandOutcome[index] = OUTCOMES.Win
+            return true
+        }
+
+        //if the player hand is greater than the dealer hand, the function returns a 1
+        if(HandComparer(Sum(blackJackHands[userID].playerHand[index]), Sum(blackJackHands[userID].dealerHand)) == 1){
+            blackJackHands[userID].playerHandOutcome[index] = OUTCOMES.Win
+            return true
+        }
+
+        //if the player hand is equal to the dealer hand, the function returns a 0
+        if(HandComparer(Sum(blackJackHands[userID].playerHand[index]), Sum(blackJackHands[userID].dealerHand)) == 0){
+            blackJackHands[userID].playerHandOutcome[index] = OUTCOMES.Push
+            return true
+        }
+
+        //if the player is greater than or equal to the dealer they must be less and the outcome is a loss
+        blackJackHands[userID].playerHandOutcome[index] = OUTCOMES.Loss
+
+        return true
+    }
+
+    //if the player hasnt stayed whether intentionally or via a bust, this returns false
+    return false
+}
+
+function BlackJackChecker(blackJackHands, userID, OUTCOMES){
+    var playerHandValue = PlayerHandValue(blackJackHands, userID, 0)
+    var dealerHandValue = DealerHandValue(blackJackHands, userID)
+
+    if(playerHandValue == dealerHandValue && playerHandValue == 21){
+        blackJackHands[userID].playerStay[0] = true
+        return
+    }
+
+    if(playerHandValue == 21){
+        blackJackHands[userID].playerStay[0] = true
+        blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Blackjack
+        return
+    }
+
+    if(dealerHandValue == 21){
+        blackJackHands[userID].playerStay[0] = true
+        return
+    }
+}
+
+function HandChecker(blackJackHands, userID, splitButton, doubleDownButton, surrenderButton){
+
+    var dummyCard1 = blackJackHands[userID].playerDummyHand[0][0].slice(0, blackJackHands[userID].playerDummyHand[0][0].indexOf(":"))
+    var dummyCard2 = blackJackHands[userID].playerDummyHand[0][1].slice(0, blackJackHands[userID].playerDummyHand[0][1].indexOf(":"))
+    if(dummyCard1 != dummyCard2){
+        ChangeButtonState([splitButton], true)
+    }
+
+    if(blackJackHands[userID].playerSplit){
+        ChangeButtonState([splitButton, surrenderButton], true)
+    }
+
+    if(!blackJackHands[userID].playerStay[0]){
+        if(blackJackHands[userID].playerDummyHand[0].length > 2){
+            ChangeButtonState([splitButton, doubleDownButton, surrenderButton])
+        }
+    }else{
+        if(blackJackHands[userID].playerDummyHand[1].length > 2){
+            ChangeButtonState([splitButton, doubleDownButton, surrenderButton])
+        }
+    }
+}
+
+function isHandOver(blackJackHands, userID, OUTCOMES, hitButton, stayButton, doubleDownButton, splitButton, surrenderButton, message, master, reply, buttonRow, interaction, tracker, statsList){
+    if(DealerHandResolved(blackJackHands, userID, OUTCOMES)){
+        const gameOverEmbed = GameEnd(blackJackHands, userID, [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton], master, reply)
+        PayoutBets(blackJackHands, userID, OUTCOMES, message, master, tracker, statsList)
+        if(interaction == null){
+            reply.edit({
+                embeds: [gameOverEmbed],
+                components: [buttonRow]
+            })
+        }else{
+            interaction.update({
+                embeds: [gameOverEmbed],
+                components: [buttonRow]
+            })
+        }
+        //reset blackjack json for user so they can play a fresh game
+        AddPlayerToHandsArray(blackJackHands, userID, 0, OUTCOMES)
+        return true
+    }
+
+    return false
 }

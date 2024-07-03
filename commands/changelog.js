@@ -13,7 +13,7 @@ module.exports = {
             var fields2 = {name: '**List of Changes', value: changelog2}
 
             const embedMessage1 = embed.EmbedCreator(message, embed.emptyValue, embed.emptyValue, fields1)
-            const embedMessage2 = embed.EmbedCreator(message, embed.emptyValue, embed.emptyValue, fields2)
+            //const embedMessage2 = embed.EmbedCreator(message, embed.emptyValue, embed.emptyValue, fields2)
 
             message.channel.send({embeds: [embedMessage1]})
             //message.channel.send({embeds: [embedMessage2]})
