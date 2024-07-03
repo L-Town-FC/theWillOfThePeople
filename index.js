@@ -571,6 +571,10 @@ function RemoveEmojiFromList(emojisList){
 }
 
 function UpdateEmojiListCount(emojiID, increment, reaction){
+    if(emojisList[emojiID] == undefined){
+        return
+    }
+
     //if there is no cache it means the last reaction was removed. That means there was no bot reaction and it can be counted as a removal
     if(reaction.users.cache.size == 0){
         emojisList[emojiID].count += increment;
