@@ -25,6 +25,10 @@ var tracker = {}
 var emojisList = {}
 var buttonJSON = {}
 var blackJackHands = {}
+var betsOpen = {value: false}
+var approvedBets = {value: []}
+
+
 
 var teamsData = []//variable for holding teams for the teams command
 
@@ -32,7 +36,6 @@ bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
-const embed = require('./commands/Functions/embed_functions')
 const general = require('./commands/Functions/GeneralFunctions')
 
 //Pulling data from faunadb or local jsons depending on current environment
@@ -99,8 +102,8 @@ bot.on('messageCreate', message =>{
             }
 
             ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true //not sure what this is for. can probably delete this line
-            if(typeof(bets_open) !== 'undefined' && ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true){ //checks if a roulette round has started and that the user is in the appropriate channel to play
-                Roulette_bets(message, master[message.author.id].gbp, master, stats_list)
+            if(betsOpen.value && ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true){ //checks if a roulette round has started and that the user is in the appropriate channel to play
+                Roulette_bets(message, master[message.author.id].gbp, master, stats_list, approvedBets)
             }
         }
     }catch(err){
@@ -169,7 +172,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('changelog').execute(message)
                 break;
                 case 'roulette': //lets users play roulette
-                    bot.commands.get('roulette').execute(message,args,master, tracker, stats_list)
+                    bot.commands.get('roulette').execute(message,args,master, tracker, stats_list, betsOpen, approvedBets)
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
@@ -307,25 +310,19 @@ function Welfare(channel, master){
 }
 
 //function used to track users bets when a round a roulette has started
-function Roulette_bets(message, money, master, stats_list){
+function Roulette_bets(message, money, master, stats_list, approvedBets){
     var args = message.content.split(" ")
     var possible_bets = fs.readFileSync('./text_files/roulette/roulette_bets','utf-8').split(",") //a list of all bets that a user can make
     var min_bet = 10;
     var bet = false
 
     try{
-
-        //checks if 
-        if(typeof(approved_bets) == 'undefined'){
-            approved_bets = []
-        }
-
         if(isNaN(args[0]) == false && args[0] >= min_bet){
             if(possible_bets.includes(args[1].toLowerCase()) == true){
                 if(money >= args[0]){
                     general.CommandPurchase(message, master, args[0], general.defaultRecipient)
-                    var bet = [args[0], args[1], message.author.id]
-                    approved_bets.push(bet)
+                    bet = [args[0], args[1], message.author.id]
+                    approvedBets.value.push(bet)
                     message.channel.send(`${master[message.author.id].name} Bet accepted`)
                     stats_list[message.author.id].roulette_bets += 1
                     if(Math.round(money) == args[0] && money >= 1000 && args[1].toLowerCase() == 'black'){
@@ -339,8 +336,8 @@ function Roulette_bets(message, money, master, stats_list){
         }else if(args[0].toLowerCase() == 'all' && master[message.author.id].gbp >= min_bet){
             if(possible_bets.includes(args[1].toLowerCase()) == true){
                 general.CommandPurchase(message, master, args[0], general.defaultRecipient)
-                var bet = [args[0], args[1], message.author.id]
-                approved_bets.push(bet)
+                bet = [args[0], args[1], message.author.id]
+                approvedBets.value.push(bet)
                 message.channel.send(`${master[message.author.id].name} Bet accepted`)
                 stats_list[message.author.id].roulette_bets += 1
                 if(args[1].toLowerCase() == 'black'){

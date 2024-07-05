@@ -1,27 +1,25 @@
 module.exports = {
     name: 'roulette',
     description: 'lets multiple people play roulette',
-    execute(message, args, master, tracker, stats_list){
+    execute(message, args, master, tracker, stats_list, betsOpen, approvedBets){
         const fs = require('fs')
         const roulette = JSON.parse(fs.readFileSync("./JSON/roulette.json", "utf-8"))
         const embed = require('./Functions/embed_functions')
         var bet_time = args[2];
         var command = args[1];
-
         switch(command){
             case 'bet':
                 try{
-                    if(typeof(bets_open) == 'undefined'){
+                    if(!betsOpen.value){
                         if(isNaN(args[2]) == false && bet_time >= 15 && bet_time <= 120){
-                            bets_open = true
+                            betsOpen.value = true
                             Display(message, embed)
                             message.channel.send(`Bets are open. You have ${bet_time} seconds to place bets`)
                             setTimeout(function(){
-                                //console.log(approved_bets)
                                 //bets go, [bet amount, bet placement, bettor id]
                                 //make special case for 0 not being even/odd or red/black
-                                if(typeof(approved_bets) !== 'undefined' && approved_bets.length > 0){  
-                                    delete bets_open
+                                if(approvedBets.value.length != 0){  
+                                    betsOpen.value = false
                                     message.channel.send('Bets are closed')
                                     var number = Math.floor(Math.random()*37)
                                     if(number == '0'){
@@ -31,31 +29,26 @@ module.exports = {
                                     }else{
                                         color = ':black_circle:'
                                     }
+                                    //var newBets = Array.from(approvedBets.value)
                                     Update_numbers(number + color)
                                     setTimeout(function(){
                                         try{
                                             message.channel.send(`The number is: \n${number}${color}`)
-                                            var counter = 0
-                                            bet_checker(approved_bets, number, roulette, message, master, tracker, stats_list)
-                                            delete counter
-                                            if(typeof(approved_bets) == 'undefined'){
-                                                approved_bets = []
-                                            }
-                                            delete approved_bets
+                                            bet_checker(approvedBets, number, roulette, message, master, tracker, stats_list)
                                         }catch(err){
                                             console.log(err)
                                             message.channel.send("Error occurred in roulette.js")
                                         }
-                                    }, 2000)
+                                    }, 2000, approvedBets)
                                 }else{
                                     message.channel.send("No bets were made, the game is cancelled")
-                                    delete bets_open
+                                    betsOpen.value = false
                                 }  
-                            },bet_time * 1000)
+                            },bet_time * 1000, approvedBets)
                         }else{
                             message.channel.send('You must choose a time between 15 and 120 seconds')
                         }
-                    }else if(bets_open == true){
+                    }else if(betsOpen){
                         message.channel.send("Bets are already open")
                     }
                 }catch(err){
@@ -96,7 +89,7 @@ module.exports = {
     }
 }
 
-function bet_checker(approved_bets, picked_number, roulette, message, master, tracker, stats_list){
+function bet_checker(approvedBets, picked_number, roulette, message, master, tracker, stats_list){
     const unlock = require('./Functions/Achievement_Functions')
     const general = require('./Functions/GeneralFunctions')
     var winnings = 0
@@ -106,11 +99,11 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
     var command = ''
     var counter = 0
     try{
-        for(var j = 0; j < approved_bets.length; j++){
+        for(var j = 0; j < approvedBets.value.length; j++){
             var win_checker = 0
-            bet = parseFloat(approved_bets[j][0])
-            value = String(approved_bets[j][1]).toLowerCase()
-            user = approved_bets[j][2]
+            bet = parseFloat(approvedBets.value[j][0])
+            value = String(approvedBets.value[j][1]).toLowerCase()
+            user = approvedBets.value[j][2]
             command = ''
             if(isNaN(value) == true){
                 if(['even', 'odd', 'red', 'black'].includes(value)){
@@ -272,6 +265,8 @@ function bet_checker(approved_bets, picked_number, roulette, message, master, tr
         if(counter == 0){
             message.channel.send("No Winners")
         }
+
+        approvedBets.value = []
     }catch(err){
         console.log(err)
         message.channel.send('Error occurred in roulette.js bet checker')
