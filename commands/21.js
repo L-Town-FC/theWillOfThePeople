@@ -7,29 +7,29 @@ module.exports = {
         const MINBET = 15
         const OUTCOMES = {Win: "win", Push: "push", Loss: "loss", Blackjack: "Blackjack", Surrender: "Surrender"}
         //args = ['21', '20'] //for testing only
-        
-        if(args.length < 2){
-            message.channel.send("You must specificy a bet amount")
-            return
-        }
+        try{
+            //if the user is currently in an active game. just resend the ui with the current game status
+            if(blackJackHands[message.author.id] != undefined){
+                if(blackJackHands[message.author.id].currentMessageID != ""){
+                    SendGameDisplay(message, blackJackHands, message.author.id, master, OUTCOMES)
+                    return
+                }
+            }
 
-        if(!general.CommandUsageValidator(message, master, args[1], MINBET, master[message.author.id].gbp, general.defaultRecipient)){
-            return
-        }
-        
-        //if the user hasnt played a game before, creates a game
-        if(blackJackHands[message.author.id] == undefined){
-            CreateNewGame(message, blackJackHands, message.author.id, args[1], master, OUTCOMES, tracker, statsList)
-            return
-        }
+            if(args.length < 2){
+                message.channel.send("You must specificy a bet amount")
+                return
+            }
 
-        //if the user is currently in an active game. just resend the ui with the current game status
-        if(blackJackHands[message.author.id].currentMessageID != ""){
-            SendGameDisplay(message, blackJackHands, message.author.id, master, OUTCOMES)
-            return
-        }
+            if(!general.CommandUsageValidator(message, master, args[1], MINBET, master[message.author.id].gbp, general.defaultRecipient)){
+                return
+            }
 
-        CreateNewGame(message, blackJackHands, message.author.id, parseFloat(args[1]), master, OUTCOMES, tracker, statsList)
+            CreateNewGame(message, blackJackHands, message.author.id, parseFloat(args[1]), master, OUTCOMES, tracker, statsList)
+        }catch(err){
+            console.log(err)
+            message.channel.send('Error occurred in 21.js')
+        }
     }
 }
 
@@ -123,30 +123,25 @@ async function SendGameDisplay(message, blackJackHands, userID, master, OUTCOMES
         }
 
         if(interaction.customId === 'hit'){
-            //console.log("hit")
             Hit(blackJackHands, userID, [splitButton, doubleDownButton, surrenderButton])
         }
 
         if(interaction.customId === 'stay'){
-            console.log("stay")
             Stay(blackJackHands, userID, [surrenderButton, splitButton], [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton])
         }
 
         
         if(interaction.customId === 'split'){
-            console.log("split")
             Split(blackJackHands, userID, [splitButton, surrenderButton], message, master)
         }
 
         
         if(interaction.customId === 'doubleDown'){
-            console.log("doubleDown")
             DoubleDown(blackJackHands, userID, message, master)
         }
 
         
         if(interaction.customId === 'surrender'){
-            console.log("surrender")
             Surrender(blackJackHands, userID, OUTCOMES)
         }
 
@@ -280,8 +275,11 @@ function Split(blackJackHands, userID, disableButtonArray, message, master){
     general.CommandPurchase(message, master, blackJackHands[userID].bet[0], general.defaultRecipient)
 }
 
+//player hit and then stay but for double the bet
 function DoubleDown(blackJackHands, userID, message, master){
     const general = require('./Functions/GeneralFunctions')
+
+    //checks which hand should be doubled down. if the player has stayed on the first one and the game is still active they must have doubled the second hand
     var handIndex = 0
     if(blackJackHands[userID].playerStay[0]){
         handIndex = 1
@@ -289,6 +287,7 @@ function DoubleDown(blackJackHands, userID, message, master){
 
     Hit(blackJackHands, userID, [])
 
+    //takes new bet from player
     general.CommandPurchase(message, master, blackJackHands[userID].bet[handIndex], general.defaultRecipient)
     blackJackHands[userID].bet[handIndex] = parseFloat(blackJackHands[userID].bet[handIndex]) * 2
 
@@ -299,15 +298,20 @@ function DoubleDown(blackJackHands, userID, message, master){
     if(handIndex == 1 && blackJackHands[userID].playerStay[1]){
         return
     }
+    
+    //makes players current hand stay
     Stay(blackJackHands, userID, [], [])
 
 }
 
+//ends game and sets players outcome to surrender for further processing
 function Surrender(blackJackHands, userID, OUTCOMES){
     blackJackHands[userID].playerStay[0] = true
     blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Surrender
 }
 
+//pays out bets based on each hands outcome
+//bet winning have to take into account paying back the initial bet + the winnings which is why they may look inflated
 function PayoutBets(blackJackHands, userID, OUTCOMES, message, master, tracker, statsList){
     const general = require('./Functions/GeneralFunctions')
     const unlock = require('./Functions/Achievement_Functions')
@@ -510,7 +514,7 @@ function UpdatedEmbedMessage(message, blackJackHands, userID, master, OUTCOMES){
     const embed = require('./Functions/embed_functions')
 
     var title = `${master[userID].name} Game Status`
-    var description = ["**Dealer Hand**", `${blackJackHands[userID].dealerDummyHand[0]} ${blackJackHands[userID].dealerDummyHand[1]}`]
+    var description = ["**Dealer Hand**", `${blackJackHands[userID].dealerDummyHand[0]} ??`]
 
     var temp = blackJackHands[userID].playerDummyHand
     if(temp.length == 1){
@@ -613,27 +617,32 @@ function OutcomeConditionCheck(blackJackHands, userID, index, OUTCOMES){
     return false
 }
 
+//checks if player or dealer has blackjack when cards are dealt
 function BlackJackChecker(blackJackHands, userID, OUTCOMES){
     var playerHandValue = PlayerHandValue(blackJackHands, userID, 0)
     var dealerHandValue = DealerHandValue(blackJackHands, userID)
 
+    //if players both have it, its a push
     if(playerHandValue == dealerHandValue && playerHandValue == 21){
         blackJackHands[userID].playerStay[0] = true
         return
     }
 
+    //if only player has it, they win and get a larger payout
     if(playerHandValue == 21){
         blackJackHands[userID].playerStay[0] = true
         blackJackHands[userID].playerHandOutcome[0] = OUTCOMES.Blackjack
         return
     }
 
+    //if only dealer has it, player loses
     if(dealerHandValue == 21){
         blackJackHands[userID].playerStay[0] = true
         return
     }
 }
 
+//checks if player can split, double down, or surrender
 function HandChecker(blackJackHands, userID, splitButton, doubleDownButton, surrenderButton){
 
     var dummyCard1 = blackJackHands[userID].playerDummyHand[0][0].slice(0, blackJackHands[userID].playerDummyHand[0][0].indexOf(":"))
@@ -657,6 +666,7 @@ function HandChecker(blackJackHands, userID, splitButton, doubleDownButton, surr
     }
 }
 
+//checks if the hand is now over and if it is, sends game over message and clear game status
 function isHandOver(blackJackHands, userID, OUTCOMES, hitButton, stayButton, doubleDownButton, splitButton, surrenderButton, message, master, reply, buttonRow, interaction, tracker, statsList){
     if(DealerHandResolved(blackJackHands, userID, OUTCOMES)){
         const gameOverEmbed = GameEnd(blackJackHands, userID, [hitButton, stayButton, doubleDownButton, splitButton, surrenderButton], master, reply)

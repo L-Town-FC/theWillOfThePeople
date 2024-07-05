@@ -243,83 +243,46 @@ bot.on('error', (err) => {
 });
 
 bot.on('messageReactionAdd', reaction => {
-    UpdateEmojiListCount(reaction._emoji.id, 1, reaction, true)
+    try{
+        UpdateEmojiListCount(reaction._emoji.id, 1, reaction, true)
+    }catch(err){
+        console.log(err)
+    }
 })
 
 bot.on('messageReactionRemove', reaction => {
-    UpdateEmojiListCount(reaction._emoji.id, -1, reaction, false)
+    try{
+        UpdateEmojiListCount(reaction._emoji.id, -1, reaction, false)
+    }catch(err){
+        console.log(err)
+    }
 })
 
 bot.on('emojiCreate', emojiCreate => {
-    console.log(emojiCreate)
-    UpdateEmojiList(emojisList)
+    try{
+        console.log(emojiCreate)
+        UpdateEmojiList(emojisList)
+    }catch(err){
+        console.log(err)
+    }
 })
 
 bot.on('emojiDelete', emojiDelete => {
-    console.log(emojiDelete)
-    RemoveEmojiFromList(emojisList)
+    try{
+        console.log(emojiDelete)
+        RemoveEmojiFromList(emojisList)
+    }catch(err){
+        console.log(err)
+    }
 })
 
 bot.on('interactionCreate', interaction => {
-    if(!["button", "bigButton"].includes(interaction.customId)){
-        return
+    try{
+        ButtonInteractions(interaction, buttonJSON, command_stats, stats_list, master, tracker)
+    }catch(err){
+        console.log(err)
+        interaction.message.channel.send('Error occurred with button interaction')
     }
-
-    var userID = String(interaction.user.id)
-
-    if(buttonJSON[userID] == null){
-        return
-    }
-
-    if(buttonJSON[userID].currentMessageID != interaction.message.id){
-        return
-    }
-
-    var buttonPayout = Math.floor(Math.random() * 10)
-
-    if(interaction.customId == "button"){
-        if(buttonPayout == 5){
-            buttonPayout = -1000
-            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
-            command_stats.button.Last_loss = 0
-            stats_list[interaction.user.id].button_losses += 1
-        }else{
-            buttonPayout = 100
-            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
-        }
-    }else{
-        if(buttonPayout == 7){
-            buttonPayout = -10000
-            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
-            command_stats.button.Last_loss = 0
-            stats_list[interaction.user.id].button_losses += 1
-        }else{
-            buttonPayout = 1000
-            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
-        }
-    }
-
-    stats_list[userID].button_presses = stats_list[userID].button_presses + 1
-    command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
-    
-    //Wyatt Achievement
-    unlock.tracker1(interaction.user.id, 44, 1, interaction.message, master, tracker)
-
-    buttonJSON[userID].currentSessionAmount += buttonPayout
-    buttonJSON[userID].currentSessionPresses += 1
-    master[userID].gbp += buttonPayout   //this and other interactions should be the only place "Command Purchase" isn't used because the message sender is the bot not the user
-
-    var title = `${master[interaction.user.id].name} current Button Session`
-    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[userID].currentSessionAmount}`, `Total button presses: ${buttonJSON[userID].currentSessionPresses}`]
-
-    //add embed message that updates with last payout and cum payout on message
-    const embedMessage = embed.EmbedCreator(interaction.message, title, description, embed.emptyValue)
-
-    interaction.update({
-        //content: 'Button'
-        embeds: [embedMessage]
-    })
-
 })
 
 
@@ -596,4 +559,68 @@ function UpdateEmojiListCount(emojiID, increment, reaction){
     }
     emojisList[emojiID].count += increment;
     return
+}
+
+function ButtonInteractions(interaction, buttonJSON, command_stats, stats_list, master, tracker){
+    const embed = require('./commands/Functions/embed_functions')
+    const unlock = require('./commands/Functions/Achievement_Functions')
+
+    if(!["button", "bigButton"].includes(interaction.customId)){
+        return
+    }
+
+    var userID = String(interaction.user.id)
+
+    if(buttonJSON[userID] == null){
+        return
+    }
+
+    if(buttonJSON[userID].currentMessageID != interaction.message.id){
+        return
+    }
+
+    var buttonPayout = Math.floor(Math.random() * 10)
+
+    if(interaction.customId == "button"){
+        if(buttonPayout == 5){
+            buttonPayout = -1000
+            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
+            command_stats.button.Last_loss = 0
+            stats_list[interaction.user.id].button_losses += 1
+        }else{
+            buttonPayout = 100
+            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
+        }
+    }else{
+        if(buttonPayout == 7){
+            buttonPayout = -10000
+            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
+            command_stats.button.Last_loss = 0
+            stats_list[interaction.user.id].button_losses += 1
+        }else{
+            buttonPayout = 1000
+            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
+        }
+    }
+
+    stats_list[userID].button_presses = stats_list[userID].button_presses + 1
+    command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
+    
+    //Wyatt Achievement
+    unlock.tracker1(interaction.user.id, 44, 1, interaction.message, master, tracker)
+
+    buttonJSON[userID].currentSessionAmount += buttonPayout
+    buttonJSON[userID].currentSessionPresses += 1
+    master[userID].gbp += buttonPayout   //this and other interactions should be the only place "Command Purchase" isn't used because the message sender is the bot not the user
+
+    var title = `${master[interaction.user.id].name} current Button Session`
+    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[userID].currentSessionAmount}`, `Total button presses: ${buttonJSON[userID].currentSessionPresses}`]
+
+    //add embed message that updates with last payout and cum payout on message
+    const embedMessage = embed.EmbedCreator(interaction.message, title, description, embed.emptyValue)
+
+    interaction.update({
+        //content: 'Button'
+        embeds: [embedMessage]
+    })
 }
