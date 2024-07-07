@@ -66,12 +66,8 @@ module.exports.reset2 = reset2
 
 function tracker1(user, achievement_num, increment, message, master, tracker){
     //Used for tracking basic achievements that are a single number
-    console.log(achievement_num)
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
-    console.log(achievements)
-    console.log(tracker)
-    console.log(master)
     try{
         var threshold = achievements[achievement_num].threshold
         tracker[user][achievement_num] = tracker[user][achievement_num] + increment;

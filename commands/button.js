@@ -2,7 +2,6 @@ module.exports = {
     name: 'button',
     description: 'Either gives you 50 gbp or -1500 gbp on use',
     execute(message, args, master, buttonJSON, command_stats){
-        console.log(command_stats)
         if(!args[1]){
             try{
                 //ButtonPress(message, master, stats_list, tracker, command_stats)
