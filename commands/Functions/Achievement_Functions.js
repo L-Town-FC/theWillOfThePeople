@@ -68,7 +68,6 @@ function tracker1(user, achievement_num, increment, message, master, tracker){
     //Used for tracking basic achievements that are a single number
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
-    //user = String(user)
     try{
         var threshold = achievements[achievement_num].threshold
         tracker[user][achievement_num] = tracker[user][achievement_num] + increment;

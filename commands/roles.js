@@ -31,7 +31,6 @@ module.exports = {
             var title = embed.emptyValue
             var description = embed.emptyValue
             var fields = {name: 'List of Electable Roles', value: rolesList }
-            console.log(fields)
             const embedMessage = embed.EmbedCreator(message, title, description, fields)
             message.channel.send({ embeds: [embedMessage] });
 
