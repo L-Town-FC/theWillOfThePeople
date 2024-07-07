@@ -417,7 +417,7 @@ async function Daily_Functions(channel, master, unlock){
 
 function GetJSONValue(faunaToken, isDev, location){
     if(!isDev){
-        return Fauna_get(faunaToken, location, process.end.NODE_ENV)
+        return Fauna_get(faunaToken, location, process.env.NODE_ENV)
     }
 
     const fs = require('fs')
