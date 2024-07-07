@@ -1,8 +1,8 @@
 module.exports = {
     name: 'button',
     description: 'Either gives you 50 gbp or -1500 gbp on use',
-    execute(message, args, master, buttonJSON){
-
+    execute(message, args, master, buttonJSON, command_stats){
+        console.log(command_stats)
         if(!args[1]){
             try{
                 //ButtonPress(message, master, stats_list, tracker, command_stats)
@@ -33,7 +33,7 @@ module.exports = {
 }
 
 function ButtonPress(message, buttonJSON, master){
-    const {ButtonBuilder, ButtonStyle, ActionRowBuilder,ComponentType} = require('discord.js')
+    const {ButtonBuilder, ButtonStyle, ActionRowBuilder} = require('discord.js')
     
     var maxSessionLengthInSeconds = 120
 
@@ -78,14 +78,12 @@ function ButtonPress(message, buttonJSON, master){
             buttonJSON[buttonPresserID].currentSessionPresses = 0
         }
 
-        console.log(buttonJSON)
-
         setTimeout(function(){
             firstButton.setDisabled(true)
             secondButton.setDisabled(true)
 
             var title = `${master[buttonPresserID].name} Button Session Results`
-            var description = [`Total GBP earned: ${buttonJSON[buttonPresserID].currentSessionAmount}`,`Total button presses: ${buttonJSON[buttonPresserID].currenSessionPresses}` ,"Session has timed out. Use !button to start a new session"]
+            var description = [`Total GBP earned: ${buttonJSON[buttonPresserID].currentSessionAmount}`,`Total button presses: ${buttonJSON[buttonPresserID].currentSessionPresses}` ,"Session has timed out. Use !button to start a new session"]
 
             const embedMessage = embed.EmbedCreator(msg, title, description, embed.emptyValue)
             msg.edit({embeds: [embedMessage], components: [buttonRow]})

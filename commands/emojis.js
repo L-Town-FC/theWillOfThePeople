@@ -2,7 +2,7 @@ module.exports = {
     name: 'emojis',
     description: 'gives server emoji statistics',
     execute(message, args, emojisList, bot){
-        var discordEmojisStruct = Array.from(message.guild.emojis.cache)
+        //var discordEmojisStruct = Array.from(message.guild.emojis.cache)
         var emojisListArray = []
         
         //const emoji = bot.emojis.cache.get(discordEmojisStruct[0][0])
@@ -41,8 +41,8 @@ function EmojiUsageList(message, emojiListArray, bot){
 
     //having it be "value of" is absolute necessity for this. Kept counting updward from 6 instead of downward
     //this loops over the sorted list and then adds the emoji plus the number of times its been used to a field object to be sent later
-    counter = 0
-    for (var i = emojiListArray.length - 1; i > emojiListArray.length - 11; i--) {
+    var counter = 0
+    for (i = emojiListArray.length - 1; i > emojiListArray.length - 11; i--) {
         //bot.emoji.. converts emoji id into actual emoji
        bottomFive.value[counter] =  `${(i + 1).valueOf()} . ${bot.emojis.cache.get(emojiListArray[i][0])} - ${emojiListArray[i][1].count}`
        counter++

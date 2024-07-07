@@ -23,7 +23,7 @@ module.exports = {
             var targetID = general.NameToUserID(args[1].toLowerCase(), master)
 
             //achivement for using the command in the bot tinkering channel
-            if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){
+            if(message.channel.id == "711634711281401867" || message.channel.id == "702205197740540004"){
                 message.channel.bulkDelete(1)
 
                 //Your a Dumbass Achievement
@@ -57,7 +57,7 @@ module.exports = {
             if(message.channel.type === 'dm'){
                 var users = message.mentions._client.users.array()
                 for(var k in users){
-                    if(users[k].id == recipient_id){
+                    if(users[k].id == targetID){
                         users[k].send(`You have been transferred ${amount} gbp`)
                     }
                 }
@@ -65,7 +65,7 @@ module.exports = {
             //Stack your family channel id
             if(message.channel.id == '668600084052705290'){
                 //Easy Money Achievement
-                unlock.unlock(recipient_id, 16, message, master)
+                unlock.unlock(targetID, 16, message, master)
             }
 
         }catch(err){

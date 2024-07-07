@@ -1,11 +1,8 @@
-const { title } = require('process')
-
 module.exports = {
     name: 'insults',
     description: 'lets you insults people',
     execute(message,args, master, tracker){
         const fs = require('fs')
-        const Discord = require('discord.js')
         const general = require('./Functions/GeneralFunctions')
         const embed = require('./Functions/embed_functions')
         const price = 1500
@@ -96,9 +93,9 @@ module.exports = {
             case 'help':
                 //creates embded message for instructions on how to use the command
                 try{
-                    var title = "List of Commands"
-                    var description = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')
-                    var fields = embed.emptyValue
+                    title = "List of Commands"
+                    description = fs.readFileSync('./text_files/insults/insults_commands.txt','utf-8')
+                    fields = embed.emptyValue
                     const embedMessage = embed.EmbedCreator(message, title, description, fields)
                     message.channel.send({ embeds: [embedMessage] });
                 }catch(err){

@@ -1,15 +1,15 @@
 module.exports = {
     name: 'insults_counter',
     description: 'insults you accordingly',
-    execute(message, master, tracker){
+    execute(message, master, stats_list){
         const fs = require('fs')
-        if(message.author.bot == true){
+        if(message.author.bot){
             return
-        }else if (message.content.startsWith("!") == true){
+        }else if (message.content.startsWith("!")){
             return
-        }else if(master[message.author.id].insulted == true){
+        }else if(master[message.author.id].insulted){
             var counter = 0
-            for(i in master){
+            for(var i in master){
                 if(master[i].insulted == true){
                     counter++
                 }
@@ -17,11 +17,11 @@ module.exports = {
             if(counter > 3){
                 var chance = 10
             }else{
-                var chance = 8
+                chance = 8
             }
             var chance_check = Math.ceil(Math.random() * chance)
             if(chance_check == 6){
-                insults = ['Fuck You', 'You Fucking Troglodyte', 'Fuckin Doo Doo Brains',"You are so repulsive that even Zaid won't suck your toes",
+                var insults = ['Fuck You', 'You Fucking Troglodyte', 'Fuckin Doo Doo Brains',"You are so repulsive that even Zaid won't suck your toes",
                             'You dumb fucking cretin, you fucking fool, absolute fucking buffoon, you bumbling idiot. Fuck you', 'Go Fuck Yourself', 'Fucking Pussy Nerd Virgin',
                             'Read a book', 'Ok bud, bud Ok', "You're fucking 10-ply bud", "You're just spare parts aren't yah bud", 'See you next Tuesday',
                             'You fat cheeky wanker', "You're a fucking retard", 'Suck my dick', 'You pasty twat', "If I was stuck in a room with you, Hitler, and Stalin, I would shoot you twice",

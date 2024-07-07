@@ -1,9 +1,2 @@
-**Button improvements**
--The button now has a UI
--BIG button gives a 90% chance of 1000 gbp and 10% chance of -10000 gbp
-
-**EMOJI REACTION TRACKING**
--new command !emojis
--customs emojis usage is now tracked and can be viewed using this command
-
-**Lots of backend stuff that will make the bot easier to update in the future**
+**!21 Improvements**
+-Blackjack now has a UI instead of having to constantly send commands

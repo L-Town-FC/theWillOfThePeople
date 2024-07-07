@@ -2,7 +2,6 @@ module.exports = {
     name: 'roles',
     description: 'roles',
     execute(message, master){
-        const Discord = require('discord.js');
         const embed = require('./Functions/embed_functions')
         const ROLES = ["The People's Representative", "Senior Representative Assistant","Junior Representative Assistant", "Dog Catcher", "Soup Maker", "Cocksucka", "Viceroy"] 
         const ROLEIDs = ['590576332350685194', '590579566448476170', '590586818462875671','669019379077218314', '669019512548491274', '710177280160432138', '771535782283837450'] //ids corresponding to the above roles

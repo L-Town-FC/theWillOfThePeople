@@ -8,7 +8,7 @@ module.exports = {
         var targetID;
         try{
             //checks if command is run in bot tinkering. deletes it and awards achievement if it has
-            if(message.channel.id == 711634711281401867 || message.channel.id == 702205197740540004){
+            if(message.channel.id == "711634711281401867" || message.channel.id == "702205197740540004"){
                 message.channel.bulkDelete(1)
     
                 //Your a Dumnass Achievement
@@ -58,7 +58,7 @@ function BankAll(message, master){
     var total = 0
     var description = ""
 
-    for(i in master){
+    for(var i in master){
         description += `${master[i].name}: ${master[i].gbp}\n`
         total = total + master[i].gbp
     }

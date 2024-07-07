@@ -6,6 +6,7 @@ module.exports = {
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
+        const general = require('./Functions/GeneralFunctions')
         const base_winnings = 10000
         var command = args[1];
         var amount = args[2];
@@ -20,15 +21,16 @@ module.exports = {
                     }else if(isNaN(amount) == true){
                         
                         if(price <= total_money){
-                            purchase(price, message.author.id, master);
+                            general.CommandPurchase(message, master, price, general.defaultRecipient)
                             stats.tracker(message.author.id, 1, 1,stats_list)
 
                             //Sorry. Try Again Achievement
                             unlock.tracker1(message.author.id, 31, 1, message, master, tracker)
                             
+                            //WINNING CONDITION
                             if(attempt(1, price, command_stats, message) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${command_stats.powerball.tickets} tickets to win. Your prize is ${command_stats.powerball.pot}`)
-                                purchase(-1 * command_stats.powerball.pot, message.author.id, master);
+                                general.CommandPurchase(message, master, -1 * command_stats.powerball.pot, general.defaultRecipient)
                                 command_stats.powerball.tickets = 0
                                 command_stats.powerball.pot = base_winnings
                                 
@@ -50,10 +52,11 @@ module.exports = {
                             //Sorry. Try Again Achievement
                             unlock.tracker1(message.author.id, 31, parseInt(amount), message, master, tracker)
                             
-                            purchase(amount*price, message.author.id, master);
+                            general.CommandPurchase(message, master, amount * price, general.defaultRecipient)
+                            //WINNING CONDITION
                             if(attempt(amount, moneySpent, command_stats, message) == true){
                                 message.channel.send(`Congradulations. You won Powerball. It took ${command_stats.powerball.tickets} tickets to win. Your prize is ${command_stats.powerball.pot} gbp`)
-                                purchase(-1 * command_stats.powerball.pot, message.author.id, master);
+                                general.CommandPurchase(message, master, -1 * command_stats.powerball.pot, general.defaultRecipient)
                                 command_stats.powerball.tickets = 0
                                 command_stats.powerball.pot = base_winnings
                                 
@@ -109,7 +112,7 @@ function attempt(amount, moneySpent, command_stats, message){
         var max_guesses = 10000
         var remaining_numbers = parseInt(max_guesses) - parseInt(command_stats.powerball.tickets);
 
-        for(i = 0; i < amount; i++){
+        for(var i = 0; i < amount; i++){
             tickets[i] = Math.ceil(Math.random()*remaining_numbers);
             var duplicate = true;
             while(duplicate == true){
@@ -155,14 +158,4 @@ function attempt(amount, moneySpent, command_stats, message){
         message.channel.send("Error occurred in Powerball.js Attempt");
     }
         
-}
-
-function purchase(bet_value, player, master) {
-    try{
-        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
-
-    }catch(err){
-        console.log(err)
-        message.channel.send("Error occurred in Powerball.js Purchase");
-    }
 }

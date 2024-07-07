@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
-const bot = new Discord.Client({ intents: [
+const {GatewayIntentBits, Partials, Client } = require('discord.js');
+const bot = new Client({ intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
@@ -18,20 +18,28 @@ const PREFIX = "!";
 
 const fs = require('fs');
 const cron = require('cron')
-buttonJSON = {}
+var master = {}
+var stats_list = {}
+var command_stats = {}
+var tracker = {}
+var emojisList = {}
+var buttonJSON = {}
+var blackJackHands = {}
+var betsOpen = {value: false}
+var approvedBets = {value: []}
+
+
+
+var teamsData = []//variable for holding teams for the teams command
 
 bot.commands = new Discord.Collection();
 
 const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
-const emojis = require('./commands/emojis');
-const embed = require('./commands/Functions/embed_functions')
-const general = require('./commands/Functions/stats_functions')
+const general = require('./commands/Functions/GeneralFunctions')
 
 //Pulling data from faunadb or local jsons depending on current environment
 const fauna_token = process.env.FAUNA_KEY
-GetJSONValues(fauna_token, token === process.env.DEVBOTTOKEN);
-
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -45,25 +53,28 @@ bot.on('ready', () => {
     var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
+    master = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "master")
+    stats_list = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "stats")
+    command_stats = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "command_stats")
+    tracker = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "achievements_tracker")
+    emojisList = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "emojis")
+
     console.log('This bot is online')
-    UpdateEmojiList()
-    if(typeof(cron_job) == 'undefined'){
-        cron_job = 'something'
-        bot_tinkering.send('The bot is online')    
-        new cron.CronJob('0 9 * * *', function(){
-            Daily_Functions(channel, master, unlock)
-            //590585423202484227 - pugilism
-            //611276436145438769 - test
-            //743269381768872087 - stonks
-            //711634711281401867 bot-tinkering            
-        }, null, true, 'America/New_York')
-        new cron.CronJob('0 * * * *', function(){
-            //'0 * * * * *'
-            setTimeout(function(){
-                JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token)
-            },2000)
-        }, null, true)
-    }
+    UpdateEmojiList(emojisList)
+    bot_tinkering.send('The bot is online')    
+    new cron.CronJob('0 9 * * *', function(){
+        Daily_Functions(channel, master, unlock)
+        //590585423202484227 - pugilism
+        //611276436145438769 - test
+        //743269381768872087 - stonks
+        //711634711281401867 bot-tinkering            
+    }, null, true, 'America/New_York')
+    new cron.CronJob('0 * * * *', function(){
+        //'0 * * * * *'
+        setTimeout(function(){
+            JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token)
+        },2000)
+    }, null, true)
 })
 
 //event that triggers when a user leaves the server
@@ -74,6 +85,7 @@ bot.on('guildMemberRemove', member =>{
         channel.send(`${master[member.id].name} has left the server`)
     }catch(err){
         console.log('Error occured in user remover log')
+        console.log(err)
     }
 })
 
@@ -83,15 +95,15 @@ bot.on('messageCreate', message =>{
         if(!message.author.bot){ //filters out bot messages from tracking
             //commmands that ary run every time someone sends a message
             bot.commands.get('more_money').execute(message, master, stats_list, tracker);
-            bot.commands.get('insults_counter').execute(message, master, tracker, stats_list);
+            bot.commands.get('insults_counter').execute(message, master, stats_list);
             bot.commands.get('boo_trigger').execute(message, command_stats);
             if(message.author.id !== '712114529458192495' && message.author.id !== '668996755211288595'){
                 stats.tracker(message.author.id, 7, 1, stats_list)
             }
 
             ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true //not sure what this is for. can probably delete this line
-            if(typeof(bets_open) !== 'undefined' && ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true){ //checks if a roulette round has started and that the user is in the appropriate channel to play
-                Roulette_bets(message, master[message.author.id].gbp, master, stats_list)
+            if(betsOpen.value && ['712755269863473252', '611276436145438769'].includes(message.channel.id) == true){ //checks if a roulette round has started and that the user is in the appropriate channel to play
+                Roulette_bets(message, master[message.author.id].gbp, master, stats_list, approvedBets)
             }
         }
     }catch(err){
@@ -115,7 +127,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('pug').execute(message,master, tracker); 
                 break;
                 case '21': //blackjack
-                    bot.commands.get('21').execute(message,args,master[message.author.id].gbp, master, stats_list, tracker);
+                    bot.commands.get('21').execute(message, args, master, blackJackHands, tracker, stats_list);
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
@@ -160,7 +172,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('changelog').execute(message)
                 break;
                 case 'roulette': //lets users play roulette
-                    bot.commands.get('roulette').execute(message,args,master, tracker, stats_list)
+                    bot.commands.get('roulette').execute(message,args,master, tracker, stats_list, betsOpen, approvedBets)
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
@@ -183,7 +195,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('stats').execute(message,args, master, stats_list);
                 break;
                 case 'button': //lets users push a button for a chance of winning 100 gbp or losing 1000 gbp
-                    bot.commands.get('button').execute(message,args, master, buttonJSON);
+                    bot.commands.get('button').execute(message,args, master, buttonJSON, command_stats);
                     //Gambling Addict Achievement
                     unlock.tracker1(message.author.id, 46, 1, message, master, tracker)
                 break;
@@ -200,17 +212,17 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('changename').execute(message, args, master, stats_list, tracker)
                 break;
                 case 'teams': //lets users randomly generate teams
-                    bot.commands.get('teams').execute(message, args)
+                    bot.commands.get('teams').execute(message, args, teamsData)
                 break;
                 case 'emojis':
                     bot.commands.get('emojis').execute(message, args, emojisList, bot)
                 break;
                 case 'update': //command that is only used for dev work and changed for testing purposes
-                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV)
-                    //JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token);
+                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV, stats_list, tracker, command_stats, emojisList)
                 break;
                 case 'test': //another command for testing purposes only
-                    //bot.commands.get('test').execute(message, master, stats_list, tracker);
+                    //bot.commands.get('test').execute(message, args, master, blackJackHands, tracker, stats_list);
+                    console.log("Dont worry about it")
                 break;
                 default:
                     message.channel.send('Use command !help for a list of commands');
@@ -234,88 +246,53 @@ bot.on('error', (err) => {
 });
 
 bot.on('messageReactionAdd', reaction => {
-    UpdateEmojiListCount(reaction._emoji.id, 1, reaction, true)
+    try{
+        UpdateEmojiListCount(reaction._emoji.id, 1, reaction, true)
+    }catch(err){
+        console.log(err)
+    }
 })
 
 bot.on('messageReactionRemove', reaction => {
-    UpdateEmojiListCount(reaction._emoji.id, -1, reaction, false)
+    try{
+        UpdateEmojiListCount(reaction._emoji.id, -1, reaction, false)
+    }catch(err){
+        console.log(err)
+    }
 })
 
 bot.on('emojiCreate', emojiCreate => {
-    UpdateEmojiList()
+    try{
+        console.log(emojiCreate)
+        UpdateEmojiList(emojisList)
+    }catch(err){
+        console.log(err)
+    }
 })
 
 bot.on('emojiDelete', emojiDelete => {
-    RemoveEmojiFromList(emojisList)
+    try{
+        console.log(emojiDelete)
+        RemoveEmojiFromList(emojisList)
+    }catch(err){
+        console.log(err)
+    }
 })
 
 bot.on('interactionCreate', interaction => {
-    if(!["button", "bigButton"].includes(interaction.customId)){
-        return
+    try{
+        ButtonInteractions(interaction, buttonJSON, command_stats, stats_list, master, tracker)
+    }catch(err){
+        console.log(err)
+        interaction.message.channel.send('Error occurred with button interaction')
     }
-
-    var userID = String(interaction.user.id)
-
-    if(buttonJSON[userID] == null){
-        return
-    }
-
-    if(buttonJSON[userID].currentMessageID != interaction.message.id){
-        return
-    }
-
-    var buttonPayout = Math.floor(Math.random() * 10)
-
-    if(interaction.customId == "button"){
-        if(buttonPayout == 5){
-            buttonPayout = -1000
-            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
-            command_stats.button.Last_loss = 0
-            stats_list[interaction.user.id].button_losses += 1
-        }else{
-            buttonPayout = 100
-            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
-        }
-    }else{
-        if(buttonPayout == 5){
-            buttonPayout = -10000
-            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
-            command_stats.button.Last_loss = 0
-            stats_list[interaction.user.id].button_losses += 1
-        }else{
-            buttonPayout = 1000
-            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
-        }
-    }
-
-    stats_list[userID].button_presses = stats_list[userID].button_presses + 1
-    command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
-    
-    //Wyatt Achievement
-    unlock.tracker1(interaction.user.id, 44, 1, interaction.message, master, tracker)
-
-    buttonJSON[userID].currentSessionAmount += buttonPayout
-    buttonJSON[userID].currentSessionPresses += 1
-    master[userID].gbp += buttonPayout   //this and other interactions should be the only place "Command Purchase" isn't used because the message sender is the bot not the user
-
-    var title = `${master[interaction.user.id].name} current Button Session`
-    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[userID].currentSessionAmount}`, `Total button presses: ${buttonJSON[userID].currentSessionPresses}`]
-
-    //add embed message that updates with last payout and cum payout on message
-    const embedMessage = embed.EmbedCreator(interaction.message, title, description, embed.emptyValue)
-
-    interaction.update({
-        //content: 'Button'
-        embeds: [embedMessage]
-    })
-
 })
 
 
 //adds 250 gbp or sets them to 250 gbp if they are above 0 gbp
 function Welfare(channel, master){
     try{
-        for(i in master){
+        for(var i in master){
             if(isNaN(master[i].gbp) == true){
                 master[i].gbp = 0;
             }
@@ -333,25 +310,19 @@ function Welfare(channel, master){
 }
 
 //function used to track users bets when a round a roulette has started
-function Roulette_bets(message, money, master, stats_list){
+function Roulette_bets(message, money, master, stats_list, approvedBets){
     var args = message.content.split(" ")
     var possible_bets = fs.readFileSync('./text_files/roulette/roulette_bets','utf-8').split(",") //a list of all bets that a user can make
     var min_bet = 10;
     var bet = false
 
     try{
-
-        //checks if 
-        if(typeof(approved_bets) == 'undefined'){
-            approved_bets = []
-        }
-
         if(isNaN(args[0]) == false && args[0] >= min_bet){
             if(possible_bets.includes(args[1].toLowerCase()) == true){
                 if(money >= args[0]){
-                    RoulettePurchase(args[0], message.author.id, master, message)
-                    var bet = [args[0], args[1], message.author.id]
-                    approved_bets.push(bet)
+                    general.CommandPurchase(message, master, args[0], general.defaultRecipient)
+                    bet = [args[0], args[1], message.author.id]
+                    approvedBets.value.push(bet)
                     message.channel.send(`${master[message.author.id].name} Bet accepted`)
                     stats_list[message.author.id].roulette_bets += 1
                     if(Math.round(money) == args[0] && money >= 1000 && args[1].toLowerCase() == 'black'){
@@ -364,9 +335,9 @@ function Roulette_bets(message, money, master, stats_list){
             }
         }else if(args[0].toLowerCase() == 'all' && master[message.author.id].gbp >= min_bet){
             if(possible_bets.includes(args[1].toLowerCase()) == true){
-                RoulettePurchase(args[0], message.author.id, master, message)
-                var bet = [args[0], args[1], message.author.id]
-                approved_bets.push(bet)
+                general.CommandPurchase(message, master, args[0], general.defaultRecipient)
+                bet = [args[0], args[1], message.author.id]
+                approvedBets.value.push(bet)
                 message.channel.send(`${master[message.author.id].name} Bet accepted`)
                 stats_list[message.author.id].roulette_bets += 1
                 if(args[1].toLowerCase() == 'black'){
@@ -381,24 +352,13 @@ function Roulette_bets(message, money, master, stats_list){
     }
 }
 
-function RoulettePurchase(bet_value, player, master, message) {
-    try{
-        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
-
-    }catch(err){
-        console.log(err)
-        message.channel.send("Error Occured in Index.js RoulettePurchase");
-    }
-}
-
 function Lottery(channel, master, unlock){
-    const fs = require('fs')
-    odds = 250
+    var odds = 250
     var number = Math.ceil(Math.random()*odds);
     var pot = 1000
     var success = false
     channel.send("The Daily Lottery Drawing is occuring...")
-    for(i in master){
+    for(var i in master){
         var guess = Math.ceil(Math.random()*odds);
         if(guess == number){
             master[i].gbp = pot + master[i].gbp
@@ -455,22 +415,13 @@ async function Daily_Functions(channel, master, unlock){
     await gbp_farm_reset(channel, master)
 }
 
-function GetJSONValues(fauna_token, isDev){
-    if(isDev){
-        console.log("Dev Environment");
-        master = JSON.parse(fs.readFileSync("./JSON/master.json", "utf-8"))
-        stats_list = JSON.parse(fs.readFileSync("./JSON/stats.json", "utf-8"))
-        tracker = JSON.parse(fs.readFileSync("./JSON/achievements_tracker.json", "utf-8"))
-        command_stats = JSON.parse(fs.readFileSync("./JSON/command_stats.json", "utf-8"))
-        emojisList = JSON.parse(fs.readFileSync("./JSON/emojis.json", "utf-8"))
-        return;
+function GetJSONValue(faunaToken, isDev, location){
+    if(!isDev){
+        return Fauna_get(faunaToken, location, process.end.NODE_ENV)
     }
 
-    master =  Fauna_get(fauna_token, "master", process.env.NODE_ENV)
-    stats_list =  Fauna_get(fauna_token, "stats", process.env.NODE_ENV)
-    tracker =  Fauna_get(fauna_token, "tracker", process.env.NODE_ENV)
-    command_stats =  Fauna_get(fauna_token, "command_stats", process.env.NODE_ENV)
-    emojisList = Fauna_get(fauna_token, "emojis", process.env.NODE_ENV)
+    const fs = require('fs')
+    return JSON.parse(fs.readFileSync(`./JSON/${location}.json`, "utf-8"))
 }
 
 async function Fauna_get(fauna_token, name, location){
@@ -483,56 +434,51 @@ async function Fauna_get(fauna_token, name, location){
    if(location == 'local'){
         var prefix = 'dev'
     }else{
-        var prefix = 'prod'
+        prefix = 'prod'
     }
     const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
 
     //then checks the corresponding json file for the reference ids and grabs the correct data from faunadb
-    var getP = await fauna_client.query(
+    await fauna_client.query(
         q.Get(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]))
     ).then((response) => {
         switch(name){
             case "master":
                 master = response.data
-                return master
-            break;
+            return master
             case "stats":
                 stats_list = response.data
-                return stats_list
-            break;
+            return stats_list
             case "tracker":
                 tracker = response.data
-                return tracker
-            break;
+            return tracker
             case "command_stats":
                 command_stats = response.data
-                return command_stats
-            break;
+            return command_stats
             case "emojis":
                 emojisList = response.data
-                return emojisList
-
+            return emojisList
     }}).catch(err => console.log(err))
 }
 
 
 //Just used to move the JSON files over to faunadb
-async function Fauna_create(fauna_token, name){
-    const fs = require('fs')
-    const faunadb = require('faunadb')
-    const fauna_client = new faunadb.Client({ secret: fauna_token })
-    const q = faunadb.query
-    const fauna_json = JSON.parse(fs.readFileSync("./JSON/prod_faunadb.json", "utf-8"))
+// async function Fauna_create(fauna_token, name){
+//     const fs = require('fs')
+//     const faunadb = require('faunadb')
+//     const fauna_client = new faunadb.Client({ secret: fauna_token })
+//     const q = faunadb.query
+//     const fauna_json = JSON.parse(fs.readFileSync("./JSON/prod_faunadb.json", "utf-8"))
 
-    fauna_client.query(
-        q.Create(q.Collection("prod_JSONs"), {
-            data: 
-            JSON.parse(fs.readFileSync(`./JSON/${name}.json`,'utf-8'))
-        }
-        )
-    )
+//     fauna_client.query(
+//         q.Create(q.Collection("prod_JSONs"), {
+//             data: 
+//             JSON.parse(fs.readFileSync(`./JSON/${name}.json`,'utf-8'))
+//         }
+//         )
+//     )
 
-}
+// }
 
 //used to update the faunadb database
 async function Fauna_update(fauna_token, name, file, location){
@@ -545,12 +491,12 @@ async function Fauna_update(fauna_token, name, file, location){
     if(location == 'local'){
         var prefix = 'dev'
     }else{
-        var prefix = 'prod'
+        prefix = 'prod'
     }
     const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
 
     //then takes the reference number from the corresponding json file and update that reference document in faunadb
-    var updateP = await fauna_client.query(
+    await fauna_client.query(
         q.Update(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]), {
             data: file
         }
@@ -560,7 +506,7 @@ async function Fauna_update(fauna_token, name, file, location){
 
 }
 
-function UpdateEmojiList(){
+function UpdateEmojiList(emojisList){
     const fs = require('fs')
     bot.emojis.cache.forEach(emoji => {
         if(!(emoji.id in emojisList)){
@@ -588,6 +534,10 @@ function RemoveEmojiFromList(emojisList){
 }
 
 function UpdateEmojiListCount(emojiID, increment, reaction){
+    if(emojisList[emojiID] == undefined){
+        return
+    }
+
     //if there is no cache it means the last reaction was removed. That means there was no bot reaction and it can be counted as a removal
     if(reaction.users.cache.size == 0){
         emojisList[emojiID].count += increment;
@@ -606,4 +556,68 @@ function UpdateEmojiListCount(emojiID, increment, reaction){
     }
     emojisList[emojiID].count += increment;
     return
+}
+
+function ButtonInteractions(interaction, buttonJSON, command_stats, stats_list, master, tracker){
+    const embed = require('./commands/Functions/embed_functions')
+    const unlock = require('./commands/Functions/Achievement_Functions')
+
+    if(!["button", "bigButton"].includes(interaction.customId)){
+        return
+    }
+
+    var userID = String(interaction.user.id)
+
+    if(buttonJSON[userID] == null){
+        return
+    }
+
+    if(buttonJSON[userID].currentMessageID != interaction.message.id){
+        return
+    }
+
+    var buttonPayout = Math.floor(Math.random() * 10)
+
+    if(interaction.customId == "button"){
+        if(buttonPayout == 5){
+            buttonPayout = -1000
+            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
+            command_stats.button.Last_loss = 0
+            stats_list[interaction.user.id].button_losses += 1
+        }else{
+            buttonPayout = 100
+            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
+        }
+    }else{
+        if(buttonPayout == 7){
+            buttonPayout = -10000
+            command_stats.button.Total_Losses = command_stats.button.Total_Losses + 1
+            command_stats.button.Last_loss = 0
+            stats_list[interaction.user.id].button_losses += 1
+        }else{
+            buttonPayout = 1000
+            command_stats.button.Last_loss = command_stats.button.Last_loss + 1
+        }
+    }
+
+    stats_list[userID].button_presses = stats_list[userID].button_presses + 1
+    command_stats.button.Total_Presses = command_stats.button.Total_Presses + 1
+    
+    //Wyatt Achievement
+    unlock.tracker1(interaction.user.id, 44, 1, interaction.message, master, tracker)
+
+    buttonJSON[userID].currentSessionAmount += buttonPayout
+    buttonJSON[userID].currentSessionPresses += 1
+    master[userID].gbp += buttonPayout   //this and other interactions should be the only place "Command Purchase" isn't used because the message sender is the bot not the user
+
+    var title = `${master[interaction.user.id].name} current Button Session`
+    var description = [`Last Button Payout: ${buttonPayout}`, `Total GBP earned: ${buttonJSON[userID].currentSessionAmount}`, `Total button presses: ${buttonJSON[userID].currentSessionPresses}`]
+
+    //add embed message that updates with last payout and cum payout on message
+    const embedMessage = embed.EmbedCreator(interaction.message, title, description, embed.emptyValue)
+
+    interaction.update({
+        //content: 'Button'
+        embeds: [embedMessage]
+    })
 }

@@ -7,13 +7,8 @@
     "2":{
         "name": "!21",
         "description":"Plays Blackjack",
-        "rules":["**!21 deal [bet] [match the dealer]:** Starts game of blackjack with specified bet\n--Match the dealer pays 3:1 if either of your cards match the dealer's face up card. It isn't a mandatory bet",
-            "**!21 hit:** Gives player additional card",
-        "**!21 doubledown:** Doubles your bet but only lets you take 1 card per hand",
-    "**!21 split:**  Lets you split your hand into two hands if your original hand was watching cards. Note: Can't hit split aces",
-"**!21 stay:** Makes player stay for their current hand",
-"**!21 surrender:** Quits the hand but only gives back half of what the player bet. Note: Can't be done after splitting or hitting",
-"**!21 status:** Resends dealer and player hands"]
+        "rules":["**!21 [bet] [match the dealer]:**  Start game of blackjack. If user already has an active game, resend the UI",
+                "**!21:** If the user already has an active game, send the UI, otherwise do nothing"]
     },
     "3":{
         "name": "!flip",

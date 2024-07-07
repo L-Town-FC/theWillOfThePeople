@@ -3,7 +3,7 @@ module.exports = {
     description: 'lets me change someones name',
     execute(message, args, master, stats_list, tracker){
         try{
-            if(message.author.id == 450001712305143869){
+            if(message.author.id == "450001712305143869"){
                 var id = args[1]
                 var success = false
                 for(var i in master){

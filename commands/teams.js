@@ -1,13 +1,10 @@
 module.exports = {
     name: 'teams',
     description: 'lets you randomize teams',
-    execute(message, args){
+    execute(message, args, data){
         //var temp = ['Colin', 'Wyatt','Andrew','Derek','Ramzi','Ian','Zaid','Jacob']
         try{
             var command = String(args[1]).toLowerCase() || 'none'
-            if(typeof(data) == 'undefined'){
-                data = []
-            }
             if(isNaN(args[1]) == false && parseInt(args[1]) > 0){
                 command = 'number'
             }
@@ -85,7 +82,7 @@ function Number(message, args, data){
             return
         }
 
-        for(var i = 0; i < numOfTeams; i++){
+        for(i = 0; i < numOfTeams; i++){
             teams[i] = []
         }
         var listCount = data.length
@@ -93,7 +90,7 @@ function Number(message, args, data){
         //var team_member
         var team_member_index
         //var listCount = list.length
-        for(var i = 0; i < listCount; i++){
+        for(i = 0; i < listCount; i++){
             team_member_index = Math.floor(Math.random() * list.length)
             teams[counter].push(list[team_member_index])
             list.splice(team_member_index, 1)
@@ -115,7 +112,7 @@ function Number(message, args, data){
                 
         var fields = []
         var fieldsCounter = 0
-        for(var i = 0; i < teams.length; i++){
+        for(i = 0; i < teams.length; i++){
             fields[fieldsCounter] = {name: `Team ${i + 1}}:`, value: teams[i]}
             fieldsCounter++
         }

@@ -2,11 +2,11 @@ module.exports = {
     name: 'gg',
     description: 'guess the correct number within three tries and get 10x payout',
     execute(message, args, total_money, master, stats_list, tracker){
-        const Discord = require('discord.js');
         const fs = require('fs');
         const unlock = require('./Functions/Achievement_Functions')
         const stats = require('./Functions/stats_functions')
         const embed = require('./Functions/embed_functions')
+        const general = require('./Functions/GeneralFunctions')
         const min_bet = 5;
         var bet = args[2];
         var person = message.author.id;
@@ -30,13 +30,13 @@ module.exports = {
                     }else if(typeof(bet) == 'string' && parseFloat(bet) >= min_bet && parseFloat(bet) <= parseFloat(total_money)){
                         message.channel.send("Your bet is accepted. Please guess the number between 0 and 100. You have 3 guesses");
                         first_guess(person, bet);
-                        purchase(bet, message.author.id, master);
+                        general.CommandPurchase(message, master, bet, general.defaultRecipient)
                     }else if(parseFloat(total_money) < parseFloat(bet)){
                         message.channel.send("You don't have enough gbp for that bet")
                     }else if(String(bet).toLowerCase() == 'all'){
                         message.channel.send(`Your bet was ${master[person].gbp}. Please guess the number between 0 and 100. You have 3 guesses`);
                         first_guess(person, parseFloat(master[person].gbp));
-                        purchase(parseFloat(master[person].gbp), person, master);
+                        general.CommandPurchase(message, master, master[person].gbp, general.defaultRecipient)
                     }else{
                         message.channel.send(`Please place a valid bet of ${min_bet} gbp or greater`)
                     }
@@ -103,8 +103,7 @@ module.exports = {
                     fs.writeFileSync('./text_files/guessgame/guessgame.txt', `0 0 0 0`);
                 }else{
                     message.channel.send(`You win ${payout * parseFloat(bet2)} gbp`);
-                    purchase((-payout * parseFloat(bet2)), message.author.id, master);
-                    
+                    general.CommandPurchase(message, master, -payout * parseFloat(bet2), general.defaultRecipient)
                     //Professional Gambler Achievement
                     unlock.tracker1(message.author.id, 33, parseFloat(payout * bet2), message, master, tracker)
                     
@@ -136,7 +135,7 @@ function is_Ongoing(master) {
         var name = "";
         var guess_number = number[0];
 
-        for (i in master) {
+        for (var i in master) {
             if(i == player){
                 name = player
             }
@@ -144,26 +143,23 @@ function is_Ongoing(master) {
 
 
         if(guess_number > 0){
-            var status = [true, name, guess_number];
-            return status
+            return [true, name, guess_number];
         }else{
-            var status = [false, "", guess_number];
-            return status
+            return [false, "", guess_number];
         }
     }catch(err){
         console.log(err)
-        message.channel.send("Error occurred in guessgame.js Is_Ongoing");
     }
 }
 
 function update_guesses(guess,message){
     const fs = require('fs');
-    const Discord = require('discord.js');
     var number = fs.readFileSync('./text_files/guessgame/guessgame.txt','utf8').split(" ");
     var num_of_guesses = number[0];
     var magic_number = number[1];
     var player = number[2];
     var bet = number[3];
+    var plural = ""
 
     try{
         if(parseInt(guess) >= 0 && parseInt(guess) <= 100){
@@ -205,24 +201,11 @@ function update_guesses(guess,message){
 function first_guess(player, bet){
     try{
         const fs = require('fs');
-        const Discord = require('discord.js');
         var magic_number = Math.ceil(Math.random()*100);
 
         var updated_status = `1 ${magic_number} ${player} ${bet}`
         fs.writeFileSync('./text_files/guessgame/guessgame.txt', updated_status);
     }catch(err){
         console.log(err)
-        message.channel.send("Error occurred in guessgame.js First_guess");
     }
-}
-
-function purchase(bet_value, player, master) {
-    try{
-        master[player].gbp = parseFloat(master[player].gbp) - parseFloat(bet_value)
-
-    }catch(err){
-        console.log(err)
-        message.channel.send("Error occurred in guessgame.js Purchase");
-    }
-
 }
