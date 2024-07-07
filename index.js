@@ -56,7 +56,7 @@ bot.on('ready', () => {
     master = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "master")
     stats_list = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "stats")
     command_stats = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "command_stats")
-    tracker = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "achievements_tracker")
+    tracker = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "tracker")
     emojisList = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "emojis")
 
     console.log('This bot is online')

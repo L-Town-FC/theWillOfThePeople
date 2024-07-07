@@ -70,7 +70,7 @@ function tracker1(user, achievement_num, increment, message, master, tracker){
     const fs = require('fs')
     var achievements = JSON.parse(fs.readFileSync("./JSON/achievements.json", "utf-8"))
     console.log(achievements)
-    console(tracker)
+    console.log(tracker)
     console.log(master)
     try{
         var threshold = achievements[achievement_num].threshold
