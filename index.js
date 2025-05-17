@@ -38,8 +38,7 @@ const stats = require('./commands/Functions/stats_functions');
 const unlock = require('./commands/Functions/Achievement_Functions');
 const general = require('./commands/Functions/GeneralFunctions')
 
-//Pulling data from faunadb or local jsons depending on current environment
-const fauna_token = process.env.FAUNA_KEY
+//Pulling data from local jsons that will be written to persistent docker volumes
 
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -53,11 +52,11 @@ bot.on('ready', () => {
     var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
-    master = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "master")
-    stats_list = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "stats")
-    command_stats = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "command_stats")
-    tracker = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "tracker")
-    emojisList = GetJSONValue(fauna_token, token === process.env.DEVBOTTOKEN, "emojis")
+    master = GetJSONValue("master")
+    stats_list = GetJSONValue("stats")
+    command_stats = GetJSONValue( "command_stats")
+    tracker = GetJSONValue("tracker")
+    emojisList = GetJSONValue("emojis")
 
     console.log('This bot is online')
     UpdateEmojiList(emojisList)
@@ -72,7 +71,7 @@ bot.on('ready', () => {
     new cron.CronJob('0 * * * *', function(){
         //'0 * * * * *'
         setTimeout(function(){
-            JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token)
+            JSON_Overwrite(master, stats_list, tracker, command_stats)
         },2000)
     }, null, true)
 })
@@ -218,7 +217,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('emojis').execute(message, args, emojisList, bot)
                 break;
                 case 'update': //command that is only used for dev work and changed for testing purposes
-                    bot.commands.get('update').execute(message, fauna_token, process.env.NODE_ENV, stats_list, tracker, command_stats, emojisList)
+                    bot.commands.get('update').execute(message, process.env.NODE_ENV, stats_list, tracker, command_stats, emojisList)
                 break;
                 case 'test': //another command for testing purposes only
                     //bot.commands.get('test').execute(message, args, master, blackJackHands, tracker, stats_list);
@@ -373,12 +372,16 @@ function Lottery(channel, master, unlock){
     }
 }
 
-async function JSON_Overwrite(master, stats_list, tracker, command_stats, fauna_token){
-    Fauna_update(fauna_token, "master",master, process.env.NODE_ENV)
-    Fauna_update(fauna_token, "stats", stats_list, process.env.NODE_ENV)
-    Fauna_update(fauna_token, "tracker", tracker, process.env.NODE_ENV)
-    Fauna_update(fauna_token, "command_stats", command_stats, process.env.NODE_ENV)
-    Fauna_update(fauna_token, "emojis", emojisList, process.env.NODE_ENV)
+async function JSON_Overwrite(master, stats_list, tracker, command_stats){
+    const fs = require('fs')
+    try {
+        fs.writeFileSync(`./JSON/master.json`, JSON.stringify(master, null, 2));
+        fs.writeFileSync(`./JSON/stats.json`, JSON.stringify(stats_list, null, 2));
+        fs.writeFileSync(`./JSON/tracker.json`, JSON.stringify(tracker, null, 2));
+        fs.writeFileSync(`./JSON/command_stats.json`, JSON.stringify(command_stats, null, 2));
+    } catch (err) {
+        console.error('Error writing JSON files:', err);
+    }
 }
 
 function gbp_farm_reset(channel, master){
@@ -415,95 +418,18 @@ async function Daily_Functions(channel, master, unlock){
     await gbp_farm_reset(channel, master)
 }
 
-function GetJSONValue(faunaToken, isDev, location){
-    if(!isDev){
-        return Fauna_get(faunaToken, location, process.env.NODE_ENV)
-    }
-
+function GetJSONValue(location){
     const fs = require('fs')
-    return JSON.parse(fs.readFileSync(`./JSON/${location}.json`, "utf-8"))
-}
-
-async function Fauna_get(fauna_token, name, location){
-    const faunadb = require('faunadb')
-    const fauna_client = new faunadb.Client({ secret: fauna_token })
-    const q = faunadb.query
-    const fs = require('fs')
-
-    //first checks if it should grab the dev or the prod bot's data
-   if(location == 'local'){
-        var prefix = 'dev'
-    }else{
-        prefix = 'prod'
-    }
-    const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
-
-    //then checks the corresponding json file for the reference ids and grabs the correct data from faunadb
-    await fauna_client.query(
-        q.Get(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]))
-    ).then((response) => {
-        switch(name){
-            case "master":
-                master = response.data
-            return master
-            case "stats":
-                stats_list = response.data
-            return stats_list
-            case "tracker":
-                tracker = response.data
-            return tracker
-            case "command_stats":
-                command_stats = response.data
-            return command_stats
-            case "emojis":
-                emojisList = response.data
-            return emojisList
-    }}).catch(err => console.log(err))
-}
-
-
-//Just used to move the JSON files over to faunadb
-// async function Fauna_create(fauna_token, name){
-//     const fs = require('fs')
-//     const faunadb = require('faunadb')
-//     const fauna_client = new faunadb.Client({ secret: fauna_token })
-//     const q = faunadb.query
-//     const fauna_json = JSON.parse(fs.readFileSync("./JSON/prod_faunadb.json", "utf-8"))
-
-//     fauna_client.query(
-//         q.Create(q.Collection("prod_JSONs"), {
-//             data: 
-//             JSON.parse(fs.readFileSync(`./JSON/${name}.json`,'utf-8'))
-//         }
-//         )
-//     )
-
-// }
-
-//used to update the faunadb database
-async function Fauna_update(fauna_token, name, file, location){
-    const faunadb = require('faunadb')
-    const fauna_client = new faunadb.Client({ secret: fauna_token })
-    const q = faunadb.query
-    const fs = require('fs')
-
-    //first checks if it should grab the dev or the prod bot's data
-    if(location == 'local'){
-        var prefix = 'dev'
-    }else{
-        prefix = 'prod'
-    }
-    const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}_faunadb.json`, 'utf-8'))
-
-    //then takes the reference number from the corresponding json file and update that reference document in faunadb
-    await fauna_client.query(
-        q.Update(q.Ref(q.Collection(`${prefix}_JSONs`), jsons[name]), {
-            data: file
+    try {
+        return JSON.parse(fs.readFileSync(`./JSON/${location}.json`, "utf-8"))
+    } catch (err) {
+        if (err.code === 'ENOENT') {
+            console.warn(`File ./JSON/${location}.json not found, returning empty object`)
+            return {}
+        } else {
+            throw err
         }
-
-        )
-    )
-
+    }
 }
 
 function UpdateEmojiList(emojisList){
