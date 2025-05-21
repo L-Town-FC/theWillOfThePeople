@@ -4,11 +4,11 @@ module.exports = {
     execute(message, location, master, stats_list, tracker, command_stats, emojisList){
         if(message.author.id == '450001712305143869'){
             try{
-                master = Update("master", location)
-                stats_list = Update("stats", location)
-                tracker = Update("tracker", location)
-                command_stats = Update("command_stats", location)
-                emojisList = Update("emojis", location)
+                Update("master", location, master)
+                Update("stats", location, stats_list)
+                Update("tracker", location, tracker)
+                Update("command_stats", location, command_stats)
+                Update("emojis", location, emojisList)
                 message.channel.send('Update Successful')
             }catch(err){
                 console.log(err)
@@ -16,18 +16,22 @@ module.exports = {
             }
         }
 
-        async function Update(name, location){
+        async function Update(name, location, data = null){
             const fs = require('fs')
-        
-            //first checks if it should grab the dev or the prod bot's data
-           if(location == 'local'){
-                var prefix = 'dev'
-            }else{
-                prefix = 'prod'
+
+            // first checks if it should grab the dev or the prod bot's data
+            let prefix = (location == 'local') ? 'dev' : 'prod'
+            const filePath = `./JSON/${name}.${prefix}.json`
+
+            if (data !== null) {
+                // Write mode: save the provided data to the file
+                fs.writeFileSync(filePath, JSON.stringify({ [name]: data }, null, 2), 'utf-8')
+                return true
+            } else {
+                // Read mode: load and return the data
+                const jsons = JSON.parse(fs.readFileSync(filePath, 'utf-8'))
+                return jsons[name]
             }
-            const jsons = JSON.parse(fs.readFileSync(`./JSON/${prefix}.${name}.json`, 'utf-8'))
-        
-            return jsons[name]
         }
     }
 }
