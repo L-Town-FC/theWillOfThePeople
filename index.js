@@ -28,7 +28,15 @@ var blackJackHands = {}
 var betsOpen = {value: false}
 var approvedBets = {value: []}
 
+//Checks if the outside container path exists for the RaspberryPi
+//if it doesnt exist it means its being run locally locally stored jsons are utilized
+//var DATABASEPATH = process.env.JSONPATH.toString()
+var DATABASEPATH = process.env.JSONPATH
 
+if(!fs.existsSync(DATABASEPATH)){
+    console.log(DATABASEPATH)
+    DATABASEPATH = `./JSON`
+}
 
 var teamsData = []//variable for holding teams for the teams command
 
@@ -52,14 +60,14 @@ bot.on('ready', () => {
     var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
-    master = GetJSONValue("master")
-    stats_list = GetJSONValue("stats")
-    command_stats = GetJSONValue( "command_stats")
-    tracker = GetJSONValue("tracker")
-    emojisList = GetJSONValue("emojis")
+    master = GetJSONValue("master", DATABASEPATH)
+    stats_list = GetJSONValue("stats", DATABASEPATH)
+    command_stats = GetJSONValue( "command_stats", DATABASEPATH)
+    tracker = GetJSONValue("tracker", DATABASEPATH)
+    emojisList = GetJSONValue("emojis", DATABASEPATH)
 
     console.log('This bot is online')
-    UpdateEmojiList(emojisList)
+    UpdateEmojiList(emojisList, DATABASEPATH)
     bot_tinkering.send('The bot is online')    
     new cron.CronJob('0 9 * * *', function(){
         Daily_Functions(channel, master, unlock)
@@ -71,7 +79,7 @@ bot.on('ready', () => {
     new cron.CronJob('0 * * * *', function(){
         //'0 * * * * *'
         setTimeout(function(){
-            JSON_Overwrite(master, stats_list, tracker, command_stats)
+            JSON_Overwrite(master, stats_list, tracker, command_stats, emojisList, DATABASEPATH)
         },2000)
     }, null, true)
 })
@@ -217,7 +225,7 @@ bot.on('messageCreate', message =>{
                     bot.commands.get('emojis').execute(message, args, emojisList, bot)
                 break;
                 case 'update': //command that is only used for dev work and changed for testing purposes
-                    bot.commands.get('update').execute(message, process.env.NODE_ENV, stats_list, tracker, command_stats, emojisList)
+                    bot.commands.get('update').execute(message, process.env.NODE_ENV, stats_list, tracker, command_stats, emojisList, containerPath)
                 break;
                 case 'test': //another command for testing purposes only
                     //bot.commands.get('test').execute(message, args, master, blackJackHands, tracker, stats_list);
@@ -263,7 +271,7 @@ bot.on('messageReactionRemove', reaction => {
 bot.on('emojiCreate', emojiCreate => {
     try{
         console.log(emojiCreate)
-        UpdateEmojiList(emojisList)
+        UpdateEmojiList(emojisList, DATABASEPATH)
     }catch(err){
         console.log(err)
     }
@@ -272,7 +280,7 @@ bot.on('emojiCreate', emojiCreate => {
 bot.on('emojiDelete', emojiDelete => {
     try{
         console.log(emojiDelete)
-        RemoveEmojiFromList(emojisList)
+        RemoveEmojiFromList(emojisList, DATABASEPATH)
     }catch(err){
         console.log(err)
     }
@@ -372,13 +380,15 @@ function Lottery(channel, master, unlock){
     }
 }
 
-async function JSON_Overwrite(master, stats_list, tracker, command_stats){
+async function JSON_Overwrite(master, stats_list, tracker, command_stats, emojiList, path){
     const fs = require('fs')
     try {
-        fs.writeFileSync(`./JSON/master.json`, JSON.stringify(master, null, 2));
-        fs.writeFileSync(`./JSON/stats.json`, JSON.stringify(stats_list, null, 2));
-        fs.writeFileSync(`./JSON/tracker.json`, JSON.stringify(tracker, null, 2));
-        fs.writeFileSync(`./JSON/command_stats.json`, JSON.stringify(command_stats, null, 2));
+        fs.writeFileSync(path + `/master.json`, JSON.stringify(master, null, 2));
+        fs.writeFileSync(path + `/stats.json`, JSON.stringify(stats_list, null, 2));
+        fs.writeFileSync(path + `/tracker.json`, JSON.stringify(tracker, null, 2));
+        fs.writeFileSync(path + `/command_stats.json`, JSON.stringify(command_stats, null, 2));
+        fs.writeFileSync(path + `/emojis.json`, JSON.stringify(emojiList, null, 2));
+
     } catch (err) {
         console.error('Error writing JSON files:', err);
     }
@@ -418,13 +428,13 @@ async function Daily_Functions(channel, master, unlock){
     await gbp_farm_reset(channel, master)
 }
 
-function GetJSONValue(location){
+function GetJSONValue(location, path){
     const fs = require('fs')
     try {
-        return JSON.parse(fs.readFileSync(`./JSON/${location}.json`, "utf-8"))
+        return JSON.parse(fs.readFileSync(path + `/${location}.json`, "utf-8"))
     } catch (err) {
         if (err.code === 'ENOENT') {
-            console.warn(`File ./JSON/${location}.json not found, returning empty object`)
+            console.warn(`File ` + path + `/${location}.json not found, returning empty object`)
             return {}
         } else {
             throw err
@@ -432,19 +442,18 @@ function GetJSONValue(location){
     }
 }
 
-function UpdateEmojiList(emojisList){
+function UpdateEmojiList(emojisList, path){
     const fs = require('fs')
     bot.emojis.cache.forEach(emoji => {
         if(!(emoji.id in emojisList)){
             emojisList[emoji.id] = {name: emoji.name, count: 0}
         }
     })
-
-    fs.writeFileSync("./JSON/emojis.json", JSON.stringify(emojisList, null, 2))
+    fs.writeFileSync(`${path}/emojis.json`, JSON.stringify(emojisList, null, 2))
     return
 }
 
-function RemoveEmojiFromList(emojisList){
+function RemoveEmojiFromList(emojisList, path){
     const fs = require('fs')
 
     for(var emoji in emojisList){
@@ -455,7 +464,7 @@ function RemoveEmojiFromList(emojisList){
         }
     }
 
-    fs.writeFileSync("./JSON/emojis.json", JSON.stringify(emojisList, null, 2))
+    fs.writeFileSync(path + "/emojis.json", JSON.stringify(emojisList, null, 2))
     return
 }
 

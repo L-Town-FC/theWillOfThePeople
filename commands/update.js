@@ -1,14 +1,14 @@
 module.exports = {
     name: 'update',
     description: 'updates the bots values with json files',
-    execute(message, location, master, stats_list, tracker, command_stats, emojisList){
+    execute(message, location, master, stats_list, tracker, command_stats, emojisList, containerPath){
         if(message.author.id == '450001712305143869'){
             try{
-                Update("master", location, master)
-                Update("stats", location, stats_list)
-                Update("tracker", location, tracker)
-                Update("command_stats", location, command_stats)
-                Update("emojis", location, emojisList)
+                Update("master", location, master, containerPath)
+                Update("stats", location, stats_list, containerPath)
+                Update("tracker", location, tracker, containerPath)
+                Update("command_stats", location, command_stats, containerPath)
+                Update("emojis", location, emojisList, containerPath)
                 message.channel.send('Update Successful')
             }catch(err){
                 console.log(err)
@@ -16,12 +16,11 @@ module.exports = {
             }
         }
 
-        async function Update(name, location, data = null){
+        async function Update(name, location, data = null, path){
             const fs = require('fs')
-
             // first checks if it should grab the dev or the prod bot's data
             let prefix = (location == 'local') ? 'dev' : 'prod'
-            const filePath = `./JSON/${name}.${prefix}.json`
+            const filePath = path + `/${name}.${prefix}.json`
 
             if (data !== null) {
                 // Write mode: save the provided data to the file

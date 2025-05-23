@@ -1,12 +1,12 @@
 {
   "powerball": {
-    "pot": 14432,
-    "tickets": 1133
+    "pot": 16008,
+    "tickets": 1502
   },
   "button": {
-    "Total_Presses": 1758,
-    "Last_loss": 3,
-    "Total_Losses": 169
+    "Total_Presses": 2900,
+    "Last_loss": 2,
+    "Total_Losses": 287
   },
-  "boo": "450001712305143869"
+  "boo": "462798271195119626"
 }
