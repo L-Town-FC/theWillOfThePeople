@@ -63,7 +63,7 @@ module.exports = {
                             "You'll never be nothin", "I'd call you as dumb as a rock, but at least a rock can hold a door open", "I bet your parents change the subject when their friends ask about you", "I envy the people who haven't met you yet", "I wish for just one time you could stand in my shoes so you could know what a drag it is to see you",
                             "You're impossible to underestimate", "If you're here, who's home disappointing your parents?", "Everyone who ever loved you was wrong", "Youre about as useful as the 9 on a microwave", "You're the physical embodiement of a wet sock", "I don't have the patience or the crayons to explain this to you", "Bozo", "First off, Brush your teeth",
                             "Pathetic", "No thanks, I'm full because I eat pussies like you for breakfast", "Scram weirdo", "This pysche is not big enough for 2 metaphysical seekers", "You're about as deep as a bowl of soup and your tongue is about as sharp as a soup spoon", 1, 1, 1, 1, 1,
-                            "My ancestors are smiling at me Imperial. Can you say the same?"
+                            "My ancestors are smiling at me Imperial. Can you say the same?", "STOP, YOU'VE VIOLATED THE LAW", "I don't know you and I don't care to know you"
                         ]
                 var index = Math.floor(Math.random() * insults.length)
                 var insult = insults[index]

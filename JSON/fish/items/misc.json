@@ -1,7 +1,0 @@
-{
-    "name":{
-        "cost": 0,
-        "description": "",
-        "effect": ["size/rarity/catch rate", "amount"]
-    }
-}
