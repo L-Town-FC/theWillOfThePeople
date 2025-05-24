@@ -2,6 +2,7 @@ module.exports = {
     name: 'update',
     description: 'updates the bots values with json files',
     execute(message, location, master, stats_list, tracker, command_stats, emojisList, containerPath){
+        //this was used for updating the faunadb stuff so its not necessary anymore, still scared to delete it
         if(message.author.id == '450001712305143869'){
             try{
                 Update("master", location, master, containerPath)

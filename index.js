@@ -13,6 +13,7 @@ partials: [
     Partials.Channel,
     Partials.Message
   ] })
+//used to select if the dev bot is being run or the production bot is being run
 const token = process.env.NODE_ENV === 'local' ? process.env.DEVBOTTOKEN : process.env.PRODBOTTOKEN;
 const PREFIX = "!";
 
@@ -29,13 +30,30 @@ var betsOpen = {value: false}
 var approvedBets = {value: []}
 
 //Checks if the outside container path exists for the RaspberryPi
-//if it doesnt exist it means its being run locally locally stored jsons are utilized
-//var DATABASEPATH = process.env.JSONPATH.toString()
+//creates it if it doesnt exist
 var DATABASEPATH = process.env.JSONPATH
 
+//checks if the environmental variable has been set up
+//if not, default to using the local path and notify the user
+if(DATABASEPATH == null){
+    DATABASEPATH = "./JSON"
+    console.log("Null database path found")
+}
+
 if(!fs.existsSync(DATABASEPATH)){
-    console.log(DATABASEPATH)
-    DATABASEPATH = `./JSON`
+    //dir is made
+    fs.mkdirSync(DATABASEPATH)
+
+    //local JSONs are used to get initial values for variables
+    var localPath = './JSON'
+    master = GetJSONValue("master", localPath)
+    stats_list = GetJSONValue("stats", localPath)
+    command_stats = GetJSONValue( "command_stats", localPath)
+    tracker = GetJSONValue("tracker", localPath)
+    emojisList = GetJSONValue("emojis", localPath)
+
+    //variables are then used to write JSONs to DATABASE location
+    JSON_Overwrite(master, stats_list, tracker, command_stats, emojisList, DATABASEPATH)
 }
 
 var teamsData = []//variable for holding teams for the teams command
@@ -57,9 +75,11 @@ for(const file of commandFiles){
 
 
 bot.on('ready', () => {
+    //different channels depending on if its the dev bot or the prod bot being run
     var channel = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '590585423202484227')
     var bot_tinkering = bot.channels.cache.find(channel => channel.id === '611276436145438769') || bot.channels.cache.find(channel => channel.id === '711634711281401867')
 
+    //updates all variables with data from the database
     master = GetJSONValue("master", DATABASEPATH)
     stats_list = GetJSONValue("stats", DATABASEPATH)
     command_stats = GetJSONValue( "command_stats", DATABASEPATH)
@@ -76,6 +96,8 @@ bot.on('ready', () => {
         //743269381768872087 - stonks
         //711634711281401867 bot-tinkering            
     }, null, true, 'America/New_York')
+
+    //updates database json values with bot values
     new cron.CronJob('0 * * * *', function(){
         //'0 * * * * *'
         setTimeout(function(){
@@ -224,8 +246,23 @@ bot.on('messageCreate', message =>{
                 case 'emojis':
                     bot.commands.get('emojis').execute(message, args, emojisList, bot)
                 break;
-                case 'update': //command that is only used for dev work and changed for testing purposes
-                    bot.commands.get('update').execute(message, process.env.NODE_ENV, stats_list, tracker, command_stats, emojisList, containerPath)
+                case 'push': //command that pushes current bot json values to the database
+                    //only lets Colin's discord account run this command
+                    if(message.author.id == '450001712305143869'){
+                        JSON_Overwrite(master, stats_list, tracker, command_stats, emojisList, DATABASEPATH)
+                        message.channel.send("Database has been updated with current values")
+                    }
+                break;
+                case 'pull': //command that pulls database values and overwrites current bot values
+                    //only lets Colin's discord account run this command
+                    if(message.author.id == '450001712305143869'){
+                        master = GetJSONValue("master", localPath)
+                        stats_list = GetJSONValue("stats", localPath)
+                        command_stats = GetJSONValue( "command_stats", localPath)
+                        tracker = GetJSONValue("tracker", localPath)
+                        emojisList = GetJSONValue("emojis", localPath)
+                        message.channel.send("Bot values have been updated with current Database values")
+                    }
                 break;
                 case 'test': //another command for testing purposes only
                     //bot.commands.get('test').execute(message, args, master, blackJackHands, tracker, stats_list);
@@ -388,7 +425,6 @@ async function JSON_Overwrite(master, stats_list, tracker, command_stats, emojiL
         fs.writeFileSync(path + `/tracker.json`, JSON.stringify(tracker, null, 2));
         fs.writeFileSync(path + `/command_stats.json`, JSON.stringify(command_stats, null, 2));
         fs.writeFileSync(path + `/emojis.json`, JSON.stringify(emojiList, null, 2));
-
     } catch (err) {
         console.error('Error writing JSON files:', err);
     }
@@ -443,6 +479,7 @@ function GetJSONValue(location, path){
 }
 
 function UpdateEmojiList(emojisList, path){
+    //takes emoji list tracked by discord and adds them to bot list if they werent there already
     const fs = require('fs')
     bot.emojis.cache.forEach(emoji => {
         if(!(emoji.id in emojisList)){
@@ -456,6 +493,8 @@ function UpdateEmojiList(emojisList, path){
 function RemoveEmojiFromList(emojisList, path){
     const fs = require('fs')
 
+    //when an emoji is removed the entire list of tracked emojis is checked for changes
+    //if emoji that triggered this event was checked then invalid emojis could acculmate if the bot was down when an emoji was added/removed
     for(var emoji in emojisList){
         
         var foundEmoji = bot.emojis.cache.find(e => e.id === emoji)
@@ -513,6 +552,7 @@ function ButtonInteractions(interaction, buttonJSON, command_stats, stats_list, 
 
     var buttonPayout = Math.floor(Math.random() * 10)
 
+    //Gives a 1 in 10 chance of losing for either Button or Big Button
     if(interaction.customId == "button"){
         if(buttonPayout == 5){
             buttonPayout = -1000
