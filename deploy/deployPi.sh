@@ -1,4 +1,5 @@
 #!/bin/bash
+echo 'Running deployment to Raspberry Pi'
 repo=atmollohan
 name=bot
 tag=latest

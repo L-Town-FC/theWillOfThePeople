@@ -1,11 +1,11 @@
 #!/bin/bash
-echo 'BUILDING'
+echo 'Running build and push for single architecture'
 . $PWD/deploy/timeInfo.sh
 
 repo=atmollohan
 name=bot
-image_full_tag=$repo/$name:$tag
 tag=latest
+image_full_tag=$repo/$name:$tag
 env_file_name=.env
 env_file_location=$PWD/$env_file_name
 
