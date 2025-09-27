@@ -1,4 +1,6 @@
 #!/bin/bash
+echo 'Running container restart script'
+. $PWD/deploy/timeInfo.sh
 docker container inspect -f "{{.State.Status}}" $CONTAINER_NAME
 docker stop $CONTAINER_NAME; docker rm $CONTAINER_NAME
 docker pull $IMAGE_NAME
