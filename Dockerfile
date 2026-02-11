@@ -2,7 +2,7 @@
 FROM node:22.19.0
 
 # Make project dir
-ENV PROJECTDIR /usr/src/bot
+ENV PROJECTDIR=/usr/src/bot
 RUN mkdir -p $PROJECTDIR
 WORKDIR $PROJECTDIR
 
