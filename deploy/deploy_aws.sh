@@ -1,6 +1,6 @@
 #!/bin/bash
 echo 'Running deployment to AWS EC2 instance'
-. $PWD/deploy/timeInfo.sh
+. $PWD/deploy/time_info.sh
 repo=atmollohan
 name=bot
 tag=latest

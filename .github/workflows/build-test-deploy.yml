@@ -1,4 +1,4 @@
-name: The Will of the People Prevails above all
+name: build-push-deploy
 
 on:
   workflow_dispatch:
@@ -18,16 +18,7 @@ jobs:
           # Docker repository to tag the image with
           repository: atmollohan/bot
           # Comma-delimited list of tags. These will be added to the registry/repository to form the image's tags
-          tags: latest
-
-  test:
-    name: Test Stage
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-        - name: Printing
-          run: pwd
-  
+          tags: latest  
   deploy:
     name: Deploying to AWS
     needs: build

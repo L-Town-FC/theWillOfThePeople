@@ -2,10 +2,10 @@ build:
 	. ./build/build.sh
 
 deploy_aws:
-	. ./deploy/deployAws.sh
+	. ./deploy/deploy_aws.sh
 
 deploy_pi:
-	. ./deploy/deployPi.sh
+	. ./deploy/deploy_rpi.sh
 
 develop:
 	npm run start:dev

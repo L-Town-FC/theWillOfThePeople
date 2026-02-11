@@ -1,6 +1,6 @@
 #!/bin/bash
 echo 'Running build and push for single architecture'
-. $PWD/deploy/timeInfo.sh
+. $PWD/deploy/time_info.sh
 
 repo=atmollohan
 name=bot

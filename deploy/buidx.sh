@@ -1,6 +1,6 @@
 #!/bin/bash
 echo 'Running buildx for multi-arch build and push'
-. $PWD/deploy/timeInfo.sh
+. $PWD/deploy/time_info.sh
 
 repo=atmollohan
 name=bot
